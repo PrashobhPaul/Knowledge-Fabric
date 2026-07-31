@@ -1,8 +1,22 @@
-# Knowledge Fabric
-> A static, GitHub-Pages-hosted knowledge chatbot. Every answer is grounded in **document → page → section → paragraph** citations. The knowledge graph shows **how each answer was derived**.
+# Nova Biomedical · Knowledge Fabric
+> A static, GitHub-Pages-hosted knowledge chatbot for **Nova Biomedical point-of-care meter documentation**. Every answer is grounded in **document → page → section → paragraph** citations, sourced directly from the official Instructions for Use and Reference Manuals. The knowledge graph shows **how each answer was derived**.
 
 **No backend. No vector database. No API keys. No Docker.**
 Open the GitHub Pages URL — it works.
+
+### Indexed corpus
+
+This demo is built from five official Nova Biomedical manuals ([novabiomedicaldocs.com/ifu-meters](https://novabiomedicaldocs.com/ifu-meters/)):
+
+| Device | Document |
+|--------|----------|
+| **Lactate Plus Xpress 2** | Instructions for Use Manual (LPN 62659) |
+| **StatSensor Creatinine Meter** | Instructions for Use Manual (LPN 43177) |
+| **StatSensor Creatinine Meter** | Reference Manual (LPN 43317) |
+| **StatStrip Lactate Hospital Meter** | Instructions for Use Manual (LPN 47632) |
+| **StatStrip Lactate Hospital Meter** | Reference Manual (LPN 47643) |
+
+Ask about intended use, quality control, cleaning and disinfecting, error codes, eGFR estimation, linearity testing, or specifications — every answer cites the exact page and passage.
 
 [![CI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml)
 [![Deploy](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/deploy.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/deploy.yml)
@@ -181,10 +195,11 @@ To serve at `kf.your-company.com` instead of `username.github.io/repo`:
 .
 ├── README.md
 ├── docs_source/                    your documents go here
-│   ├── 01_platform_overview.md
-│   ├── 02_architecture.md
-│   ├── 03_citations_and_trust.md
-│   └── 04_phase_one_roadmap.md
+│   ├── Lactate Plus Xpress 2 - Instructions for Use.pdf
+│   ├── StatSensor Creatinine Meter - Instructions for Use.pdf
+│   ├── StatSensor Creatinine Meter - Reference Manual.pdf
+│   ├── StatStrip Lactate Hospital Meter - Instructions for Use.pdf
+│   └── StatStrip Lactate Hospital Meter - Reference Manual.pdf
 ├── pipeline/                       build-time Python
 │   ├── parsers.py
 │   ├── chunker.py
@@ -214,21 +229,21 @@ To serve at `kf.your-company.com` instead of `username.github.io/repo`:
 The first 30 seconds decide whether the room sees a chatbot or a platform. Open on the **Knowledge Galaxy**, not chat.
 
 **Minute 1 — The "wow" landing.**
-Open the live URL. Point at the **Command Center tiles**: Documents · Entities · Relationships · Knowledge Units · Domains. The animated graph drifts behind. *"This is not a chatbot. This is mission control for our knowledge."*
+Open the live URL. Point at the **Command Center tiles**: Documents · Entities · Relationships · Knowledge Units · Domains. The animated graph drifts behind. *"This is not a chatbot. This is mission control for every Nova Biomedical meter manual."*
 
 **Minute 2 — Ask Knowledge Fabric.**
-Click the suggested chip **"What systems does the Knowledge Fabric integrate with?"** Three things happen at once: the AI Copilot returns a grounded answer with `[N]` citation refs, the Galaxy lights up the activated entities in green and their neighbors in blue, and the Source Lineage panel populates with the **Document → Page → Section → Paragraph** tree. Confidence, sources, relationships, and graph paths metrics flash in the header.
+Click the suggested chip **"How do I run a quality control test?"** Three things happen at once: the AI Copilot returns a grounded answer with `[N]` citation refs, the Galaxy lights up the activated entities (QC, control solution, linearity) in green and their neighbors in blue, and the Source Lineage panel populates with the **Document → Page → Section → Paragraph** tree pointing straight into the Instructions for Use manual. Confidence, sources, relationships, and graph paths metrics flash in the header.
 
 **Minute 3 — Click "Explain Answer."**
-The full-screen reasoning overlay opens, showing the five-step pipeline: Question → Retrieved Documents (with BM25 scores) → Graph Traversal (activated entities) → Final Context (cited passages) → Answer. *"Every claim our AI makes is replayable, end to end."*
+The full-screen reasoning overlay opens, showing the five-step pipeline: Question → Retrieved Documents (with BM25 scores) → Graph Traversal (activated entities) → Final Context (cited passages) → Answer. *"Every clinical instruction our AI surfaces is traceable back to the exact page of the official manual."*
 
 **Minute 4 — Click an entity in the Galaxy.**
-The premium entity card slides up: Purpose, Dependencies (related concepts), Appears In (documents), Evidence (cited chunks). *"This is how an architect explores the corpus when investigating a topic."*
+Click **StatSensor Creatinine Meter** or **Linearity**. The premium entity card slides up: Purpose, Dependencies (related concepts), Appears In (documents), Evidence (cited chunks). *"This is how a clinician or field engineer explores the documentation when investigating a procedure."*
 
 **Minute 5 — Insights Dashboard.**
-Switch the Insights panel through **Heatmap → Word Cloud → Timeline**. Heatmap shows knowledge density per domain so leadership can see gaps. Cloud highlights the most-cited concepts — click any word to refocus the Galaxy. Timeline shows the corpus growing month-over-month.
+Switch the Insights panel through **Heatmap → Word Cloud → Timeline**. Heatmap shows knowledge density per document so you can see which manual carries the most coverage. Cloud highlights the most-cited concepts — click any word to refocus the Galaxy. Timeline shows the corpus growing as manuals are added.
 
-Close with: *"This is a Knowledge Fabric. The chatbot is just one window into it."*
+Close with: *"This is a Knowledge Fabric for Nova Biomedical's device documentation. The chatbot is just one window into it."*
 
 ---
 
