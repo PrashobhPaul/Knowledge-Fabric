@@ -59,6 +59,28 @@ LEADING_ARTICLES = {
     "however", "therefore", "thus",
 }
 
+# Device-manual noise: on-screen keypad letters, menu prompts, button labels,
+# and boilerplate captured from the mock display screenshots in the PDFs.
+# These look like entities but carry no knowledge value in the graph.
+NOISE_ENTITIES = {
+    # Phone-style keypad letter groups
+    "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz",
+    # UI actions / button labels / status words
+    "ok", "press", "accept", "reject", "enter", "menu", "mode", "scan",
+    "admin", "insert", "remove", "replace", "please", "back", "off", "on",
+    "clear", "list", "using", "intro", "done", "next", "yes", "no", "exit",
+    "cancel", "save", "edit", "view", "start", "stop", "pass", "fail",
+    "comment", "button", "icon", "screen", "display", "arrow", "scroll",
+    # On-screen field labels captured from screenshots
+    "ed", "id", "name", "note", "op", "pt", "accn num", "fax",
+    "ed ok", "patient test", "enter patient id", "enter accn num",
+    "enter strip lot", "apply sample", "transfer failed", "strip lot number",
+    "enter operator id", "patient result", "quick reference guide",
+    # Manual boilerplate
+    "use manual", "instructions", "instructions for use", "reference manual",
+    "meter", "usa", "canada", "fig", "figure", "see", "refer",
+}
+
 
 def _canonicalize(name: str) -> str:
     """Lowercase, collapse whitespace, strip leading articles ('the knowledge fabric' → 'knowledge fabric')."""
@@ -122,7 +144,7 @@ def extract_entities_from_chunks(chunks: list[Chunk]) -> tuple[list[dict], list[
     for chunk in chunks:
         for surface, kind in extract_from_text(chunk.text):
             canon = _canonicalize(surface)
-            if canon in WEAK_GENERICS:
+            if canon in WEAK_GENERICS or canon in NOISE_ENTITIES:
                 continue
             # Skip if the whole canonical is a sentence-starter word (single token entity)
             if " " not in canon and canon in LEADING_ARTICLES:
