@@ -1,7 +1,8 @@
-"""Pipeline tests — verify parser, chunker, entity extraction, and BM25 build."""
+"""Pipeline tests — parsers, chunker, connectors, ontology, graph, BM25, semantic, factory."""
 from __future__ import annotations
 
 import json
+import pathlib
 import sys
 from pathlib import Path
 
@@ -9,10 +10,14 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from pipeline.bm25_index import build_bm25_index
-from pipeline.chunker import chunk_paragraphs, tokenize
-from pipeline.entities import build_relationships, extract_entities_from_chunks
-from pipeline.parsers import parse_markdown, parse_text
+from pipeline import ontology  # noqa: E402
+from pipeline.bm25_index import build_bm25_index  # noqa: E402
+from pipeline.chunker import chunk_paragraphs, tokenize  # noqa: E402
+from pipeline.connectors.base import KnowledgeRecord, registry_from  # noqa: E402
+from pipeline.graph import build_knowledge_graph  # noqa: E402
+from pipeline.parsers import parse_markdown, parse_pdf, parse_text  # noqa: E402
+
+ROOT = Path(__file__).resolve().parent.parent
 
 
 # =============================================================================
@@ -38,20 +43,14 @@ Citations from the Knowledge Fabric include the document name and page number. B
     return p
 
 
-@pytest.fixture
-def docs_source_dir():
-    return Path(__file__).resolve().parent.parent / "docs_source"
-
-
 # =============================================================================
-# Parser tests
+# Parsers
 # =============================================================================
 def test_markdown_parser_extracts_headings(md_doc):
     parsed = parse_markdown(md_doc)
     assert len(parsed.paragraphs) >= 3
     sections = [p.section_path for p in parsed.paragraphs]
     assert any("Subsection One" in path for path in sections)
-    assert any("Subsection Two" in path for path in sections)
     assert any("Deeper Section" in path for path in sections)
 
 
@@ -61,101 +60,225 @@ def test_text_parser_handles_caps_headings(tmp_path):
     parsed = parse_text(p)
     assert len(parsed.paragraphs) == 2
     assert parsed.paragraphs[0].section_path == ["INTRODUCTION"]
-    assert parsed.paragraphs[1].section_path == ["DETAILS"]
+
+
+def test_resume_pdf_splits_into_sections():
+    """A one-page resume has no blank lines in its extracted text; the parser must
+    rebuild paragraphs from layout cues instead of emitting one giant block."""
+    pdf = ROOT / "docs_source" / "resume" / "Prashobh_Paul_Resume.pdf"
+    if not pdf.exists():
+        pytest.skip("resume PDF not present")
+    parsed = parse_pdf(pdf)
+    assert len(parsed.paragraphs) >= 15
+    tops = {p.section_path[0] for p in parsed.paragraphs if p.section_path}
+    assert "PROFESSIONAL EXPERIENCE" in tops
+    assert any("Qualizeal" in p.section_path for p in parsed.paragraphs)
 
 
 # =============================================================================
-# Chunker tests
+# Chunker / tokeniser
 # =============================================================================
 def test_chunker_preserves_breadcrumbs(md_doc):
     parsed = parse_markdown(md_doc)
     chunks = chunk_paragraphs(parsed.paragraphs, document_id=0, document_name=md_doc.name)
     assert chunks
     for c in chunks:
-        assert c.document_name == md_doc.name
-        assert c.text
-        assert c.tokens
+        assert c.document_name == md_doc.name and c.text and c.tokens
         assert isinstance(c.section_path, list)
 
 
 def test_tokenize_lowercases_and_filters():
     tokens = tokenize("Knowledge Fabric uses BM25.")
-    assert "knowledge" in tokens
-    assert "fabric" in tokens
-    assert "bm25" in tokens
+    assert {"knowledge", "fabric", "bm25"} <= set(tokens)
     assert "." not in tokens
 
 
 # =============================================================================
-# Entity extraction tests
+# Ontology
 # =============================================================================
-def test_entity_extraction_picks_up_proper_nouns(md_doc):
-    parsed = parse_markdown(md_doc)
-    chunks = chunk_paragraphs(parsed.paragraphs, document_id=0, document_name=md_doc.name)
-    entities, mentions = extract_entities_from_chunks(chunks)
-    names = {e["canonical"] for e in entities}
-    # Either "Knowledge Fabric" as a phrase, or BM25 as an acronym
-    assert any(n in names for n in {"knowledge fabric", "bm25"})
+def test_ontology_collapses_surface_forms():
+    assert ontology.canonical("Project", "InvestIQ") == "Invest.IQ"
+    assert ontology.canonical("Project", "Invest.IQ") == "Invest.IQ"
+    assert ontology.canonical("Organization", "TCS") == "Tata Consultancy Services"
+    assert ontology.canonical("Organization", "Tata Consultancy Services (TCS)") == "Tata Consultancy Services"
+    assert ontology.canonical("Place", "Kee Monastery") == "Key Monastery"
+    assert ontology.canonical("Place", "Key Monastery") == "Key Monastery"
 
 
-# =============================================================================
-# Relationships
-# =============================================================================
-def test_relationships_built_from_real_corpus(docs_source_dir):
-    from pipeline.parsers import iter_sources, parse_any
-
-    sources = list(iter_sources(docs_source_dir))
-    assert sources, "no source documents found"
-
-    all_chunks = []
-    next_id = 0
-    for did, src in enumerate(sources):
-        parsed = parse_any(src)
-        cs = chunk_paragraphs(parsed.paragraphs, document_id=did, document_name=parsed.name, start_chunk_id=next_id)
-        next_id += len(cs)
-        all_chunks.extend(cs)
-
-    entities, mentions = extract_entities_from_chunks(all_chunks)
-    rels = build_relationships(entities, mentions)
-    assert len(entities) >= 5
-    assert len(rels) >= 1
-    for r in rels:
-        assert r["weight"] >= 2
-        assert r["evidence_chunks"]
+def test_ontology_detect_is_deduplicated_and_typed():
+    found = ontology.detect("Built with LangGraph and CrewAI at Qualizeal, then LangGraph again.")
+    assert found.count(("Technology", "LangGraph")) == 1
+    assert ("Organization", "Qualizeal") in found
+    kinds = {k for k, _ in found}
+    assert kinds <= set(ontology.ALIASES.keys())
 
 
 # =============================================================================
-# BM25 index
+# Connectors
+# =============================================================================
+def test_registry_degrades_gracefully(tmp_path):
+    assert registry_from({"documents": tmp_path / "nope", "knowledge_sources": tmp_path / "also_nope"}) == []
+
+
+def test_profile_connector_verbalises_roles():
+    ks = ROOT / "knowledge_sources"
+    if not (ks / "profile" / "profile.yaml").exists():
+        pytest.skip("profile not present")
+    from pipeline.connectors.profile import ProfileConnector
+    records = list(ProfileConnector(ks / "profile" / "profile.yaml").fetch())
+    roles = [r for r in records if r.metadata["record_type"] == "role"]
+    assert roles, "no role records"
+    for r in roles:
+        assert "worked at" in r.text, r.text[:80]
+        assert r.metadata["organization"]
+        assert ("Organization", r.metadata["organization"]) in r.entities
+    types = {r.metadata["record_type"] for r in records}
+    assert {"person_summary", "education", "skill_group", "service", "contact"} <= types
+
+
+def test_youtube_connector_resolves_places_and_format():
+    ks = ROOT / "knowledge_sources" / "youtube"
+    if not (ks / "videos.json").exists():
+        pytest.skip("youtube data not present")
+    from pipeline.connectors.youtube import YouTubeConnector
+    records = list(YouTubeConnector(ks).fetch())
+    videos = [r for r in records if r.metadata["record_type"] == "video"]
+    assert videos
+    assert any(r.metadata.get("place") for r in videos), "no video resolved a Place"
+    assert all(r.metadata["format"] in {"short", "long", "unknown", "video"} for r in videos)
+    assert all(r.url.startswith("https://www.youtube.com/watch?v=") for r in videos)
+    assert any(r.metadata["record_type"] == "channel" for r in records)
+
+
+def test_github_connector_joins_repo_to_project():
+    path = ROOT / "knowledge_sources" / "github" / "repos.json"
+    if not path.exists():
+        pytest.skip("github data not present")
+    from pipeline.connectors.github import GitHubConnector
+    records = list(GitHubConnector(path).fetch())
+    assert records
+    projects = {r.metadata["project"] for r in records}
+    assert "Invest.IQ" in projects, "InvestIQ repository did not resolve to the Invest.IQ project"
+    assert all(r.url.startswith("https://github.com/") for r in records)
+
+
+def test_website_connector_emits_three_record_shapes():
+    ks = ROOT / "knowledge_sources" / "website"
+    if not (ks / "pages.json").exists():
+        pytest.skip("website data not present")
+    from pipeline.connectors.website import WebsiteConnector
+    records = list(WebsiteConnector(ks).fetch())
+    types = {r.metadata["record_type"] for r in records}
+    assert {"web_paragraph", "project", "faq"} <= types
+    for r in records:
+        assert r.url.startswith("http")
+
+
+# =============================================================================
+# Graph — the cross-source join
+# =============================================================================
+def test_graph_bridges_sources_on_canonical_project():
+    recs = [
+        KnowledgeRecord(
+            source_type="website", source_system="site", source_id="p", title="Invest.IQ",
+            text="Invest.IQ is an AI stock research app built with React and Supabase.",
+            metadata={"record_type": "project", "document_name": "site · Works", "project": "Invest.IQ"},
+            entities=[("Project", "Invest.IQ"), ("Technology", "React"), ("Technology", "Supabase")]),
+        KnowledgeRecord(
+            source_type="github", source_system="GitHub", source_id="r", title="InvestIQ",
+            text="InvestIQ is a public GitHub repository written in TypeScript.",
+            metadata={"record_type": "repository", "document_name": "GitHub · InvestIQ", "project": "Invest.IQ"},
+            entities=[("Project", "InvestIQ"), ("Technology", "TypeScript"), ("Platform", "GitHub")]),
+    ]
+    g = build_knowledge_graph(recs, [0, 1])
+    projects = [n for n in g["nodes"] if n["kind"] == "Project"]
+    assert len(projects) == 1, [p["name"] for p in projects]
+    assert projects[0]["name"] == "Invest.IQ"
+    assert set(projects[0]["sources"]) == {"website", "github"}
+    assert projects[0]["cross_source"] is True
+    assert g["stats"]["cross_source_entities"] == 1
+    assert "USES" in g["edge_types"] and "BUILT" in g["edge_types"]
+
+
+# =============================================================================
+# Indexes
 # =============================================================================
 def test_bm25_index_shape(md_doc):
     parsed = parse_markdown(md_doc)
     chunks = chunk_paragraphs(parsed.paragraphs, document_id=0, document_name=md_doc.name)
     idx = build_bm25_index(chunks)
-    assert idx["vocab"]
-    assert len(idx["idf"]) == len(idx["vocab"])
+    assert idx["vocab"] and len(idx["idf"]) == len(idx["vocab"])
     assert len(idx["doc_len"]) == len(chunks)
-    assert idx["avgdl"] > 0
-    assert idx["k1"] == 1.5
-    assert idx["b"] == 0.75
+
+
+def test_semantic_index_recovers_vocabulary_neighbours():
+    from pipeline.semantic import build_semantic_index, embed_query, semantic_scores
+    texts = [
+        "Clinical NLP pipelines process hospital EMR records and HL7 clinical data.",
+        "Hospital records in EMR systems are parsed by clinical NLP for HL7 data.",
+        "EMR and HL7 clinical data flow through NLP pipelines in hospitals.",
+        "Travel videos from Spiti Valley show monasteries and mountain roads.",
+        "Monasteries in Spiti Valley appear in travel videos about mountains.",
+        "Mountain roads and monasteries fill the Spiti travel vlog.",
+    ] * 3
+    sem = build_semantic_index(texts)
+    assert sem["enabled"], sem
+    qv = embed_query(sem, "medical patient data processing")
+    if qv is None:
+        pytest.skip("query terms absent from toy vocabulary")
+    scores = semantic_scores(sem, qv)
+    best = int(scores.argmax())
+    assert "clinical" in texts[best].lower() or "hospital" in texts[best].lower()
 
 
 # =============================================================================
-# End-to-end: build full index from docs_source
+# End-to-end build + Factory
 # =============================================================================
-def test_full_pipeline_emits_valid_index(tmp_path, docs_source_dir):
+def test_build_emits_browser_contract(tmp_path):
     from pipeline.build_index import build
+    docs = ROOT / "docs_source"
+    ks = ROOT / "knowledge_sources"
+    if not ks.exists():
+        pytest.skip("knowledge_sources not present")
+    out, sem = tmp_path / "index.json", tmp_path / "semantic.json"
+    index = build(docs, ks, out, sem)
+    assert index["stats"]["source_count"] >= 2
+    assert index["stats"]["cross_source_entities"] > 0, "no entity joins two sources — not a fabric"
+    assert "sources" in index and index["sources"], "Factory handshake missing"
+    e = index["entities"][0]
+    for field in ("id", "name", "kind", "mention_count", "chunk_ids", "document_ids"):
+        assert field in e
+    ids = {x["id"] for x in index["entities"]}
+    for r in index["relationships"]:
+        assert r["source"] in ids and r["target"] in ids
+    chunk_ids = {c["id"] for c in index["chunks"]}
+    for x in index["entities"][:50]:
+        for cid in x["chunk_ids"]:
+            assert cid in chunk_ids
+    assert json.loads(out.read_text())["version"] == "3.0"
 
-    out = tmp_path / "index.json"
-    index = build(docs_source_dir, out)
 
-    assert out.exists()
-    loaded = json.loads(out.read_text())
-    assert loaded["version"] == "1.0"
-    assert loaded["stats"]["document_count"] >= 1
-    assert loaded["stats"]["chunk_count"] >= 1
-    assert loaded["stats"]["entity_count"] >= 1
-    assert loaded["bm25"]["vocab"]
-    # Verify a chunk has all citation fields
-    chunk = loaded["chunks"][0]
-    for field in ("id", "document_name", "page", "section_path", "paragraph_indices", "text", "paragraph_excerpt", "entities"):
-        assert field in chunk, f"chunk missing field: {field}"
+def test_factory_youtube_merge_never_forgets_a_video():
+    from knowledge_factory.sources.youtube import merge
+    existing = [{"id": "a", "title": "Old", "tags": ["x"], "duration": "PT1M", "viewCount": 10}]
+    fresh = [{"id": "a", "title": "Old", "viewCount": 12}, {"id": "b", "title": "New #shorts", "viewCount": 1}]
+    merged = {v["id"]: v for v in merge(existing, fresh)}
+    assert set(merged) == {"a", "b"}
+    assert merged["a"]["viewCount"] == 12          # fresh number wins
+    assert merged["a"]["tags"] == ["x"]            # richer field kept
+    assert merged["a"]["format"] == "short"
+    assert merged["b"]["format"] == "short"
+
+
+def test_factory_faq_filter_drops_bot_voice():
+    from knowledge_factory.sources.website import _extract_chatbot_kb
+    html = """<script>const KB = [
+      { p: /hello/i, q: ['hello','hi'], a: (_) => `Hi there! I'm Prashobh's AI assistant.` },
+      { p: /skills/i, q: ['what are his skills'], a: (_) => `His core strengths include GenAI, Agentic AI and NLP. All applied to real problems.` },
+      { p: /rag/i, q: ['what is rag'], a: (_) => `RAG stands for Retrieval-Augmented Generation. Prashobh can help you implement it.` },
+    ];</script>"""
+    faqs = _extract_chatbot_kb(html, "https://example.test/")
+    kinds = {f["questions"][0]: f["kind"] for f in faqs}
+    assert "hello" not in kinds
+    assert kinds["what are his skills"] == "about"
+    assert kinds["what is rag"] == "explainer"

@@ -47,23 +47,57 @@ function renderHeatmap() {
   const max = Math.max(...rows.map(r => r.density), 1);
   rows.sort((a, b) => b.density - a.density);
 
+  // 391 documents rendered as 391 bars turned this panel into an endless scroll,
+  // which buried every section below it. Show the meaningful head of the
+  // distribution, summarise the tail, and let the reader expand on demand.
+  const INITIAL = 12;
+  const head = rows.slice(0, INITIAL);
+  const tail = rows.slice(INITIAL);
+  const tailChunks = tail.reduce((a, r) => a + r.chunks, 0);
+
+  const rowHtml = (r, hidden) => {
+    const pct = Math.max(8, Math.round((r.density / max) * 100));
+    return `
+      <div class="hm-row${hidden ? ' hm-row-extra' : ''}"${hidden ? ' hidden' : ''}>
+        <span class="hm-label" title="${escapeHtml(r.name)}">${escapeHtml(stripExt(r.name))}</span>
+        <div class="hm-track">
+          <div class="hm-fill" style="width:${pct}%">
+            <span class="hm-value">${r.chunks}c · ${r.entities}e</span>
+          </div>
+        </div>
+      </div>`;
+  };
+
   const html = `
     <div class="heatmap">
-      <p class="heatmap-intro">Coverage by domain — chunks indexed and entities surfaced per document.</p>
-      ${rows.map(r => {
-        const pct = Math.max(8, Math.round((r.density / max) * 100));
-        return `
-          <div class="hm-row">
-            <span class="hm-label" title="${escapeHtml(r.name)}">${escapeHtml(stripExt(r.name))}</span>
-            <div class="hm-track">
-              <div class="hm-fill" style="width:${pct}%">
-                <span class="hm-value">${r.chunks}c · ${r.entities}e</span>
-              </div>
-            </div>
-          </div>`;
-      }).join('')}
+      <p class="heatmap-intro">
+        Where your knowledge concentrates. Each bar is one document, sized by how much
+        retrievable material it contributes — the densest ${INITIAL} are shown first.
+      </p>
+      ${head.map(r => rowHtml(r, false)).join('')}
+      ${tail.length ? tail.map(r => rowHtml(r, true)).join('') : ''}
+      ${tail.length ? `
+        <button class="hm-toggle" id="hm-toggle" type="button"
+                aria-expanded="false" aria-controls="panel-heatmap"
+                data-more="Show all ${rows.length} documents"
+                data-less="Show top ${INITIAL} only">
+          <span class="hm-toggle-label">Show all ${rows.length} documents</span>
+          <span class="hm-toggle-sub">${tail.length} more · ${tailChunks.toLocaleString()} passages</span>
+        </button>` : ''}
     </div>`;
   panel.innerHTML = html;
+
+  const toggle = panel.querySelector('#hm-toggle');
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      panel.querySelectorAll('.hm-row-extra').forEach(el => { el.hidden = expanded; });
+      toggle.setAttribute('aria-expanded', String(!expanded));
+      toggle.querySelector('.hm-toggle-label').textContent =
+        expanded ? toggle.dataset.more : toggle.dataset.less;
+      if (expanded) toggle.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    });
+  }
 }
 
 // ===========================================================================
@@ -101,8 +135,8 @@ function renderWordCloud() {
 }
 
 // ===========================================================================
-// Timeline — knowledge growth across documents
-// Demo data: 8-month synthetic timeline derived from document ordering
+// Timeline — knowledge growth across records, from the REAL resolved dates
+// (pipeline/docmeta.py). Undated records are excluded rather than invented.
 // ===========================================================================
 function renderTimeline() {
   const panel = document.getElementById('panel-timeline');
@@ -112,25 +146,27 @@ function renderTimeline() {
     return;
   }
 
-  // Distribute documents across recent months for visualization
-  const months = makeMonthBuckets(8);
-  const docsPerBucket = Math.max(1, Math.ceil(docs.length / months.length));
+  const months = makeMonthBuckets(14);
+  const byLabel = new Map(months.map(m => [m.key, m]));
   const events = [];
-  let cursor = 0;
-  for (let i = 0; i < months.length; i++) {
-    const slot = docs.slice(cursor, cursor + docsPerBucket);
-    cursor += docsPerBucket;
-    months[i].docCount = slot.length;
-    months[i].chunkCount = slot.reduce((s, d) => s + d.chunk_count, 0);
-    if (slot.length > 0) {
-      events.push({ month: months[i].label, docs: slot.map(d => stripExt(d.name)), chunks: months[i].chunkCount });
-    }
+  for (const d of docs) {
+    if (!d.date_date) continue;
+    const dt = new Date(d.date_date);
+    const key = `${dt.getFullYear()}-${dt.getMonth()}`;
+    const m = byLabel.get(key);
+    if (!m) continue;
+    m.docCount++;
+    m.chunkCount += d.chunk_count || 0;
+    m.names.push(stripExt(d.name));
+  }
+  for (const m of months) {
+    if (m.docCount) events.push({ month: m.label, docs: m.names.slice(0, 4), more: Math.max(0, m.names.length - 4), chunks: m.chunkCount });
   }
 
   const maxBar = Math.max(...months.map(m => m.chunkCount), 1);
 
   panel.innerHTML = `
-    <p class="heatmap-intro">Knowledge growth — chunks added per month across the corpus.</p>
+    <p class="heatmap-intro">Knowledge growth — records dated per month, from each source's own timestamps (videos published, repositories pushed, resume saved, site crawled).</p>
     <div class="timeline">
       <div class="tl-axis">
         <span>${months[0].label}</span>
@@ -147,7 +183,7 @@ function renderTimeline() {
         ${events.slice(-4).reverse().map(e => `
           <div class="tl-event">
             <span class="tl-event-date">${e.month}</span>
-            <span class="tl-event-text">${escapeHtml(e.docs.join(', '))}</span>
+            <span class="tl-event-text">${escapeHtml(e.docs.join(', '))}${e.more ? ` +${e.more} more` : ''}</span>
             <span class="tl-event-count">+${e.chunks} chunks</span>
           </div>`).join('')}
       </div>
@@ -164,16 +200,18 @@ function makeMonthBuckets(count) {
   for (let i = count - 1; i >= 0; i--) {
     const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
     out.push({
+      key: `${d.getFullYear()}-${d.getMonth()}`,
       label: `${names[d.getMonth()]} ${String(d.getFullYear()).slice(-2)}`,
       docCount: 0,
       chunkCount: 0,
+      names: [],
     });
   }
   return out;
 }
 
 function stripExt(name) {
-  return name.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
+  return name.replace(/\.(pdf|docx?|md|markdown|txt)$/i, '').replace(/_/g, ' ');
 }
 
 function escapeHtml(s) {

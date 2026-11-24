@@ -1,0 +1,146 @@
+# =============================================================================
+# Retrieval gold set — Knowledge Fabric (personal corpus)
+# =============================================================================
+#
+# Each case declares what a *correct* retrieval looks like, independent of how
+# the answer is phrased. We grade retrieval, not generation: if the right
+# evidence never surfaces, no amount of answer polish can save the response.
+#
+# relevant_any:  at least one retrieved chunk must satisfy one of these matchers
+# relevant_all:  every listed matcher must be satisfied somewhere in the top-k
+#                (used for cross-source questions — the whole point of a fabric)
+#
+# Matchers are substring/field tests against chunk fields and metadata, so the
+# set stays valid as chunk ids shift between builds.
+
+cases:
+  # --------------------------------------------------------------- lexical
+  - id: lex-001
+    question: "Prashobh Paul current role at Qualizeal"
+    category: lexical
+    relevant_any:
+      - meta.organization: "Qualizeal"
+      - text_contains: ["Qualizeal"]
+
+  - id: lex-002
+    question: "Koode"
+    category: lexical
+    notes: "Exact name lookup — BM25 should nail this."
+    relevant_any:
+      - meta.project: "Koode"
+
+  - id: lex-003
+    question: "M.Tech Knowledge Engineering SRM University"
+    category: lexical
+    relevant_any:
+      - meta.record_type: "education"
+      - text_contains: ["SRM University"]
+
+  - id: lex-004
+    question: "LangGraph CrewAI AutoGen"
+    category: lexical
+    relevant_any:
+      - text_contains: ["LangGraph"]
+
+  # --------------------------------------------------------------- semantic
+  # Vocabulary-mismatch cases. The user's words do not appear in the source;
+  # only a semantic retriever bridges them.
+  - id: sem-001
+    question: "hospital patient records text mining"
+    category: semantic
+    notes: "Corpus says 'EMR systems', 'HL7/FHIR clinical data', 'clinical NLP'."
+    relevant_any:
+      - text_contains: ["EMR", "HL7", "clinical", "hospitals"]
+
+  - id: sem-002
+    question: "loan risk machine learning for banks"
+    category: semantic
+    notes: "Corpus says 'fraud detection, loan eligibility, and credit scoring' for 'BFSI clients'."
+    relevant_any:
+      - text_contains: ["credit scoring", "loan eligibility", "BFSI"]
+
+  - id: sem-003
+    question: "Buddhist monastery in the Himalayas"
+    category: semantic
+    relevant_any:
+      - meta.record_type: "video"
+      - text_contains: ["Monastery", "monastery"]
+
+  - id: sem-004
+    question: "car sharing app for neighbours"
+    category: semantic
+    notes: "Corpus says 'car & bike pooling', 'neighbours offer or book'."
+    relevant_any:
+      - meta.project: "RVonWheelz"
+      - text_contains: ["pooling"]
+
+  # --------------------------------------------------------------- structured
+  - id: str-001
+    question: "What services does Prashobh offer?"
+    category: structured
+    relevant_any:
+      - meta.record_type: "service"
+      - text_contains: ["offers"]
+
+  - id: str-002
+    question: "How can I contact Prashobh?"
+    category: structured
+    relevant_any:
+      - meta.record_type: "contact"
+      - text_contains: ["LinkedIn"]
+
+  - id: str-003
+    question: "How many subscribers does The Canvas of Earth have?"
+    category: structured
+    relevant_any:
+      - meta.record_type: "channel"
+
+  - id: str-004
+    question: "Which repository has the code for Invest.IQ?"
+    category: structured
+    relevant_any:
+      - meta.record_type: "repository"
+      - text_contains: ["InvestIQ"]
+
+  # --------------------------------------------------------------- cross-source
+  # The fabric test. A correct answer requires evidence from TWO source systems.
+  - id: xsrc-001
+    question: "Koode app description and source code"
+    category: cross_source
+    relevant_all:
+      - source_type: "website"
+      - source_type: "github"
+
+  - id: xsrc-002
+    question: "Qualizeal AI Architect role and responsibilities"
+    category: cross_source
+    relevant_all:
+      - source_type: "profile"
+      - source_type: "website"
+
+  - id: xsrc-003
+    question: "Microsoft AI Tour Mumbai Satya Nadella video"
+    category: cross_source
+    relevant_all:
+      - source_type: "youtube"
+      - text_contains: ["Microsoft AI Tour"]
+
+  - id: xsrc-004
+    question: "Primera Medical clinical NLP pipelines HL7"
+    category: cross_source
+    relevant_all:
+      - source_type: "profile"
+      - source_type: "document"
+
+  # --------------------------------------------------------------- robustness
+  - id: rob-001
+    question: "asdfghjkl qwertyuiop"
+    category: robustness
+    notes: "Pure nonsense — must return few or no results, and must not crash."
+    expect_empty_or_low: true
+
+  - id: rob-002
+    question: "the"
+    category: robustness
+    notes: "Stopword-only query."
+    expect_empty_or_low: true

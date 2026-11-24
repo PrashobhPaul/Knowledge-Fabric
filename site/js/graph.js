@@ -2,11 +2,19 @@
 // Knowledge graph — renders entities and relationships, highlights reasoning trace.
 // =============================================================================
 
-const NODE_BASE = '#4a5478';
-const NODE_RELATED = '#6b8eff';
-const NODE_ACTIVE = '#5ee3c5';
-const EDGE_BASE = '#2a3354';
-const EDGE_ACTIVE = '#5ee3c5';
+// Theme-aware color resolution (reads computed CSS variables)
+function themeColors() {
+  const cs = getComputedStyle(document.documentElement);
+  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  return {
+    NODE_BASE: cs.getPropertyValue('--node-base').trim() || (isLight ? '#B8C5DE' : '#4A5694'),
+    NODE_RELATED: cs.getPropertyValue('--qz-blue').trim() || '#4D7CFF',
+    NODE_ACTIVE: cs.getPropertyValue('--qz-pink').trim() || '#EE1C5C',
+    EDGE_BASE: isLight ? 'rgba(77, 124, 255, 0.22)' : 'rgba(120, 140, 200, 0.35)',
+    EDGE_ACTIVE: cs.getPropertyValue('--qz-pink').trim() || '#EE1C5C',
+    LABEL: isLight ? '#4F5B7D' : '#C9D2EA',
+  };
+}
 
 // =============================================================================
 // Graph wrapper
@@ -26,13 +34,21 @@ export class KnowledgeGraph {
   }
 
   render() {
+    if (typeof vis === 'undefined') {
+      this.disabled = true;
+      this.container.innerHTML =
+        '<div class="galaxy-offline">The interactive graph library could not be loaded. ' +
+        'Answers, lineage, health and insights work without it.</div>';
+      return;
+    }
+    const C = themeColors();
     const nodes = this.index.entities.map(e => ({
       id: e.id,
       label: e.name,
       title: `${e.name} · ${e.mention_count} mentions`,
       value: e.mention_count,
-      color: { background: NODE_BASE, border: NODE_BASE, highlight: { background: NODE_ACTIVE, border: NODE_ACTIVE } },
-      font: { color: '#9ba3bd', size: 12, face: 'Inter' },
+      color: { background: C.NODE_BASE, border: C.NODE_BASE, highlight: { background: C.NODE_ACTIVE, border: C.NODE_ACTIVE } },
+      font: { color: C.LABEL, size: 12, face: 'Inter' },
       borderWidth: 0,
       shape: 'dot',
     }));
@@ -42,7 +58,7 @@ export class KnowledgeGraph {
       from: r.source,
       to: r.target,
       value: r.weight,
-      color: { color: EDGE_BASE, highlight: EDGE_ACTIVE, opacity: 0.4 },
+      color: { color: C.EDGE_BASE, highlight: C.EDGE_ACTIVE, opacity: 0.5 },
       smooth: { type: 'continuous', roundness: 0.2 },
     }));
 
@@ -75,7 +91,7 @@ export class KnowledgeGraph {
       },
       nodes: {
         scaling: { min: 8, max: 30, label: { enabled: true, min: 11, max: 16 } },
-        shadow: { enabled: true, color: 'rgba(89, 232, 197, 0.18)', size: 8, x: 0, y: 0 },
+        shadow: { enabled: true, color: 'rgba(238, 28, 92, 0.22)', size: 10, x: 0, y: 0 },
       },
       edges: {
         width: 0.5,
@@ -95,15 +111,109 @@ export class KnowledgeGraph {
     // Auto-fit after stabilization
     this.network.once('stabilizationIterationsDone', () => {
       this.network.fit({ animation: { duration: 400, easingFunction: 'easeInOutQuad' } });
+      this.bindResponsive();
     });
+
+    // Stabilization can be slow on a phone; bind regardless so a rotation
+    // before it finishes still refits.
+    setTimeout(() => this.bindResponsive(), 1200);
+
+    // Re-color nodes + edges when theme toggles
+    this._lastTrace = null;
+    this._themeObserver = new MutationObserver(() => this._recolor());
+    this._themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
+
+  // Re-apply theme-aware colors. If a trace is active, re-run it; otherwise reset.
+  _recolor() {
+    if (this._lastTrace && this._lastTrace.length > 0) {
+      this.highlightTrace(this._lastTrace);
+    } else {
+      this.resetHighlight();
+    }
   }
 
   // ===========================================================================
   // Reasoning trace: highlight entities that appear in the retrieved chunks,
   // plus their direct neighbors, and the edges connecting them.
   // ===========================================================================
+  // --- responsive -----------------------------------------------------
+  // vis-network sizes its viewport once and does not re-fit when the container
+  // changes shape. On a phone that left the graph rendered at desktop scale and
+  // cropped to a corner — which is why it read as faint wallpaper rather than
+  // the centrepiece it is. Re-fit on resize and on orientation change, debounced.
+  bindResponsive() {
+    if (this._responsiveBound) return;
+    this._responsiveBound = true;
+
+    const refit = () => {
+      if (!this.network) return;
+      try {
+        this.network.redraw();
+        this.network.fit({ animation: { duration: 420, easingFunction: 'easeOutQuad' } });
+        this.applyViewportScale();
+      } catch (_) { /* network not ready yet */ }
+    };
+
+    let t = null;
+    const debounced = () => { clearTimeout(t); t = setTimeout(refit, 180); };
+
+    window.addEventListener('resize', debounced, { passive: true });
+    window.addEventListener('orientationchange', () => setTimeout(refit, 320));
+
+    if (typeof ResizeObserver !== 'undefined' && this.container) {
+      this._ro = new ResizeObserver(debounced);
+      this._ro.observe(this.container);
+    }
+    this.applyViewportScale();
+  }
+
+  // Label density has to fall on small screens or the canvas becomes a grey
+  // smear of overlapping text. Below 640px only the strongest nodes keep labels.
+  applyViewportScale() {
+    if (!this.network || !this.nodes) return;
+    const w = window.innerWidth;
+    const compact = w < 640;
+    const medium = w >= 640 && w < 1024;
+
+    try {
+      this.network.setOptions({
+        nodes: { font: { size: compact ? 15 : medium ? 13 : 12 } },
+        edges: { width: compact ? 0.6 : 0.5 },
+        physics: { stabilization: { iterations: compact ? 120 : 200 } },
+      });
+
+      if (compact && !this._labelsThinned) {
+        const updates = [];
+        this.nodes.forEach(n => {
+          const keep = (n.value || 0) >= 3 || n.__activated;
+          updates.push({ id: n.id, label: keep ? (n.__label ?? n.label) : ' ' });
+          if (n.__label === undefined) n.__label = n.label;
+        });
+        this.nodes.update(updates);
+        this._labelsThinned = true;
+      } else if (!compact && this._labelsThinned) {
+        const updates = [];
+        this.nodes.forEach(n => {
+          if (n.__label !== undefined) updates.push({ id: n.id, label: n.__label });
+        });
+        this.nodes.update(updates);
+        this._labelsThinned = false;
+      }
+    } catch (_) { /* options rejected — leave defaults */ }
+  }
+
   highlightTrace(retrievedChunkIds) {
+    this._lastTrace = [...retrievedChunkIds];
     const activeEntityIds = new Set();
+    if (this.disabled) {
+      for (const cid of retrievedChunkIds) {
+        const chunk = this.chunksById.get(cid);
+        for (const eid of (chunk && chunk.entities) || []) activeEntityIds.add(eid);
+      }
+      return { activeEntities: [...activeEntityIds].map(id => this.entitiesById.get(id)).filter(Boolean),
+               neighborCount: 0, edgeCount: 0 };
+    }
     for (const cid of retrievedChunkIds) {
       const chunk = this.chunksById.get(cid);
       if (!chunk) continue;
@@ -127,27 +237,46 @@ export class KnowledgeGraph {
       }
     }
 
+    const C = themeColors();
+    const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+    const activeLabel = isLight ? '#FFFFFF' : '#FFE9F0';
+    const relatedLabel = isLight ? '#FFFFFF' : '#E6EEFF';
+    const baseLabel = isLight ? '#8893B5' : '#6E78A0';
+
     const nodeUpdates = [];
     for (const entity of this.index.entities) {
-      let color, fontColor, borderWidth;
+      let color, fontColor, borderWidth, size, opacity;
       if (activeEntityIds.has(entity.id)) {
-        color = NODE_ACTIVE;
-        fontColor = '#e6eaf5';
-        borderWidth = 2;
+        // Activated — full bright pink, slightly bigger
+        color = C.NODE_ACTIVE;
+        fontColor = activeLabel;
+        borderWidth = 3;
+        size = 28;
+        opacity = 1.0;
       } else if (neighborIds.has(entity.id)) {
-        color = NODE_RELATED;
-        fontColor = '#9ba3bd';
-        borderWidth = 0;
+        // Neighbor — bright blue, normal size
+        color = C.NODE_RELATED;
+        fontColor = relatedLabel;
+        borderWidth = 1;
+        size = 18;
+        opacity = 0.95;
       } else {
-        color = NODE_BASE;
-        fontColor = '#5a627c';
+        // Unrelated — fade hard. This is the "BOOM, everything unrelated
+        // disappears" effect. Without aggressive fade, the activation is
+        // too subtle for a director sitting 4 feet from the screen.
+        color = C.NODE_BASE;
+        fontColor = baseLabel;
         borderWidth = 0;
+        size = 6;
+        opacity = 0.12;
       }
       nodeUpdates.push({
         id: entity.id,
-        color: { background: color, border: color },
+        color: { background: color, border: color, opacity },
         font: { color: fontColor, size: 12, face: 'Inter' },
         borderWidth,
+        size,
+        opacity,
       });
     }
     this.nodes.update(nodeUpdates);
@@ -155,9 +284,9 @@ export class KnowledgeGraph {
     const edgeUpdates = this.relationships.map((r, i) => ({
       id: i,
       color: activeEdgeIds.has(i)
-        ? { color: EDGE_ACTIVE, opacity: 0.8 }
-        : { color: EDGE_BASE, opacity: 0.15 },
-      width: activeEdgeIds.has(i) ? Math.max(1, Math.log(r.weight + 1) * 0.8) : 0.4,
+        ? { color: C.EDGE_ACTIVE, opacity: 0.9 }
+        : { color: C.EDGE_BASE, opacity: 0.04 },   // was 0.15 — make unrelated nearly invisible
+      width: activeEdgeIds.has(i) ? Math.max(1.2, Math.log(r.weight + 1) * 1.1) : 0.2,
     }));
     this.edges.update(edgeUpdates);
 
@@ -166,6 +295,16 @@ export class KnowledgeGraph {
         nodes: [...activeEntityIds, ...neighborIds],
         animation: { duration: 600, easingFunction: 'easeInOutQuad' },
       });
+      // Trigger the BOOM CSS flash (radial pink pulse from center) — gives
+      // a visceral "activated" feel even before the user notices the fade.
+      const canvas = this.container;
+      if (canvas) {
+        canvas.classList.remove('graph-activated');
+        // Force reflow so re-adding the class re-runs the animation
+        void canvas.offsetWidth;
+        canvas.classList.add('graph-activated');
+        setTimeout(() => canvas.classList.remove('graph-activated'), 1700);
+      }
     }
 
     return {
@@ -176,23 +315,29 @@ export class KnowledgeGraph {
   }
 
   resetHighlight() {
+    this._lastTrace = null;
+    if (this.disabled) return;
+    const C = themeColors();
     const nodeUpdates = this.index.entities.map(e => ({
       id: e.id,
-      color: { background: NODE_BASE, border: NODE_BASE },
-      font: { color: '#9ba3bd', size: 12, face: 'Inter' },
+      color: { background: C.NODE_BASE, border: C.NODE_BASE, opacity: 1.0 },
+      font: { color: C.LABEL, size: 12, face: 'Inter' },
       borderWidth: 0,
+      size: 14,
+      opacity: 1.0,
     }));
     this.nodes.update(nodeUpdates);
 
     const edgeUpdates = this.relationships.map((r, i) => ({
       id: i,
-      color: { color: EDGE_BASE, opacity: 0.4 },
+      color: { color: C.EDGE_BASE, opacity: 0.5 },
       width: 0.5,
     }));
     this.edges.update(edgeUpdates);
   }
 
   focusEntity(entityId) {
+    if (this.disabled || !this.network) return;
     this.network.selectNodes([entityId]);
     this.network.focus(entityId, {
       scale: 1.2,

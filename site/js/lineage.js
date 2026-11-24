@@ -58,16 +58,27 @@ export function renderLineage(question, answerText, citations) {
     });
   });
 
-  document.getElementById('lineage-status').textContent =
-    `${byDoc.size} document${byDoc.size === 1 ? '' : 's'} · ${citations.length} citation${citations.length === 1 ? '' : 's'} · click any paragraph to inspect`;
+  const statusEl = document.getElementById('lineage-status');
+  if (statusEl) {
+    statusEl.textContent =
+      `${byDoc.size} document${byDoc.size === 1 ? '' : 's'} · ${citations.length} citation${citations.length === 1 ? '' : 's'} · click any paragraph to inspect`;
+  }
 }
+
+const SOURCE_WORD = { document: 'resume', website: 'website', profile: 'profile', youtube: 'YouTube', github: 'GitHub' };
 
 function renderPage(citation) {
   const c = citation.chunk;
   const sectionPath = c.section_path?.length ? c.section_path.join(' › ') : '(no section)';
+  const where = c.source_type === 'document'
+    ? `page ${c.page} · ¶${c.paragraph_indices.join(', ¶')}`
+    : (SOURCE_WORD[c.source_type] || c.source_type) + ' record';
+  const link = c.url
+    ? ` · <a class="lineage-link" href="${escapeHtml(c.url)}" target="_blank" rel="noreferrer">open source ↗</a>`
+    : '';
   return `
     <div class="lineage-page">
-      <div class="lineage-page-info">[${citation.num}] page ${c.page} · ¶${c.paragraph_indices.join(', ¶')}</div>
+      <div class="lineage-page-info">[${citation.num}] ${where}${link}</div>
       <div class="lineage-section">${escapeHtml(sectionPath)}</div>
       <div class="lineage-paragraph" data-cid="${c.id}">
         <div class="lineage-para-num">excerpt</div>
@@ -78,7 +89,7 @@ function renderPage(citation) {
 
 // Helpers
 function stripExt(name) {
-  return name.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
+  return name.replace(/\.(pdf|docx?|md|markdown|txt)$/i, '').replace(/_/g, ' ');
 }
 
 function escapeHtml(s) {

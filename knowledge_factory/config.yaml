@@ -1,0 +1,36 @@
+# Knowledge Factory — who and what to sync.
+#
+# Edit this file to point the Factory at a different person. Nothing in the
+# pipeline hard-codes these values; the connectors read them from the files the
+# Factory writes.
+
+person:
+  name: Prashobh Paul
+  short_name: Prashobh
+
+website:
+  base_url: https://www.prashobhpaul.com/
+  # Pages to seed the crawl with. Same-host links discovered on these pages are
+  # followed, up to max_pages.
+  seeds: [index.html, works.html]
+  max_pages: 20
+  # PDF links on the site matching this pattern are downloaded into docs_source/
+  resume_pattern: "resume"
+  resume_dir: docs_source/resume
+
+youtube:
+  channel_id: UCaJCnvHRXay79_R737hXFaQ
+  handle: "@TheCanvasOfEarth"
+  channel_url: https://www.youtube.com/@TheCanvasOfEarth
+  # The public RSS feed needs no API key but returns the latest ~15 uploads.
+  # Previously synced videos are kept, so the list only ever grows.
+  # Set full: true to use yt-dlp (if installed) for the whole upload list.
+  full: false
+
+github:
+  user: PrashobhPaul
+  include_forks: false
+  # README text per repository is capped so one verbose repo cannot dominate.
+  readme_max_chars: 4000
+
+output_dir: knowledge_sources

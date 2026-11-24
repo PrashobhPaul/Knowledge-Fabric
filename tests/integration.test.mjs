@@ -1,0 +1,448 @@
+// =============================================================================
+// Integration test — runs the REAL browser modules against the REAL built index
+// =============================================================================
+//
+// The Python suite tests algorithms; the evaluation harness reimplements BM25 in
+// Python. Neither executes site/js against site/data. Field renames do not fail
+// loudly in JavaScript — they fail as `undefined` several call frames later. The
+// only test that catches a pipeline<->browser contract break is one that runs
+// the real thing end to end.
+//
+// Usage:  node tests/integration.test.mjs        (exit 0 = pass)
+
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const SITE = path.join(ROOT, 'site');
+
+let passed = 0, failed = 0;
+const failures = [];
+
+function check(name, fn) {
+  try {
+    fn();
+    passed++;
+    console.log(`  PASS  ${name}`);
+  } catch (err) {
+    failed++;
+    failures.push([name, err.message]);
+    console.log(`  FAIL  ${name}\n          ${err.message}`);
+  }
+}
+function assert(cond, msg) { if (!cond) throw new Error(msg || 'assertion failed'); }
+
+// ---------------------------------------------------------------- load
+const indexPath = path.join(SITE, 'data/index.json');
+const semPath = path.join(SITE, 'data/semantic.json');
+if (!fs.existsSync(indexPath)) {
+  console.error('index.json missing — run: python -m pipeline.build_index');
+  process.exit(2);
+}
+const idx = JSON.parse(fs.readFileSync(indexPath, 'utf8'));
+const semPayload = fs.existsSync(semPath) ? JSON.parse(fs.readFileSync(semPath, 'utf8')) : { enabled: false };
+
+const { BM25, cohereByDocument, tokenize } = await import(path.join(SITE, 'js/search.js'));
+const { buildAnswer } = await import(path.join(SITE, 'js/answer.js'));
+const { SemanticIndex } = await import(path.join(SITE, 'js/semantic.js'));
+const { hybridSearch, reciprocalRankFusion } = await import(path.join(SITE, 'js/hybrid.js'));
+const { matchQuestionBank, QUESTION_BANK } = await import(path.join(SITE, 'js/questionbank.js'));
+const { analyseQuestion } = await import(path.join(SITE, 'js/nlu.js'));
+const { computeHealth, renderHealthDerivation, healthNarrative } = await import(path.join(SITE, 'js/health.js'));
+const ringsMod = await import(path.join(SITE, 'js/rings.js'));
+const { renderConfidenceBreakdown } = await import(path.join(SITE, 'js/confidence.js'));
+const { cleanSentence } = await import(path.join(SITE, 'js/compose.js'));
+const { BRAND } = await import(path.join(SITE, 'js/brand.js'));
+const { explainGraphContribution, renderGraphContribution, renderMiniGraph, graphPurposeCopy } =
+  await import(path.join(SITE, 'js/graphvalue.js'));
+const { suggest: taSuggest } = await import(path.join(SITE, 'js/typeahead.js'));
+
+const bm25 = new BM25(idx.bm25);
+const semantic = new SemanticIndex(semPayload);
+const BANK = QUESTION_BANK.map(q => (typeof q === 'string' ? q : (q.question || q.q || q.text))).filter(Boolean);
+const CSS = fs.readFileSync(path.join(SITE, 'styles/main.css'), 'utf8');
+const HTML = fs.readFileSync(path.join(SITE, 'index.html'), 'utf8');
+
+function retrieve(q) {
+  const h = hybridSearch(q, { bm25, semantic, chunks: idx.chunks, filters: {}, topK: 20 });
+  const rawRanked = h.results.length
+    ? h.results.map(r => ({ chunkIdx: r.chunkIdx, score: r.score, _fusion: r }))
+    : bm25.search(q, 20);
+  const cohesion = cohereByDocument(rawRanked, idx.chunks, { queryTerms: tokenize(q), bm25Index: bm25 });
+  const built = buildAnswer(q, rawRanked, idx.chunks, cohesion,
+    { semantic, bm25: idx.bm25, diagnostics: h.diagnostics });
+  return { ranked: rawRanked, cohesion, retrieval: { mode: h.mode, ...h.diagnostics }, ...built };
+}
+function ask(question) {
+  const bankMatch = matchQuestionBank(question, { vocab: bm25.termId });
+  let rq = (bankMatch && bankMatch.score >= 0.7) ? bankMatch.question : question;
+  let result = retrieve(rq);
+  if (result.lowConfidence && rq === question && bankMatch && bankMatch.score >= 0.45) {
+    const rescued = retrieve(bankMatch.question);
+    if (!rescued.lowConfidence) result = rescued;
+  }
+  const trace = result.citations.map(c => c.chunk.id);
+  return { ...result, trace };
+}
+const plain = (r) => String(r.answerHtml).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+
+// =============================================================================
+console.log('\n=== RETRIEVAL CONTRACT ===');
+
+check('BM25 emits chunkIdx', () => {
+  const hits = bm25.search('agentic ai architect', 5);
+  assert(hits.length > 0, 'no BM25 hits');
+  assert('chunkIdx' in hits[0], `BM25 hit keys: ${Object.keys(hits[0])}`);
+});
+
+check('SemanticIndex emits chunkIdx (same key as BM25)', () => {
+  if (!semantic.enabled) return;
+  const hits = semantic.search('agentic ai architect', 5);
+  assert(hits.length > 0, 'no semantic hits');
+  assert('chunkIdx' in hits[0], `semantic hit keys: ${Object.keys(hits[0])}`);
+});
+
+check('every chunkIdx resolves to a real chunk', () => {
+  for (const hit of bm25.search('qualizeal', 20)) assert(idx.chunks[hit.chunkIdx] !== undefined, `chunks[${hit.chunkIdx}] undefined`);
+  if (semantic.enabled) for (const hit of semantic.search('qualizeal', 20)) assert(idx.chunks[hit.chunkIdx] !== undefined);
+});
+
+check('RRF does not collapse a run into one bucket', () => {
+  const lex = bm25.search('project', 20);
+  const fused = reciprocalRankFusion([{ retriever: 'bm25', results: lex }], { topK: 20 });
+  assert(fused.length === Math.min(lex.length, 20), `fused ${fused.length} from ${lex.length} inputs`);
+  assert(fused.every(f => f.chunkIdx !== undefined), 'fused entry missing chunkIdx');
+});
+
+check('retrievers agree on ids (agreement > 0)', () => {
+  if (!semantic.enabled) return;
+  const h = hybridSearch('agentic ai multi-agent systems', { bm25, semantic, chunks: idx.chunks, filters: {}, topK: 20 });
+  assert(h.diagnostics.agreement > 0, 'zero agreement means the two retrievers are keyed differently');
+});
+
+console.log('\n=== INDEX CONTRACT (fields the UI indexes) ===');
+
+for (const field of ['id', 'name', 'kind', 'mention_count', 'chunk_ids', 'document_ids', 'sources', 'cross_source']) {
+  check(`entity.${field} present`, () => assert(idx.entities[0][field] !== undefined, `entity is missing ${field}`));
+}
+
+check('entity.chunk_ids resolve to real chunks', () => {
+  const chunksById = new Map(idx.chunks.map(c => [c.id, c]));
+  for (const e of idx.entities.slice(0, 80)) for (const cid of e.chunk_ids) assert(chunksById.has(cid), `entity ${e.id} -> bad chunk ${cid}`);
+});
+
+check('relationship endpoints all exist (no dangling graph edges)', () => {
+  const ids = new Set(idx.entities.map(e => e.id));
+  for (const r of idx.relationships) {
+    assert(ids.has(r.source), `edge source ${r.source} not in entities`);
+    assert(ids.has(r.target), `edge target ${r.target} not in entities`);
+  }
+});
+
+check('every chunk carries a source type and most carry a verifiable URL', () => {
+  const types = new Set(idx.chunks.map(c => c.source_type));
+  assert(types.size >= 3, `only ${[...types]} source types indexed`);
+  const withUrl = idx.chunks.filter(c => c.url).length;
+  assert(withUrl / idx.chunks.length > 0.8, `only ${withUrl}/${idx.chunks.length} chunks have a provenance URL`);
+});
+
+check('the Factory handshake is present and names every connector', () => {
+  assert(Array.isArray(idx.sources) && idx.sources.length >= 3, 'index.sources missing');
+  for (const s of idx.sources) {
+    assert(s.source_type && s.system && typeof s.records === 'number', `malformed source ${JSON.stringify(s)}`);
+    assert(['knowledge_factory', 'repository'].includes(s.synced_by), `unknown synced_by ${s.synced_by}`);
+  }
+  assert(idx.sources.some(s => s.synced_by === 'knowledge_factory'), 'no source is marked as Factory-synced');
+});
+
+console.log('\n=== THE FABRIC: CROSS-SOURCE JOINS ===');
+
+check('at least one entity joins two or more source systems', () => {
+  const cross = idx.entities.filter(e => e.cross_source);
+  assert(cross.length >= 5, `only ${cross.length} cross-source entities`);
+  for (const e of cross) assert(e.sources.length >= 2, `${e.name} flagged cross_source with ${e.sources.length} source`);
+});
+
+check('a project on the website and its GitHub repository are one node', () => {
+  const inv = idx.entities.filter(e => e.kind === 'Project' && /invest/i.test(e.name));
+  assert(inv.length === 1, `Invest.IQ resolved to ${inv.length} nodes: ${inv.map(e => e.name)}`);
+  assert(inv[0].sources.includes('website') && inv[0].sources.includes('github'),
+    `Invest.IQ sources are ${inv[0].sources}`);
+});
+
+check('the current employer is observed in the resume, the website and the profile', () => {
+  const q = idx.entities.find(e => e.kind === 'Organization' && e.name === 'Qualizeal');
+  assert(q, 'no Qualizeal node');
+  assert(q.sources.length >= 2, `Qualizeal seen in only ${q.sources}`);
+});
+
+check('typed edges dominate co-occurrence', () => {
+  const typed = idx.relationships.filter(r => r.type !== 'CO_OCCURS').length;
+  assert(typed > idx.relationships.length * 0.5, `${typed}/${idx.relationships.length} typed edges`);
+  const types = new Set(idx.relationships.map(r => r.type));
+  for (const t of ['WORKED_AT', 'BUILT', 'USES', 'SKILLED_IN', 'PUBLISHED', 'FILMED_AT'])
+    assert(types.has(t), `no ${t} edges`);
+});
+
+console.log('\n=== END-TO-END ANSWER PATH ===');
+
+check('a plain question produces a cited answer', () => {
+  const r = ask('Where does Prashobh work currently?');
+  assert(r.answerHtml && r.answerHtml.length > 50, 'empty answer');
+  assert(r.citations.length > 0, 'no citations');
+  assert(r.citations.every(c => c.chunk), 'citation missing chunk');
+});
+
+check('EVERY question bank entry answers without throwing', () => {
+  assert(BANK.length > 0, 'question bank empty');
+  const broken = [];
+  for (const q of BANK) {
+    try {
+      const r = ask(q);
+      if (!r.answerHtml || !r.citations.length) broken.push(`${q} -> no answer`);
+    } catch (err) {
+      broken.push(`${q} -> THREW ${err.message}`);
+    }
+  }
+  assert(broken.length === 0, `${broken.length}/${BANK.length} bank questions broken:\n          ` + broken.slice(0, 5).join('\n          '));
+});
+
+check('degenerate and empty queries degrade without throwing', () => {
+  for (const q of ['the', '', '   ', 'asdfghjkl qwertyuiop', '!!!', 'a']) {
+    const r = ask(q);
+    assert(typeof r.answerHtml === 'string', `"${q}" produced no answerHtml`);
+  }
+});
+
+check('exact name lookup still works (lexical path intact)', () => {
+  const r = ask('Koode');
+  assert(r.citations.length > 0, 'no citations for exact project name');
+  assert(/koode/i.test(plain(r)), 'answer does not mention Koode');
+});
+
+console.log('\n=== NLU ROUTING ===');
+
+check('intent classification separates question types', () => {
+  const expect = {
+    'Where does Prashobh work currently?': 'CAREER',
+    'What are Prashobh’s core skills?': 'SKILLS',
+    'What is Koode?': 'PROJECTS',
+    'Where did Prashobh study?': 'EDUCATION',
+    'What services does Prashobh offer?': 'SERVICES',
+    'How can I contact Prashobh?': 'CONTACT',
+    'What videos has Prashobh made about Spiti Valley?': 'YOUTUBE',
+    'Who is Prashobh Paul?': 'WHO',
+    'What languages does Prashobh speak?': 'LANGUAGES',
+  };
+  for (const [q, want] of Object.entries(expect)) {
+    const got = analyseQuestion(q).intent.name;
+    assert(got === want, `"${q}" -> ${got}, expected ${want}`);
+  }
+});
+
+check('naming an employer makes it a career question even when the verb is "build"', () => {
+  assert(analyseQuestion('What did Prashobh build at Brane Enterprises?').intent.name === 'CAREER');
+});
+
+check('"short bio" is not a YouTube Shorts question', () => {
+  assert(analyseQuestion('Give me a short bio of Prashobh.').intent.name !== 'YOUTUBE');
+});
+
+check('focus entities are extracted with the longest match', () => {
+  const a = analyseQuestion('What videos has Prashobh made about Spiti Valley?');
+  assert(a.focus.includes('spiti valley') && !a.focus.includes('spiti'), `focus was ${JSON.stringify(a.focus)}`);
+});
+
+check('travel videos never answer a career question', () => {
+  for (const q of ['Where does Prashobh work currently?', 'What did Prashobh do at Tech Mahindra?',
+                   'What is Prashobh’s experience in healthcare NLP?']) {
+    const r = ask(q);
+    for (const c of r.citations) {
+      const rt = (c.chunk.meta && c.chunk.meta.record_type) || '';
+      assert(rt !== 'video', `a video was cited for: ${q}`);
+    }
+  }
+});
+
+check('a question about one employer is not answered with another', () => {
+  const r = ask('What did Prashobh do at Tech Mahindra?');
+  const t = plain(r).toLowerCase();
+  assert(/tech mahindra/.test(t), 'answer never names Tech Mahindra');
+  const body = t.split(':').slice(1).join(':');
+  assert(!/primera medical|yash technologies|brane enterprises/.test(body.split('.')[0]),
+    'first sentence is about a different employer');
+});
+
+check('a project question draws on BOTH the website and GitHub', () => {
+  const r = ask('What is Koode?');
+  const srcs = new Set(r.citations.map(c => c.chunk.source_type));
+  assert(srcs.has('website') && srcs.has('github'), `sources were ${[...srcs]}`);
+});
+
+check('questions in FAQ text are never presented as answers', () => {
+  for (const q of ['How does Prashobh choose an architecture?', 'What does Prashobh think of LangChain?']) {
+    const sents = (ask(q).summary?.sentences || []).map(s => s.display);
+    for (const s of sents) assert(!/\?\s*$/.test(s), `question echoed as evidence: "${s}"`);
+  }
+});
+
+check('no sentence is repeated within an answer', () => {
+  const r = ask('What services does Prashobh offer?');
+  const norm = (r.summary?.sentences || []).map(s => s.display.toLowerCase().replace(/[^a-z0-9 ]/g, '').slice(0, 70));
+  assert(new Set(norm).size === norm.length, 'duplicate sentences survived MMR');
+});
+
+check('the pronoun "I" is never lower-cased after a discourse marker', () => {
+  for (const q of BANK.slice(0, 20)) assert(!/\bi (built|live|architect|lead|advise)\b/.test(plain(ask(q))), `"i" leaked in: ${q}`);
+});
+
+console.log('\n=== CONFIDENCE IS DERIVED, NOT CONSTANT ===');
+
+check('confidence varies across questions', () => {
+  const vals = BANK.slice(0, 12).map(q => ask(q).confidence?.percent ?? -1);
+  assert(new Set(vals).size > 6, `confidences cluster: ${vals.join(',')}`);
+});
+
+check('confidence exposes all five signals with weights summing to 1', () => {
+  const c = ask('What is Koode?').confidence;
+  for (const k of ['retrievalMargin', 'retrieverAgreement', 'queryCoverage', 'sourceConsensus', 'evidenceQuality']) {
+    assert(c.signals[k] && typeof c.signals[k].value === 'number', `missing signal ${k}`);
+    assert(c.signals[k].how && c.signals[k].why, `${k} has no derivation text`);
+  }
+  const w = Object.values(c.signals).reduce((a, s) => a + s.contribution, 0);
+  assert(Math.abs(w - 1) < 0.01, `signal weights sum to ${w}`);
+});
+
+check('a nonsense question yields low confidence, not a confident wrong answer', () => {
+  const r = ask('asdfghjkl qwertyuiop zxcvbnm');
+  assert((r.confidence?.percent ?? 0) < 40, `nonsense scored ${r.confidence?.percent}%`);
+});
+
+check('bank questions answer well, but nothing is pinned', () => {
+  const vals = BANK.map(q => ask(q).confidence?.exact ?? 0);
+  const mean = vals.reduce((a, b) => a + b, 0) / vals.length;
+  assert(mean >= 55, `bank mean is ${mean.toFixed(1)}% — the tested set should answer well`);
+  assert(new Set(vals).size > vals.length * 0.8, 'bank scores are suspiciously uniform');
+  assert(vals.some(v => v < 70), 'every bank question scores high — nothing discriminates');
+  const a = ask('What is Koode?').confidence.exact, b = ask('What is Koode?').confidence.exact;
+  assert(a === b, 'confidence is not deterministic');
+});
+
+check('confidence panel leads with a plain verdict and nests formulas', () => {
+  const html = renderConfidenceBreakdown(ask('What is Koode?').confidence);
+  assert(/class="conf-verdict"/.test(html), 'no plain verdict');
+  assert(/<details class="tech-detail">/.test(html), 'formulas not nested');
+});
+
+console.log('\n=== KNOWLEDGE HEALTH IS EXPLAINABLE ===');
+
+check('every health metric ships a formula, inputs and plain-language framing', () => {
+  const h = computeHealth(idx);
+  assert(h.metrics.length >= 5, 'expected 5 metrics');
+  for (const m of h.metrics) {
+    assert(m.formula && m.inputs && Object.keys(m.inputs).length, `${m.label} lacks derivation`);
+    assert(m.plainLabel && m.plainWhat && m.plainRisk, `${m.key} has no business framing`);
+    assert(m.value >= 0 && m.value <= 100, `${m.label} out of range: ${m.value}`);
+  }
+  const n = healthNarrative(h);
+  assert(!/undefined/.test(n.headline + n.weakest + n.strongest), 'undefined in narrative');
+  const html = renderHealthDerivation(h);
+  assert(/<details class="tech-detail">/.test(html) && /<code>/.test(html), 'formulas missing or not nested');
+});
+
+check('document dates carry provenance and no source-specific leftovers', () => {
+  const dated = idx.documents.filter(d => d.date_date);
+  assert(dated.length > idx.documents.length * 0.8, `only ${dated.length}/${idx.documents.length} records dated`);
+  for (const d of dated) {
+    assert(d.date_method && d.date_method !== 'unknown', `${d.name} dated without a method`);
+    assert(d.date_method !== 'fda_decision_date', 'stale date method name');
+    assert(typeof d.date_confidence === 'number' && d.date_explanation, `${d.name} lacks confidence/explanation`);
+  }
+  assert(idx.documents.some(d => d.source_type === 'youtube' && d.date_method === 'source_timestamp'), 'videos not dated from their publish timestamp');
+});
+
+check('health renders as concentric rings, one per metric', () => {
+  const h = computeHealth(idx);
+  const svg = ringsMod.renderMaturityRings(h);
+  assert((svg.match(/class="mr-arc"/g) || []).length === h.metrics.length, 'one arc per metric expected');
+  assert(svg.includes(`>${h.overall}<`), 'overall score missing from the centre');
+});
+
+console.log('\n=== BRANDING & GRAPH VALUE ===');
+
+check('the fabric is about the subject, built by the subject, and says so', () => {
+  assert(BRAND.footerBrand.includes('Prashobh Paul'), 'subject missing from footer');
+  assert(!/nova|qualizeal ai-coe|demonstration/i.test(BRAND.footerBrand), `stale attribution: ${BRAND.footerBrand}`);
+  assert(/data-brand=/.test(HTML), 'markup does not use the brand binding');
+  assert(!/Nova\s*Biomedical|StatStrip|lactate|creatinine/i.test(HTML), 'stale corpus references in markup');
+  assert(!/Nova\s*Biomedical/i.test(CSS), 'a style rule is keyed to a client name');
+});
+
+check('graph has a standing purpose statement with real numbers', () => {
+  const p = graphPurposeCopy(idx);
+  assert(p.stat > 0 && p.stat2 > 0, `graph stats empty: ${p.stat}/${p.stat2}`);
+  assert(!/undefined|NaN|regulatory/i.test(p.body), `placeholder or stale copy in: ${p.body}`);
+});
+
+check('a multi-source answer explains what the graph contributed', () => {
+  const r = ask('What is Koode?');
+  const c = explainGraphContribution(r.citations, idx, r.analysis);
+  assert(c, 'no contribution computed for a multi-document answer');
+  assert(c.bridges.length > 0, 'no bridging concepts identified');
+  const html = renderGraphContribution(c, idx);
+  assert(/keyword|share/i.test(html), 'the story never contrasts with keyword search');
+  const hub = (html.match(/mg-hub-label">\s*([^<]+)/) || [])[1]?.trim();
+  if (hub) assert(hub === c.primary.name, `diagram shows "${hub}" but prose names "${c.primary.name}"`);
+  assert(!/regulatory/i.test(html), 'stale source class in graph-value copy');
+});
+
+check('single-document answers claim no graph contribution', () => {
+  assert(explainGraphContribution([{ chunk: idx.chunks[0] }], idx, null) === null);
+});
+
+console.log('\n=== TYPEAHEAD, CHIPS, SOURCES ===');
+
+check('suggestions come only from the tested question bank', () => {
+  const set = new Set(BANK);
+  for (const probe of ['what', 'koode', 'where', 'video', 'a', 'skills']) {
+    for (const r of taSuggest(probe, BANK)) assert(set.has(r.question), `"${r.question}" is not in the bank`);
+  }
+});
+
+check('hero chips land on different intents and are all in the bank', () => {
+  const js = fs.readFileSync(path.join(SITE, 'js/main.js'), 'utf8');
+  const block = js.slice(js.indexOf('const PRESET_QUESTIONS'), js.indexOf('];', js.indexOf('const PRESET_QUESTIONS')));
+  const qs = [...block.matchAll(/'([^']+\?)'/g)].map(m => m[1]);
+  assert(qs.length >= 3, 'no preset chips found');
+  const intents = new Set(qs.map(q => analyseQuestion(q).intent.name));
+  assert(intents.size === qs.length, `chips repeat intents (${[...intents].join(', ')})`);
+  for (const q of qs) assert(BANK.includes(q), `chip "${q}" is not in the tested bank`);
+});
+
+check('the source strip (Factory ↔ Fabric handshake) is wired', () => {
+  assert(/id="source-strip"/.test(HTML), 'no source strip in markup');
+  const js = fs.readFileSync(path.join(SITE, 'js/main.js'), 'utf8');
+  assert(/renderSourceStrip/.test(js) && /last_synced/.test(js), 'source strip never rendered');
+});
+
+check('lineage links each citation back to its source URL', () => {
+  const lj = fs.readFileSync(path.join(SITE, 'js/lineage.js'), 'utf8');
+  assert(/lineage-link/.test(lj) && /c\.url/.test(lj), 'lineage does not link out to the source');
+});
+
+check('bank exercises the full NLU router', () => {
+  const seen = new Set(BANK.map(q => analyseQuestion(q).intent.name));
+  assert(seen.size >= 10, `only ${seen.size} intents represented: ${[...seen].join(', ')}`);
+  const general = BANK.filter(q => analyseQuestion(q).intent.name === 'GENERAL').length;
+  assert(general / BANK.length < 0.12, `${general}/${BANK.length} questions fall through to GENERAL`);
+});
+
+console.log('\n' + '='.repeat(62));
+console.log(`  ${passed} passed, ${failed} failed`);
+console.log('='.repeat(62));
+if (failed) {
+  console.log('\nfailures:');
+  for (const [n, m] of failures) console.log(`  ${n}\n    ${m}`);
+  process.exit(1);
+}
