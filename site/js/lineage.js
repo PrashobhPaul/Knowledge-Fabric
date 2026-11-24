@@ -65,7 +65,7 @@ export function renderLineage(question, answerText, citations) {
   }
 }
 
-const SOURCE_WORD = { document: 'resume', website: 'website', profile: 'profile', youtube: 'YouTube', github: 'GitHub' };
+const SOURCE_WORD = { document: 'resume', website: 'website', profile: 'profile', youtube: 'YouTube', github: 'GitHub', linkedin: 'LinkedIn' };
 
 function renderPage(citation) {
   const c = citation.chunk;

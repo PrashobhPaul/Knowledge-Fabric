@@ -273,7 +273,7 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
     chunks_by_source: dict[str, int] = defaultdict(int)
     for s in serialized:
         chunks_by_source[s["source_type"]] += 1
-    factory_map = {"website": "website", "youtube": "youtube", "github": "github"}
+    factory_map = {"website": "website", "youtube": "youtube", "github": "github", "linkedin": "linkedin"}
     sources = []
     for pc in per_connector:
         fsrc = factory_map.get(pc["source_type"])

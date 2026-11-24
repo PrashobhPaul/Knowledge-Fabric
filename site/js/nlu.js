@@ -142,6 +142,24 @@ export const INTENTS = {
     penalise: { skill_group: 0.3, video: 0.1, repository: 0.1 },
     wants: 'the languages spoken',
   },
+  POSTS: {
+    cues: [/\b(post|posts|posted|wrote|written|writes|article|articles|linkedin|shared|thoughts on|published)\b/i,
+           /\bwhat (has|did|does) .* (post(ed|s)?|wr(ite|ote|itten)|shared?|sa(y|id)|think) (about|on)\b/i,
+           /\b(on|via) linkedin\b/i],
+    answerCues: [[/\bwrote on LinkedIn\b/i, 1.0], [/\bpublished\b/i, 0.7], [/\brecommended\b/i, 0.6],
+                 [/\b(knowledge|agents?|ontology|governance|architecture)\b/i, 0.4]],
+    prefer: { post: 2.0, publication: 1.6, recommendation: 1.2, faq: 1.1 },
+    penalise: { video: 0.1, channel: 0.1, repository: 0.3, skill_group: 0.3, education: 0.2 },
+    wants: 'something he wrote',
+  },
+  EVENTS: {
+    cues: [/\b(events?|conference|conferences|summit|meetup|talks?|spoke|speaker|attended|attend|keynote|webinar|workshop he|tour)\b/i,
+           /\bwhere (has|did) .* (speak|present|attend)\b/i],
+    answerCues: [[/\b(attended|spoke at)\b/i, 1.0], [/\bthe event\b/i, 0.8], [/\bmet\b/i, 0.5]],
+    prefer: { event: 2.2, video: 1.1, post: 1.0 },
+    penalise: { skill_group: 0.1, education: 0.2, repository: 0.2, service: 0.3 },
+    wants: 'an event',
+  },
   METRICS: {
     cues: [/\bhow many\b/i, /\bhow much\b/i, /\b(number of|count of|total)\b/i, /\b(subscribers?|views|stars|repositories|videos|years)\b.*\?/i,
            /\bmost (popular|viewed|watched|starred)\b/i],
@@ -295,6 +313,7 @@ const FOCUS_KIND_BONUS = {
   PROJECTS: ENTITY_FAMILIES.project,
   YOUTUBE:  ENTITY_FAMILIES.place,
   CHANNEL:  ['canvas of earth'],
+  EVENTS:   ['microsoft ai tour', 'kala ghoda'],
 };
 
 export function classifyIntent(question) {

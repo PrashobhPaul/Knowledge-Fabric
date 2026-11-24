@@ -94,14 +94,14 @@ the website — the fabric learns it within a week with nobody running anything.
 
 | Capability | Implementation |
 |---|---|
-| Multi-source acquisition | `knowledge_factory/` — website crawler, YouTube RSS, GitHub API, resume download |
-| Multi-source ingestion | `pipeline/connectors/` — resume PDF, structured profile, website, YouTube, GitHub → one record shape |
+| Multi-source acquisition | `knowledge_factory/` — website crawler, YouTube RSS, GitHub API, LinkedIn data export, resume download |
+| Multi-source ingestion | `pipeline/connectors/` — resume PDF, structured profile, website, LinkedIn, YouTube, GitHub → one record shape |
 | Entity resolution | `pipeline/ontology.py` — surface forms collapse to canonical nodes across sources |
-| Typed knowledge graph | `pipeline/graph.py` — 19 node types, 21 edge types, cross-source flag |
+| Typed knowledge graph | `pipeline/graph.py` — 23 node types, 25 edge types, cross-source flag |
 | Lexical retrieval | BM25, client-side, with morphological + synonym expansion |
 | Semantic retrieval | LSA over TF-IDF, int8-quantised, embedded in-browser (no model download) |
 | Hybrid retrieval | Reciprocal Rank Fusion (k = 60) |
-| Question understanding | 16 intents (career, skills, projects, education, services, contact, YouTube, …) with evidence routing |
+| Question understanding | 18 intents (career, skills, projects, education, services, contact, posts, events, YouTube, …) with evidence routing |
 | Extractive answers | MMR sentence selection, focus gate, relevance floor — verbatim, cited, never paraphrased |
 | Derived confidence | Weighted geometric mean of 5 measured retrieval signals |
 | Knowledge health | Coverage, connectivity, provenance, extraction quality, freshness — each with its formula |
@@ -199,6 +199,26 @@ It also runs by itself every Monday.
   `knowledge_sources/profile/profile.yaml`, `pipeline/ontology.py` and
   `site/js/brand.js`. Nothing else references the subject.
 
+### Add your LinkedIn profile, posts and events
+
+LinkedIn cannot be crawled (login-walled, and against its terms), so the Factory
+reads the **official data export**:
+
+1. On LinkedIn: **Settings & Privacy → Data privacy → Get a copy of your data →
+   Download larger data archive**. LinkedIn emails a ZIP within ~24 hours.
+2. Unzip it. On GitHub, open `knowledge_sources/linkedin/export/` → **Add file →
+   Upload files** → drop `Shares.csv` (posts), `Events.csv`, `Certifications.csv`,
+   `Honors.csv`, `Publications.csv`, `Projects.csv`, `Recommendations_Received.csv`,
+   `Skills.csv`. Commit.
+3. The next Factory run (or **Actions → Knowledge Factory → Run workflow** with
+   `linkedin`) turns them into posts, events, certifications, honors, publications
+   and recommendations. Each becomes a typed node (`POSTED`, `ATTENDED`, `HOLDS`,
+   `DISCUSSES`) and a citable record linking back to LinkedIn.
+
+For a single post without an export, paste it into
+`knowledge_sources/linkedin/posts.md` (date · URL heading, then the text). Major
+events you attended or spoke at can also go straight into `profile.yaml` → `events`.
+
 ### Close a knowledge gap (the feedback loop)
 
 1. On the site, a weak answer shows **Flag as missing / wrong / outdated**. Click it; a
@@ -247,6 +267,7 @@ knowledge_factory/            THE FACTORY — acquisition + curation
   sources/website.py            crawl + project cards + assistant FAQ + resume download
   sources/youtube.py            RSS (keyless) with merge-never-forget; optional yt-dlp
   sources/github.py             repositories + README excerpts
+  sources/linkedin.py           official data export + posts.md → posts, events, credentials
 knowledge_sources/            Factory output, committed (deterministic Fabric input)
   profile/profile.yaml          hand-curated structured facts
   website/  youtube/  github/   synced JSON
@@ -255,7 +276,7 @@ knowledge_sources/            Factory output, committed (deterministic Fabric in
   flags/proposals.md            stubs for a human to complete
 docs_source/resume/           resume PDFs (current + archived revision)
 pipeline/                     THE FABRIC — indexing
-  connectors/                   base · documents · profile · website · youtube · github
+  connectors/                   base · documents · profile · website · youtube · github · linkedin
   ontology.py                   canonical names + detection
   graph.py                      typed cross-source knowledge graph
   parsers.py · chunker.py       heading-aware parsing (incl. line-structured resume PDFs)

@@ -16,12 +16,13 @@ import tempfile
 from pathlib import Path
 
 from .common import load_config, now_iso, read_json, write_json
-from .sources import github, website, youtube
+from .sources import github, linkedin, website, youtube
 
 SOURCES = {
     "website": website.sync,
     "youtube": youtube.sync,
     "github": github.sync,
+    "linkedin": linkedin.sync,
 }
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,7 +31,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(description="Sync live sources into knowledge_sources/")
     ap.add_argument("--config", type=Path, default=ROOT / "knowledge_factory" / "config.yaml")
-    ap.add_argument("--only", help="comma-separated subset: website,youtube,github")
+    ap.add_argument("--only", help="comma-separated subset: website,youtube,github,linkedin")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args(argv)
 

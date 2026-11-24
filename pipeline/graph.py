@@ -25,7 +25,7 @@ from . import ontology
 # --------------------------------------------------------------------------- types
 NODE_TYPES = ["Person", "Organization", "Client", "Role", "Project", "Skill", "Technology", "Domain",
               "Institution", "Degree", "Service", "Channel", "Video", "Place", "Topic", "Event",
-              "Platform", "Language", "Document"]
+              "Platform", "Language", "Document", "Post", "Certification", "Honor", "Publication"]
 
 EDGE_TYPES = {
     "WORKED_AT":     ("Person", "Organization"),
@@ -48,6 +48,10 @@ EDGE_TYPES = {
     "FEATURES":      ("Video", "Person"),        # also Video -> Organization
     "HOSTED_ON":     ("Project", "Platform"),
     "SPEAKS":        ("Person", "Language"),
+    "POSTED":        ("Person", "Post"),
+    "ATTENDED":      ("Person", "Event"),
+    "HOLDS":         ("Person", "Certification"),   # also Honor, Publication
+    "DISCUSSES":     ("Post", "Domain"),            # also Technology, Project, Organization
     "DOCUMENTED_IN": (None, "Document"),
     "CO_OCCURS":     (None, None),
 }
@@ -121,7 +125,8 @@ class KnowledgeGraph:
                     canon = ontology.canonical("Person", raw) or raw
                 else:
                     canon = raw if kind in {"Person", "Role", "Degree", "Service", "Skill", "Video", "Channel",
-                                            "Language", "Document", "Platform"} \
+                                            "Language", "Document", "Platform", "Post", "Certification",
+                                            "Honor", "Publication"} \
                         else (ontology.canonical(kind, raw) or raw)
                 nid = self.node(kind, canon)
                 self.observe(nid, cid, st)
@@ -202,6 +207,28 @@ class KnowledgeGraph:
                             self.edge(v, pe, "FEATURES", cid)
                     for o in orgs:
                         self.edge(v, o, "FEATURES", cid)
+
+            elif rtype == "post":
+                for p in by_kind["Post"]:
+                    self.edge(person, p, "POSTED", cid)
+                    for k in ("Domain", "Technology", "Project", "Organization", "Event"):
+                        for n in by_kind[k]:
+                            self.edge(p, n, "DISCUSSES", cid)
+
+            elif rtype == "event":
+                for ev in by_kind["Event"]:
+                    self.edge(person, ev, "ATTENDED", cid)
+                    for o in orgs:
+                        self.edge(ev, o, "FEATURES", cid)
+                    for pl in by_kind["Place"]:
+                        self.edge(ev, pl, "FILMED_AT", cid)
+
+            elif rtype in {"certification", "honor", "publication"}:
+                for k in ("Certification", "Honor", "Publication"):
+                    for n in by_kind[k]:
+                        self.edge(person, n, "HOLDS", cid)
+                        for o in orgs:
+                            self.edge(n, o, "FEATURES", cid)
 
             elif rtype in PACKED_RECORD_TYPES or rtype == "faq":
                 # Document node for the page/file; everything recognised in it is DOCUMENTED_IN.

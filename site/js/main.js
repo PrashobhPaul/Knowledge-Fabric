@@ -159,8 +159,8 @@ function renderCommandTiles() {
 function renderSourceStrip() {
   const host = document.getElementById('source-strip');
   if (!host || !state.index.sources) return;
-  const ICON = { document: '📄', profile: '🧾', website: '🌐', youtube: '▶', github: '⌥' };
-  const LABEL = { document: 'Resume', profile: 'Profile', website: 'Website', youtube: 'YouTube', github: 'GitHub' };
+  const ICON = { document: '📄', profile: '🧾', website: '🌐', youtube: '▶', github: '⌥', linkedin: 'in' };
+  const LABEL = { document: 'Resume', profile: 'Profile', website: 'Website', youtube: 'YouTube', github: 'GitHub', linkedin: 'LinkedIn' };
   host.innerHTML = state.index.sources.map(s => {
     const when = s.last_synced ? new Date(s.last_synced).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : '';
     let sync;

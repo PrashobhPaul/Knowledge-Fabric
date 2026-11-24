@@ -118,6 +118,8 @@ const OPENERS = {
   CONTACT:           s => `Here is how to reach Prashobh`,
   YOUTUBE:           s => `From The Canvas of Earth${s && !/canvas/i.test(s) ? ', on ' + s : ''}`,
   CHANNEL:           s => `About The Canvas of Earth, Prashobh's YouTube channel`,
+  POSTS:             s => `In Prashobh's own words on LinkedIn${s ? ', on ' + s : ''}`,
+  EVENTS:            s => `On the events Prashobh has been part of${s ? ', including ' + s : ''}`,
   LANGUAGES:         s => `On the languages Prashobh speaks`,
   DOMAIN_EXPERIENCE: s => `Prashobh's experience${s ? ' in ' + s : ''}, drawn from the career record`,
   TEMPORAL:          s => `The dates on record${s ? ' for ' + s : ''} are`,
@@ -153,7 +155,7 @@ const SPECIFY     = ['Specifically,', 'In more detail,', 'More precisely,'];
 const NEGATION_RE = /\b(not|never|no |cannot|without|however|only|private|educational only|not financial advice)\b/i;
 
 const SOURCE_MARKER = {
-  github: 'The GitHub side adds that', website: 'The website adds that',
+  github: 'The GitHub side adds that', website: 'The website adds that', linkedin: 'On LinkedIn he adds that',
   document: 'The resume adds that', youtube: 'The channel adds that', profile: 'The profile adds that',
 };
 

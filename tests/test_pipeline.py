@@ -310,3 +310,35 @@ def test_curator_resolves_covered_flags_and_proposes_the_rest(tmp_path):
     result2 = run([flags[1]], out, sem, close=False, out_dir=tmp_path / "flags")
     statuses = {f["id"]: f["status"] for f in result2["ledger"]["flags"]}
     assert statuses == {101: "resolved", 102: "open"}
+
+
+# =============================================================================
+# LinkedIn — official export + hand-maintained posts, no crawling
+# =============================================================================
+def test_linkedin_source_reads_export_and_posts_md(tmp_path):
+    import shutil
+    from knowledge_factory.sources.linkedin import sync
+    out = tmp_path / "knowledge_sources"
+    (out / "linkedin").mkdir(parents=True)
+    shutil.copytree(ROOT / "tests" / "fixtures" / "linkedin_export", out / "linkedin" / "export")
+    (out / "linkedin" / "posts.md").write_text(
+        "## 2026-11-20 · https://www.linkedin.com/posts/manual-1\nA hand-pasted post about knowledge graphs and ontologies. #KnowledgeGraphs\n")
+    res = sync({"linkedin": {"profile_url": "https://www.linkedin.com/in/x/"}}, out, tmp_path)
+    assert res.status == "ok"
+    posts = json.loads((out / "linkedin" / "posts.json").read_text())["posts"]
+    assert [p["date"] for p in posts] == ["2026-11-20", "2026-10-02"]      # "Short." dropped, newest first
+    events = json.loads((out / "linkedin" / "events.json").read_text())["events"]
+    assert events[0]["name"] == "Microsoft AI Tour Mumbai 2025" and events[0]["date"] == "2025-12-18"
+    extra = json.loads((out / "linkedin" / "profile_extra.json").read_text())
+    assert extra["certifications"][0]["authority"] == "Amazon Web Services"
+
+    from pipeline.connectors.linkedin import LinkedInConnector
+    records = list(LinkedInConnector(out / "linkedin").fetch())
+    types = {r.metadata["record_type"] for r in records}
+    assert {"post", "event", "certification"} <= types
+    post = next(r for r in records if r.metadata["record_type"] == "post" and "LangGraph" in r.text)
+    assert post.text.startswith("Prashobh Paul wrote on LinkedIn on 2 October 2026:")
+    assert ("Technology", "LangGraph") in post.entities and ("Domain", "BFSI") in post.entities
+    ev = next(r for r in records if r.metadata["record_type"] == "event")
+    assert ("Event", "Microsoft AI Tour Mumbai 2025") in ev.entities
+    assert all(r.url for r in records)

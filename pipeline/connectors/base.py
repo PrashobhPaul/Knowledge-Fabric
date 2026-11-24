@@ -60,6 +60,7 @@ def registry_from(paths: dict[str, Path]) -> list:
     """
     from .documents import DocumentConnector
     from .github import GitHubConnector
+    from .linkedin import LinkedInConnector
     from .profile import ProfileConnector
     from .website import WebsiteConnector
     from .youtube import YouTubeConnector
@@ -80,4 +81,6 @@ def registry_from(paths: dict[str, Path]) -> list:
             connectors.append(YouTubeConnector(ks / "youtube"))
         if (ks / "github" / "repos.json").exists():
             connectors.append(GitHubConnector(ks / "github" / "repos.json"))
+        if (ks / "linkedin" / "posts.json").exists():
+            connectors.append(LinkedInConnector(ks / "linkedin"))
     return connectors

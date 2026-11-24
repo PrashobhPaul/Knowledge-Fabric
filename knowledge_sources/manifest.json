@@ -15,12 +15,28 @@
         "2 pages · 7 projects · 71 FAQ entries"
       ],
       "last_good_sync": "2026-11-24T16:21:02+00:00"
+    },
+    "linkedin": {
+      "status": "ok",
+      "last_synced": "2026-11-24T19:44:47+00:00",
+      "records": 2,
+      "files": [
+        "knowledge_sources/linkedin/posts.json",
+        "knowledge_sources/linkedin/events.json",
+        "knowledge_sources/linkedin/profile_extra.json"
+      ],
+      "error": null,
+      "notes": [
+        "2 posts · 0 events · 0 profile extras",
+        "no LinkedIn export found — upload the CSVs from 'Get a copy of your data' to knowledge_sources/linkedin/export/ to index posts, certifications, honors and events"
+      ],
+      "last_good_sync": "2026-11-24T19:44:47+00:00"
     }
   },
   "person": {
     "name": "Prashobh Paul",
     "short_name": "Prashobh"
   },
-  "generated_at": "2026-11-24T16:21:02+00:00",
+  "generated_at": "2026-11-24T19:44:47+00:00",
   "generator": "knowledge-factory/1.0"
 }

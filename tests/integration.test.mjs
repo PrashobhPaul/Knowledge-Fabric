@@ -431,6 +431,17 @@ check('lineage links each citation back to its source URL', () => {
   assert(/lineage-link/.test(lj) && /c\.url/.test(lj), 'lineage does not link out to the source');
 });
 
+check('LinkedIn posts and events are first-class', () => {
+  assert(idx.chunks.some(c => c.source_type === 'linkedin' && c.meta.record_type === 'post'), 'no LinkedIn post indexed');
+  assert(idx.chunks.some(c => c.meta.record_type === 'event'), 'no event indexed');
+  assert(analyseQuestion('What has Prashobh posted about on LinkedIn?').intent.name === 'POSTS');
+  assert(analyseQuestion('What events has Prashobh attended?').intent.name === 'EVENTS');
+  const r = ask('What does Prashobh say about knowledge factories and ontologies?');
+  assert(r.citations.some(c => c.chunk.meta.record_type === 'post'), 'a question about his writing did not cite a post');
+  const e = ask('What events has Prashobh attended?');
+  assert(e.citations.some(c => c.chunk.meta.record_type === 'event'), 'an events question did not cite an event');
+});
+
 check('bank exercises the full NLU router', () => {
   const seen = new Set(BANK.map(q => analyseQuestion(q).intent.name));
   assert(seen.size >= 10, `only ${seen.size} intents represented: ${[...seen].join(', ')}`);

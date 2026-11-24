@@ -80,6 +80,12 @@ export const QUESTION_BANK = [
   'What is the Key Monastery video about?',
   'How many subscribers does The Canvas of Earth have?',
 
+  // --- LinkedIn posts & events ---
+  'What has Prashobh posted about on LinkedIn?',
+  'What does Prashobh say about knowledge factories and ontologies?',
+  'What events has Prashobh attended?',
+  'Did Prashobh attend the Microsoft AI Tour?',
+
   // --- Dates & numbers ---
   'When did Prashobh join Qualizeal?',
   'How many years of experience does Prashobh have?',

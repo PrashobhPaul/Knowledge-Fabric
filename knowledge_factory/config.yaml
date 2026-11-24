@@ -27,6 +27,11 @@ youtube:
   # Set full: true to use yt-dlp (if installed) for the whole upload list.
   full: false
 
+linkedin:
+  profile_url: https://www.linkedin.com/in/prashobh-paul-00715578/
+  # No crawling (login-walled, against LinkedIn's terms). Reads the official data
+  # export dropped in knowledge_sources/linkedin/export/ plus posts.md.
+
 github:
   user: PrashobhPaul
   include_forks: false

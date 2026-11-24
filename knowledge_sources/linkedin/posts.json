@@ -1,0 +1,19 @@
+{
+  "profile_url": "https://www.linkedin.com/in/prashobh-paul-00715578/",
+  "posts": [
+    {
+      "id": "manual:2026-11-24",
+      "date": "2026-11-24",
+      "url": "",
+      "text": "A simple graph on how companies can build their own ontology and knowledge layer. This pattern will emerge across every organisation as agents become major contributors to work. The architecture will evolve as models get better at consolidating knowledge across segregated domains into one cohesive \"brain\" for the company. However, there are other nuances to this as well: your company's knowledge and everything that they have built, how they work, and how their \"product thinking\" gets hacked or leaked. It can be catastrophic.\n\nContext is what an agent has available when doing a task. Knowledge is the reusable understanding we maintain so it can do that task correctly: what a metric means, which source to trust, or how we handle a particular situation. Sometimes written down, often not. A knowledge factory turns scattered documents and experience into knowledge that can become context for future work.\n\n#KnowledgeGraphs #Ontology #AIagents",
+      "source": "posts.md"
+    },
+    {
+      "id": "manual:https://www.linkedin.com/posts/prashobh-paul-00715578_genai-agenticai-aiarchitecture-activity-7439991102520139776-ikzv",
+      "date": "2026-11-01",
+      "url": "https://www.linkedin.com/posts/prashobh-paul-00715578_genai-agenticai-aiarchitecture-activity-7439991102520139776-ikzv",
+      "text": "Prashobh's detailed thoughts on AI governance and agentic orchestration — how enterprise agentic AI architectures should be governed, observed and orchestrated. (Text to be pasted from the post; the website assistant links to this post for \"AI governance\" and \"agentic orchestration\".)\n\n#GenAI #AgenticAI #AIArchitecture",
+      "source": "posts.md"
+    }
+  ]
+}
