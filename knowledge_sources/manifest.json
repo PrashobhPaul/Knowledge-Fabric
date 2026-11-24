@@ -1,0 +1,26 @@
+{
+  "sources": {
+    "website": {
+      "status": "ok",
+      "last_synced": "2026-11-24T16:21:02+00:00",
+      "records": 95,
+      "files": [
+        "knowledge_sources/website/pages.json",
+        "knowledge_sources/website/projects.json",
+        "knowledge_sources/website/faq.json"
+      ],
+      "error": null,
+      "notes": [
+        "resume download failed https://prashobhpaul.github.io/Digital_Card/Prashobh_Paul_Resume.pdf: HTTPSConnectionPool(host='prashobhpaul.github.io', port=443): Max retries exceeded with url: /Digital_Card/Prashobh_Paul_Resume.pdf (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)')))",
+        "2 pages · 7 projects · 71 FAQ entries"
+      ],
+      "last_good_sync": "2026-11-24T16:21:02+00:00"
+    }
+  },
+  "person": {
+    "name": "Prashobh Paul",
+    "short_name": "Prashobh"
+  },
+  "generated_at": "2026-11-24T16:21:02+00:00",
+  "generator": "knowledge-factory/1.0"
+}

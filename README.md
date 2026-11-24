@@ -1,252 +1,303 @@
-# Nova Biomedical · Knowledge Fabric
-> A static, GitHub-Pages-hosted knowledge chatbot for **Nova Biomedical point-of-care meter documentation**. Every answer is grounded in **document → page → section → paragraph** citations, sourced directly from the official Instructions for Use and Reference Manuals. The knowledge graph shows **how each answer was derived**.
+<h2 align="center">Prashobh Paul</h2>
 
-**No backend. No vector database. No API keys. No Docker.**
-Open the GitHub Pages URL — it works.
+<h1 align="center">Knowledge Fabric + Knowledge Factory</h1>
 
-### Indexed corpus
+<p align="center">
+Everything public about one person — resume, website, YouTube channel, GitHub — turned into a single, explainable, citation-grounded answer surface.
+</p>
 
-This demo is built from five official Nova Biomedical manuals ([novabiomedicaldocs.com/ifu-meters](https://novabiomedicaldocs.com/ifu-meters/)):
-
-| Device | Document |
-|--------|----------|
-| **Lactate Plus Xpress 2** | Instructions for Use Manual (LPN 62659) |
-| **StatSensor Creatinine Meter** | Instructions for Use Manual (LPN 43177) |
-| **StatSensor Creatinine Meter** | Reference Manual (LPN 43317) |
-| **StatStrip Lactate Hospital Meter** | Instructions for Use Manual (LPN 47632) |
-| **StatStrip Lactate Hospital Meter** | Reference Manual (LPN 47643) |
-
-Ask about intended use, quality control, cleaning and disinfecting, error codes, eGFR estimation, linearity testing, or specifications — every answer cites the exact page and passage.
-
-[![CI](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/ci.yml)
-[![Deploy](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/deploy.yml/badge.svg)](https://github.com/YOUR_USERNAME/YOUR_REPO/actions/workflows/deploy.yml)
+<p align="center">
+  <img src="https://img.shields.io/badge/Sources-Resume%20%C2%B7%20Website%20%C2%B7%20YouTube%20%C2%B7%20GitHub-blue" />
+  <img src="https://img.shields.io/badge/Knowledge%20Graph-Typed%20%C2%B7%20Cross--source-purple" />
+  <img src="https://img.shields.io/badge/Retrieval-Hybrid%20BM25%20%2B%20LSA-green" />
+  <img src="https://img.shields.io/badge/Explainable-Every%20sentence%20cited-orange" />
+  <img src="https://img.shields.io/badge/Backend-None%20%28GitHub%20Pages%29-lightgrey" />
+</p>
 
 ---
 
-## What it demonstrates
-
-The Phase 1 build is a **Knowledge Fabric Command Center**, not "a chatbot with citations." That positioning is intentional, and is reflected in the UI from the first 30 seconds:
-
-1. **Command Center landing.** The page opens on a five-tile counter bar (Documents · Entities · Relationships · Knowledge Units · Domains) and an animated, drifting **Knowledge Galaxy**. The chat box is one of four panels — not the centerpiece.
-
-2. **Four-pane mission-control layout.**
-   - **Knowledge Galaxy** — force-directed graph that lights up the activated entities and traversed relationships for every answer.
-   - **AI Copilot** — citation-grounded chat with live confidence / sources / relationships / paths metrics.
-   - **Source Lineage** — vertical tree showing Answer → Document → Page → Section → Paragraph for every claim.
-   - **Insights Dashboard** — Heatmap (knowledge density by domain), interactive Word Cloud, and Timeline of corpus growth.
-
-3. **"Why did AI say this?"** — a full-screen reasoning overlay shows the five-step pipeline: Question → Retrieved Documents (with BM25 scores) → Graph Traversal → Final Context → Answer. Every step is inspectable.
-
-4. **Premium entity cards.** Clicking any node in the Galaxy slides up a card with Purpose, Dependencies, Appears In, and Evidence — the way an architect actually explores a knowledge surface.
-
-5. **Zero-friction deployment.** Static site. No backend, no vector DB, no LLM, no API keys. Fork → enable Pages → done.
+> **Live:** the site is published by GitHub Pages from this repository.
+> Ask it *"Where does Prashobh work currently?"*, *"What is Koode?"*, or
+> *"What videos has he made about Spiti Valley?"* — every sentence in the reply is
+> quoted from a source and linked to it.
 
 ---
 
-## Architecture
+# Two halves, one loop
+
+Most "personal knowledge base" demos stop at indexing a folder. This one has a
+supply chain. Two components, deliberately separated, meet at one folder:
 
 ```
-                           ╭─────────────────────────╮
-                           │   docs_source/  *.md    │
-                           │            *.pdf        │
-                           │            *.docx       │
-                           ╰────────────┬────────────╯
-                                        │ GitHub Actions runs
-                                        │ python -m pipeline.build_index
-                                        ▼
-       ┌────────────────────────────────────────────────────────────────┐
-       │  pipeline/   (build-time, ~5s on a small corpus)               │
-       │   parsers.py       heading-aware parsing                       │
-       │   chunker.py       section-respecting chunks (~700 chars)      │
-       │   entities.py      regex extraction + co-occurrence            │
-       │   bm25_index.py    precomputed inverted index + IDF            │
-       │   build_index.py   emits site/data/index.json                  │
-       └─────────────────────────┬──────────────────────────────────────┘
-                                 │  ~80 KB JSON
-                                 ▼
-       ┌────────────────────────────────────────────────────────────────┐
-       │  site/   →  served by GitHub Pages                             │
-       │                                                                │
-       │   ┌──────────────────────────────────────────────────────────┐ │
-       │   │  COMMAND CENTER  ·  docs · entities · rels · units · dom │ │
-       │   ├──────────────────────────┬───────────────────────────────┤ │
-       │   │   KNOWLEDGE GALAXY       │   AI COPILOT                  │ │
-       │   │   (vis-network)          │   (BM25 + extractive answer)  │ │
-       │   ├──────────────────────────┼───────────────────────────────┤ │
-       │   │   SOURCE LINEAGE         │   INSIGHTS DASHBOARD          │ │
-       │   │   Answer → Doc → Page    │   Heatmap · Cloud · Timeline  │ │
-       │   │          → Paragraph     │                               │ │
-       │   └──────────────────────────┴───────────────────────────────┘ │
-       │                                                                │
-       │   + "Why did AI say this?" overlay                             │
-       │     Question → Retrieved → Traversal → Context → Answer        │
-       └────────────────────────────────────────────────────────────────┘
-                                 │
-                                 ▼
-                  Browser loads index.json once.
-                  All retrieval, graph rendering, lineage,
-                  and insights compute in-memory in-browser.
+      ┌──────────────────────── KNOWLEDGE FACTORY ────────────────────────┐
+      │  knowledge_factory/   acquisition — goes and GETS the knowledge    │
+      │                                                                    │
+      │   website.py   crawls prashobhpaul.com → sections, project cards,  │
+      │                the site assistant's hand-written Q&A, the resume   │
+      │   youtube.py   channel RSS (no API key) → every upload, merged,    │
+      │                never forgets a video                               │
+      │   github.py    repositories + README excerpts                      │
+      │   sync.py      orchestrator; one failing source never blocks       │
+      │                the others; writes manifest.json                    │
+      └─────────────────────────────┬──────────────────────────────────────┘
+                                    │  commits to
+                                    ▼
+                 knowledge_sources/           docs_source/
+                   profile/profile.yaml        resume/*.pdf   ← downloaded by the Factory
+                   website/{pages,projects,faq}.json
+                   youtube/{channel,videos}.json
+                   github/repos.json
+                   manifest.json              ← what was synced, when, how many records
+                                    │  read by
+                                    ▼
+      ┌──────────────────────── KNOWLEDGE FABRIC ─────────────────────────┐
+      │  pipeline/   indexing — turns the knowledge into one answerable    │
+      │              network                                               │
+      │                                                                    │
+      │   connectors/  5 connectors → one KnowledgeRecord shape            │
+      │   ontology.py  "InvestIQ" = "Invest.IQ", "TCS" = "Tata Consultancy │
+      │                Services", "Kee Monastery" = "Key Monastery"        │
+      │   graph.py     typed graph: WORKED_AT · BUILT · USES · FILMED_AT … │
+      │                nodes seen in ≥2 sources are flagged cross_source   │
+      │   bm25 + LSA   hybrid retrieval, fused by reciprocal rank          │
+      │   build_index  → site/data/index.json + semantic.json              │
+      └─────────────────────────────┬──────────────────────────────────────┘
+                                    ▼
+                          site/   static · client-side · $0
 ```
+
+**The loop is automated.** `factory.yml` runs every Monday (or on demand),
+re-syncs the sources and commits what changed. That commit triggers
+`deploy.yml`, which rebuilds the fabric, runs the quality gates and republishes
+the site. New video on the channel, new repository on GitHub, updated resume on
+the website — the fabric learns it within a week with nobody running anything.
 
 ---
 
-## Deploy to GitHub Pages
+# What is running today
 
-### From scratch (5 minutes)
+| Capability | Implementation |
+|---|---|
+| Multi-source acquisition | `knowledge_factory/` — website crawler, YouTube RSS, GitHub API, resume download |
+| Multi-source ingestion | `pipeline/connectors/` — resume PDF, structured profile, website, YouTube, GitHub → one record shape |
+| Entity resolution | `pipeline/ontology.py` — surface forms collapse to canonical nodes across sources |
+| Typed knowledge graph | `pipeline/graph.py` — 19 node types, 21 edge types, cross-source flag |
+| Lexical retrieval | BM25, client-side, with morphological + synonym expansion |
+| Semantic retrieval | LSA over TF-IDF, int8-quantised, embedded in-browser (no model download) |
+| Hybrid retrieval | Reciprocal Rank Fusion (k = 60) |
+| Question understanding | 16 intents (career, skills, projects, education, services, contact, YouTube, …) with evidence routing |
+| Extractive answers | MMR sentence selection, focus gate, relevance floor — verbatim, cited, never paraphrased |
+| Derived confidence | Weighted geometric mean of 5 measured retrieval signals |
+| Knowledge health | Coverage, connectivity, provenance, extraction quality, freshness — each with its formula |
+| Factory ↔ Fabric visibility | Source strip on the site: which systems fed it, how many records, when last synced |
+| Evaluation gate | `eval/gold_set.yaml` — recall / MRR / nDCG per retrieval mode; CI fails on regression |
+| Deployment | GitHub Pages. No backend, no vector DB, no API keys, no cost |
+
+---
+
+# The fabric moment
+
+The typed graph infers edges **across** source systems. No single source contains
+this chain:
+
+```
+works.html                      (website)   "Koode lets family and friends know you're okay…"
+      │  DOCUMENTED_IN
+      ▼
+    Koode                       ← Project node, observed on the WEBSITE and on GITHUB
+      │  USES                               │  HOSTED_ON
+      ▼                                     ▼
+  Kotlin · Jetpack Compose · Supabase     GitHub (PrashobhPaul/Koode, last pushed Oct 2026)
+      ▲  SKILLED_IN
+      │
+  Prashobh Paul  ── WORKED_AT ──▶ Qualizeal ── (ROLE_AT) ── AI Architect, AI-CoE   (resume + profile + website)
+      │  OWNS
+      ▼
+  The Canvas of Earth ── PUBLISHED ──▶ "We Met Satya Nadella! Microsoft AI Tour Mumbai"
+                                            │  COVERS            │  FEATURES
+                                            ▼                    ▼
+                                 Microsoft AI Tour Mumbai 2025   Microsoft   ← also in the website FAQ
+```
+
+A Project seen on the website *and* on GitHub is one node with two sources. The
+website says what it is for; the repository says how it is built and when it last
+moved. Ask *"What is Koode?"* and the answer draws on both — and the graph panel
+says so, in plain language, with the two documents that share almost no wording.
+
+Current build: **73 cross-source entities** out of 348 nodes.
+
+---
+
+# Measured, not asserted
+
+Every build runs the retrieval gold set (`eval/gold_set.yaml`) in all three
+modes and fails the deploy below the floor. Current numbers:
+
+```
+corpus: 239 chunks · 97 records · 5 sources
+gold set: 18 cases (lexical · semantic · structured · cross-source · robustness)
+
+mode          recall@5  recall@10      MRR   nDCG@10
+----------------------------------------------------
+lexical          1.000      1.000    0.963     0.961
+semantic         1.000      1.000    0.903     0.924
+hybrid           1.000      1.000    0.963     0.949
+```
+
+The browser integration test (`tests/integration.test.mjs`) runs the real
+`site/js` modules against the real `site/data` on every push: every question in
+the question bank must produce a cited answer, travel videos must never answer a
+career question, a question about one employer must not be answered from another,
+and the fabric must have cross-source joins.
+
+---
+
+# Using it from the GitHub website (no command line)
+
+### Publish the site
+
+1. Open the repository on github.com → **Settings** → **Pages**.
+2. Under **Build and deployment → Source**, choose **GitHub Actions**.
+3. Open the **Actions** tab → **Build and Deploy to GitHub Pages** → **Run workflow**.
+4. The site URL appears on the workflow run page when it finishes (about two minutes).
+
+### Refresh the knowledge (run the Factory)
+
+1. **Actions** tab → **Knowledge Factory — sync sources** → **Run workflow**.
+2. Optionally type a subset in the box, e.g. `youtube` or `website,github`.
+3. The Factory commits whatever changed; the deploy workflow then rebuilds the site automatically.
+
+It also runs by itself every Monday.
+
+### Change the facts about you
+
+- **Structured facts** (roles, education, skills, services, current engagements):
+  edit `knowledge_sources/profile/profile.yaml` in the GitHub editor (pencil icon)
+  and commit. The site rebuilds.
+- **Resume**: upload the new PDF to the website (the Factory downloads it) or
+  drop it into `docs_source/resume/` directly.
+- **New aliases** (a new project name, a new place in your videos): add a line to
+  `pipeline/ontology.py` so the graph joins it across sources.
+- **Point the whole thing at another person**: edit `knowledge_factory/config.yaml`,
+  `knowledge_sources/profile/profile.yaml`, `pipeline/ontology.py` and
+  `site/js/brand.js`. Nothing else references the subject.
+
+### Review before publishing
+
+`knowledge_sources/profile/profile.yaml` → `engagements` names client programmes
+(self-reported). Delete any line you do not want on a public site before merging.
+
+---
+
+# Local development (optional)
 
 ```bash
-# 1. Fork or create the repo, then clone
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
+pip install -r pipeline/requirements.txt
 
-# 2. Drop your documents into docs_source/
-cp ~/my-docs/*.md docs_source/
+python -m knowledge_factory.sync          # Factory: pull live sources
+python -m pipeline.build_index            # Fabric: build index + graph + semantic layer
+python -m eval.evaluate                   # measure retrieval quality
+node tests/integration.test.mjs           # browser contract + answer quality
+pytest tests/ -v                          # pipeline + factory unit tests
 
-# 3. Commit and push
-git add . && git commit -m "Initial corpus"
-git push
-```
-
-### Enable Pages
-
-1. Repo → **Settings** → **Pages**
-2. Under **Source**, choose **GitHub Actions**
-
-That's it. The next push triggers `.github/workflows/deploy.yml`, which rebuilds the index and publishes the site.
-
-### From a phone (web UI only)
-
-1. Fork this repo on github.com
-2. Settings → Pages → Source = **GitHub Actions**
-3. Edit / upload documents directly under `docs_source/` via the web editor
-4. Each commit triggers a rebuild and deploy
-
-No local toolchain required.
-
----
-
-## Local dev (optional)
-
-```bash
-./scripts/dev.sh
-```
-
-Builds the index and serves the site at http://localhost:8000.
-
-Run tests:
-
-```bash
-pip install -r pipeline/requirements.txt pytest
-pytest tests/ -v
+./scripts/dev.sh                          # build + serve on http://localhost:8000
+./scripts/dev.sh --sync                   # sync first, then build + serve
 ```
 
 ---
 
-## Adding your own documents
-
-Drop files into `docs_source/`. Supported formats:
-
-| Format | Extension | Heading detection |
-|--------|-----------|-------------------|
-| Markdown | `.md` | H1–H4 tags (best citation quality) |
-| Plain text | `.txt` | Heuristic (ALL CAPS / Title Case lines) |
-| PDF | `.pdf` | Heuristic + native page numbers |
-| Word | `.docx` | Native Heading 1–4 style names |
-
-The build pipeline runs automatically on every push. Citation quality is best for Markdown and DOCX because the heading hierarchy is explicit; for PDFs the pipeline does its best with a layout heuristic.
-
----
-
-## Custom domain (optional)
-
-To serve at `kf.your-company.com` instead of `username.github.io/repo`:
-
-1. Add a file `site/CNAME` containing `kf.your-company.com`
-2. In your DNS, create a CNAME record pointing `kf` to `YOUR_USERNAME.github.io`
-3. Repo → Settings → Pages → Custom domain → enter `kf.your-company.com`
-
----
-
-## What's in / what's out
-
-### In (Phase 1)
-
-- Markdown, plain text, PDF, DOCX ingestion with heading awareness
-- Section-respecting chunker with paragraph-level provenance
-- Client-side BM25 with precomputed inverted index
-- Citation card UI showing document, page, section path, paragraph excerpt, and a confidence score
-- Knowledge graph with force-directed layout (vis-network)
-- Reasoning trace: per-query subgraph highlight showing which entities were activated and which relationships were traversed
-- Extractive answer composition (no LLM, no hallucination risk)
-- GitHub Actions: tests + automatic Pages deployment
-
-### Out (deferred to Phase 2)
-
-- Vector embeddings / semantic retrieval
-- LLM answer synthesis
-- Hosted backend, authentication, per-document permissions
-- Live Confluence / Jira connectors (mock data only in Phase 1)
-
----
-
-## Repository layout
+# Repository structure
 
 ```
-.
-├── README.md
-├── docs_source/                    your documents go here
-│   ├── Lactate Plus Xpress 2 - Instructions for Use.pdf
-│   ├── StatSensor Creatinine Meter - Instructions for Use.pdf
-│   ├── StatSensor Creatinine Meter - Reference Manual.pdf
-│   ├── StatStrip Lactate Hospital Meter - Instructions for Use.pdf
-│   └── StatStrip Lactate Hospital Meter - Reference Manual.pdf
-├── pipeline/                       build-time Python
-│   ├── parsers.py
-│   ├── chunker.py
-│   ├── entities.py
-│   ├── bm25_index.py
-│   └── build_index.py
-├── site/                           what GitHub Pages serves
-│   ├── index.html
-│   ├── styles/main.css
-│   ├── js/
-│   │   ├── main.js
-│   │   ├── search.js
-│   │   ├── answer.js
-│   │   └── graph.js
-│   └── data/index.json             generated by CI on every push
-├── tests/test_pipeline.py
-├── scripts/dev.sh                  local build + serve
-└── .github/workflows/
-    ├── ci.yml                      tests
-    └── deploy.yml                  build + publish Pages
+knowledge_factory/            THE FACTORY — acquisition
+  config.yaml                   who/what to sync (person, website, channel, GitHub user)
+  sync.py                       orchestrator; per-source failure isolation; manifest
+  sources/website.py            crawl + project cards + assistant FAQ + resume download
+  sources/youtube.py            RSS (keyless) with merge-never-forget; optional yt-dlp
+  sources/github.py             repositories + README excerpts
+knowledge_sources/            Factory output, committed (deterministic Fabric input)
+  profile/profile.yaml          hand-curated structured facts
+  website/  youtube/  github/   synced JSON
+  manifest.json                 sync status per source
+docs_source/resume/           resume PDFs (current + archived revision)
+pipeline/                     THE FABRIC — indexing
+  connectors/                   base · documents · profile · website · youtube · github
+  ontology.py                   canonical names + detection
+  graph.py                      typed cross-source knowledge graph
+  parsers.py · chunker.py       heading-aware parsing (incl. line-structured resume PDFs)
+  textnorm.py                   PDF artefact repair + sentence quality classification
+  bm25_index.py · semantic.py   lexical + LSA semantic indexes
+  docmeta.py                    date resolution with provenance (source timestamp → PDF → crawl)
+  build_index.py                orchestrator → site/data/
+eval/                         gold set + Recall/MRR/nDCG harness with CI gate
+site/                         static site (GitHub Pages)
+  js/nlu.js                     16 intents, focus extraction, evidence routing
+  js/answer.js · summarize.js   MMR extractive summarisation, focus gate, relevance floor
+  js/compose.js                 reply framing + discourse markers + cleanup
+  js/confidence.js              5-signal derived confidence
+  js/graph.js · graphvalue.js   knowledge galaxy + "what the graph contributed"
+  js/health.js · rings.js       knowledge health with formulas
+  js/brand.js                   every reader-facing string, in one object
+tests/                        pytest suite + browser integration test
+.github/workflows/
+  factory.yml                   scheduled source sync → commit
+  deploy.yml                    build + gates + Pages deploy (triggered by that commit)
+  ci.yml                        tests + build + integration + evaluation on PRs
 ```
 
 ---
 
-## Demo script for client calls
+# Design decisions worth explaining
 
-The first 30 seconds decide whether the room sees a chatbot or a platform. Open on the **Knowledge Galaxy**, not chat.
+**Why a Factory at all.** The Fabric is deterministic: same files in, same index
+out. That is what makes the quality gates meaningful and the site reproducible.
+Something still has to fetch the files — and fetching is where things fail
+(a site down, a feed empty, an API rate-limited). Isolating acquisition means a
+failed source leaves last week's data in place and records the failure in the
+manifest, instead of shipping a half-empty fabric.
 
-**Minute 1 — The "wow" landing.**
-Open the live URL. Point at the **Command Center tiles**: Documents · Entities · Relationships · Knowledge Units · Domains. The animated graph drifts behind. *"This is not a chatbot. This is mission control for every Nova Biomedical meter manual."*
+**Why the Factory commits its output.** Because the build must not depend on the
+network. Every Pages deploy, every CI run and every local checkout sees exactly
+the knowledge that was reviewed in a commit. The manifest makes staleness visible
+on the site itself.
 
-**Minute 2 — Ask Knowledge Fabric.**
-Click the suggested chip **"How do I run a quality control test?"** Three things happen at once: the AI Copilot returns a grounded answer with `[N]` citation refs, the Galaxy lights up the activated entities (QC, control solution, linearity) in green and their neighbors in blue, and the Source Lineage panel populates with the **Document → Page → Section → Paragraph** tree pointing straight into the Instructions for Use manual. Confidence, sources, relationships, and graph paths metrics flash in the header.
+**Why verbalise structured records.** A YAML block `{organization: Qualizeal,
+start: 2026-01}` is invisible to retrieval. The sentence "Prashobh Paul has
+worked at Qualizeal as AI Architect since January 2026" is retrievable by the
+same BM25 and LSA that serve the resume PDF, and still carries its typed facets
+for filtering and graph construction.
 
-**Minute 3 — Click "Explain Answer."**
-The full-screen reasoning overlay opens, showing the five-step pipeline: Question → Retrieved Documents (with BM25 scores) → Graph Traversal (activated entities) → Final Context (cited passages) → Answer. *"Every clinical instruction our AI surfaces is traceable back to the exact page of the official manual."*
+**Why LSA and not a transformer.** A sentence-transformer means a model download
+at build time and a 20 MB+ payload in the browser, which breaks the zero-cost
+static constraint. Truncated SVD over TF-IDF ships as 0.4 MB of int8 vectors and
+closes the vocabulary gap this corpus actually has ("hospital records" vs "EMR /
+HL7 clinical data"). The eval harness exists so a transformer can be compared
+against it honestly later.
 
-**Minute 4 — Click an entity in the Galaxy.**
-Click **StatSensor Creatinine Meter** or **Linearity**. The premium entity card slides up: Purpose, Dependencies (related concepts), Appears In (documents), Evidence (cited chunks). *"This is how a clinician or field engineer explores the documentation when investigating a procedure."*
+**Why the focus gate and relevance floor.** A personal corpus is small, so weak
+sentences that share a word with the question are always available to pad an
+answer. A two-sentence answer that is right beats a five-sentence answer that
+drifts; and a question that names Tech Mahindra must never be answered from the
+Yash Technologies record, however well the words match.
 
-**Minute 5 — Insights Dashboard.**
-Switch the Insights panel through **Heatmap → Word Cloud → Timeline**. Heatmap shows knowledge density per document so you can see which manual carries the most coverage. Cloud highlights the most-cited concepts — click any word to refocus the Galaxy. Timeline shows the corpus growing as manuals are added.
-
-Close with: *"This is a Knowledge Fabric for Nova Biomedical's device documentation. The chatbot is just one window into it."*
+**Why the site assistant's Q&A is harvested.** The personal site ships a
+deterministic chatbot whose answers were hand-written by the subject. That is
+first-party curated knowledge — the highest-quality text on the site — sitting
+inside a `<script>` tag where no search engine reads it. The Factory lifts it
+out, drops guardrail and small-talk entries, and tags the rest as *about* the
+person or an *explainer* in their own words.
 
 ---
 
-## License
+# Roadmap
+
+- **Transcripts.** YouTube captions as a sixth record type, so the fabric can answer *what was said* in a video, not only what it is about.
+- **LinkedIn posts and articles** as a connector (export-based, since there is no public API).
+- **Transformer re-ranker** evaluated against the LSA baseline using the existing harness.
+- **Temporal reasoning** over the career timeline ("what was he doing in 2019?") using the typed `start`/`end` facets.
+
+---
+
+# License
 
 MIT

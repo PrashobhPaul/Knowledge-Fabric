@@ -1,0 +1,222 @@
+{
+  "base_url": "https://www.prashobhpaul.com/",
+  "pages": [
+    {
+      "url": "https://www.prashobhpaul.com/index.html",
+      "title": "Prashobh Paul – AI Architect & Consultant",
+      "description": "",
+      "sections": [
+        {
+          "heading_path": [
+            "Prashobh Paul"
+          ],
+          "anchor": "hero",
+          "url": "https://www.prashobhpaul.com/index.html#hero",
+          "paragraphs": [
+            "Consulting · Corporate Trainings · Interview Prep · Enterprise AI",
+            "Helping businesses and individuals harness AI — from enterprise GenAI strategy and agentic system design to corporate AI trainings and career-focused interview preparation."
+          ]
+        },
+        {
+          "heading_path": [
+            "Prashobh Paul",
+            "Your AI Partner for Growth"
+          ],
+          "anchor": "about",
+          "url": "https://www.prashobhpaul.com/index.html#about",
+          "paragraphs": [
+            "I'm an independent AI Solutions Leader with 11+ years of experience spanning Generative AI, NLP, robotics, and enterprise AI transformation. I architect agentic AI systems, lead multi-agent orchestration initiatives, and advise enterprises on AI strategy and governance.",
+            "My journey spans healthcare NLP, BFSI predictive analytics, autonomous robotics, and large-scale multi-agent orchestration — giving me a uniquely broad perspective on how AI can be applied strategically across industries.",
+            "📧 prashobhpaulnambadan@gmail.com"
+          ]
+        },
+        {
+          "heading_path": [
+            "Prashobh Paul",
+            "Your AI Partner for Growth",
+            "Agentic AI"
+          ],
+          "anchor": "about",
+          "url": "https://www.prashobhpaul.com/index.html#about",
+          "paragraphs": [
+            "Designing and deploying multi-agent orchestration systems at enterprise scale."
+          ]
+        },
+        {
+          "heading_path": [
+            "Prashobh Paul",
+            "Your AI Partner for Growth",
+            "Architecture"
+          ],
+          "anchor": "about",
+          "url": "https://www.prashobhpaul.com/index.html#about",
+          "paragraphs": [
+            "End-to-end GenAI platform design with governance, scalability, and security."
+          ]
+        },
+        {
+          "heading_path": [
+            "Prashobh Paul",
+            "Your AI Partner for Growth",
+            "NLP & LLMs"
+          ],
+          "anchor": "about",
+          "url": "https://www.prashobhpaul.com/index.html#about",
+          "paragraphs": [
+            "11 years of NLP expertise from clinical text mining to large language models."
+          ]
+        },
+        {
+          "heading_path": [
+            "Prashobh Paul",
+            "Your AI Partner for Growth",
+            "Training & Prep"
+          ],
+          "anchor": "about",
+          "url": "https://www.prashobhpaul.com/index.html#about",
+          "paragraphs": [
+            "Corporate AI training programs and personalized interview preparation for tech roles."
+          ]
+        },
+        {
+          "heading_path": [
+            "Prashobh Paul",
+            "Professional Experience"
+          ],
+          "anchor": "experience",
+          "url": "https://www.prashobhpaul.com/index.html#experience",
+          "paragraphs": [
+            "Leading and delivering Agentic AI enterprise initiatives from the AI Think Tank / Center of Excellence.",
+            "Designing and implementing multi-agent systems using LangGraph, CrewAI, and AutoGen.",
+            "Driving AI architecture strategy, governance, and scalable GenAI adoption across enterprise programs.",
+            "Led Generative AI and Agentic AI enterprise implementations at scale.",
+            "Designed multi-agent orchestration frameworks for customer insights and digital reporting.",
+            "Mentored global AI teams and advised stakeholders on AI strategy.",
+            "Built fraud detection, loan eligibility, and credit scoring models for BFSI clients.",
+            "Developed predictive analytics frameworks for risk and portfolio management.",
+            "Led AI robotics initiatives including autonomous navigation and object detection systems.",
+            "Built NLP pipelines for EMR systems (Epic, Meditech) and HL7 clinical data.",
+            "Developed predictive healthcare analytics models.",
+            "Built AI-driven customer analytics and NLP models for enterprise clients including Amex."
+          ]
+        },
+        {
+          "heading_path": [
+            "Prashobh Paul",
+            "Education"
+          ],
+          "anchor": "education",
+          "url": "https://www.prashobhpaul.com/index.html#education",
+          "paragraphs": [
+            "A strong academic foundation in AI, knowledge engineering, and computer science."
+          ]
+        },
+        {
+          "heading_path": [
+            "Prashobh Paul",
+            "Get in Touch"
+          ],
+          "anchor": "contact",
+          "url": "https://www.prashobhpaul.com/index.html#contact",
+          "paragraphs": [
+            "Available for AI consulting, corporate training programs, interview preparation, and IT advisory services. Let's build something great together."
+          ]
+        }
+      ]
+    },
+    {
+      "url": "https://www.prashobhpaul.com/works.html",
+      "title": "Works & Projects – Prashobh Paul",
+      "description": "Projects built by Prashobh Paul — apps and tools you can open and try yourself.",
+      "sections": [
+        {
+          "heading_path": [
+            "Works & Projects"
+          ],
+          "anchor": "",
+          "url": "https://www.prashobhpaul.com/works.html",
+          "paragraphs": [
+            "A few things I’ve built — some to solve real problems around me, some simply for the love of building. Open any of them and try it for yourself."
+          ]
+        },
+        {
+          "heading_path": [
+            "Works & Projects",
+            "RVonWheelz"
+          ],
+          "anchor": "",
+          "url": "https://www.prashobhpaul.com/works.html",
+          "paragraphs": [
+            "The very first thing I built for people other than myself. I live in Raheja Vistas Elite, Nacharam , where the daily office commute was a shared headache — one that affected me too. So I built RVonWheelz to fix it: neighbours offer or book car and bike rides, chat with co-riders, and get realtime alerts for seat requests, approvals, and reminders. A small, non-profit solution to a very real, very local problem."
+          ]
+        },
+        {
+          "heading_path": [
+            "Works & Projects",
+            "Soccer.AI"
+          ],
+          "anchor": "",
+          "url": "https://www.prashobhpaul.com/works.html",
+          "paragraphs": [
+            "My most recent build — and the one I’m still actively tinkering with. It’s an AI companion for the 2026 World Cup: AI-written match stories, tournament simulations, and visual analytics, with a live Ballon d’Or prediction running right now. Built offline-first as a progressive web app, so it installs straight onto your phone like a native app."
+          ]
+        },
+        {
+          "heading_path": [
+            "Works & Projects",
+            "Invest.IQ"
+          ],
+          "anchor": "",
+          "url": "https://www.prashobhpaul.com/works.html",
+          "paragraphs": [
+            "This is where I pushed the AI the furthest. Invest.IQ leans on heavy analytics and an AI reasoning layer to turn a tiered universe of Indian equities into a single, opinionated, backtest-first shortlist across short, medium and long horizons. Quality scores, technicals, and news influence are all weighed — and explained — so you can see exactly why each pick ranks where it does. It’s a personal project and my playground for real-world applied AI. Educational only — not financial advice."
+          ]
+        },
+        {
+          "heading_path": [
+            "Works & Projects",
+            "Koode"
+          ],
+          "anchor": "",
+          "url": "https://www.prashobhpaul.com/works.html",
+          "paragraphs": [
+            "Built for the people who worry when you travel. Koode (Malayalam: “together / with you” ) lets family and friends know you’re okay without you having to call or text . It doesn’t track you — it watches the journey , rating its health as Normal, Attention or Concern, and gives loved ones a calm reassurance channel with live map, ETA and timeline. Private by design: invitation-only, and every trip self-destructs 30 minutes after you arrive. Fully open source and zero cost — OpenStreetMap for maps and Supabase for live sharing, no Google, no billing anywhere."
+          ]
+        },
+        {
+          "heading_path": [
+            "Works & Projects",
+            "Knowledge Fabric"
+          ],
+          "anchor": "",
+          "url": "https://www.prashobhpaul.com/works.html",
+          "paragraphs": [
+            "A demo I built to show what a real “knowledge fabric” looks like — the kind of explainable, citation-grounded AI a lot of teams are chasing right now. Every answer is traced back through document → page → section → paragraph, and a live knowledge graph shows exactly how it was derived. Fully static: no backend, no vector database, no API keys — just open it and watch the reasoning unfold."
+          ]
+        },
+        {
+          "heading_path": [
+            "Works & Projects",
+            "Pachaka Lokam"
+          ],
+          "anchor": "",
+          "url": "https://www.prashobhpaul.com/works.html",
+          "paragraphs": [
+            "My most personal project — a hobby I started simply to make life easier for my mom and my wife in the kitchen. It looks simple, but it’s quietly clever: a 100% offline South-Indian meal planner that suggests today’s meals from what’s actually in your kitchen, remembers festival menus, and tracks grocery and household reminders. No accounts, no cloud, no tracking."
+          ]
+        },
+        {
+          "heading_path": [
+            "Works & Projects",
+            "IPLBuzz"
+          ],
+          "anchor": "",
+          "url": "https://www.prashobhpaul.com/works.html",
+          "paragraphs": [
+            "One of my favorite sports side projects. I built IPLBuzz to keep the entire IPL 2026 season in one place — from points tables and squads to batting and bowling leaderboards. What started as a simple season tracker grew into a complete cricket analytics dashboard and a fun way to explore tournament data."
+          ]
+        }
+      ]
+    }
+  ]
+}

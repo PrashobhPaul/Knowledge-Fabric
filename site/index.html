@@ -1,33 +1,306 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#05070f" />
-  <title>Nova Biomedical · Knowledge Fabric Command Center</title>
-  <meta name="description" content="Nova Biomedical Knowledge Fabric — mission control for point-of-care meter documentation. Grounded answers from the Lactate Plus Xpress 2, StatSensor Creatinine, and StatStrip Lactate manuals with a live knowledge graph, source lineage, and insights dashboard." />
+  <meta name="theme-color" content="#0E1A45" />
+  <title>Prashobh Paul · Knowledge Fabric</title>
+  <meta name="description" content="Knowledge Fabric for Prashobh Paul — one citation-grounded answer surface over his resume, website, YouTube channel and GitHub repositories, with a live knowledge graph, source lineage and knowledge health." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles/main.css" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%234D7CFF'/%3E%3Ctext x='16' y='23' font-family='Arial,Helvetica,sans-serif' font-size='20' font-weight='700' text-anchor='middle' fill='white'%3EP%3C/text%3E%3C/svg%3E" />
   <script defer src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
 </head>
-<body>
-  <!-- ===== Command Center top bar ===== -->
-  <header class="cmd-bar">
-    <div class="cmd-brand">
-      <div class="cmd-logo">
-        <span class="cmd-logo-pulse"></span>
-      </div>
-      <div class="cmd-brand-text">
-        <span class="cmd-eyebrow">Nova Biomedical · Knowledge Fabric</span>
-        <span class="cmd-title">POC Meter Command Center</span>
-      </div>
+<body class="narrative">
+  <!-- ===== Aurora + grid background ===== -->
+  <div class="aurora-layer" aria-hidden="true">
+    <div class="aurora aurora-1"></div>
+    <div class="aurora aurora-2"></div>
+    <div class="aurora aurora-3"></div>
+    <div class="aurora aurora-4"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- ===== Scroll progress bar (sits at very top of viewport) ===== -->
+  <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress-fill" id="scroll-progress-fill"></div></div>
+
+  <!-- ===== Right-side section dots ===== -->
+  <nav class="section-nav" id="section-nav" aria-label="Page sections">
+    <button class="section-nav-dot is-current" data-target="hero" data-label="Hero"></button>
+    <button class="section-nav-dot" data-target="section-answer" data-label="Live Answer"></button>
+    <button class="section-nav-dot" data-target="section-explain" data-label="Explainability"></button>
+    <button class="section-nav-dot" data-target="section-health" data-label="Health"></button>
+    <button class="section-nav-dot" data-target="section-insights" data-label="Insights"></button>
+  </nav>
+
+  <!-- ===== Brand navbar ===== -->
+  <header class="qz-navbar">
+    <a class="qz-brand" data-brand-href="client" target="_blank" rel="noreferrer">
+      <!-- Subject name is a placeholder: no styling is keyed to its content, so a
+           different person inherits the identical lockup. -->
+      <span class="qz-client" data-brand="clientName">Prashobh Paul</span>
+    </a>
+    <span class="qz-divider" aria-hidden="true"></span>
+    <div class="qz-context">
+      <span class="qz-product" data-brand="productName">Knowledge Fabric</span>
+      <span class="qz-demoby">
+        <span data-brand="demoBy">Built by Prashobh Paul</span>
+        <small data-brand="demoByUnit">Knowledge Factory + Knowledge Fabric</small>
+      </span>
+    </div>
+    <nav class="qz-nav">
+      <a href="#hero" class="nav-scroll">Galaxy</a>
+      <a href="#section-answer" class="nav-scroll">Answer</a>
+      <a href="#section-explain" class="nav-scroll">Why</a>
+      <a href="#section-health" class="nav-scroll">Health</a>
+      <a href="#section-insights" class="nav-scroll">Insights</a>
+      <a class="qz-cta" href="https://www.prashobhpaul.com" target="_blank" rel="noreferrer">Visit prashobhpaul.com</a>
+    </nav>
+  </header>
+
+  <!-- ===== Sticky ask bar — appears after user scrolls past the hero ===== -->
+  <div class="sticky-ask" id="sticky-ask" hidden>
+    <div class="sticky-ask-inner">
+      <span class="sticky-ask-label">Ask Knowledge Fabric</span>
+      <form class="sticky-ask-form" id="sticky-ask-form">
+        <input id="sticky-ask-input" type="text" placeholder="Ask about his work, projects, skills, education, or travel videos…" autocomplete="off" spellcheck="false" />
+        <button type="submit" class="sticky-ask-submit">
+          <span>Ask</span>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       SECTION 1 — HERO  (galaxy + ask box, that's it)
+       ============================================================ -->
+  <section class="story-section hero-section" id="hero">
+    <div class="hero-overlay">
+      <h1 class="hero-title">Everything about Prashobh,<br/><em>traced to its source.</em></h1>
+      <p class="hero-sub">The resume, the website, the YouTube channel and the GitHub repositories already hold the answers. Knowledge Fabric finds them, links them across sources, shows exactly where each one came from, and tells you how certain it is.</p>
+
+      <form class="hero-composer" id="composer-form">
+        <input id="composer-input" type="text" placeholder="Ask anything about Prashobh Paul…" autocomplete="off" spellcheck="false" />
+        <button type="submit" id="composer-submit">
+          <span>Ask</span>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+      </form>
+
+      <div class="hero-suggestions" id="suggestions"></div>
     </div>
 
-    <nav class="cmd-tiles" id="cmd-tiles">
+    <div class="hero-scroll-cue">
+      <span>Scroll to explore</span>
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+    </div>
+
+    <div id="galaxy" class="hero-galaxy"></div>
+
+    <!-- Galaxy detail card (entity / chunk) — overlay -->
+    <div class="galaxy-detail" id="galaxy-detail" hidden>
+      <button class="detail-close" id="galaxy-detail-close" aria-label="Close">×</button>
+      <div id="galaxy-detail-body"></div>
+    </div>
+
+    <!-- Inline status overlay -->
+    <!-- One chip, two states. At rest it states what the graph IS; while an
+         answer is live it states what the graph DID. Same position, same
+         styling — the reader watches one element change rather than hunting
+         across two panels. -->
+    <div class="hero-status" id="galaxy-status-wrap" data-state="idle">
+      <span class="hero-status-text" id="galaxy-status">indexing…</span>
+      <span class="retrieval-badge" id="retrieval-mode-badge" data-mode="lexical" title="Retrieval mode">lexical · bm25</span>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 2 — LIVE ANSWER (the answer + citations + confidence)
+       Populated dynamically when user asks
+       ============================================================ -->
+  <section class="story-section answer-section" id="section-answer">
+    <div class="story-head">
+      <span class="story-eyebrow">Section 02 · Live Answer</span>
+      <h2 class="story-title">Citation-grounded answers — verbatim, never paraphrased.</h2>
+      <p class="story-sub">Every sentence in every answer ties back to a specific record: a resume paragraph, a website section, a video, a repository. Zero LLM rewriting. Click any <span class="cite-inline-demo">[citation]</span> to inspect the source.</p>
+    </div>
+
+    <div class="answer-stage" id="answer-stage">
+      <div class="answer-stage-empty" id="answer-stage-empty">
+        <div class="answer-empty-icon">
+          <div class="copilot-orb"></div>
+        </div>
+        <p class="answer-empty-hint">Ask a question above to populate this section</p>
+        <div class="answer-empty-preview">
+          <div class="answer-preview-q">Example question</div>
+          <div class="answer-preview-a">— your answer will appear here with inline citations, source documents, and confidence —</div>
+        </div>
+      </div>
+
+      <div class="answer-stage-live" id="answer-stage-live" hidden>
+        <div class="answer-q-card">
+          <span class="answer-q-eyebrow">Your question</span>
+          <div class="answer-q-text" id="answer-stage-question">—</div>
+        </div>
+
+        <div class="answer-a-card">
+          <span class="answer-a-eyebrow">Knowledge Fabric Answer</span>
+          <div class="answer-a-text" id="answer-stage-text">—</div>
+          <p class="answer-assurance" data-brand="answerAssurance"></p>
+          <div class="answer-a-meta">
+            <span class="answer-meta-item answer-meta-conf">
+              <span class="meta-k">Confidence</span>
+              <span class="meta-bar"><span class="meta-bar-fill" id="answer-stage-conf-fill"></span></span>
+              <span class="meta-v" id="answer-stage-conf-val">—</span>
+            </span>
+            <span class="answer-meta-item">
+              <span class="meta-k">Sources</span>
+              <span class="meta-v meta-v-amber" id="answer-stage-sources">—</span>
+            </span>
+            <span class="answer-meta-item">
+              <span class="meta-k">Graph paths</span>
+              <span class="meta-v meta-v-blue" id="answer-stage-paths">—</span>
+            </span>
+            <span class="meta-item meta-item-action">
+              <button class="why-btn" id="confidence-why-toggle" type="button"
+                      aria-expanded="false" aria-controls="confidence-why">
+                Why this confidence?
+              </button>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 3 — EXPLAINABILITY (source lineage + why)
+       ============================================================ -->
+  <div class="derivation-panel derivation-panel-inline" id="confidence-why" hidden></div>
+
+  <!-- What the graph contributed to THIS answer -->
+  <div class="graph-value-wrap" id="graph-value-wrap" hidden></div>
+
+  <section class="story-section explain-section" id="section-explain">
+    <div class="story-head">
+      <span class="story-eyebrow">Section 03 · Explainability</span>
+      <h2 class="story-title">Every answer is a traceable chain.</h2>
+      <p class="story-sub">From the question, through retrieved records, through the knowledge graph that joins resume to website to YouTube to GitHub, to each cited sentence. No black box.</p>
+    </div>
+
+    <div class="explain-stage">
+      <!-- Left: lineage tree -->
+      <div class="explain-panel lineage-panel">
+        <header class="explain-panel-head">
+          <span class="explain-panel-eyebrow">Source Lineage</span>
+          <button class="ghost-btn" id="explain-btn" hidden>
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            Show reasoning trace
+          </button>
+        </header>
+        <div class="lineage-body" id="lineage-body">
+          <div class="lineage-demo" id="lineage-demo">
+            <div class="lineage-demo-hint">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg>
+              <span>Preview shown below — ask a question to populate with your live answer's lineage:</span>
+            </div>
+            <div class="lineage-demo-stats" id="lineage-demo-stats"></div>
+            <div class="lineage-demo-card">
+              <div class="lineage-demo-breadcrumb" id="lineage-demo-breadcrumb"></div>
+              <div class="lineage-demo-excerpt" id="lineage-demo-excerpt"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: trust pillars -->
+      <div class="explain-panel pillars-panel">
+        <header class="explain-panel-head">
+          <span class="explain-panel-eyebrow">Trust Pillars</span>
+        </header>
+        <div class="pillars-list">
+          <div class="pillar">
+            <span class="pillar-num">01</span>
+            <div class="pillar-body">
+              <div class="pillar-title">Verbatim citation</div>
+              <div class="pillar-sub">Every sentence pulled directly from a source paragraph — no paraphrasing layer.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-num">02</span>
+            <div class="pillar-body">
+              <div class="pillar-title">Source → record → section → sentence</div>
+              <div class="pillar-sub">Every claim links back to the resume page, website section, video or repository it came from.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-num">03</span>
+            <div class="pillar-body">
+              <div class="pillar-title">Cross-source graph traversal</div>
+              <div class="pillar-sub">Organisations, projects, skills and places that appear in more than one source are the joins; they light up on every answer.</div>
+            </div>
+          </div>
+          <div class="pillar">
+            <span class="pillar-num">04</span>
+            <div class="pillar-body">
+              <div class="pillar-title">Honest "I don't know"</div>
+              <div class="pillar-sub">Low retrieval signal returns an explicit non-answer rather than a fabricated one.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 4 — KNOWLEDGE HEALTH (the executive WHY-IT-MATTERS)
+       ============================================================ -->
+  <section class="story-section health-section" id="section-health">
+    <div class="story-head">
+      <span class="story-eyebrow">Section 04 · Knowledge Health</span>
+      <h2 class="story-title">How complete is the picture?</h2>
+      <p class="story-sub">Knowledge that sits in a single source, that nobody can date, or that no other source corroborates is a gap you cannot see by reading a resume. Knowledge Fabric measures that gap directly from the sources — and says which one to close first.</p>
+      <div class="health-verdict" id="health-verdict"></div>
+    </div>
+
+    <div class="health-stage">
+      <!-- Big composite score on left -->
+      <div class="health-score-card">
+        <span class="health-score-eyebrow">Overall readiness</span>
+        <div class="health-rings-host" id="health-rings"></div>
+      </div>
+
+      <!-- Risk cards on right -->
+      <div class="health-risk-grid" id="risk-body"></div>
+
+      <div class="health-derive-wrap">
+        <button class="why-btn why-btn-wide" id="health-why-toggle" type="button"
+                aria-expanded="false" aria-controls="health-derivation">
+          How are these measured?
+        </button>
+        <div class="derivation-panel" id="health-derivation" hidden></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SECTION 5 — INSIGHTS (the analytical detail, way down)
+       ============================================================ -->
+  <section class="story-section insights-section" id="section-insights">
+    <div class="story-head">
+      <span class="story-eyebrow">Section 05 · Insights</span>
+      <h2 class="story-title">The corpus at a glance.</h2>
+      <p class="story-sub">Which sources the Knowledge Factory synced and when, knowledge density per record, dominant concepts, and the graph footprint.</p>
+      <div class="source-strip" id="source-strip"></div>
+    </div>
+
+    <!-- Stat strip moved from the old command bar -->
+    <nav class="insights-stats" id="cmd-tiles">
       <div class="tile" data-key="documents">
         <span class="tile-label">Documents</span>
         <span class="tile-value" id="tile-documents">—</span>
@@ -36,7 +309,7 @@
       <div class="tile" data-key="entities">
         <span class="tile-label">Entities</span>
         <span class="tile-value" id="tile-entities">—</span>
-        <span class="tile-delta">meters · tests · concepts</span>
+        <span class="tile-delta">orgs · projects · places</span>
       </div>
       <div class="tile" data-key="relationships">
         <span class="tile-label">Relationships</span>
@@ -49,118 +322,17 @@
         <span class="tile-delta">cited passages</span>
       </div>
       <div class="tile" data-key="domains">
-        <span class="tile-label">Domains</span>
+        <span class="tile-label">Sources</span>
         <span class="tile-value" id="tile-domains">—</span>
-        <span class="tile-delta">knowledge clusters</span>
+        <span class="tile-delta">source systems</span>
       </div>
     </nav>
 
-    <div class="cmd-status">
-      <span class="status-dot"></span>
-      <span class="status-text">LIVE</span>
-    </div>
-  </header>
-
-  <!-- ===== 4-pane grid ===== -->
-  <main class="grid">
-
-    <!-- ===== Pane 1 :: Knowledge Galaxy ===== -->
-    <section class="pane pane-galaxy">
-      <header class="pane-head">
-        <div>
-          <h2>Knowledge Galaxy</h2>
-          <p class="pane-sub" id="galaxy-status">Interactive knowledge universe</p>
-        </div>
-        <div class="legend">
-          <span class="lg-item"><span class="lg-dot lg-active"></span>activated</span>
-          <span class="lg-item"><span class="lg-dot lg-related"></span>neighbor</span>
-          <span class="lg-item"><span class="lg-dot lg-base"></span>universe</span>
-        </div>
-      </header>
-      <div id="galaxy" class="galaxy-canvas"></div>
-
-      <!-- Floating "Ask Knowledge Fabric" entry sits over the galaxy on mobile -->
-      <div class="ask-launcher" id="ask-launcher" hidden>
-        <button id="ask-launcher-btn">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.4 8.4 0 0 1 3.8-.9h.5a8.5 8.5 0 0 1 8 8z"/></svg>
-          Ask Knowledge Fabric
-        </button>
-      </div>
-
-      <!-- Galaxy detail card (entity / chunk) -->
-      <div class="galaxy-detail" id="galaxy-detail" hidden>
-        <button class="detail-close" id="galaxy-detail-close" aria-label="Close">×</button>
-        <div id="galaxy-detail-body"></div>
-      </div>
-    </section>
-
-    <!-- ===== Pane 2 :: AI Copilot ===== -->
-    <section class="pane pane-copilot">
-      <header class="pane-head">
-        <div>
-          <h2>AI Copilot</h2>
-          <p class="pane-sub">Citation-grounded answers from the Nova Biomedical meter manuals</p>
-        </div>
-        <div class="copilot-metrics" id="copilot-metrics" hidden>
-          <span class="metric"><span class="m-k">conf</span><span class="m-v" id="m-conf">—</span></span>
-          <span class="metric"><span class="m-k">sources</span><span class="m-v" id="m-sources">—</span></span>
-          <span class="metric"><span class="m-k">rels</span><span class="m-v" id="m-rels">—</span></span>
-          <span class="metric"><span class="m-k">paths</span><span class="m-v" id="m-paths">—</span></span>
-        </div>
-      </header>
-
-      <div class="messages" id="messages">
-        <div class="copilot-empty">
-          <div class="copilot-orb"></div>
-          <p class="copilot-hint">Ask Knowledge Fabric</p>
-          <div class="suggestions" id="suggestions">
-            <button class="chip">What is the intended use of the StatSensor Creatinine meter?</button>
-            <button class="chip">How do I run a quality control test?</button>
-            <button class="chip">How do I clean and disinfect the meter?</button>
-            <button class="chip">How do I perform a linearity test?</button>
-          </div>
-        </div>
-      </div>
-
-      <form class="composer" id="composer-form">
-        <input id="composer-input" type="text" placeholder="Ask Knowledge Fabric…" autocomplete="off" spellcheck="false" />
-        <button type="submit" id="composer-submit">
-          <span>Ask</span>
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </button>
-      </form>
-    </section>
-
-    <!-- ===== Pane 3 :: Source Lineage ===== -->
-    <section class="pane pane-lineage">
-      <header class="pane-head">
-        <div>
-          <h2>Source Lineage</h2>
-          <p class="pane-sub" id="lineage-status">Answer → Document → Page → Paragraph</p>
-        </div>
-        <button class="ghost-btn" id="explain-btn" hidden>
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
-          Why did AI say this?
-        </button>
-      </header>
-      <div class="lineage-body" id="lineage-body">
-        <div class="lineage-empty">
-          <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          <p>Ask a question to see the full source lineage —<br/>document, page, section, and paragraph for every claim.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===== Pane 4 :: Insights ===== -->
-    <section class="pane pane-insights">
-      <header class="pane-head">
-        <div>
-          <h2>Insights Dashboard</h2>
-          <p class="pane-sub">Knowledge density, top concepts, and growth</p>
-        </div>
+    <div class="insights-stage">
+      <header class="insights-stage-head">
         <nav class="tabs" id="insight-tabs">
           <button class="tab is-active" data-tab="heatmap">Heatmap</button>
-          <button class="tab" data-tab="cloud">Cloud</button>
+          <button class="tab" data-tab="cloud">Concept cloud</button>
           <button class="tab" data-tab="timeline">Timeline</button>
         </nav>
       </header>
@@ -169,8 +341,18 @@
         <div class="insight-panel" data-panel="cloud" id="panel-cloud"></div>
         <div class="insight-panel" data-panel="timeline" id="panel-timeline"></div>
       </div>
-    </section>
-  </main>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Footer
+       ============================================================ -->
+  <footer class="story-footer">
+    <div class="footer-inner">
+      <span class="footer-brand" data-brand="footerBrand"></span>
+      <span class="footer-meta" id="footer-meta" data-brand="footerNote"></span>
+    </div>
+  </footer>
 
   <!-- ===== "Why did AI say this?" overlay ===== -->
   <div class="explain-overlay" id="explain-overlay" hidden>
@@ -186,7 +368,7 @@
     </div>
   </div>
 
-  <!-- ===== Templates ===== -->
+  <!-- ===== Templates (kept for compatibility with existing JS) ===== -->
   <template id="tpl-user-msg">
     <div class="msg msg-user"><div class="msg-bubble"></div></div>
   </template>
@@ -210,6 +392,142 @@
     </div>
   </template>
 
-  <script type="module" src="js/main.js"></script>
+  <!-- Hidden compatibility shim — keeps existing main.js code that targets these IDs from throwing. They are intentionally invisible in the narrative layout. -->
+  <div class="legacy-hidden" aria-hidden="true">
+    <div id="messages"></div>
+    <div id="copilot-metrics" hidden>
+      <span id="m-conf">—</span>
+      <span id="m-sources">—</span>
+      <span id="m-rels">—</span>
+      <span id="m-paths">—</span>
+    </div>
+    <div id="ask-launcher" hidden><button id="ask-launcher-btn"></button></div>
+    <div id="maturity-popover" hidden></div>
+    <button id="maturity-card" hidden></button>
+    <span id="maturity-value">—</span>
+    <span id="maturity-breakdown"></span>
+    <span id="risk-meta"></span>
+  </div>
+
+  <script type="module" src="js/main.js?v=12"></script>
+
+  <script>
+    // Smooth scroll for in-page nav links
+    document.querySelectorAll('a.nav-scroll').forEach(a => {
+      a.addEventListener('click', e => {
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if (!el) return;
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // Scroll progress bar + section-nav dot highlighting
+    (function () {
+      const fill = document.getElementById('scroll-progress-fill');
+      const dots = [...document.querySelectorAll('.section-nav-dot')];
+      const sections = dots.map(d => document.getElementById(d.dataset.target)).filter(Boolean);
+
+      // Click any dot to jump
+      dots.forEach(d => {
+        d.addEventListener('click', () => {
+          const el = document.getElementById(d.dataset.target);
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      function update() {
+        const docH = document.documentElement.scrollHeight - window.innerHeight;
+        const sy = window.scrollY;
+        if (fill) fill.style.width = `${Math.min(100, Math.max(0, (sy / Math.max(1, docH)) * 100))}%`;
+
+        // Find which section is most "in view" — closest to scroll position + 30% offset
+        const probe = sy + window.innerHeight * 0.3;
+        let currentIdx = 0;
+        for (let i = 0; i < sections.length; i++) {
+          const top = sections[i].offsetTop;
+          if (top <= probe) currentIdx = i;
+        }
+        dots.forEach((d, i) => d.classList.toggle('is-current', i === currentIdx));
+      }
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      update();
+    })();
+
+    // Sticky ask bar — slides in when user scrolls past the hero
+    (function () {
+      const sticky = document.getElementById('sticky-ask');
+      const hero = document.getElementById('hero');
+      if (!sticky || !hero) return;
+      const io = new IntersectionObserver(entries => {
+        for (const e of entries) {
+          // When hero ask box leaves the viewport, reveal sticky
+          if (e.target === hero) {
+            // hero is leaving (rootBounds top crossed)
+            const heroComposer = hero.querySelector('.hero-composer');
+            const r = heroComposer ? heroComposer.getBoundingClientRect() : { bottom: 9999 };
+            if (r.bottom < 60) {
+              sticky.hidden = false;
+              requestAnimationFrame(() => sticky.classList.add('is-visible'));
+            } else {
+              sticky.classList.remove('is-visible');
+              setTimeout(() => { if (!sticky.classList.contains('is-visible')) sticky.hidden = true; }, 280);
+            }
+          }
+        }
+      }, { threshold: [0, 0.1, 0.5, 1] });
+      io.observe(hero);
+      // Backup: pure scroll check
+      window.addEventListener('scroll', () => {
+        const heroComposer = hero.querySelector('.hero-composer');
+        if (!heroComposer) return;
+        const r = heroComposer.getBoundingClientRect();
+        if (r.bottom < 60) {
+          sticky.hidden = false;
+          sticky.classList.add('is-visible');
+        } else {
+          sticky.classList.remove('is-visible');
+        }
+      }, { passive: true });
+
+      // Forward sticky form submissions through the hero composer (which
+      // already wires into the ask() function via main.js). Lock sticky form
+      // during the ask so the user can't double-submit, and visually show
+      // working state.
+      const form = document.getElementById('sticky-ask-form');
+      const input = document.getElementById('sticky-ask-input');
+      const submit = form ? form.querySelector('button[type="submit"]') : null;
+      const heroForm = document.getElementById('composer-form');
+      const heroInput = document.getElementById('composer-input');
+      if (form && heroForm && heroInput && input) {
+        form.addEventListener('submit', async e => {
+          e.preventDefault();
+          const q = input.value.trim();
+          if (!q) return;
+          if (submit) { submit.disabled = true; submit.classList.add('is-working'); }
+          input.disabled = true;
+          heroInput.value = q;
+          input.value = '';
+          // Use requestSubmit so the native submit listener fires properly
+          if (typeof heroForm.requestSubmit === 'function') heroForm.requestSubmit();
+          else heroForm.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+          // Wait until the hero submit button re-enables, then re-enable ours
+          const ready = () => {
+            const heroSubmit = document.getElementById('composer-submit');
+            if (heroSubmit && !heroSubmit.disabled) {
+              input.disabled = false;
+              if (submit) { submit.disabled = false; submit.classList.remove('is-working'); }
+              input.focus();
+            } else {
+              setTimeout(ready, 80);
+            }
+          };
+          setTimeout(ready, 100);
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

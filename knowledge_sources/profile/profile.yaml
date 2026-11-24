@@ -1,0 +1,247 @@
+# =============================================================================
+# Structured profile — the hand-curated, typed facts about the person.
+# =============================================================================
+#
+# This is the personal-knowledge analogue of a structured records feed: every
+# entry here becomes one atomic, verbalised KnowledgeRecord with typed facets,
+# and seeds the typed knowledge graph (Organization, Role, Skill, Project, …).
+#
+# Provenance matters. Each top-level block states where its facts came from so
+# the Fabric can report it. When the resume and the website disagree (years of
+# experience: 11+ on both; the chatbot says 13+), the resume wins.
+#
+# Review before publishing: the `engagements` block names client programmes.
+
+as_of: "2026-11-24"
+
+person:
+  name: Prashobh Paul
+  short_name: Prashobh
+  headline: AI Architect | Generative AI | Enterprise AI Transformation
+  tagline: "AI Consultant · Trainer · Architect"
+  location: Hyderabad, India
+  years_experience: "11+"
+  summary: >-
+    AI Solutions Leader with 11+ years of experience spanning Generative AI,
+    Natural Language Processing, Robotics, and Enterprise AI Transformation.
+    Proven track record in building scalable AI platforms, multi-agent
+    orchestration frameworks, predictive analytics systems, and enterprise AI
+    governance models. Adept at leading cross-functional teams, mentoring global
+    AI talent, and driving strategic AI adoption across Fortune 500 enterprises.
+  about: >-
+    Independent AI Solutions Leader whose journey spans healthcare NLP, BFSI
+    predictive analytics, autonomous robotics, and large-scale multi-agent
+    orchestration — giving a uniquely broad perspective on how AI can be applied
+    strategically across industries. Architects agentic AI systems, leads
+    multi-agent orchestration initiatives, and advises enterprises on AI
+    strategy and governance.
+  working_style: >-
+    Architect and hands-on builder in one: designs the architecture, then
+    writes the implementation. Values clean system design and efficient
+    execution over over-engineering, and balances speed of delivery against
+    long-term scalability, maintainability and production constraints
+    (latency, cost, observability, governance).
+  source: ["resume", "website"]
+
+links:
+  - { label: Website,  url: "https://www.prashobhpaul.com",                              kind: website }
+  - { label: Works & Projects, url: "https://www.prashobhpaul.com/works.html",          kind: website }
+  - { label: Resume (PDF), url: "https://prashobhpaul.github.io/Digital_Card/Prashobh_Paul_Resume.pdf", kind: resume }
+  - { label: LinkedIn, url: "https://www.linkedin.com/in/prashobh-paul-00715578/",       kind: linkedin }
+  - { label: GitHub,   url: "https://github.com/PrashobhPaul",                           kind: github }
+  - { label: YouTube — The Canvas of Earth, url: "https://www.youtube.com/@TheCanvasOfEarth", kind: youtube }
+  - { label: Schedule a call, url: "https://calendly.com/prashobhpaulnambadan",          kind: calendar }
+
+# ----------------------------------------------------------------------------- career
+experience:
+  - organization: Qualizeal
+    role: AI Architect
+    unit: AI Center of Excellence (AI-CoE) / AI Think Tank
+    start: 2026-01
+    end: null
+    location: Hyderabad, India
+    domains: [Enterprise AI, Agentic AI, AI Testing]
+    highlights:
+      - Spearheading Agentic AI enterprise initiatives, designing and implementing production-grade multi-agent systems using modern agent frameworks (LangGraph, CrewAI, AutoGen).
+      - Driving AI architecture strategy, governance frameworks, and scalable Generative AI adoption across enterprise programs.
+      - Leading the AI CoE roadmap, defining best practices for GenAI integration, prompt engineering, and RAG pipelines.
+      - Leading and contributing hands-on to AI initiatives across internal platforms and client solutions, spanning architecture, development and implementation.
+    source: ["resume", "website"]
+
+  - organization: Tech Mahindra
+    role: Technical Architect, Data Science
+    start: 2023-06
+    end: 2026-01
+    location: Hyderabad, India
+    domains: [Telecom, BFSI, Generative AI]
+    highlights:
+      - Led Generative AI and Agentic AI enterprise implementations for telecom and BFSI clients, driving measurable business outcomes.
+      - Designed multi-agent orchestration frameworks for customer insights, digital reporting, and automated decision-making workflows.
+      - Mentored global AI teams across 3 geographies and advised C-level stakeholders on AI strategy and roadmap.
+      - Led GenAI initiatives with LLM-based conversational systems for global clients and managed production deployments.
+    source: ["resume"]
+
+  - organization: Yash Technologies
+    role: Senior Data Scientist
+    start: 2022-08
+    end: 2023-06
+    location: Hyderabad, India
+    domains: [BFSI, Risk Analytics]
+    highlights:
+      - Built fraud detection, loan eligibility, and credit scoring ML models for BFSI clients, improving risk prediction accuracy by 25%+.
+      - Developed predictive analytics frameworks for portfolio management and risk assessment.
+      - Built topic modeling and semantic search tools with transformer-based embeddings and knowledge graph models for enterprise knowledge management.
+    source: ["resume"]
+
+  - organization: Brane Enterprises
+    role: Associate Solutions Leader
+    alt_titles: ["Lead Data Scientist – Robotics & AI Lab"]
+    start: 2021-04
+    end: 2022-08
+    location: Hyderabad, India
+    domains: [Robotics, Computer Vision]
+    highlights:
+      - Led AI-powered robotics initiatives including autonomous navigation, SLAM, and real-time object detection systems.
+      - Architected end-to-end computer vision pipelines for industrial automation use cases.
+      - Engineered GAIT control and detection systems for quadrupedal robots, with simulation-to-physical integration using ROS and PyBullet.
+    source: ["resume"]
+
+  - organization: Primera Medical Technologies
+    role: Senior NLP Engineer
+    start: 2017-04
+    end: 2021-03
+    location: Hyderabad, India
+    domains: [Healthcare, Clinical NLP]
+    highlights:
+      - Built NLP pipelines for EMR systems (Epic, Meditech) processing HL7/FHIR clinical data at scale.
+      - Developed predictive healthcare analytics models for patient outcome prediction and clinical decision support.
+      - Developed clinical NLP systems for 60+ US hospitals, including a real-time medical note reader and OCR tools for EOB and diagnostic insights.
+    source: ["resume"]
+
+  - organization: Tata Consultancy Services
+    short_name: TCS
+    role: AI & Robotics Engineer
+    unit: AI & Robotics Labs (DESS Wing)
+    start: 2015-02
+    end: 2017-03
+    location: Cochin, India
+    domains: [Enterprise Analytics, Robotics]
+    highlights:
+      - Built AI-driven customer analytics and NLP models for enterprise clients including American Express.
+      - Developed sentiment analysis and text classification models processing millions of customer interactions.
+      - Created RNN-based control models for intelligent robotic platforms and deployed NLP models for document classification.
+    source: ["resume"]
+
+# ----------------------------------------------------------------------------- current engagements (self-reported; review before publishing)
+engagements:
+  - name: ValidAIte
+    kind: internal platform
+    organization: Qualizeal
+    description: An AI-system testing platform built within the Qualizeal AI Center of Excellence for validating AI and GenAI systems.
+    source: ["self-reported"]
+  - name: QMentisAI
+    kind: internal platform
+    organization: Qualizeal
+    description: An AI testing and quality-engineering platform developed at the Qualizeal AI Center of Excellence.
+    source: ["self-reported"]
+  - name: Agentic AI for the SDLC
+    kind: client solution
+    organization: Qualizeal
+    client: Southwest Airlines
+    technologies: [Kiro, Agentic AI]
+    description: Agentic AI systems for the software development life cycle built with Kiro for Southwest Airlines.
+    source: ["self-reported"]
+  - name: Agentic AI for the STLC
+    kind: client solution
+    organization: Qualizeal
+    client: PwC
+    technologies: [Microsoft Agent Framework, .NET, Agentic AI]
+    description: Agentic AI solutions for the software testing life cycle built with the Microsoft Agent Framework and .NET for PwC.
+    source: ["self-reported"]
+
+# ----------------------------------------------------------------------------- education
+education:
+  - degree: M.Tech in Knowledge Engineering (AI Specialization)
+    institution: SRM University
+    location: Chennai, India
+    start: 2012
+    end: 2014
+    grade: "88%"
+    source: ["resume", "website"]
+  - degree: B.Tech in Computer Science & Engineering
+    institution: JNTU Hyderabad
+    college: Christu Jyothi Institute of Technology & Science
+    location: Jangaon, Telangana, India
+    start: 2008
+    end: 2012
+    source: ["resume", "website"]
+
+# ----------------------------------------------------------------------------- skills
+skills:
+  - group: Generative AI & Agents
+    items: [LangGraph, CrewAI, AutoGen, Agentic AI, Multi-Agent Systems, RAG, LangChain, LLM Fine-tuning, Prompt Engineering, Microsoft Agent Framework, Kiro]
+  - group: NLP & Machine Learning
+    items: [NLP, Transformers, Predictive Modeling, Computer Vision, Object Detection, Clinical NLP, HL7 / FHIR, OCR, Sentiment Analysis]
+  - group: Architecture & Cloud
+    items: [Solution Architecture, AI Governance, AWS, GCP, AWS SageMaker, GCP Vertex AI, Microservices, MLOps, AI Strategy, Docker, Kubernetes]
+  - group: Programming & Frameworks
+    items: [Python, TensorFlow, PyTorch, Hugging Face, FastAPI, Streamlit, Flask, .NET, TypeScript, React, Kotlin]
+  - group: Data & Storage
+    items: [SQL, MongoDB, Neo4j, Supabase]
+  - group: Domain Knowledge
+    items: [BFSI Analytics, Healthcare AI, Fraud Detection, Credit Scoring, Risk Modeling, EMR Systems, Telecom]
+  - group: Robotics & Automation
+    items: [Autonomous Navigation, ROS, Robotics AI, Sensor Fusion, Edge AI, SLAM, PyBullet]
+  - group: Leadership & Services
+    items: [Corporate Training, Interview Preparation, IT Consulting, Team Mentoring, AI Advisory, Program Delivery]
+  - group: LLM Platforms
+    items: [OpenAI, Claude, Gemini]
+skills_source: ["resume", "website"]
+
+# ----------------------------------------------------------------------------- services
+services:
+  - name: AI Consulting & Strategy
+    description: Enterprise GenAI strategy, architecture reviews and AI governance for organisations adopting AI.
+  - name: Agentic AI System Design
+    description: Design and hands-on delivery of multi-agent systems using LangGraph, CrewAI and AutoGen.
+  - name: GenAI Solution Development
+    description: End-to-end build of RAG pipelines, LLM-integrated workflows and conversational AI.
+  - name: Corporate Training & Workshops
+    description: 1-hour introductory AI talks, half-day and full-day GenAI / Agentic AI workshops, and custom corporate programmes.
+  - name: Interview Preparation & Coaching
+    description: Personalised preparation for AI, ML and Data Science roles — concepts, mock sessions, resume reviews and strategy; coaching for students and working professionals.
+  - name: IT Advisory
+    description: Technology advisory for teams and enterprises, remote-first and open to global collaboration.
+services_source: ["website"]
+
+# ----------------------------------------------------------------------------- key projects & innovations (career)
+career_projects:
+  - name: Enterprise GenAI Assistant
+    description: Built with LangChain and LLMs for support automation.
+  - name: Medical Note Reader
+    description: Real-time extraction for diagnostics, deployed across 60+ US hospitals.
+  - name: Quadrupedal Robot AI
+    description: ML-based GAIT tuning and object detection for a quadrupedal robot platform.
+  - name: Conversational Bot Framework
+    description: GenAI-powered modular chatbot framework for enterprise use.
+  - name: EHR Parser
+    description: Structured data extraction from HL7-encoded clinical streams.
+  - name: AI Ticket Classifier
+    description: Achieved a 300x reduction in ticket resolution time.
+career_projects_source: ["resume"]
+
+# ----------------------------------------------------------------------------- personal / creative
+personal:
+  youtube_channel: The Canvas of Earth
+  interests: [Travel, Art, Content Creation, Photography, Cricket, Football]
+  languages:
+    - { language: English,   proficiency: Full professional proficiency }
+    - { language: Hindi,     proficiency: Professional working proficiency }
+    - { language: Malayalam, proficiency: Professional working proficiency }
+    - { language: Telugu,    proficiency: Professional working proficiency }
+    - { language: Tamil,     proficiency: Professional working proficiency }
+  statement: >-
+    Outside of work, Prashobh enjoys art, travel and content creation, and
+    builds non-profit, social-impact mobile and web apps where the focus is
+    UI/UX, product design and real-world usability.
+  source: ["resume", "website", "youtube"]

@@ -24,20 +24,48 @@ jobs:
           pip install -r pipeline/requirements.txt
           pip install pytest
 
+      - name: Factory dry run (fetch nothing is written; proves the connectors still parse the live sources)
+        continue-on-error: true
+        run: python -m knowledge_factory.sync --dry-run --only website,youtube
+
       - name: Run pipeline tests
         run: pytest tests/ -v
 
-      - name: Build index (dry run)
-        run: python -m pipeline.build_index --source docs_source --out /tmp/index.json
+      - name: Build fabric
+        run: |
+          python -m pipeline.build_index \
+            --source docs_source \
+            --knowledge knowledge_sources \
+            --out site/data/index.json \
+            --semantic-out site/data/semantic.json
 
       - name: Verify index integrity
         run: |
-          python -c "
-          import json, sys
-          idx = json.load(open('/tmp/index.json'))
-          assert idx['stats']['document_count'] >= 1
-          assert idx['stats']['chunk_count'] >= 1
-          assert idx['stats']['entity_count'] >= 1
+          python - <<'PY'
+          import json
+          idx = json.load(open('site/data/index.json'))
+          s = idx['stats']
+          assert s['document_count'] >= 1 and s['chunk_count'] >= 1 and s['entity_count'] >= 1
           assert idx['bm25']['vocab']
-          print('Index OK:', idx['stats'])
-          "
+          assert s['source_count'] >= 2, 'fewer than two connectors ran'
+          assert idx['graph']['stats']['edge_count'] > 0, 'graph has no edges'
+          assert s['cross_source_entities'] > 0, 'no entity joins two sources - not a fabric'
+          assert 'facets' in idx and 'sources' in idx, 'facets or factory handshake missing'
+          typed = set(idx['graph']['edge_types']) - {'CO_OCCURS'}
+          assert typed, 'graph has no typed edges'
+          print('Index OK:', s)
+          PY
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Runs the real site/js modules against the real site/data. The Python
+      # tests cannot catch pipeline<->browser contract drift, because they never
+      # execute the browser code. This is the test that catches a renamed field.
+      - name: Browser integration test
+        run: node tests/integration.test.mjs
+
+      - name: Retrieval evaluation (report only on PRs)
+        run: python -m eval.evaluate

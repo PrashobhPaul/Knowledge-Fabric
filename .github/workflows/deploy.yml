@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # The Knowledge Factory commits refreshed sources on a schedule; that push
+  # lands on main and triggers this workflow, so the fabric rebuilds itself.
 
 permissions:
   contents: read
@@ -29,17 +31,39 @@ jobs:
       - name: Install pipeline dependencies
         run: pip install -r pipeline/requirements.txt
 
-      - name: Build index from docs_source
-        run: python -m pipeline.build_index --source docs_source --out site/data/index.json
+      - name: Build fabric from docs_source + knowledge_sources
+        run: |
+          python -m pipeline.build_index \
+            --source docs_source \
+            --knowledge knowledge_sources \
+            --out site/data/index.json \
+            --semantic-out site/data/semantic.json
 
       - name: Verify build artifacts
         run: |
           test -f site/index.html
           test -f site/data/index.json
-          ls -lh site/data/index.json
+          test -f site/data/semantic.json
+          ls -lh site/data/index.json site/data/semantic.json
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      # Blocks the deploy if pipeline output and browser code have drifted apart.
+      - name: Browser integration test
+        run: node tests/integration.test.mjs
+
+      # A retrieval regression ships broken answers to every visitor. Failing the
+      # deploy is cheaper than shipping a fabric that quietly stopped finding things.
+      - name: Retrieval quality gate
+        run: python -m eval.evaluate --gate --json site/data/eval_report.json
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
+        with:
+          enablement: true
 
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3

@@ -1,0 +1,166 @@
+{
+  "projects": [
+    {
+      "name": "RVonWheelz",
+      "tagline": "Community car & bike pooling app",
+      "description": "The very first thing I built for people other than myself. I live in Raheja Vistas Elite, Nacharam , where the daily office commute was a shared headache — one that affected me too. So I built RVonWheelz to fix it: neighbours offer or book car and bike rides, chat with co-riders, and get realtime alerts for seat requests, approvals, and reminders. A small, non-profit solution to a very real, very local problem.",
+      "technologies": [
+        "Android",
+        "Capacitor",
+        "React",
+        "Supabase",
+        "TypeScript"
+      ],
+      "links": [
+        {
+          "label": "Download for Android .apk · Android 6.0+",
+          "url": "https://www.prashobhpaul.com/downloads/RVonWheelz.apk",
+          "kind": "download"
+        }
+      ],
+      "source_url": "https://www.prashobhpaul.com/works.html"
+    },
+    {
+      "name": "Soccer.AI",
+      "tagline": "AI World Cup 2026 companion",
+      "description": "My most recent build — and the one I’m still actively tinkering with. It’s an AI companion for the 2026 World Cup: AI-written match stories, tournament simulations, and visual analytics, with a live Ballon d’Or prediction running right now. Built offline-first as a progressive web app, so it installs straight onto your phone like a native app.",
+      "technologies": [
+        "AI",
+        "PWA",
+        "React",
+        "Supabase",
+        "TypeScript"
+      ],
+      "links": [
+        {
+          "label": "Open Web App fifa2026.prashobhpaul.com",
+          "url": "https://fifa2026.prashobhpaul.com",
+          "kind": "live"
+        },
+        {
+          "label": "Install on Android Add to Home screen",
+          "url": "https://fifa2026.prashobhpaul.com",
+          "kind": "live"
+        }
+      ],
+      "source_url": "https://www.prashobhpaul.com/works.html"
+    },
+    {
+      "name": "Invest.IQ",
+      "tagline": "AI stock research for Indian equities",
+      "description": "This is where I pushed the AI the furthest. Invest.IQ leans on heavy analytics and an AI reasoning layer to turn a tiered universe of Indian equities into a single, opinionated, backtest-first shortlist across short, medium and long horizons. Quality scores, technicals, and news influence are all weighed — and explained — so you can see exactly why each pick ranks where it does. It’s a personal project and my playground for real-world applied AI. Educational only — not financial advice.",
+      "technologies": [
+        "AI",
+        "Analytics",
+        "Capacitor",
+        "React",
+        "TypeScript"
+      ],
+      "links": [
+        {
+          "label": "Open Web App investiq.prashobhpaul.com",
+          "url": "https://investiq.prashobhpaul.com",
+          "kind": "live"
+        },
+        {
+          "label": "Download for Android .apk · latest signed build",
+          "url": "https://investiq.prashobhpaul.com/downloads/InvestIQ.apk",
+          "kind": "download"
+        }
+      ],
+      "source_url": "https://www.prashobhpaul.com/works.html"
+    },
+    {
+      "name": "Koode",
+      "tagline": "Personal journey safety & wellbeing",
+      "description": "Built for the people who worry when you travel. Koode (Malayalam: “together / with you” ) lets family and friends know you’re okay without you having to call or text . It doesn’t track you — it watches the journey , rating its health as Normal, Attention or Concern, and gives loved ones a calm reassurance channel with live map, ETA and timeline. Private by design: invitation-only, and every trip self-destructs 30 minutes after you arrive. Fully open source and zero cost — OpenStreetMap for maps and Supabase for live sharing, no Google, no billing anywhere.",
+      "technologies": [
+        "Android",
+        "Jetpack Compose",
+        "Kotlin",
+        "OpenStreetMap",
+        "Supabase"
+      ],
+      "links": [
+        {
+          "label": "Download for Android .apk · latest build",
+          "url": "https://github.com/PrashobhPaul/TripPulse/releases/latest/download/Koode.apk",
+          "kind": "download"
+        },
+        {
+          "label": "View on GitHub source code",
+          "url": "https://github.com/PrashobhPaul/Koode",
+          "kind": "source"
+        }
+      ],
+      "source_url": "https://www.prashobhpaul.com/works.html"
+    },
+    {
+      "name": "Knowledge Fabric",
+      "tagline": "Explainable, citation-grounded AI",
+      "description": "A demo I built to show what a real “knowledge fabric” looks like — the kind of explainable, citation-grounded AI a lot of teams are chasing right now. Every answer is traced back through document → page → section → paragraph, and a live knowledge graph shows exactly how it was derived. Fully static: no backend, no vector database, no API keys — just open it and watch the reasoning unfold.",
+      "technologies": [
+        "Explainable AI",
+        "Knowledge Graph",
+        "Python",
+        "RAG"
+      ],
+      "links": [
+        {
+          "label": "Open Live Demo prashobhpaul.github.io",
+          "url": "https://prashobhpaul.github.io/Knowledge-Fabric/",
+          "kind": "live"
+        },
+        {
+          "label": "View on GitHub source code",
+          "url": "https://github.com/PrashobhPaul/Knowledge-Fabric",
+          "kind": "source"
+        }
+      ],
+      "source_url": "https://www.prashobhpaul.com/works.html"
+    },
+    {
+      "name": "Pachaka Lokam",
+      "tagline": "Offline South-Indian meal planner",
+      "description": "My most personal project — a hobby I started simply to make life easier for my mom and my wife in the kitchen. It looks simple, but it’s quietly clever: a 100% offline South-Indian meal planner that suggests today’s meals from what’s actually in your kitchen, remembers festival menus, and tracks grocery and household reminders. No accounts, no cloud, no tracking.",
+      "technologies": [
+        "Android",
+        "JavaScript",
+        "Offline-first",
+        "PWA"
+      ],
+      "links": [
+        {
+          "label": "Open Web App pachakalokam.prashobhpaul.com",
+          "url": "https://pachakalokam.prashobhpaul.com",
+          "kind": "live"
+        },
+        {
+          "label": "Install on Android Add to Home screen",
+          "url": "https://pachakalokam.prashobhpaul.com",
+          "kind": "live"
+        }
+      ],
+      "source_url": "https://www.prashobhpaul.com/works.html"
+    },
+    {
+      "name": "IPLBuzz",
+      "tagline": "IPL 2026 analytics dashboard",
+      "description": "One of my favorite sports side projects. I built IPLBuzz to keep the entire IPL 2026 season in one place — from points tables and squads to batting and bowling leaderboards. What started as a simple season tracker grew into a complete cricket analytics dashboard and a fun way to explore tournament data.",
+      "technologies": [
+        "Analytics",
+        "Cricket",
+        "JavaScript",
+        "Web App"
+      ],
+      "links": [
+        {
+          "label": "Open Web App prashobhpaul.github.io/IPLBuzz",
+          "url": "https://prashobhpaul.github.io/IPLBuzz/",
+          "kind": "live"
+        }
+      ],
+      "source_url": "https://www.prashobhpaul.com/works.html"
+    }
+  ]
+}

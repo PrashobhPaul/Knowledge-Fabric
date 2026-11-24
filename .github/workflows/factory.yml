@@ -1,0 +1,76 @@
+name: Knowledge Factory — sync sources
+
+# The Factory is the acquisition half of the system. On a schedule (and on
+# demand from the Actions tab) it re-crawls the website, reads the YouTube feed,
+# lists the GitHub repositories and downloads the current resume, then commits
+# whatever changed under knowledge_sources/ and docs_source/.
+#
+# That commit lands on main, which triggers deploy.yml — so the Fabric rebuilds
+# and republishes itself with the fresh knowledge. Nothing to run by hand.
+
+on:
+  schedule:
+    - cron: "17 2 * * 1"        # every Monday 02:17 UTC
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Comma-separated subset of sources (website,youtube,github). Empty = all."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+concurrency:
+  group: factory
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install Factory dependencies
+        run: pip install -r pipeline/requirements.txt
+
+      - name: Sync live sources
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -n "${{ github.event.inputs.only }}" ]; then
+            python -m knowledge_factory.sync --only "${{ github.event.inputs.only }}"
+          else
+            python -m knowledge_factory.sync
+          fi
+
+      - name: Rebuild fabric against the fresh sources (smoke check, not deployed here)
+        run: |
+          python -m pipeline.build_index \
+            --source docs_source --knowledge knowledge_sources \
+            --out /tmp/index.json --semantic-out /tmp/semantic.json
+
+      - name: Commit refreshed knowledge
+        run: |
+          git config user.name "knowledge-factory[bot]"
+          git config user.email "knowledge-factory@users.noreply.github.com"
+          git add knowledge_sources docs_source
+          if git diff --cached --quiet; then
+            echo "No changes in sources — nothing to commit."
+            exit 0
+          fi
+          SUMMARY=$(python - <<'PY'
+          import json
+          m = json.load(open('knowledge_sources/manifest.json'))
+          parts = [f"{k}: {v.get('records', 0)} records ({v.get('status')})" for k, v in m.get('sources', {}).items()]
+          print('; '.join(parts))
+          PY
+          )
+          git commit -m "factory: refresh knowledge sources" -m "$SUMMARY"
+          git push

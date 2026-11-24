@@ -1,0 +1,916 @@
+{
+  "faq": [
+    {
+      "kind": "about",
+      "questions": [
+        "how good is prashobh",
+        "is he an expert",
+        "should i hire him",
+        "is he worth it",
+        "is prashobh capable",
+        "is he skilled"
+      ],
+      "answer": "That's best experienced firsthand. Work with Prashobh and you'll have your answer.\nThat said — he combines strong technical depth with practical execution, delivering across GenAI, agentic systems, and enterprise-scale data solutions.\nHappy to share specific examples if you'd like.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "is he reliable",
+        "is prashobh trustworthy",
+        "is he professional",
+        "can i depend on him",
+        "is he dependable"
+      ],
+      "answer": "He's known for being precise, delivery-focused, and clear in communication.\nThe best way to validate that is through a direct conversation.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "what makes prashobh unique",
+        "why hire prashobh",
+        "what sets him apart",
+        "why choose prashobh",
+        "what is special about him"
+      ],
+      "answer": "A few things that set him apart:\n• 13+ years across AI, NLP, robotics, and enterprise data science — rare breadth\n• He doesn't just advise — he builds and delivers\n• Deep experience across healthcare, BFSI, telecom, and enterprise AI\n• Available for both strategy and hands-on execution\nThat combination of thinking + doing is uncommon.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "what does prashobh do",
+        "what does he do",
+        "what is his role",
+        "what is his job",
+        "his responsibilities",
+        "what is his work"
+      ],
+      "answer": "He designs and builds GenAI and Agentic AI solutions, helps organizations adopt AI effectively, and runs professional training sessions.\nHe also takes on consulting and advisory engagements for teams and enterprises.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "what are his skills",
+        "what is he good at",
+        "core expertise",
+        "technical skills",
+        "what technologies does he know",
+        "what is his specialization"
+      ],
+      "answer": "His core strengths include GenAI, Agentic AI, Conversational AI, NLP, and designing scalable AI systems.\nTech stack: LangGraph, CrewAI, AutoGen, LangChain, RAG, LLM fine-tuning, AWS, GCP, MLOps, AI Governance.\nAll applied to solve real-world problems — not just prototypes.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "tech stack",
+        "langgraph",
+        "crewai",
+        "autogen",
+        "langchain",
+        "what frameworks does he use"
+      ],
+      "answer": "Primary agentic frameworks: LangGraph, CrewAI, AutoGen, and LangChain — used for multi-agent systems, RAG pipelines, and LLM-integrated workflows.\nCloud: AWS and GCP. Also: NLP pipelines, computer vision, predictive modeling.\nAll applied in production contexts, not just demos.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "ai exposure",
+        "events attended",
+        "microsoft ai tour",
+        "ai conferences",
+        "industry exposure",
+        "real world ai exposure"
+      ],
+      "answer": "He actively participates in AI ecosystems and events.\nYou can check out his experience at the Microsoft AI Tour here:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "ai governance",
+        "agentic orchestration",
+        "ai architecture experience",
+        "genai governance",
+        "enterprise ai systems",
+        "orchestration frameworks"
+      ],
+      "answer": "He actively works on advanced topics like AI governance and Agentic orchestration.\nYou can explore one of his detailed thoughts here:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "what services does he offer",
+        "what can he do",
+        "how can he help",
+        "offerings",
+        "what can i hire him for",
+        "services offered"
+      ],
+      "answer": "He offers:\n• AI Consulting & Strategy\n• GenAI Solution Development\n• Agentic AI System Design\n• Conversational AI\n• Corporate Training & Workshops\n• Interview Preparation for AI/ML roles",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "can i hire him",
+        "can i hire prashobh",
+        "is he available for hire",
+        "is prashobh open for jobs"
+      ],
+      "answer": "Yes, absolutely — depending on the role and scope.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "freelance",
+        "is he available for freelance",
+        "freelance work",
+        "freelance engagement"
+      ],
+      "answer": "Yes, he does take up freelance and consulting work depending on the problem statement and scope.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "training",
+        "workshop",
+        "teach ai",
+        "sessions",
+        "corporate training",
+        "coaching"
+      ],
+      "answer": "He conducts professional AI trainings and consulting sessions — for individuals and teams, from foundational to advanced.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "interview prep",
+        "mock interview",
+        "crack interview",
+        "career switch",
+        "interview preparation",
+        "job preparation"
+      ],
+      "answer": "He offers personalised interview preparation for AI, ML, and Data Science roles — covering concepts, mock sessions, resume reviews, and cracking strategy.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "email address",
+        "linkedin",
+        "whatsapp",
+        "all links",
+        "social media",
+        "all contacts"
+      ],
+      "answer": "Here are all the ways to connect with Prashobh:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "github",
+        "github profile",
+        "code repository",
+        "open source work",
+        "can i see his code",
+        "repo link"
+      ],
+      "answer": "You can explore his work and repositories here:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "projects",
+        "portfolio",
+        "past work",
+        "what has he built",
+        "case studies"
+      ],
+      "answer": "He has worked on GenAI, Agentic AI, NLP, ML/DL, and enterprise-grade data science solutions across domains including healthcare, BFSI, telecom, and retail.\nFor public work:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "social work",
+        "community project",
+        "non profit",
+        "social impact",
+        "projects for society",
+        "vehicle pooling app"
+      ],
+      "answer": "He has also built solutions for social impact.\nOne example is a vehicle pooling app designed for a residential society in Hyderabad:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "hobbies",
+        "interests",
+        "youtube",
+        "content creation",
+        "what he does outside work"
+      ],
+      "answer": "Outside of work, he enjoys art, travel, and content creation.\nYou can explore his work here:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "nlp",
+        "natural language processing",
+        "healthcare ai",
+        "medical ai",
+        "clinical ai",
+        "hl7"
+      ],
+      "answer": "He spent 4 years as a Sr. NLP Engineer at Primera Medical Technologies — building NLP pipelines for Epic and Meditech EMR systems, processing HL7 clinical data, and developing predictive healthcare analytics.\nClinical AI and medical NLP remain deep areas of expertise.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "bfsi",
+        "banking ai",
+        "finance ai",
+        "fraud detection",
+        "credit scoring",
+        "loan model"
+      ],
+      "answer": "He built fraud detection, loan eligibility, and credit scoring models at Yash Technologies for BFSI clients — with a focus on production-grade, explainable AI in regulated environments.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "robotics",
+        "autonomous navigation",
+        "object detection",
+        "drone ai",
+        "sensor fusion",
+        "edge ai"
+      ],
+      "answer": "He's worked on AI robotics at TCS and Brane Enterprises — covering autonomous navigation, object detection, and sensor fusion.\nA domain he genuinely enjoys and can bring into consulting or training engagements.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "agentic ai",
+        "multi agent systems",
+        "agent framework",
+        "agentic design",
+        "multi-agent orchestration"
+      ],
+      "answer": "Multi-agent systems are his primary focus.\nHe designs enterprise agentic AI architectures using LangGraph, CrewAI, and AutoGen — building systems where agents collaborate, reason, and act autonomously.\nAvailable for consulting or hands-on delivery in this space.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "cloud ai",
+        "aws",
+        "gcp",
+        "mlops",
+        "ai deployment",
+        "ai infrastructure"
+      ],
+      "answer": "He works with AWS and GCP for cloud-based AI deployments — designing scalable platforms, MLOps pipelines, and enterprise GenAI infrastructure focused on governance and production reliability.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "experience",
+        "career",
+        "background",
+        "career history",
+        "worked at",
+        "years of experience"
+      ],
+      "answer": "13+ years across TCS, Primera Medical, Brane Enterprises, Yash Technologies, Tech Mahindra, and his current role — spanning healthcare NLP, BFSI analytics, robotics, and large-scale GenAI.\nA journey that gives him a uniquely broad perspective across industries.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "education",
+        "degree",
+        "university",
+        "college",
+        "studied",
+        "mtech"
+      ],
+      "answer": "M.Tech in Knowledge Engineering with AI Specialization — SRM University (2012–2014).\nB.Tech in Computer Science — JNTU Hyderabad (2008–2012).\nHis academic foundation was always rooted in AI and intelligent systems.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "location",
+        "where is he based",
+        "remote work",
+        "hybrid",
+        "onsite",
+        "based in hyderabad"
+      ],
+      "answer": "He's based in Hyderabad, India and prefers remote engagements — open to collaborations globally.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "how is prashobh doing",
+        "is prashobh keeping well",
+        "how is he doing",
+        "is prashobh fine",
+        "how is he keeping",
+        "prashobh doing well"
+      ],
+      "answer": "From what I know, he's doing well — actively working on exciting AI projects and always open to meaningful collaborations.\nIf you'd like to connect with him directly:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "is prashobh intelligent enough",
+        "is he smart enough",
+        "is he capable enough",
+        "how intelligent is he",
+        "is prashobh sharp",
+        "is prashobh bright enough"
+      ],
+      "answer": "\"Intelligent enough\" depends on what you're trying to solve — and in the AI space, that bar is high.\nPrashobh has 13+ years of hands-on experience across GenAI, NLP, agentic systems, and enterprise AI — not just theory, but shipped solutions.\nThe best answer? Engage with him directly and see.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "will he do 1hr session for us",
+        "can he do a talk on ai",
+        "1 hour session",
+        "one hour talk",
+        "ai talk session",
+        "conduct a session"
+      ],
+      "answer": "Yes — he does conduct sessions, talks, and workshops on AI topics.\nTypical formats include:\n• 1-hour introductory AI talks for teams\n• Half-day / full-day workshops on GenAI or Agentic AI\n• Corporate training programs (custom duration)\nShare your requirement and he'll tailor it to your audience:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "do you have any idea about agentic systems",
+        "what do you know about agentic ai",
+        "explain agentic systems",
+        "tell me about agentic ai",
+        "agentic systems work",
+        "how do agentic systems work"
+      ],
+      "answer": "Agentic AI is actually Prashobh's primary area of work right now.\nAgentic systems are AI architectures where multiple autonomous agents collaborate — each with a defined role — to reason, plan, and execute complex tasks without constant human input.\nPrashobh builds these using LangGraph, CrewAI, and AutoGen for enterprise clients.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "is n8n better than claude",
+        "n8n vs claude",
+        "n8n comparison",
+        "n8n or langchain",
+        "n8n opinion",
+        "is n8n good"
+      ],
+      "answer": "Great question — though I'll share context rather than a verdict.\nn8n is a workflow automation tool great for connecting apps and APIs visually. Claude (and LLMs broadly) are reasoning engines for language and cognition.\nThey're not really competitors — n8n can actually orchestrate AI agents including Claude.\nFor Prashobh's agentic work, the choice of tooling always depends on the problem. That's a nuanced conversation worth having directly:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "which is the best llm",
+        "best llm in your opinion",
+        "which ai model is best",
+        "gpt vs claude",
+        "claude vs gemini",
+        "what llm should i use"
+      ],
+      "answer": "Honest answer — there's no single \"best\" LLM. It depends on your use case.\n• GPT-4o — strong general reasoning and tool use\n• Claude — excellent for long context, nuanced writing, and safe outputs\n• Gemini — well-integrated with Google ecosystem\n• Llama / Mistral — best for open-source, self-hosted needs\nPrashobh works across multiple models and picks the right one for the job — not the most hyped one.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what do you think of langchain",
+        "concept of langchain",
+        "langchain explained",
+        "your opinion on langchain",
+        "is langchain good",
+        "langchain overview"
+      ],
+      "answer": "LangChain is one of the most widely adopted frameworks for building LLM-powered applications.\nIt provides modular components — chains, agents, memory, tools — that make it easier to compose complex AI workflows without reinventing the wheel.\nPrashobh works with LangChain regularly, alongside LangGraph for stateful agentic systems. His view: great for rapid prototyping, but production systems often need more control — which is where LangGraph and custom orchestration come in.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "full form of rag",
+        "what does rag stand for",
+        "what is rag full form",
+        "expand rag",
+        "rag acronym",
+        "rag abbreviation"
+      ],
+      "answer": "RAG stands for Retrieval-Augmented Generation.\nIn simple terms — instead of relying solely on what an LLM was trained on, RAG lets the model retrieve relevant information from an external knowledge base at query time, then generate a response grounded in that data.\nResult: more accurate, up-to-date, and context-aware answers.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what does gpt do",
+        "what is gpt",
+        "what does chatgpt do",
+        "how does gpt work",
+        "explain gpt",
+        "explain chatgpt"
+      ],
+      "answer": "GPT stands for Generative Pre-trained Transformer.\nIn simple terms — it's a large language model (LLM) trained on vast amounts of text data that can understand and generate human-like language. ChatGPT is OpenAI's product built on top of GPT models.\nIt's capable of writing, reasoning, summarising, coding, and answering questions — but it's a general-purpose tool.\nPrashobh works with GPT and other LLMs to build specific, production-grade AI systems for real business problems — not just chat interfaces.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is ai",
+        "what is artificial intelligence",
+        "what does ai mean",
+        "what does ai stand for",
+        "explain ai",
+        "define ai"
+      ],
+      "answer": "AI — Artificial Intelligence — is the field of building systems that can perform tasks that typically require human intelligence: reasoning, understanding language, recognising patterns, making decisions.\nIt's not one technology — it's an umbrella that includes Machine Learning, Deep Learning, NLP, Computer Vision, Robotics, and now Generative AI.\nPrashobh has worked across most of these branches over 13+ years — from healthcare NLP to enterprise GenAI systems.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "how is genai different from ai",
+        "difference between ai and genai",
+        "genai vs ai",
+        "generative ai vs ai",
+        "how is generative ai different from ai",
+        "genai and ai difference"
+      ],
+      "answer": "Great question — they're related but not the same.\nTraditional AI is built to predict, classify, or decide — it recognises a cat in a photo, flags fraud, recommends a product.\nGenerative AI (GenAI) goes further — it creates. Text, images, code, audio, video. Models like GPT, Claude, and Gemini are GenAI.\nSimple way to think about it:\n• Traditional AI → answers questions with existing patterns\n• GenAI → creates new content by understanding context\nPrashobh works at the intersection of both — using GenAI as the reasoning layer within larger enterprise AI systems.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "difference between simple agents ai agents and agentic ai",
+        "simple agents vs ai agents",
+        "ai agents vs agentic ai",
+        "what is the difference between agents",
+        "simple agent vs agentic ai",
+        "agents compared to agentic"
+      ],
+      "answer": "Good question — these terms are often used loosely. Here's a clean breakdown:\n🔹 Simple Agents\nRule-based systems that follow fixed logic. If X, do Y. No learning, no reasoning. Think chatbots from 5 years ago.\n🔹 AI Agents\nLLM-powered agents that can understand intent, use tools, and take actions. They reason — but typically operate as single units.\n🔹 Agentic AI\nMultiple AI agents working together — each with a defined role — collaborating, delegating, and executing complex multi-step tasks autonomously. This is where the real enterprise power lies.\nPrashobh specialises in Agentic AI — designing these multi-agent orchestration systems using LangGraph, CrewAI, and AutoGen.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "which is the best technology for my problem",
+        "which tech should i use",
+        "which framework for my problem",
+        "which approach should i use",
+        "which tool for my use case",
+        "best technology for my requirement"
+      ],
+      "answer": "That's exactly the kind of question where a one-line answer would do more harm than good. 🙂\nThe right technology depends entirely on your problem — its scale, data, constraints, and goals.\nI'm not the expert here — Prashobh is.\nThe best thing you can do is describe your problem statement in detail and share it with him directly. He'll give you an honest, practical recommendation:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is gpt",
+        "what is gpt 4",
+        "what is gpt 3",
+        "what is gpt-4o",
+        "explain gpt",
+        "what does gpt stand for"
+      ],
+      "answer": "GPT (Generative Pre-trained Transformer) is OpenAI's family of large language models — trained on vast text data to understand and generate human-like language.\nIt powers ChatGPT and is widely used for writing, coding, reasoning, and question-answering.\nFor a deeper discussion on how GPT fits into real-world AI architectures — Prashobh is the right person to talk to:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "is gemini better than gpt",
+        "gemini vs gpt",
+        "gemini vs chatgpt",
+        "compare gemini and gpt",
+        "google gemini vs openai",
+        "is gemini or gpt better"
+      ],
+      "answer": "Neither is universally \"better\" — they each have different strengths.\n• GPT-4o — strong reasoning, tool use, broad ecosystem\n• Gemini — deep Google integration, strong multimodal capabilities, excels in long context\nThe right choice depends entirely on your use case, infrastructure, and what you're building.\nPrashobh works across both and can give you a grounded, use-case-specific recommendation:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is claude",
+        "what is claude ai",
+        "how can i use claude",
+        "how to use claude",
+        "tell me about claude",
+        "explain claude"
+      ],
+      "answer": "Claude is Anthropic's large language model — known for strong reasoning, nuanced understanding, long-context handling, and a focus on safety and alignment.\nIt's widely regarded as one of the best LLMs for thoughtful, accurate, and safe responses.\nYou can use it at claude.ai or via Anthropic's API.\nInterestingly — this very assistant you're talking to is powered by Claude. 🙂\nFor how Claude fits into enterprise AI architectures, Prashobh is the right conversation:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is transformer",
+        "what is the transformer model",
+        "explain transformer architecture",
+        "how does transformer work",
+        "transformer architecture explained",
+        "what is transformer in ai"
+      ],
+      "answer": "The Transformer is the foundational neural network architecture behind virtually all modern LLMs — GPT, Claude, Gemini, Llama included.\nIntroduced in the 2017 paper \"Attention Is All You Need\", its key innovation is the self-attention mechanism — allowing the model to weigh relationships between all words in a sequence simultaneously, rather than processing them one by one.\nCore components: Encoder, Decoder, Multi-head Attention, Feed-forward layers, Positional Encoding.\nFor a detailed walkthrough of transformer internals and how they apply to real AI system design, Prashobh can take you much deeper:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "how does he choose his architecture",
+        "how does prashobh choose architecture",
+        "how does he select architecture",
+        "what is his architecture approach",
+        "how does he decide on tech stack",
+        "his approach to ai architecture"
+      ],
+      "answer": "Prashobh's architecture decisions are always problem-first — not hype-first.\nHis typical approach:\n• Understand the problem deeply before touching any tech\n• Evaluate constraints — scale, latency, cost, compliance\n• Choose the right LLM for the reasoning layer\n• Design the agentic or retrieval layer around it\n• Prioritise explainability and governance from day one\nFor a detailed conversation about how he'd approach your specific problem:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "explain agentic ai",
+        "what is agentic ai",
+        "tell me about agentic ai",
+        "describe agentic ai",
+        "define agentic ai",
+        "what is agentic system"
+      ],
+      "answer": "Agentic AI refers to AI systems where one or more AI agents can autonomously reason, plan, use tools, and execute multi-step tasks — with minimal human intervention.\nKey characteristics:\n• Goal-directed — given an objective, the agent figures out the steps\n• Tool-using — can call APIs, search the web, write/execute code\n• Memory-aware — maintains context across steps\n• Multi-agent capable — agents can delegate to specialist sub-agents\nThis is distinct from simple chatbots that just respond to queries. Agentic AI acts.\nPrashobh specialises in designing and building these systems using LangGraph, CrewAI, and AutoGen for enterprise clients.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is ai ethics",
+        "what is ethical ai",
+        "ai ethics explained",
+        "why is ai ethics important",
+        "explain ai ethics",
+        "ai ethics definition"
+      ],
+      "answer": "AI Ethics is the framework of principles that guide the responsible design, development, and deployment of AI systems.\nCore pillars include:\n• Fairness — AI should not discriminate\n• Transparency — decisions should be explainable\n• Accountability — humans must remain responsible\n• Privacy — data must be protected\n• Safety — systems must not cause harm\nIt's closely tied to AI Governance — which is the organisational and technical implementation of these principles.\nPrashobh actively works on AI governance and responsible AI adoption as part of his architecture work. You can see his thoughts here:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is mcp",
+        "what is model context protocol",
+        "explain mcp",
+        "mcp explained",
+        "mcp in ai",
+        "what does mcp stand for"
+      ],
+      "answer": "MCP — Model Context Protocol — is an open standard introduced by Anthropic that defines how AI models connect to external tools, data sources, and systems in a standardised way.\nThink of it as a universal plug for AI — instead of custom integrations for every tool, MCP provides a common interface so LLMs can interact with databases, APIs, files, and services consistently.\nIt's becoming an important building block in agentic AI architectures.\nPrashobh works with these emerging protocols in his agentic system design work. For a detailed discussion:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is a2a",
+        "what is agent to agent",
+        "what is agent-to-agent protocol",
+        "explain a2a",
+        "a2a protocol",
+        "a2a in ai"
+      ],
+      "answer": "A2A — Agent-to-Agent — is Google's open protocol for communication and interoperability between AI agents built on different frameworks or platforms.\nWhere MCP standardises how agents connect to tools and data, A2A standardises how agents talk to each other — enabling multi-agent systems to collaborate across different vendors and frameworks.\nTogether, MCP and A2A are shaping the interoperability layer of the agentic AI ecosystem.\nThis is very much in Prashobh's domain. For a grounded take on how these apply to real systems:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "is mcp better than a2a",
+        "mcp vs a2a",
+        "compare mcp and a2a",
+        "mcp or a2a",
+        "difference between mcp and a2a",
+        "which is better mcp or a2a"
+      ],
+      "answer": "They're not competing — they're complementary.\n• MCP (Model Context Protocol) — standardises how AI agents connect to tools, data, and external services\n• A2A (Agent-to-Agent) — standardises how AI agents communicate with each other across different frameworks\nSimple analogy:\n• MCP = how an agent picks up tools\n• A2A = how agents talk to each other\nIn a well-designed agentic system, you'd likely use both.\nThis is a nuanced architectural decision — exactly the kind Prashobh navigates in his work:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "how do i learn ai",
+        "how to start with ai",
+        "how to get into ai",
+        "how to learn genai",
+        "how to start with data science",
+        "how to break into ai"
+      ],
+      "answer": "Great question — the AI field is very accessible today if you approach it right.\nA good starting path:\n• Python basics → then NumPy, Pandas, Scikit-learn\n• Understand core ML concepts (supervised, unsupervised, evaluation)\n• Move to Deep Learning (neural networks, transformers)\n• Then specialise: NLP, Computer Vision, or GenAI/Agentic AI\nFor GenAI specifically: start with prompt engineering → RAG → LangChain → Agentic systems.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "where do i start with ai",
+        "where to start in data science",
+        "where should i begin with genai",
+        "what is the best starting point for ai",
+        "what should be my first step in ai",
+        "what is the roadmap for ai"
+      ],
+      "answer": "The best starting point depends on your background — but here's a universal entry point:\n1. Learn Python (if you haven't already)\n2. Understand statistics and probability basics\n3. Pick a domain: NLP, Computer Vision, or GenAI\n4. Build small projects — theory alone won't get you there\nPrashobh helps students and professionals build a clear, structured entry into AI without wasting time on the wrong resources.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "can i get coaching from him",
+        "can i get mentoring from prashobh",
+        "does he offer coaching",
+        "does he do mentoring",
+        "does he provide mentorship",
+        "can i get one on one training"
+      ],
+      "answer": "Yes — Prashobh offers personalised coaching and mentoring for both students and working professionals.\nTypical engagements include:\n• One-on-one AI/ML learning roadmaps\n• Career transition coaching into Data Science or AI roles\n• Interview preparation for AI/ML/Data roles\n• Hands-on GenAI and Agentic AI project guidance\n• Corporate team upskilling sessions\nReach out to discuss what you need:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "i am a student",
+        "i am a fresher",
+        "i am a beginner in ai",
+        "i am new to ai",
+        "i am from non tech",
+        "can a non tech person learn ai"
+      ],
+      "answer": "Absolutely — AI is not just for computer science graduates anymore. 🙂\nMany successful data scientists and AI engineers come from diverse backgrounds — statistics, mathematics, even arts and commerce.\nWhat matters more is curiosity, willingness to learn Python, and the right guidance to get you started on the correct path.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "i am a working professional",
+        "i am already working in it",
+        "can a working professional learn ai",
+        "i am from software industry",
+        "i am from finance",
+        "i am from healthcare"
+      ],
+      "answer": "Definitely — and in many ways, working professionals have an advantage. 🙂\nDomain knowledge from banking, healthcare, engineering, or retail combined with AI skills is a powerful combination that's highly valued in the market.\nPrashobh designs flexible learning plans that fit around working schedules — weekend sessions, recorded content, and project-based learning.\nLet's figure out the right path for your background:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "career transition",
+        "career transition to ai",
+        "how do i transition into ai",
+        "how to switch to data science",
+        "how can i change my career to ai",
+        "how can i change my career to data science"
+      ],
+      "answer": "Career transitions into AI are very doable — and increasingly common.\nKey steps:\n• Assess your transferable skills (domain knowledge, logic, analytics)\n• Build a Python + ML foundation (3–6 months with focused effort)\n• Work on real projects in your domain (healthcare AI, BFSI analytics, etc.)\n• Build a portfolio on GitHub\n• Prepare specifically for AI/ML interview formats\nPrashobh has guided multiple professionals through this exact journey. Talk to him for a transition plan tailored to your background:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is vibe coding",
+        "vibe coding",
+        "vibe based coding",
+        "vibe code"
+      ],
+      "answer": "Vibe coding is a recent term for using AI tools (like GitHub Copilot, Cursor, or ChatGPT) to write code conversationally — describing what you want in plain language and letting AI generate the code for you.\nIt's lowering the barrier to building software significantly — even non-developers can prototype apps this way.\nThe flip side: understanding what the code does still matters, especially for production systems. Vibe coding without foundational knowledge can create fragile or insecure outputs.\nPrashobh can help you understand how to use AI-assisted coding effectively and responsibly:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is no code ai",
+        "what is low code ai",
+        "no code platform for ai",
+        "low code ai tools",
+        "can i build ai without coding",
+        "nocode ai"
+      ],
+      "answer": "No-code and low-code platforms have made AI accessible to non-developers — and they're genuinely powerful for the right use cases.\nPopular platforms:\n• n8n / Make / Zapier — workflow and AI automation\n• Bubble / FlutterFlow — app building with AI integrations\n• obviously.ai / DataRobot — no-code ML\n• Botpress / Voiceflow — no-code chatbot builders\nFor simple automation and prototyping — these work brilliantly. For complex, scalable, or custom AI systems, you'll still need code.\nPrashobh can help you figure out the right approach for your specific use case:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is nlp",
+        "explain nlp",
+        "what is natural language processing",
+        "nlp explained",
+        "nlp basics",
+        "nlp overview"
+      ],
+      "answer": "NLP — Natural Language Processing — is the branch of AI that enables computers to understand, interpret, and generate human language.\nIt powers everything from search engines and autocorrect to chatbots, sentiment analysis, and now LLMs like GPT and Claude.\nCore NLP tasks: tokenisation, named entity recognition, POS tagging, text classification, sentiment analysis, machine translation, summarisation, and question answering.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is nlu",
+        "what is nlg",
+        "what is natural language understanding",
+        "what is natural language generation",
+        "explain nlu",
+        "explain nlg"
+      ],
+      "answer": "NLU and NLG are two key components of conversational AI systems:\n🔹 NLU (Natural Language Understanding)\nHelps a machine understand what a user means — intent detection, entity extraction, context resolution. \"Book a flight to Delhi tomorrow\" → understands: action=book, destination=Delhi, date=tomorrow.\n🔹 NLG (Natural Language Generation)\nHelps a machine produce human-like responses — turning structured data or logic into natural language text.\nTogether, NLU + NLG form the intelligence layer of conversational systems.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is conversational ai",
+        "explain conversational ai",
+        "conversational ai explained",
+        "what is a conversational system",
+        "conversational ai overview",
+        "conversational ai examples"
+      ],
+      "answer": "Conversational AI refers to systems that enable natural, human-like dialogues between machines and people — chatbots, voice assistants, and intelligent customer service systems.\nModern conversational AI combines:\n• NLU (understanding user intent)\n• Dialogue management (managing conversation state)\n• NLG (generating natural responses)\n• LLMs (for open-ended, context-rich conversations)\nPrashobh has built enterprise conversational AI systems across healthcare and BFSI. This is one of his core specialisations.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is ontology",
+        "what is ontology in ai",
+        "explain ontology",
+        "ontology definition",
+        "ontology in nlp",
+        "ontology explained"
+      ],
+      "answer": "An ontology in AI is a formal, structured representation of knowledge — defining concepts, categories, relationships, and rules within a specific domain.\nThink of it as a vocabulary + a map of how things relate to each other. Example: in healthcare, an ontology defines that \"Paracetamol is-a Drug\", \"Drug treats Fever\", \"Fever is-a Symptom\".\nOntologies power knowledge graphs, semantic search, and reasoning systems — and are foundational to many enterprise AI knowledge bases.\nFor a deeper conversation on knowledge engineering, Prashobh is well-placed — his M.Tech is specifically in Knowledge Engineering:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is a knowledge graph",
+        "explain knowledge graph",
+        "knowledge graph explained",
+        "knowledge graph definition",
+        "knowledge graph in ai",
+        "knowledge graph vs ontology"
+      ],
+      "answer": "A knowledge graph is a structured network of real-world entities and the relationships between them — stored in a graph format (nodes = entities, edges = relationships).\nExamples: Google's Knowledge Graph powers search results. LinkedIn's talent graph connects people, skills, and companies. Medical knowledge graphs connect symptoms, diseases, and treatments.\nThey're used in semantic search, recommendation systems, fraud detection, and conversational AI for grounding responses in real-world facts.\nPrashobh has worked with knowledge-based systems and can walk you through the architecture:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is rasa",
+        "explain rasa",
+        "rasa framework",
+        "rasa chatbot",
+        "rasa nlu",
+        "rasa overview"
+      ],
+      "answer": "Rasa is one of the most popular open-source frameworks for building contextual, intent-driven chatbots and voice assistants.\nKey components:\n• Rasa NLU — understands user intent and extracts entities\n• Rasa Core — manages conversation flow using dialogue policies\n• Rasa Actions — custom Python actions for business logic\nWhy Rasa? It's self-hosted, open-source, and gives full control — ideal for enterprise deployments where data privacy matters.\nPrashobh has hands-on experience with Rasa-based conversational systems. For implementation guidance:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "rasa vs dialogflow",
+        "rasa vs botpress",
+        "rasa vs microsoft bot framework",
+        "which chatbot framework is better",
+        "which nlu platform should i use",
+        "which chatbot tool do you recommend"
+      ],
+      "answer": "Each has its strengths — the right choice depends on your priorities:\n• Rasa — open-source, self-hosted, full control, best for privacy-sensitive enterprise use\n• Dialogflow (Google) — easy setup, managed, great for Google ecosystem integration\n• Microsoft Bot Framework / LUIS — strong for Azure and Microsoft stack\n• Amazon Lex — native fit for AWS infrastructure\n• Botpress — modern open-source with a visual builder\nFor production enterprise systems where data stays on-premise, Rasa tends to be the preferred choice.\nPrashobh can recommend the right fit based on your tech stack and requirements:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is data science",
+        "explain data science",
+        "data science explained",
+        "data science definition",
+        "data science vs ai",
+        "data science vs ml"
+      ],
+      "answer": "Data Science is the practice of extracting insights and value from data using statistics, programming, and domain knowledge.\nIt overlaps with — but is distinct from — AI and ML:\n• Data Science — finding patterns, building models, communicating insights\n• Machine Learning — the algorithmic techniques used within data science\n• AI — the broader goal of building intelligent systems",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "best resources to learn ai",
+        "best courses for data science",
+        "recommended books for ml",
+        "top platforms for ai learning",
+        "where can i learn ai online",
+        "where to learn data science for free"
+      ],
+      "answer": "Some solid starting points:\n📚 Courses: fast.ai, Coursera (Andrew Ng's ML), DeepLearning.ai, Hugging Face courses\n📖 Books: \"Hands-On ML\" by Aurélien Géron, \"Deep Learning\" by Goodfellow et al.\n🛠️ Practice: Kaggle, LeetCode (ML), Papers With Code\n🤖 GenAI specifically: LangChain docs, LlamaIndex tutorials, Anthropic/OpenAI cookbooks\nBut resources alone won't get you there — structured guidance and real projects make the difference.\nPrashobh can help you cut through the noise and build the right learning path for your goals:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "how long does it take to learn ai",
+        "how much time to learn data science",
+        "how long to become a data scientist",
+        "how many months to learn ml",
+        "how long to learn genai",
+        "how many years to master ai"
+      ],
+      "answer": "Honest answer — it depends on your starting point and the level of depth you're targeting:\n• Basic AI literacy (understand AI, use tools): 4–8 weeks\n• Data Science practitioner (build and deploy models): 6–12 months\n• ML Engineer / Data Scientist job-ready: 12–18 months with focused effort\n• GenAI / Agentic AI specialist: 3–6 months on top of ML foundations\nConsistency and real projects matter far more than the number of hours per day.\nPrashobh can give you a realistic timeline based on your specific background:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "why python for ai",
+        "why is python used in data science",
+        "why do people use python for ml",
+        "is python necessary for ai",
+        "is python required for data science",
+        "should i learn python for ai"
+      ],
+      "answer": "Python is the de facto language of AI and Data Science — for good reason:\n• Simplest syntax — lets you focus on logic, not language quirks\n• Richest ecosystem — NumPy, Pandas, Scikit-learn, TensorFlow, PyTorch, LangChain, all Python-first\n• Community — most AI papers release Python code; most tutorials are Python-based\nYes — Python is essentially required for modern AI/ML work. The good news: it's one of the easiest languages to learn.\nPrashobh can recommend the right Python learning path based on your current level:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "how can i use genai for business",
+        "how to adopt ai in enterprise",
+        "how to implement generative ai",
+        "how to apply llm in business",
+        "how to leverage chatgpt for work",
+        "how to start using ai in my company"
+      ],
+      "answer": "GenAI adoption in business typically follows this path:\n1. Identify high-value use cases (customer support, document processing, internal knowledge base)\n2. Start with off-the-shelf tools (ChatGPT, Copilot) for quick wins\n3. Build custom RAG systems for domain-specific knowledge\n4. Move to agentic workflows for multi-step automation\n5. Implement governance, monitoring, and evaluation frameworks\nThe biggest mistake organisations make: starting with technology before identifying the problem.\nPrashobh helps businesses navigate exactly this journey — from strategy to production:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "explainer",
+      "questions": [
+        "what is prompt engineering",
+        "explain prompt engineering",
+        "how to write good prompts",
+        "how to design prompts",
+        "prompt engineering tutorial",
+        "prompt engineering guide"
+      ],
+      "answer": "Prompt engineering is the practice of designing inputs to AI models (like GPT or Claude) to get the most accurate, useful, and consistent outputs.\nKey techniques:\n• Zero-shot — just describe the task directly\n• Few-shot — give examples of input/output pairs\n• Chain-of-thought — ask the model to reason step by step\n• Role prompting — \"You are an expert in...\"\n• Output formatting — specify JSON, bullet points, tables\nIt's a critical skill for anyone building GenAI applications — small changes in wording can dramatically change output quality.\nPrashobh covers this in his GenAI training sessions:",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    },
+    {
+      "kind": "about",
+      "questions": [
+        "list all companies he worked at",
+        "all companies prashobh worked for",
+        "his full work history",
+        "his complete career timeline",
+        "all his employers",
+        "list of companies"
+      ],
+      "answer": "Here is Prashobh's complete career timeline:\n🏢 Qualizeal — AI Architect & Strategy Planner (Jan 2026 – Present)\n🏢 Tech Mahindra — Technical Architect, Data Science (Jun 2023 – Jan 2026)\n🏢 Yash Technologies — Senior Data Scientist (Aug 2022 – Jun 2023)\n🏢 Brane Enterprises — Associate Solutions Leader (Apr 2021 – Aug 2022)\n🏢 Primera Medical Technologies — Sr. NLP Engineer (Apr 2017 – Mar 2021)\n🏢 TCS (Tata Consultancy Services) — AI & Robotics Engineer (Feb 2015 – Mar 2017)\n13+ years across healthcare, BFSI, robotics, and enterprise GenAI.",
+      "source_url": "https://www.prashobhpaul.com/index.html"
+    }
+  ]
+}

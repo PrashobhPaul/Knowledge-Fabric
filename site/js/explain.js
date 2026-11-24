@@ -33,7 +33,7 @@ export function openExplain({ question, ranked, citations, traceEntities, traceE
         <span class="flow-doc-rank">#${i + 1}</span>
         <span class="flow-doc-name">${escapeHtml(stripExt(chunk.document_name))}</span>
         <span class="flow-doc-section">${escapeHtml(section)}</span>
-        <span class="flow-doc-score">BM25 ${r.score.toFixed(2)}</span>
+        <span class="flow-doc-score">${r._fusion ? 'fused ' + r.score.toFixed(4) : 'BM25 ' + r.score.toFixed(2)}</span>
       </div>`;
   }).join('');
 
@@ -51,7 +51,7 @@ export function openExplain({ question, ranked, citations, traceEntities, traceE
     <div class="flow-step" data-step="2">
       <h3>Retrieved Documents</h3>
       <div class="flow-step-body">
-        Scanned <strong style="color:var(--text)">${_index.chunks.length}</strong> knowledge units across <strong style="color:var(--text)">${_index.documents.length}</strong> documents. Top BM25-ranked passages:
+        Scanned <strong style="color:var(--text)">${_index.chunks.length}</strong> knowledge units across <strong style="color:var(--text)">${_index.documents.length}</strong> records from ${(_index.sources || []).length || 'several'} sources. Top-ranked passages:
         <div class="flow-doc-list">${docRows}</div>
       </div>
     </div>
@@ -101,7 +101,7 @@ function close() {
 
 // Helpers
 function stripExt(name) {
-  return name.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
+  return name.replace(/\.(pdf|docx?|md|markdown|txt)$/i, '').replace(/_/g, ' ');
 }
 
 function escapeHtml(s) {

@@ -1,85 +1,151 @@
 // =============================================================================
-// Answer composer — builds extractive answers with inline citation references.
-// Phase 1: no LLM. Every sentence in the answer ties back to a retrieved chunk.
+// Answer composer — query-focused extractive summarisation
 // =============================================================================
+//
+// Replaces a "top-N sentences by query-term overlap, concatenated" composer.
+// That approach fails in predictable ways on a personal corpus:
+//
+//   Q "where does Prashobh work currently"
+//     -> a travel-video description, because it repeats "work" densely
+//   Q "what are his skills"
+//     -> the same skills sentence four times, lightly reworded
+//   Q "what is Koode"
+//     -> opened with an unrelated explainer that happened to share words
+//
+// The pipeline now is:
+//
+//   NLU  ->  evidence routing  ->  sentence scoring  ->  MMR  ->  assembly
+//
+// with a real confidence figure computed from the retrieval run rather than a
+// constant. Each stage is separately inspectable, which is what makes the
+// answer defensible in front of a technical audience.
 
-import { tokenize } from './search.js';
+import { analyseQuestion, rerankByIntent, anchorRecordTypes } from './nlu.js?v=7';
+import { summarise } from './summarize.js?v=7';
+import { computeConfidence } from './confidence.js?v=7';
+import { composeResponse, composeNoAnswer } from './compose.js?v=8';
 
-const MAX_SENTENCES_PER_CHUNK = 2;
-const MAX_TOTAL_SENTENCES = 6;
+/**
+ * @param {string} query
+ * @param {Array} ranked      [{chunkIdx, score}]
+ * @param {Array} chunks      index chunk array
+ * @param {Object} cohesion   from cohereByDocument (retained for compatibility)
+ * @param {Object} opts       { semantic, bm25, diagnostics }
+ */
+export function buildAnswer(query, ranked, chunks, cohesion = {}, opts = {}) {
+  const { semantic = null, bm25 = null, diagnostics = null } = opts;
 
-// =============================================================================
-// Sentence splitting & scoring
-// =============================================================================
-function splitSentences(text) {
-  return text
-    .replace(/\n+/g, ' ')
-    .match(/[^.!?]+[.!?]+(?=\s|$)|[^.!?]+$/g) || [];
-}
-
-function scoreSentence(sentence, queryTerms) {
-  const tokens = new Set(tokenize(sentence));
-  let hits = 0;
-  for (const t of queryTerms) if (tokens.has(t)) hits++;
-  // Length-normalized overlap, slight preference for medium-length sentences
-  const lenPenalty = Math.min(1, tokens.size / 20) * Math.min(1, 40 / Math.max(tokens.size, 1));
-  return hits * (0.6 + 0.4 * lenPenalty);
-}
-
-// =============================================================================
-// Build answer + citation map
-// =============================================================================
-export function buildAnswer(query, ranked, chunks) {
-  if (ranked.length === 0) {
+  if (!ranked || !ranked.length) {
     return {
-      answerHtml: "I couldn't find anything in the indexed corpus that matches that question. Try rephrasing, or check the suggested questions above.",
-      citations: [],
+      answerHtml: 'No passage in the corpus matched that question.',
+      citations: [], lowConfidence: true, confidence: null, analysis: null,
     };
   }
 
-  const queryTerms = tokenize(query);
-  const citations = [];
-  const pieces = [];
-  let usedSentences = 0;
+  const analysis = analyseQuestion(query);
 
-  for (let i = 0; i < ranked.length; i++) {
-    if (usedSentences >= MAX_TOTAL_SENTENCES) break;
-    const { chunkIdx, score } = ranked[i];
-    const chunk = chunks[chunkIdx];
-    const sentences = splitSentences(chunk.text);
+  const idf = (term) => {
+    if (!bm25 || !bm25.termId || !bm25.idf) return 1;
+    const id = bm25.termId[term];
+    return (id === undefined) ? 2.2 : (bm25.idf[id] ?? 1);
+  };
 
-    const scored = sentences
-      .map(s => ({ s: s.trim(), score: scoreSentence(s, queryTerms) }))
-      .filter(x => x.s.length > 20 && x.score > 0)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, MAX_SENTENCES_PER_CHUNK);
-
-    // Fallback if query terms didn't match any sentence: use the first sentence
-    const chosen = scored.length ? scored : [{ s: sentences[0]?.trim() || chunk.paragraph_excerpt, score: 0 }];
-    if (!chosen[0].s) continue;
-
-    const citationNum = citations.length + 1;
-    citations.push({
-      num: citationNum,
-      chunkIdx,
-      chunk,
-      score,
+  // Anchor records: for intents that strongly prefer one record type (the
+  // one-paragraph summary for "who is", the contact record for "how do I
+  // reach"), make sure those chunks are in the pool. Retrieval can miss them
+  // when the question has no content words left after stopword removal.
+  const anchors = anchorRecordTypes(analysis.intent);
+  let pooled = ranked;
+  if (anchors.length) {
+    const present = new Set(ranked.map(r => r.chunkIdx));
+    const floor = ranked.length ? ranked[Math.min(ranked.length - 1, 4)].score : 0.01;
+    const extra = [];
+    chunks.forEach((c, i) => {
+      if (!present.has(i) && anchors.includes(c.meta && c.meta.record_type)) {
+        extra.push({ chunkIdx: i, score: floor * 0.9, anchored: true });
+      }
     });
+    if (extra.length && extra.length <= 12) pooled = [...ranked, ...extra];
+  }
 
-    for (const { s } of chosen) {
-      if (usedSentences >= MAX_TOTAL_SENTENCES) break;
-      pieces.push(`${s}<sup class="cite-ref" data-cite="${citationNum}">[${citationNum}]</sup>`);
-      usedSentences++;
+  // Evidence routing runs here, on the retrieved pool, before summarisation.
+  // Applying it later would be too late — the pool would already be full of
+  // records that match the words but cannot answer the question.
+  const routed = rerankByIntent(pooled, chunks, analysis.intent);
+  const pool = routed.length >= 3 ? routed : ranked;
+
+  const summary = summarise(query, pool, chunks, { analysis, semantic, bm25 });
+
+  // ---- nothing survived routing + quality filters --------------------------
+  if (!summary.sentences.length) {
+    const top = chunks[ranked[0].chunkIdx];
+    const conf = computeConfidence({ analysis, ranked: pool, sentences: [], diagnostics, idf });
+    const routedOut = summary.rejected > 0;
+    return {
+      answerHtml: composeNoAnswer(analysis, top.document_name, summary.rejected),
+      citations: [{ num: 1, chunkIdx: ranked[0].chunkIdx, chunk: top, score: ranked[0].score, confidence: 0.2 }],
+      lowConfidence: true,
+      confidence: conf,
+      analysis,
+      summary,
+    };
+  }
+
+  // ---- citation numbering, in order of first appearance --------------------
+  const citationsByChunk = new Map();
+  for (const s of summary.sentences) {
+    if (!citationsByChunk.has(s.chunkIdx)) {
+      citationsByChunk.set(s.chunkIdx, {
+        num: citationsByChunk.size + 1,
+        chunkIdx: s.chunkIdx,
+        chunk: s.chunk,
+        score: s.final,
+        signals: s.signals,
+      });
     }
   }
 
-  const answerHtml = pieces.join(' ');
+  const citations = [...citationsByChunk.values()];
+  const maxScore = Math.max(...citations.map(c => c.score), 1e-6);
+  for (const c of citations) c.confidence = c.score / maxScore;
 
-  // Normalize confidence: top score → 1.0
-  const maxScore = Math.max(...citations.map(c => c.score), 0.001);
-  for (const c of citations) {
-    c.confidence = c.score / maxScore;
-  }
+  const confidence = computeConfidence({
+    analysis, ranked: pool, sentences: summary.sentences, diagnostics, idf,
+  });
 
-  return { answerHtml, citations };
+  // Compose the reply: opener, evidence connected by discourse markers, and a
+  // closing note when there is something the reader should know about the
+  // limits of the answer.
+  const composed = composeResponse(analysis, summary.sentences, citations, confidence, summary);
+
+  return {
+    answerHtml: composed.html,
+    answerPlain: composed.plain,
+    interpretation: labelFor(analysis),
+    citations,
+    lowConfidence: confidence.percent < 45,
+    confidence,
+    analysis,
+    summary,
+    primarySource: cohesion.dominantDoc || null,
+  };
+}
+
+function labelFor(analysis) {
+  const focus = analysis.focus.length
+    ? analysis.focus.slice(0, 2).map(titleCase).join(' · ')
+    : null;
+  const intent = analysis.intent.name.replace(/_/g, ' ').toLowerCase();
+  return `Interpreted as a <strong>${escapeHtml(intent)}</strong> question` +
+         (focus ? ` about <strong>${escapeHtml(focus)}</strong>` : '') +
+         ` — looking for ${escapeHtml(analysis.intent.wants || 'a direct answer')}.`;
+}
+
+function titleCase(s) {
+  return String(s).replace(/\b\w/g, c => c.toUpperCase());
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
