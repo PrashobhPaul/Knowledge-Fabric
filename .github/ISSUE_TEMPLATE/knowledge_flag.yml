@@ -1,0 +1,43 @@
+name: Knowledge flag
+description: The fabric could not answer something, or answered it wrongly. The curator reads these.
+title: "[flag] "
+labels: ["knowledge-flag"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks — this is how the Knowledge Fabric learns. The curator runs weekly: it re-checks
+        your question against the freshly synced sources, closes this flag if the gap is now
+        covered, and otherwise proposes an addition for review.
+  - type: input
+    id: question
+    attributes:
+      label: Question asked
+      placeholder: "e.g. Which conference talks has Prashobh given?"
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What went wrong
+      options:
+        - missing — the sources do not cover this
+        - wrong — the answer was incorrect or about something else
+        - outdated — the answer was true once but is no longer
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What the answer should have been (if you know)
+      placeholder: "The fact, or where it can be found (a URL, a document, a video)."
+  - type: input
+    id: confidence
+    attributes:
+      label: Confidence the fabric reported
+      placeholder: "e.g. 31.4%"
+  - type: textarea
+    id: trace
+    attributes:
+      label: Trace (filled in automatically when flagged from the site)
+      render: json

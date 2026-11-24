@@ -286,6 +286,26 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
             "notes": fm.get("notes", []),
         })
 
+    # ---- Curator ledger: open gaps and resolved flags, for the site and the tests
+    flags_path = ks_dir / "flags" / "flags.json"
+    flags_out = None
+    if flags_path.exists():
+        try:
+            led = json.loads(flags_path.read_text(encoding="utf-8"))
+            flags_out = {
+                "generated_at": led.get("generated_at", ""),
+                "summary": led.get("summary", {"open": 0, "resolved": 0, "regressed": 0}),
+                "items": [{
+                    "id": f.get("id"), "question": f.get("question", ""), "kind": f.get("kind", ""),
+                    "status": f.get("status", ""), "url": f.get("url", ""),
+                    "score": (f.get("check") or {}).get("score", 0.0),
+                    "nearest": ((f.get("check") or {}).get("top") or {}).get("document", ""),
+                } for f in led.get("flags", [])],
+            }
+            print(f"\n      curator ledger: {flags_out['summary']}")
+        except (json.JSONDecodeError, AttributeError):
+            flags_out = None
+
     index = {
         "version": "3.0",
         "generator": "knowledge-fabric/personal",
@@ -297,6 +317,7 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
         "graph": {"node_types": graph["node_types"], "edge_types": graph["edge_types"], "stats": gs},
         "facets": build_facets(aligned),
         "sources": sources,
+        "flags": flags_out,
         "factory": {"generated_at": manifest.get("generated_at", ""), "generator": manifest.get("generator", "")},
         "bm25": bm25,
         "retrieval": {

@@ -18,6 +18,7 @@ import { renderMaturityRings } from './rings.js?v=11';
 import { BRAND, COPY, applyBrand } from './brand.js?v=9';
 import { explainGraphContribution, renderGraphContribution, graphPurposeCopy }
   from './graphvalue.js?v=9';
+import { recordTrace, allTraces, renderTraces, renderFlagBox, renderGapBoard } from './traces.js?v=1';
 
 const INDEX_URL = 'data/index.json';
 
@@ -85,6 +86,8 @@ async function boot() {
   setupDerivationToggles();
 
   initLineage({ onChunkClick: id => showChunkDetail(state.chunksById.get(id)) });
+  renderTraces(allTraces(), { onAsk: q => ask(q) });
+  renderGapBoard(state.index.flags || null);
   initExplain(state.index);
   initInsights(state.index, { onEntityClick: showEntityDetail });
 
@@ -721,6 +724,13 @@ async function ask(question, opts = {}) {
 
   populateAnswerStage(question, answerHtml, citations, ranked, trace, cohesion);
   renderGraphValue(citations, result.analysis);
+  // Leave a trace; offer a flag. The seeded demo answer is not a visitor action.
+  if (!silent) {
+    const t = recordTrace({ question, result, retrievalMode: state.retrievalMode });
+    renderTraces(allTraces(), { onAsk: q => ask(q) });
+    const fb = document.getElementById('answer-flag');
+    if (fb) { fb.innerHTML = renderFlagBox(t); fb.hidden = false; }
+  }
   if (!silent) appendAssistantMessage(question, answerHtml, citations, ranked, trace);
   renderLineage(question, answerHtml, citations);
   updateCopilotMetrics(citations, trace, ranked, cohesion);

@@ -183,8 +183,15 @@ function risks(index) {
   }
   const isolated = docs.filter(d => !linkedDocs.has(d.id)).length;
   const undated = docs.filter(d => !d.date_date).length;
+  const gaps = (index.flags && index.flags.summary) ? index.flags.summary.open : 0;
+  const regressed = (index.flags && index.flags.summary) ? (index.flags.summary.regressed || 0) : 0;
 
   return [
+    { label: 'open knowledge gaps', value: gaps + (regressed ? ` (+${regressed} regressed)` : ''),
+      detail: index.flags ? `${gaps} flagged question${gaps === 1 ? '' : 's'} the current sources do not answer; ${index.flags.summary.resolved} resolved by sync` : 'curator has not run yet',
+      how: 'knowledge_factory/curator.py re-asks every GitHub issue labelled knowledge-flag against the current index',
+      why: 'These are questions real visitors asked and the fabric could not answer. ' +
+           'Each one is a concrete, prioritised thing to add — the loop that makes the fabric learn.' },
     { label: 'extraction debris', value: `${pct(debris / Math.max(sents, 1))}%`,
       detail: `${debris} of ${sents} sentences classified as table, header, equation or legal text`,
       how: 'build-time sentence classifier (pipeline/textnorm.py)',
