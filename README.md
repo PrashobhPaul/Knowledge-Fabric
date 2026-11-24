@@ -66,7 +66,23 @@ supply chain. Two components, deliberately separated, meet at one folder:
                           site/   static · client-side · $0
 ```
 
-**The loop is automated.** `factory.yml` runs every Monday (or on demand),
+**The loop closes with feedback.** Every answer leaves a *trace* (question, intent,
+confidence, sources) in the visitor's browser, shown in the Traces panel. A weak
+answer offers *Flag this answer*, which opens a pre-filled GitHub Issue labelled
+`knowledge-flag` — no backend, no token. The **Curator** (`knowledge_factory/curator.py`,
+run by `curator.yml` weekly and on every new flag) re-asks each flagged question
+against the freshly synced sources, closes the flags the sync fixed, keeps them as
+regression checks, and opens one PR with a `profile.yaml` stub per remaining gap for
+a human to complete. The curator proposes; it never invents a fact.
+
+```
+   visitor asks  ──▶  trace (browser)  ──▶  weak? ──▶  Flag ──▶  GitHub Issue (knowledge-flag)
+                                                                        │
+   next build answers it  ◀──  human completes stub  ◀──  curator PR  ◀─┘  (re-checked against fresh sources;
+   and the integration test keeps it answered                               fixed ones auto-closed)
+```
+
+**The sync is automated.** `factory.yml` runs every Monday (or on demand),
 re-syncs the sources and commits what changed. That commit triggers
 `deploy.yml`, which rebuilds the fabric, runs the quality gates and republishes
 the site. New video on the channel, new repository on GitHub, updated resume on
@@ -78,19 +94,20 @@ the website — the fabric learns it within a week with nobody running anything.
 
 | Capability | Implementation |
 |---|---|
-| Multi-source acquisition | `knowledge_factory/` — website crawler, YouTube RSS, GitHub API, resume download |
-| Multi-source ingestion | `pipeline/connectors/` — resume PDF, structured profile, website, YouTube, GitHub → one record shape |
+| Multi-source acquisition | `knowledge_factory/` — website crawler, YouTube RSS, GitHub API, LinkedIn data export, resume download |
+| Multi-source ingestion | `pipeline/connectors/` — resume PDF, structured profile, website, LinkedIn, YouTube, GitHub → one record shape |
 | Entity resolution | `pipeline/ontology.py` — surface forms collapse to canonical nodes across sources |
-| Typed knowledge graph | `pipeline/graph.py` — 19 node types, 21 edge types, cross-source flag |
+| Typed knowledge graph | `pipeline/graph.py` — 23 node types, 25 edge types, cross-source flag |
 | Lexical retrieval | BM25, client-side, with morphological + synonym expansion |
 | Semantic retrieval | LSA over TF-IDF, int8-quantised, embedded in-browser (no model download) |
 | Hybrid retrieval | Reciprocal Rank Fusion (k = 60) |
-| Question understanding | 16 intents (career, skills, projects, education, services, contact, YouTube, …) with evidence routing |
+| Question understanding | 18 intents (career, skills, projects, education, services, contact, posts, events, YouTube, …) with evidence routing |
 | Extractive answers | MMR sentence selection, focus gate, relevance floor — verbatim, cited, never paraphrased |
 | Derived confidence | Weighted geometric mean of 5 measured retrieval signals |
 | Knowledge health | Coverage, connectivity, provenance, extraction quality, freshness — each with its formula |
 | Factory ↔ Fabric visibility | Source strip on the site: which systems fed it, how many records, when last synced |
 | Evaluation gate | `eval/gold_set.yaml` — recall / MRR / nDCG per retrieval mode; CI fails on regression |
+| Feedback loop | Traces in-browser · flags as GitHub Issues · curator re-checks, auto-closes, proposes `profile.yaml` stubs · resolved flags become regression tests |
 | Deployment | GitHub Pages. No backend, no vector DB, no API keys, no cost |
 
 ---
@@ -182,6 +199,40 @@ It also runs by itself every Monday.
   `knowledge_sources/profile/profile.yaml`, `pipeline/ontology.py` and
   `site/js/brand.js`. Nothing else references the subject.
 
+### Add your LinkedIn profile, posts and events
+
+LinkedIn cannot be crawled (login-walled, and against its terms), so the Factory
+reads the **official data export**:
+
+1. On LinkedIn: **Settings & Privacy → Data privacy → Get a copy of your data →
+   Download larger data archive**. LinkedIn emails a ZIP within ~24 hours.
+2. Unzip it. On GitHub, open `knowledge_sources/linkedin/export/` → **Add file →
+   Upload files** → drop `Shares.csv` (posts), `Events.csv`, `Certifications.csv`,
+   `Honors.csv`, `Publications.csv`, `Projects.csv`, `Recommendations_Received.csv`,
+   `Skills.csv`. Commit.
+3. The next Factory run (or **Actions → Knowledge Factory → Run workflow** with
+   `linkedin`) turns them into posts, events, certifications, honors, publications
+   and recommendations. Each becomes a typed node (`POSTED`, `ATTENDED`, `HOLDS`,
+   `DISCUSSES`) and a citable record linking back to LinkedIn.
+
+For a single post without an export, paste it into
+`knowledge_sources/linkedin/posts.md` (date · URL heading, then the text). Major
+events you attended or spoke at can also go straight into `profile.yaml` → `events`.
+
+### Close a knowledge gap (the feedback loop)
+
+1. On the site, a weak answer shows **Flag as missing / wrong / outdated**. Click it; a
+   GitHub Issue opens pre-filled with the question and trace. Submit it.
+2. The **Knowledge Curator** workflow runs (on the new issue, and every Monday). If the
+   current sources already answer the question, it closes the issue with a comment.
+3. Otherwise it opens a PR titled `curator: N proposed knowledge update(s)` containing
+   `knowledge_sources/flags/proposals.md` with one stub per gap. Complete the fact in
+   `profile.yaml` (GitHub editor, pencil icon) and merge.
+4. The next deploy answers it, and the integration test keeps it answered forever.
+
+Open gaps are visible on the site under **Explainability → Flags · curator gap board**
+and as a risk card in **Knowledge Health**.
+
 ### Review before publishing
 
 `knowledge_sources/profile/profile.yaml` → `engagements` names client programmes
@@ -209,19 +260,23 @@ pytest tests/ -v                          # pipeline + factory unit tests
 # Repository structure
 
 ```
-knowledge_factory/            THE FACTORY — acquisition
+knowledge_factory/            THE FACTORY — acquisition + curation
   config.yaml                   who/what to sync (person, website, channel, GitHub user)
   sync.py                       orchestrator; per-source failure isolation; manifest
+  curator.py                    flags → re-check → auto-close / proposals (the feedback loop)
   sources/website.py            crawl + project cards + assistant FAQ + resume download
   sources/youtube.py            RSS (keyless) with merge-never-forget; optional yt-dlp
   sources/github.py             repositories + README excerpts
+  sources/linkedin.py           official data export + posts.md → posts, events, credentials
 knowledge_sources/            Factory output, committed (deterministic Fabric input)
   profile/profile.yaml          hand-curated structured facts
   website/  youtube/  github/   synced JSON
   manifest.json                 sync status per source
+  flags/flags.json              curator ledger: open gaps, resolved + regression set
+  flags/proposals.md            stubs for a human to complete
 docs_source/resume/           resume PDFs (current + archived revision)
 pipeline/                     THE FABRIC — indexing
-  connectors/                   base · documents · profile · website · youtube · github
+  connectors/                   base · documents · profile · website · youtube · github · linkedin
   ontology.py                   canonical names + detection
   graph.py                      typed cross-source knowledge graph
   parsers.py · chunker.py       heading-aware parsing (incl. line-structured resume PDFs)
@@ -238,9 +293,11 @@ site/                         static site (GitHub Pages)
   js/graph.js · graphvalue.js   knowledge galaxy + "what the graph contributed"
   js/health.js · rings.js       knowledge health with formulas
   js/brand.js                   every reader-facing string, in one object
+  js/traces.js                  trace ledger, flag links, curator gap board
 tests/                        pytest suite + browser integration test
 .github/workflows/
   factory.yml                   scheduled source sync → commit
+  curator.yml                   flags → ledger commit + proposals PR
   deploy.yml                    build + gates + Pages deploy (triggered by that commit)
   ci.yml                        tests + build + integration + evaluation on PRs
 ```

@@ -152,6 +152,7 @@
           <span class="answer-a-eyebrow">Knowledge Fabric Answer</span>
           <div class="answer-a-text" id="answer-stage-text">—</div>
           <p class="answer-assurance" data-brand="answerAssurance"></p>
+          <div class="answer-flag" id="answer-flag" hidden></div>
           <div class="answer-a-meta">
             <span class="answer-meta-item answer-meta-conf">
               <span class="meta-k">Confidence</span>
@@ -218,6 +219,18 @@
         </div>
       </div>
 
+      <!-- Middle: traces this browser left, and the curator's gap board -->
+      <div class="explain-panel traces-panel">
+        <header class="explain-panel-head">
+          <span class="explain-panel-eyebrow">Traces · this browser</span>
+        </header>
+        <div class="traces-body" id="traces-body"></div>
+        <header class="explain-panel-head explain-panel-head-sub">
+          <span class="explain-panel-eyebrow">Flags · curator gap board</span>
+        </header>
+        <div class="traces-body" id="gaps-body"></div>
+      </div>
+
       <!-- Right: trust pillars -->
       <div class="explain-panel pillars-panel">
         <header class="explain-panel-head">
@@ -248,8 +261,8 @@
           <div class="pillar">
             <span class="pillar-num">04</span>
             <div class="pillar-body">
-              <div class="pillar-title">Honest "I don't know"</div>
-              <div class="pillar-sub">Low retrieval signal returns an explicit non-answer rather than a fabricated one.</div>
+              <div class="pillar-title">Honest "I don't know" — and it learns</div>
+              <div class="pillar-sub">A weak answer is labelled as one and can be flagged. The curator re-checks every flag against freshly synced sources and proposes what to add.</div>
             </div>
           </div>
         </div>

@@ -203,6 +203,23 @@ class ProfileConnector:
             yield self._rec(rtype="career_project", doc="Key Projects", section=["Key Projects", name],
                             title=name, text=text, meta={"project": canon}, entities=[("Project", canon)])
 
+    def _events(self) -> Iterator[KnowledgeRecord]:
+        for e in self.data.get("events", []):
+            if not isinstance(e, dict) or "name" not in e:
+                continue
+            name = sanitize(e["name"])
+            when = _month(e.get("date"))
+            role = sanitize(e.get("role")) or "attendee"
+            verb = "spoke at" if "speaker" in role.lower() else "attended"
+            text = (f"{self.person} {verb} {name}{' in ' + when if when else ''}"
+                    f"{' at ' + sanitize(e['place']) if e.get('place') else ''}. {sanitize(e.get('description'))}").strip()
+            canon = ontology.canonical("Event", name) or name
+            yield self._rec(rtype="event", doc="Events", section=["Events", name], title=name, text=text,
+                            meta={"event": canon, "year": str(e.get("date") or "")[:4], "role": role,
+                                  "published": f"{str(e.get('date'))[:7]}-01" if e.get("date") else ""},
+                            entities=[("Event", canon)] + ([("Place", ontology.canonical("Place", e["place"]) or sanitize(e["place"]))] if e.get("place") else []),
+                            url=(e.get("links") or ["https://www.prashobhpaul.com/"])[0])
+
     def _personal(self) -> Iterator[KnowledgeRecord]:
         p = self.data.get("personal", {})
         if p.get("statement"):
@@ -225,5 +242,5 @@ class ProfileConnector:
     def fetch(self) -> Iterator[KnowledgeRecord]:
         for source in (self._person, self._links, self._experience, self._engagements,
                        self._education, self._skills, self._services, self._career_projects,
-                       self._personal):
+                       self._events, self._personal):
             yield from source()

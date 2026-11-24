@@ -431,11 +431,68 @@ check('lineage links each citation back to its source URL', () => {
   assert(/lineage-link/.test(lj) && /c\.url/.test(lj), 'lineage does not link out to the source');
 });
 
+check('LinkedIn posts and events are first-class', () => {
+  assert(idx.chunks.some(c => c.source_type === 'linkedin' && c.meta.record_type === 'post'), 'no LinkedIn post indexed');
+  assert(idx.chunks.some(c => c.meta.record_type === 'event'), 'no event indexed');
+  assert(analyseQuestion('What has Prashobh posted about on LinkedIn?').intent.name === 'POSTS');
+  assert(analyseQuestion('What events has Prashobh attended?').intent.name === 'EVENTS');
+  const r = ask('What does Prashobh say about knowledge factories and ontologies?');
+  assert(r.citations.some(c => c.chunk.meta.record_type === 'post'), 'a question about his writing did not cite a post');
+  const e = ask('What events has Prashobh attended?');
+  assert(e.citations.some(c => c.chunk.meta.record_type === 'event'), 'an events question did not cite an event');
+});
+
 check('bank exercises the full NLU router', () => {
   const seen = new Set(BANK.map(q => analyseQuestion(q).intent.name));
   assert(seen.size >= 10, `only ${seen.size} intents represented: ${[...seen].join(', ')}`);
   const general = BANK.filter(q => analyseQuestion(q).intent.name === 'GENERAL').length;
   assert(general / BANK.length < 0.12, `${general}/${BANK.length} questions fall through to GENERAL`);
+});
+
+console.log('\n=== FEEDBACK LOOP: TRACES, FLAGS, CURATOR ===');
+const { recordTrace, flagUrl, renderFlagBox } = await import(path.join(SITE, 'js/traces.js'));
+
+check('the index ships the curator ledger summary', () => {
+  assert(idx.flags && idx.flags.summary, 'index.flags missing — build_index did not read the ledger');
+  for (const k of ['open', 'resolved', 'regressed']) assert(typeof idx.flags.summary[k] === 'number', `summary.${k} missing`);
+});
+
+check('every resolved flag still answers (the fix stays fixed)', () => {
+  const resolved = (idx.flags.items || []).filter(f => f.status === 'resolved');
+  for (const f of resolved) {
+    const r = ask(f.question);
+    assert(r.citations.length > 0 && !r.lowConfidence, `resolved flag regressed: "${f.question}" (${r.confidence?.percent}%)`);
+  }
+  assert((idx.flags.items || []).every(f => f.status !== 'regressed'), 'ledger reports a regressed flag');
+});
+
+check('a flag link is a pre-filled GitHub issue carrying the trace, with no token', () => {
+  const r = ask('Which conference talks has Prashobh given?');
+  const t = { t: new Date().toISOString(), q: 'Which conference talks has Prashobh given?', intent: r.analysis.intent.name,
+              focus: r.analysis.focus, confidence: r.confidence.percent, band: r.confidence.band, low: r.lowConfidence,
+              mode: 'hybrid', sources: [], cited: [], caveats: [] };
+  const url = flagUrl(t, 'missing');
+  assert(url.startsWith('https://github.com/PrashobhPaul/Knowledge-Fabric/issues/new?'), url);
+  const p = new URL(url).searchParams;
+  assert(p.get('template') === 'knowledge_flag.yml' && p.get('labels') === 'knowledge-flag', 'template/label missing');
+  assert(p.get('question') === t.q, 'question not carried');
+  assert(JSON.parse(p.get('trace')).intent === t.intent, 'trace not carried');
+  assert(!/token|secret/i.test(url), 'a credential leaked into the flag URL');
+});
+
+check('a weak answer gets the flag box opened for it', () => {
+  const weak = renderFlagBox({ t: '', q: 'x', intent: 'GENERAL', focus: [], confidence: 20, band: 'very low', low: true, mode: 'hybrid', sources: [], cited: [], caveats: [] });
+  assert(/flag-box-weak/.test(weak) && /looks like a gap/.test(weak), 'weak answer not flagged');
+  const strong = renderFlagBox({ t: '', q: 'x', intent: 'GENERAL', focus: [], confidence: 80, band: 'high', low: false, mode: 'hybrid', sources: [], cited: [], caveats: [] });
+  assert(!/flag-box-weak/.test(strong), 'strong answer treated as a gap');
+});
+
+check('the issue form, curator workflow and curator module exist and agree on the label', () => {
+  const form = fs.readFileSync(path.join(ROOT, '.github/ISSUE_TEMPLATE/knowledge_flag.yml'), 'utf8');
+  const wf = fs.readFileSync(path.join(ROOT, '.github/workflows/curator.yml'), 'utf8');
+  const cur = fs.readFileSync(path.join(ROOT, 'knowledge_factory/curator.py'), 'utf8');
+  for (const s of [form, wf, cur]) assert(/knowledge-flag/.test(s), 'label mismatch across form, workflow and curator');
+  assert(/never invents/.test(cur), 'curator must not invent facts');
 });
 
 console.log('\n' + '='.repeat(62));

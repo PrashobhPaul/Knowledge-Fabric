@@ -53,7 +53,8 @@ const KIND_PHRASE = {
   Project: 'the project', Skill: 'the skill', Technology: 'the technology', Domain: 'the domain',
   Institution: 'the institution', Degree: 'the degree', Service: 'the service', Channel: 'the channel',
   Video: 'the video', Place: 'the place', Topic: 'the topic', Event: 'the event', Platform: 'the platform',
-  Language: 'the language', Document: 'the document',
+  Language: 'the language', Document: 'the document', Post: 'the post', Certification: 'the certification',
+  Honor: 'the honor', Publication: 'the publication',
 };
 
 /**
@@ -217,7 +218,7 @@ export function renderMiniGraph(contribution, index) {
   const nodes = docIds.map((id, i) => {
     const angle = (start + (spread / Math.max(n - 1, 1)) * i) * Math.PI / 180;
     const d = docsById.get(id);
-    const isRegulatory = d && (d.source_type === 'youtube' || d.source_type === 'github');
+    const isRegulatory = d && ['youtube', 'github', 'linkedin'].includes(d.source_type);
     return {
       id,
       x: cx + R * Math.cos(angle),
@@ -258,7 +259,7 @@ export function renderMiniGraph(contribution, index) {
       <figcaption class="mg-caption">
         <span class="mg-key"><i class="mg-swatch mg-swatch-hub"></i>shared concept</span>
         <span class="mg-key"><i class="mg-swatch mg-swatch-doc"></i>resume · site · profile</span>
-        <span class="mg-key"><i class="mg-swatch mg-swatch-reg"></i>YouTube · GitHub</span>
+        <span class="mg-key"><i class="mg-swatch mg-swatch-reg"></i>YouTube · GitHub · LinkedIn</span>
       </figcaption>
     </figure>`;
 }
@@ -268,7 +269,7 @@ function stripExt(name) {
 }
 
 const SOURCE_LABEL = { document: 'the resume', website: 'the website', profile: 'the structured profile',
-                       youtube: 'the YouTube channel', github: 'GitHub' };
+                       youtube: 'the YouTube channel', github: 'GitHub', linkedin: 'LinkedIn' };
 function sourceLabel(type) {
   return SOURCE_LABEL[type] || type;
 }

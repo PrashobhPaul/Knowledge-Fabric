@@ -17,7 +17,7 @@ export const BRAND = {
     shortName: 'Prashobh',
     role: 'AI Architect · Agentic AI · Enterprise AI',
     url: 'https://www.prashobhpaul.com',
-    corpusDescription: 'resume, personal website, YouTube channel and GitHub repositories',
+    corpusDescription: 'resume, personal website, LinkedIn posts, YouTube channel and GitHub repositories',
   },
   builder: {
     name: 'Prashobh Paul',
@@ -48,7 +48,7 @@ export const BRAND = {
   // Belongs beside the answer, where it is a claim the reader can check.
   get answerAssurance() {
     return 'Every statement below is quoted from a source about ' + this.subject.shortName +
-           ' — the resume, the website, a video or a repository — and linked to it. Nothing is generated or paraphrased.';
+           ' — the resume, the website, a LinkedIn post, a video or a repository — and linked to it. Nothing is generated or paraphrased.';
   },
 };
 

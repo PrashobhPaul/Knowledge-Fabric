@@ -230,6 +230,22 @@ career_projects:
     description: Achieved a 300x reduction in ticket resolution time.
 career_projects_source: ["resume"]
 
+# ----------------------------------------------------------------------------- events
+events:
+  - name: Microsoft AI Tour Mumbai 2025
+    date: 2025-12
+    place: Jio World Centre, Mumbai
+    role: attendee
+    description: Attended the Microsoft AI Tour in Mumbai, met Satya Nadella, and vlogged the event on The Canvas of Earth.
+    links: ["https://www.youtube.com/watch?v=k7kcsrzLn80"]
+    source: ["youtube", "website"]
+  - name: Kala Ghoda Arts Festival 2026
+    date: 2026-02
+    place: Mumbai
+    role: visitor
+    description: Visited the Kala Ghoda Arts Festival in Mumbai and covered it in YouTube Shorts.
+    source: ["youtube"]
+
 # ----------------------------------------------------------------------------- personal / creative
 personal:
   youtube_channel: The Canvas of Earth

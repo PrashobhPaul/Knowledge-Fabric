@@ -282,3 +282,63 @@ def test_factory_faq_filter_drops_bot_voice():
     assert "hello" not in kinds
     assert kinds["what are his skills"] == "about"
     assert kinds["what is rag"] == "explainer"
+
+
+# =============================================================================
+# Curator — flags to knowledge
+# =============================================================================
+def test_curator_resolves_covered_flags_and_proposes_the_rest(tmp_path):
+    from knowledge_factory.curator import parse_issue, run
+    from pipeline.build_index import build
+    ks = ROOT / "knowledge_sources"
+    if not ks.exists():
+        pytest.skip("knowledge_sources not present")
+    out, sem = tmp_path / "index.json", tmp_path / "semantic.json"
+    build(ROOT / "docs_source", ks, out, sem)
+    fixture = json.loads((ROOT / "tests" / "fixtures" / "flags_fixture.json").read_text())
+    flags = [parse_issue(i) for i in fixture]
+    assert flags[0]["question"] == "What did Prashobh do at Tech Mahindra?"
+    assert flags[0]["kind"] == "missing" and flags[0]["trace"] == {"intent": "CAREER"}
+    result = run(flags, out, sem, close=False, out_dir=tmp_path / "flags")
+    by_id = {f["id"]: f for f in result["ledger"]["flags"]}
+    assert by_id[101]["status"] == "resolved", by_id[101]["check"]
+    assert by_id[102]["status"] == "open", by_id[102]["check"]
+    proposals = (tmp_path / "flags" / "proposals.md").read_text()
+    assert "Flag #102" in proposals and "Flag #101" not in proposals
+    assert "He spoke at an internal Qualizeal AI session" in proposals   # the reporter's fact, verbatim
+    # second run: a resolved flag that is no longer an open issue stays as a regression check
+    result2 = run([flags[1]], out, sem, close=False, out_dir=tmp_path / "flags")
+    statuses = {f["id"]: f["status"] for f in result2["ledger"]["flags"]}
+    assert statuses == {101: "resolved", 102: "open"}
+
+
+# =============================================================================
+# LinkedIn — official export + hand-maintained posts, no crawling
+# =============================================================================
+def test_linkedin_source_reads_export_and_posts_md(tmp_path):
+    import shutil
+    from knowledge_factory.sources.linkedin import sync
+    out = tmp_path / "knowledge_sources"
+    (out / "linkedin").mkdir(parents=True)
+    shutil.copytree(ROOT / "tests" / "fixtures" / "linkedin_export", out / "linkedin" / "export")
+    (out / "linkedin" / "posts.md").write_text(
+        "## 2026-11-20 · https://www.linkedin.com/posts/manual-1\nA hand-pasted post about knowledge graphs and ontologies. #KnowledgeGraphs\n")
+    res = sync({"linkedin": {"profile_url": "https://www.linkedin.com/in/x/"}}, out, tmp_path)
+    assert res.status == "ok"
+    posts = json.loads((out / "linkedin" / "posts.json").read_text())["posts"]
+    assert [p["date"] for p in posts] == ["2026-11-20", "2026-10-02"]      # "Short." dropped, newest first
+    events = json.loads((out / "linkedin" / "events.json").read_text())["events"]
+    assert events[0]["name"] == "Microsoft AI Tour Mumbai 2025" and events[0]["date"] == "2025-12-18"
+    extra = json.loads((out / "linkedin" / "profile_extra.json").read_text())
+    assert extra["certifications"][0]["authority"] == "Amazon Web Services"
+
+    from pipeline.connectors.linkedin import LinkedInConnector
+    records = list(LinkedInConnector(out / "linkedin").fetch())
+    types = {r.metadata["record_type"] for r in records}
+    assert {"post", "event", "certification"} <= types
+    post = next(r for r in records if r.metadata["record_type"] == "post" and "LangGraph" in r.text)
+    assert post.text.startswith("Prashobh Paul wrote on LinkedIn on 2 October 2026:")
+    assert ("Technology", "LangGraph") in post.entities and ("Domain", "BFSI") in post.entities
+    ev = next(r for r in records if r.metadata["record_type"] == "event")
+    assert ("Event", "Microsoft AI Tour Mumbai 2025") in ev.entities
+    assert all(r.url for r in records)
