@@ -84,6 +84,9 @@ def registry_from(paths: dict[str, Path]) -> list:
             connectors.append(YouTubeConnector(ks / "youtube"))
         if (ks / "github" / "repos.json").exists():
             connectors.append(GitHubConnector(ks / "github" / "repos.json"))
+        if (ks / "github" / "code.json").exists():
+            from .code import CodeConnector
+            connectors.append(CodeConnector(ks / "github" / "code.json"))
         if (ks / "linkedin" / "posts.json").exists():
             connectors.append(LinkedInConnector(ks / "linkedin"))
     return connectors

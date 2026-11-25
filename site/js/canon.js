@@ -133,7 +133,7 @@ const normQ = (s) => ' ' + String(s).toLowerCase().replace(/[’']/g, '').replac
 const ABOUT_HIM = /\b(you|your|yours|yourself|u|ur|prashobh|paul|he|his|him|himself)\b/i;
 const IMPERATIVE = /^\s*(please\s+)?(write|generate|create|compose|translate|calculate|solve|draw|code|summari[sz]e|make me|give me a)\b/i;
 // Errands asked of the twin itself ("Can you book me a flight?"): a task, never a question about him.
-const TASK = /^\s*(please\s+)?((can|could|will|would)\s+(you|u)\s+(please\s+)?)?(book|order|buy|reserve|schedule|remind|call me|email me|text me|play|translate|calculate|solve|generate|compose|summari[sz]e|write|draft|proofread|review my|edit my|fix my|draw me|tell me a joke|sing)\b/i;
+const TASK = /^\s*(please\s+)?((can|could|will|would)\s+(you|u)\s+(please\s+)?)?(book|order|buy|reserve|schedule|remind|send me|send|call me|email me|text me|play|translate|calculate|solve|generate|compose|summari[sz]e|write|draft|proofread|review my|edit my|fix my|draw me|tell me a joke|sing)\b/i;
 const COMPARE = /\b(compare|comparison|compared|versus|vs|difference|differences|differ|different|similar|similarities|better than|which is better)\b/i;
 const VIDEO_LIST = /\b(which|what|list|show|find|any)\b.*\b(videos?|vlogs?|episodes?)\b/i;
 

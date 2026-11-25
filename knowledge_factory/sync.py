@@ -16,12 +16,13 @@ import tempfile
 from pathlib import Path
 
 from .common import load_config, now_iso, read_json, write_json
-from .sources import github, linkedin, website, youtube
+from .sources import github, github_code, linkedin, website, youtube
 
 SOURCES = {
     "website": website.sync,
     "youtube": youtube.sync,
     "github": github.sync,
+    "github_code": github_code.sync,
     "linkedin": linkedin.sync,
 }
 

@@ -69,7 +69,10 @@ function weakRetrieval(question, result, bm25, chunks) {
   const aboutHim = /\b(you|your|yours|yourself|u|ur|prashobh|paul|he|his|him|himself)\b/i.test(question);
   if (!aboutHim && (/^\s*who\b/i.test(question) || (result.summary && result.summary.coverage < 0.67))) return true;
   // Not about him and naming nothing of his ("What is the meaning of life?"): not his to answer.
-  if (!aboutHim && chunks && expandQuery(question).lang === 'en') {
+  // Naming nothing in the corpus ("What is the meaning of life?", "What car do
+  // you drive?"): the words occur in my READMEs and notes, but not as an answer.
+  // Personal questions are answered by the curated layer or not at all.
+  if (chunks && expandQuery(question).lang === 'en') {
     const names = corpusNames(chunks);
     if (!tokenize(question).some(w => names.has(w))) return true;
   }
@@ -79,7 +82,7 @@ function weakRetrieval(question, result, bm25, chunks) {
 }
 
 // Personal data that is private by design: said plainly, never guessed at.
-const PRIVATE = /\b((home|house|residential|postal|street) address|salary|ctc|income|net worth|bank account|account number|password|aadhaa?r|pan (number|card)|passport number|blood group|religion|caste|political party)\b/i;
+const PRIVATE = /\b((home|house|residential|postal|street) address|salary|ctc|income|net worth|bank account|bank details|bank info|card details|credit card|debit card|upi id|account number|password|aadhaa?r|pan (number|card)|passport number|blood group|religion|caste|political party)\b/i;
 
 export function answerQuestion(asked, ctx) {
   const { index, bm25, chunks } = ctx;
