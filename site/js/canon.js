@@ -205,7 +205,12 @@ function scoreAll(question, canon) {
   }).sort((a, b) => (b.score - a.score) || (b.s - a.s));
 }
 
-const normV = (s) => String(s).toLowerCase().replace(/[’']/g, '').replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\b(prashobh paul|prashobh|paul)\b/g, ' ').replace(/\s+/g, ' ').trim();
+// Exact-match form: punctuation-free, and the same whether asked of "you" or "Prashobh".
+const normV = (s) => String(s).toLowerCase().replace(/[’']/g, '')
+  .replace(/\bprashobh paul\b/g, 'prashobh').replace(/\bprashobhs\b/g, 'your')
+  .replace(/\b(does|is|has|was) prashobh\b/g, (m, v) => ({ does: 'do', is: 'are', has: 'have', was: 'were' }[v]) + ' you')
+  .replace(/\bprashobh\b/g, 'you').replace(/\bhis\b/g, 'your').replace(/\b(he|him)\b/g, 'you')
+  .replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
 
 /** One question → its best canon entry, or null. */
 function matchOne(question, canon, threshold) {
@@ -408,9 +413,17 @@ export function isImperativeTask(question) { question = casual(question); return
 const GREET = /^(hi+|hello|helo|hey|namaste|namaskar|good (morning|afternoon|evening)|greetings|yo)\b[\s,!.]*((prashobh|paul|sir|there|buddy|friend|all|everyone)\b[\s,!.]*)?/i;
 const INTRO = /^(i am|i'm|im|my name is|this is)\s+[^.?!]{1,60}[.!]\s*/i;
 /** The question itself, without "Hi, I'm Rahul." in front of it. */
+// Conversational wrappers around the real question ("Quick question:", "Can you tell me…").
+const PREAMBLE = /^(quick question|just curious|curious|one more (thing|question)|by the way|btw|also|ok(ay)?|so|well|and|i was wondering|question)\b[\s,:;!.-]+/i;
+const ASK = /^((can|could|would|will) (you|u) (please )?(tell|let) me( know)?|please tell me|tell me,|i (want|wanted|would like|'d like|wish) to know|i('m| am) curious( to know)?|do you mind telling me)\b[\s,:]*/i;
 export function focus(question) {
   let t = String(question).trim();
-  for (let k = 0; k < 3; k++) { const b = t; t = t.replace(GREET, '').replace(INTRO, '').trim(); if (t === b) break; }
+  for (let k = 0; k < 4; k++) {
+    const b = t;
+    t = t.replace(GREET, '').replace(INTRO, '').replace(PREAMBLE, '').replace(ASK, '').trim();
+    if (t === b) break;
+  }
+  t = t.replace(/\.\s*\?$/, '?');
   return t || String(question).trim();
 }
 const SMALL = [

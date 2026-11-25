@@ -115,6 +115,72 @@ export function pickCode(question, chunks, project = '') {
   return { repo: m.repository, path: m.path, url: best.url, language: m.language, excerpt: String(m.excerpt || '').split('\n').slice(0, 40).join('\n'), chunk: best };
 }
 
+// ---------------------------------------------------------------------------
+// Catalogue lookup: "Do you have a video about Peace at 14,000 ft?", "What is your
+// TripWise project on GitHub?" — the visitor names one item; answer with exactly it.
+// ---------------------------------------------------------------------------
+const MEDIA_Q = /\b(videos?|vlogs?|shorts?|clips?|watch|youtube|repos?|repository|github|project)\b/i;
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const when = (iso) => { const [y, m] = String(iso || '').split('-'); return y && m ? `${MONTHS[Number(m) - 1]} ${y}` : (y || ''); };
+const titleWords = (t) => tokenize(String(t).replace(/([a-z])([A-Z])/g, '$1 $2').replace(/[_-]/g, ' ')).filter(w => w.length > 1);
+export function lookupTitle(question, chunks) {
+  if (!MEDIA_Q.test(question)) return null;
+  const qw = new Set(titleWords(question)), q = sq(question);
+  let best = null, bestScore = 0;
+  const hits = [];
+  for (const c of chunks) {
+    const m = c.meta || {};
+    if (m.record_type !== 'video' && m.record_type !== 'repository') continue;
+    const name = m.record_type === 'video' ? (c.document_name || '') : String(c.document_name || '').replace(/^GitHub · /, '');
+    // Score against the whole title and its main part ("Peace at 14,000 ft | Chandratal | Spiti").
+    const segs = [name, ...String(name).split(/\s*(?:\|\|?|#|•|—|–|:| - )\s*/)].filter(x => titleWords(x).length);
+    let score = 0, tw = [];
+    for (const [k, sg] of segs.entries()) {
+      const w = [...new Set(titleWords(sg))];
+      // the whole title outranks a part of it, so near-identical titles stay apart
+      const sc = (w.filter(x => qw.has(x)).length / w.length) * (k === 0 ? 1 : 0.9) + (k === 0 ? 0.001 * w.length : 0);
+      if (sc > score || (sc === score && w.length > tw.length)) { score = sc; tw = w; }
+    }
+    if (!tw.length) continue;
+    if (m.record_type === 'repository' && sq(name).length >= 4 && q.includes(sq(name))) score = Math.max(score, 1);
+    if (tw.length < 2 && m.record_type === 'video') score *= 0.6;          // one-word titles are too easy to hit
+    if (m.record_type === 'video' && score >= 0.75) hits.push(c);
+    if (score > bestScore || (score === bestScore && best && (m.views || 0) > ((best.meta || {}).views || 0))) { bestScore = score; best = c; }
+  }
+  if (!best || bestScore < 0.75) return null;
+  // "Which videos cover Tabo Monastery?": every matching video, most watched first.
+  if (/\b(videos|vlogs|shorts|clips)\b/i.test(question)) {
+    // every video whose title carries all the topic words asked about
+    const topic = titleWords(question).filter(w => !/^(which|what|videos?|vlogs?|shorts?|clips?|cover|covers|about|on|of|have|you|your|do|any|made|show|me|list|all|the|is|are)$/.test(w));
+    if (topic.length) for (const c of chunks) {
+      const m = c.meta || {};
+      if (m.record_type === 'video' && !hits.includes(c) && topic.every(w => titleWords(c.document_name || '').includes(w))) hits.push(c);
+    }
+  }
+  if (/\b(videos|vlogs|shorts|clips)\b/i.test(question) && hits.length >= 2) {
+    const list = hits.sort((a, b) => ((b.meta || {}).views || 0) - ((a.meta || {}).views || 0)).slice(0, 6);
+    const names = list.map(c => `“${c.document_name.replace(/\s+/g, ' ').trim()}”`);
+    const text = `I have ${list.length === hits.length ? list.length : `${hits.length}, here are the top ${list.length}`} videos on that on The Canvas of Earth: `
+      + `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}. Each one plays right here.`;
+    return { kind: 'videos', chunk: list[0], chunks: list, text };
+  }
+  const m = best.meta || {};
+  if (m.record_type === 'video') {
+    const where = (m.places || []).filter(Boolean).slice(0, 2).join(', ');
+    const text = `Yes. “${best.document_name.replace(/\s+/g, ' ').trim()}” is on my channel, The Canvas of Earth`
+      + `${m.format === 'short' ? ', as a short' : ''}${where ? `, filmed in ${where}` : ''}`
+      + `${m.published ? `, published in ${when(m.published)}` : ''}${m.views ? `, with ${Number(m.views).toLocaleString('en-IN')} views` : ''}. It plays right here.`;
+    return { kind: 'video', chunk: best, text };
+  }
+  const repo = String(best.document_name || '').replace(/^GitHub · /, '');
+  const readme = chunks.find(c => (c.meta || {}).record_type === 'readme_section' && (c.meta || {}).repository === repo);
+  const lead = readme ? String(readme.text).replace(/^[^.]*?—\s*[^.]*\.\s*/, '').split(/(?<=[.!?])\s/).slice(0, 2).join(' ') : '';
+  const lang = m.language ? `, written mainly in ${m.language}` : '';
+  const upd = m.pushed ? `, last updated in ${when(m.pushed)}` : '';
+  const text = `${repo} is one of my public GitHub repositories${lang}${upd}.` + (lead ? ` ${lead}` : (m.description ? ` ${m.description}.` : ''));
+  return { kind: 'repository', chunk: best, text: text.replace(/\.\./g, '.') };
+}
+
 export function answerQuestion(asked, ctx) {
   const { index, bm25, chunks } = ctx;
   // Conversation first: greetings and introductions are not the question, small
@@ -152,6 +218,25 @@ export function answerQuestion(asked, ctx) {
   const vEntry = byVector ? index.canon.find(e => e.id === byVector.id) : null;
   const canonMatch = lexical || (vEntry ? { entry: vEntry, score: byVector.score, via: 'embedding' } : null);
   const code = pickCode(question, chunks, canonMatch ? (canonMatch.entry.project || '') : '');
+  // A named item wins when the visitor asks for the video or the repo itself; a
+  // project with a curated answer keeps it otherwise.
+  const explicit = /\b(videos?|vlogs?|shorts?|clips?|watch|github|repos?|repository)\b/i.test(question);
+  const item = decline || (canonMatch && !explicit) ? null : lookupTitle(question, chunks);
+  if (item) {
+    const idxOf = chunks.indexOf(item.chunk);
+    const cite = { num: 1, chunkIdx: idxOf, chunk: item.chunk, score: 1, confidence: 1, why: item.chunk.document_name };
+    result = { ...result,
+      answerHtml: `<p class="answer-body answer-canon">${esc(item.text)} <sup class="cite-ref" data-cite="1">[1]</sup></p>`
+        + (item.kind === 'repository' ? `<div class="showcase"><div class="sc-cta"><a class="sc-btn sc-primary" href="${esc(item.chunk.url)}" target="_blank" rel="noopener">View ${esc(item.chunk.document_name.replace(/^GitHub · /, ''))} on GitHub</a></div></div>` : ''),
+      citations: item.chunks
+        ? item.chunks.map((ch, i) => ({ num: i + 1, chunkIdx: chunks.indexOf(ch), chunk: ch, score: 1, confidence: 1, why: ch.document_name }))
+        : [cite, ...(result.citations || []).filter(c => c.chunkIdx !== idxOf).slice(0, 2).map((c, i) => ({ ...c, num: i + 2 }))],
+      summary: { ...(result.summary || {}), sentences: [{ text: item.text, display: item.text, chunkIdx: idxOf, chunk: item.chunk, final: 1, position: 0, tokens: new Set(), signals: {} }] },
+      canon: { id: 'catalogue', answer: item.text, sentences: [item.text], evidence: [] },
+      lowConfidence: false, verdict: null, catalogue: item.kind };
+    result.related = relatedItems({ citations: result.citations, ranked: [], analysis: result.analysis, index: { chunks }, weak: false });
+    return { ...result, resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: { id: 'catalogue', score: 1, via: item.kind }, code: null };
+  }
   if (canonMatch) {
     result = applyCanon(result, canonMatch, chunks, index.showcase || {});
     if (code && !(result.answerHtml || '').includes(code.url)) result.answerHtml = result.answerHtml.replace('<p class="answer-closing">Curated answer.', codeCardHtml(code, true) + '<p class="answer-closing">Curated answer.');

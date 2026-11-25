@@ -174,7 +174,7 @@
   },
   {
    "q": "Which videos cover Tabo Monastery?",
-   "id": "RETRIEVAL",
+   "id": "catalogue",
    "must": "Tabo"
   },
   {

@@ -795,6 +795,23 @@ check('every harder round (multi-part, comparisons, follow-ups, Indic, typos) an
   assert(misses.length === 0, `${misses.length}/${n} off target:\n          ` + misses.join('\n          '));
 });
 
+// Coverage: every curated question in five wordings, every video and every public
+// repo by name (tests/gen_coverage.py regenerates it from the index).
+check('coverage: every wording of every curated question, every video and every repo, answered and cited', () => {
+  const COV = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests/qa_coverage.json'), 'utf8'));
+  const misses = [];
+  for (const c of COV.cases) {
+    const r = answerQuestion(c.q, pipeCtx);
+    const got = r.canonMatch ? r.canonMatch.id : (r.noAnswer ? 'NO-ANSWER' : 'RETRIEVAL');
+    if (c.cite) {
+      const urls = [...(r.citations || []).map(x => x.chunk.url || ''), ...(r.related || []).map(x => x.url || ''), r.answerHtml || ''].join(' ');
+      if (r.noAnswer || !urls.includes(c.cite)) misses.push(`"${c.q}" does not cite ${c.cite}`);
+    } else if (!got.split('+').includes(c.id)) misses.push(`"${c.q}" → ${got} (want ${c.id})`);
+  }
+  assert(COV.cases.length >= 800, `coverage shrank to ${COV.cases.length}`);
+  assert(misses.length === 0, `${misses.length}/${COV.cases.length} off:\n          ` + misses.slice(0, 15).join('\n          '));
+});
+
 check('off-topic questions, errands and private details in the harder rounds are declined honestly', () => {
   const misses = [];
   for (const [f, G] of ROUNDS) for (const q of G.no_answer) {
