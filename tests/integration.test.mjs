@@ -472,7 +472,7 @@ check('a flag link is a pre-filled GitHub issue carrying the trace, with no toke
               focus: r.analysis.focus, confidence: r.confidence.percent, band: r.confidence.band, low: r.lowConfidence,
               mode: 'hybrid', sources: [], cited: [], caveats: [] };
   const url = flagUrl(t, 'missing');
-  assert(url.startsWith('https://github.com/PrashobhPaul/Knowledge-Fabric/issues/new?'), url);
+  assert(url.startsWith('https://github.com/PrashobhPaul/Prashobh_Knowledge_Factory/issues/new?'), url);
   const p = new URL(url).searchParams;
   assert(p.get('template') === 'knowledge_flag.yml' && p.get('labels') === 'knowledge-flag', 'template/label missing');
   assert(p.get('question') === t.q, 'question not carried');
