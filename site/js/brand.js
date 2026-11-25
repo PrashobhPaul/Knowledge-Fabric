@@ -23,7 +23,7 @@ export const BRAND = {
     name: 'Prashobh Paul',
     unit: 'Personal project',
     unitShort: 'personal',
-    url: 'https://github.com/PrashobhPaul/Knowledge-Fabric',
+    url: 'https://github.com/PrashobhPaul/Prashobh_Knowledge_Factory',
   },
   stage: 'Live',
 

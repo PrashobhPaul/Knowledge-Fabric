@@ -63,7 +63,7 @@ FUNCTION_WORDS = {
 def _gh(path: str, method: str = "GET", body: dict | None = None) -> dict | list:
     import requests
     token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
-    repo = os.environ.get("GITHUB_REPOSITORY", "PrashobhPaul/Knowledge-Fabric")
+    repo = os.environ.get("GITHUB_REPOSITORY", "PrashobhPaul/Prashobh_Knowledge_Factory")
     headers = {"Accept": "application/vnd.github+json", "User-Agent": "knowledge-curator/1.0"}
     if token:
         headers["Authorization"] = f"Bearer {token}"
