@@ -22,6 +22,8 @@ class CanonConnector:
         self.path = Path(path)
         self.data = yaml.safe_load(self.path.read_text(encoding="utf-8")) or {}
         self.entries = self.data.get("canon") or []
+        from datetime import date as _d
+        self.as_of = str(self.data.get("as_of") or _d.today().isoformat())
 
     def fetch(self) -> Iterator[KnowledgeRecord]:
         for e in self.entries:
@@ -37,6 +39,8 @@ class CanonConnector:
                 section_path=["Canon", str(e.get("id"))], url=first_http,
                 metadata={"record_type": "canon", "document_name": f"Canon · {qs[0]}", "canon_id": str(e.get("id")),
                           "answer": " ".join(str(e["answer"]).split()),
+                          "keywords": [str(k) for k in (e.get("keywords") or [])],
+                          "date": self.as_of, "as_of": self.as_of, "date_source": "canon",
                           "questions": qs, "evidence": ev, "topics": list(e.get("topics") or []), "domain": "Canon"},
                 entities=[("Person", "Prashobh Paul")],
             )

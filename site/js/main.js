@@ -25,7 +25,7 @@ import { TWIN_CONFIG } from './twinconfig.js?v=1';
 import { createStage } from './stage.js?v=1';
 import { firstPersonAnswer, verdictLine, noAnswerLine } from './persona.js?v=1';
 import * as speaker from './speaker.js?v=1';
-import { matchCanon, applyCanon } from './canon.js?v=1';
+import { matchCanon, applyCanon, suggestCanon } from './canon.js?v=1';
 import { currentLang, setLang, listen, speak, recognitionSupported, synthesisSupported, renderVoiceControls, renderSpeakButton } from './voice.js?v=1';
 
 const INDEX_URL = 'data/index.json';
@@ -759,6 +759,18 @@ async function ask(question, opts = {}) {
   // verbatim, cited by its proof records; retrieval stays as corroboration.
   const canonMatch = matchCanon(question, state.index.canon);
   if (canonMatch) result = applyCanon(result, canonMatch, state.chunks);
+  else if (result.lowConfidence) {
+    // A weak retrieval is not an answer. Say so, and offer the nearest things
+    // the owner has actually answered — never a collage of unrelated sentences.
+    const near = suggestCanon(question, state.index.canon, 3);
+    const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    result = { ...result,
+      answerHtml: `<p class="answer-opener">I do not have a direct answer to that on record.</p>`
+        + `<p class="answer-body">Nothing in my website, resume, GitHub, YouTube or LinkedIn answers it directly, so I will not guess.</p>`
+        + (near.length ? `<p class="answer-closing">Closest things I can answer:</p><div class="near-canon">${near.map(q => `<button type="button" class="chip near-chip" data-q="${esc(q)}">${esc(q)}</button>`).join('')}</div>` : ''),
+      citations: result.citations.slice(0, 1), noAnswer: true,
+      summary: { ...(result.summary || {}), sentences: [] } };
+  }
   const { ranked, cohesion, answerHtml, citations, lowConfidence } = result;
 
   const trace = state.graph.highlightTrace(citations.map(c => c.chunk.id));
@@ -1198,6 +1210,11 @@ function wireStageActions() {
   paint();
   mute.addEventListener('click', () => { muted = !muted; speaker.setMuted(muted); try { localStorage.setItem('kf.mute', muted ? '1' : '0'); } catch { /* noop */ } paint(); });
   greet.addEventListener('click', () => sayLines([TWIN_CONFIG.greeting]));
+  // A suggested question chip asks it.
+  document.addEventListener('click', (e) => {
+    const chip = e.target.closest('.near-chip');
+    if (chip) { const input = document.getElementById('composer-input'); if (input) input.value = chip.dataset.q; ask(chip.dataset.q); }
+  });
   // A related video card plays here, at its timestamp, instead of leaving the page.
   document.addEventListener('click', (e) => {
     const a = e.target.closest('[data-video]');

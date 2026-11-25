@@ -703,6 +703,21 @@ check('the major questions land on the canon and are answered in the owner\'s wo
   assert(srcs.has('github') && srcs.has('website'), `projects proofs came from ${[...srcs]}`);
 });
 
+check('everyday phrasings, typos and synonyms still reach the right curated answer', () => {
+  const cases = [
+    ['How may kids do you have?', 'family'], ['Are you married?', 'family'], ['Where are you from?', 'origins'],
+    ['What did you do at TCS?', 'tcs-story'], ['Which team do you support in IPL?', 'teams'],
+    ['What is your proudest achievement?', 'proudest'], ['What does CogniFlow do?', 'cogniflow'],
+    ['When is your birthday?', 'birthday'], ['Who inspired you?', 'mentors'], ['What camera do you use?', 'youtube-why'],
+  ];
+  for (const [q, id] of cases) {
+    const m = canonMod.matchCanon(q, idx.canon);
+    assert(m && m.entry.id === id, `"${q}" → ${m ? m.entry.id : 'no match'}`);
+  }
+  assert(idx.canon.length >= 45, `canon has ${idx.canon.length}`);
+  assert(canonMod.suggestCanon('what is your blood group', idx.canon).length >= 1, 'no suggestions for an unanswered question');
+});
+
 check('questions the owner has not curated still go through the fabric', () => {
   assert(canonMod.matchCanon('What is the capital of France?', idx.canon) === null, 'off-topic question matched the canon');
   assert(canonMod.matchCanon('Which videos are about Manali?', idx.canon) === null || canonMod.matchCanon('Which videos are about Manali?', idx.canon).score < 1, 'unexpected exact match');

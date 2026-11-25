@@ -177,6 +177,7 @@ def build_canon(chunks: list[dict]) -> tuple[list[dict], list[str]]:
                 unresolved.append(f"{m.get('canon_id')}: {url}")
             evidence.append({"url": url, "source": ev.get("source", ""), "why": ev.get("why", ""), "chunk_ids": ids[:4]})
         out.append({"id": m.get("canon_id"), "chunk_idx": i, "questions": m.get("questions") or [], "answer": m.get("answer") or c.get("text", ""),
+                    "keywords": m.get("keywords") or [],
                     "topics": m.get("topics") or [], "evidence": evidence})
     return out, unresolved
 
