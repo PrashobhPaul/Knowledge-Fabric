@@ -624,6 +624,42 @@ check('an Indic-script question answered from English evidence says so; same-lan
   assert(ml.languageNote('ml', ['ml', 'en']) === null && ml.languageNote('en', ['en']) === null, 'note shown when not needed');
 });
 
+// =============================================================================
+console.log('\n=== THE TWIN: FIRST PERSON, NO NEW FACTS ===');
+const persona = await import(path.join(SITE, 'twin/persona.js'));
+
+check('the persona rewrites cited sentences into the first person without touching the facts', () => {
+  const s = persona.toFirstPerson("Prashobh Paul has worked at Qualizeal as AI Architect in the AI Center of Excellence (AI-CoE) / AI Think Tank since January 2026 (current role), based in Hyderabad, India.");
+  assert(/^I have worked at Qualizeal as AI Architect/.test(s), s);
+  assert(!/Prashobh/.test(s) && /Hyderabad, India/.test(s) && /January 2026/.test(s), s);
+  const v = persona.toFirstPerson("'Key Monastery Explained' is a YouTube Short published on The Canvas of Earth by Prashobh Paul on 17 December 2025 with a duration of 6 minutes 1 seconds.");
+  assert(/I published on The Canvas of Earth on 17 December 2025/.test(v), v);
+  const m = persona.toFirstPerson("The website adds that he also takes on consulting and advisory engagements for teams and enterprises.");
+  assert(/^I also take on consulting/.test(m), m);
+  assert(persona.toFirstPerson("Prashobh's skills include Python.") === 'My skills include Python.');
+});
+
+check('a twin reply is the fabric answer in the first person, with the same citations', () => {
+  const r = ask('Where does Prashobh work currently?');
+  const reply = persona.firstPersonAnswer(r, { spokenSentences: 2 });
+  assert(/I have worked at Qualizeal/.test(reply.text), reply.text);
+  assert(!/\b(he|his|Prashobh)\b/.test(reply.text), `third person survived: ${reply.text}`);
+  assert(reply.spoken.length < reply.text.length, 'spoken part should be shorter than the panel text');
+  const no = persona.firstPersonAnswer(ask('Does Prashobh teach AI on YouTube?'));
+  assert(/^No, not that I have on record/.test(no.text), no.text);
+});
+
+check('the twin page, config and voice worker are in place and the worker holds no key', () => {
+  const html = fs.readFileSync(path.join(SITE, 'twin/index.html'), 'utf8');
+  assert(/twin\.js/.test(html) && /id="twin-mic"/.test(html) && /id="twin-lang"/.test(html), 'twin page incomplete');
+  const cfg = fs.readFileSync(path.join(SITE, 'twin/config.js'), 'utf8');
+  for (const k of ['avatarUrl', 'ttsEndpoint', 'voiceId', 'defaultLang']) assert(new RegExp(`\\b${k}:`).test(cfg), `config lacks ${k}`);
+  const worker = fs.readFileSync(path.join(ROOT, 'twin/worker/elevenlabs-proxy.js'), 'utf8');
+  assert(/env\.ELEVENLABS_API_KEY/.test(worker) && /eleven_multilingual_v2/.test(worker), 'worker not wired to the env secret');
+  assert(!/xi-api-key':\s*'[A-Za-z0-9]/.test(worker) && !/sk_[a-f0-9]{20}/.test(worker), 'a key literal is in the worker');
+  assert(/caches\.default/.test(worker), 'worker does not cache');
+});
+
 console.log('\n' + '='.repeat(62));
 console.log(`  ${passed} passed, ${failed} failed`);
 console.log('='.repeat(62));

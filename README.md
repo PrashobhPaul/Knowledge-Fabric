@@ -177,6 +177,9 @@ and the fabric must have cross-source joins.
 
 # Using it from the GitHub website (no command line)
 
+### The twin — a speaking 3D version
+See `twin/README.md`: the fabric with a face (`/twin/`), your Ready Player Me avatar and your cloned voice behind a small worker. The twin only rewrites cited sentences to the first person; it never generates facts.
+
 ### Publish the site
 
 1. Open the repository on github.com → **Settings** → **Pages**.
