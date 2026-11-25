@@ -607,8 +607,9 @@ canon:
   questions:
   - Where is Prashobh based?
   - Where do you live?
-  answer: I am based in Hyderabad, India. I am from Kerala originally, which is why some of my projects
-    and videos carry Malayalam names.
+  answer: 'I am based in Hyderabad, India, and I am from Thrissur in Kerala. Malayalam is my mother tongue,
+    which is why some of my apps carry Malayalam names: Koode means together, with you, and Pachaka Lokam
+    means the world of cooking.'
   evidence:
   - url: https://www.prashobhpaul.com/
     source: website
@@ -623,6 +624,9 @@ canon:
   - city
   - hyderabad
   - where from
+  - malayalam names
+  - kerala
+  - thrissur
 - id: youtube
   topics:
   - youtube

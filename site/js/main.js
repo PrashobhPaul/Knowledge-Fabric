@@ -25,7 +25,7 @@ import { TWIN_CONFIG } from './twinconfig.js?v=1';
 import { createStage } from './stage.js?v=1';
 import { firstPersonAnswer, verdictLine, noAnswerLine } from './persona.js?v=1';
 import * as speaker from './speaker.js?v=1';
-import { matchCanon, applyCanon, suggestCanon } from './canon.js?v=1';
+import { answerQuestion } from './pipeline.js?v=1';
 import * as semNLU from './nlu_semantic.js?v=1';
 import { currentLang, setLang, listen, speak, recognitionSupported, synthesisSupported, renderVoiceControls, renderSpeakButton } from './voice.js?v=1';
 
@@ -751,36 +751,12 @@ async function ask(question, opts = {}) {
   //   - if that live search is weak but a bank question is a decent match     → retry with the canonical question as a rescue.
   // Either way the pipeline runs for real, so citations/graph/lineage stay in
   // sync — the bank only canonicalizes the query, never a canned answer.
-  const bankMatch = matchQuestionBank(question, { vocab: state.bm25.termId });
-  const BANK_STRONG = 0.7, BANK_RESCUE = 0.45;
-  let retrievalQuery = (bankMatch && bankMatch.score >= BANK_STRONG) ? bankMatch.question : question;
-  // Semantic NLU: embed the question with the same model the Factory used, so
-  // matching and retrieval work by meaning. Null until the model is warm.
+  // Semantic NLU: embed the question with the same model the Factory used.
   state.qvec = semNLU.modelReady() ? await semNLU.embed(question) : null;
-  let result = retrieve(retrievalQuery);
-  if (result.lowConfidence && retrievalQuery === question && bankMatch && bankMatch.score >= BANK_RESCUE) {
-    const rescued = retrieve(bankMatch.question);
-    if (!rescued.lowConfidence) { result = rescued; retrievalQuery = bankMatch.question; }
-  }
-  // Curated layer: a question the owner has answered himself gets that answer,
-  // verbatim, cited by its proof records; retrieval stays as corroboration.
-  const byVector = state.qvec ? semNLU.matchCanonByVector(state.qvec) : null;
-  const canonMatch = byVector
-    ? { entry: state.index.canon.find(e => e.id === byVector.id), score: byVector.score, via: 'embedding' }
-    : matchCanon(question, state.index.canon);
-  if (canonMatch) result = applyCanon(result, canonMatch, state.chunks);
-  else if (result.lowConfidence) {
-    // A weak retrieval is not an answer. Say so, and offer the nearest things
-    // the owner has actually answered — never a collage of unrelated sentences.
-    const near = suggestCanon(question, state.index.canon, 3);
-    const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    result = { ...result,
-      answerHtml: `<p class="answer-opener">I do not have a direct answer to that on record.</p>`
-        + `<p class="answer-body">Nothing in my website, resume, GitHub, YouTube or LinkedIn answers it directly, so I will not guess.</p>`
-        + (near.length ? `<p class="answer-closing">Closest things I can answer:</p><div class="near-canon">${near.map(q => `<button type="button" class="chip near-chip" data-q="${esc(q)}">${esc(q)}</button>`).join('')}</div>` : ''),
-      citations: result.citations.slice(0, 1), noAnswer: true,
-      summary: { ...(result.summary || {}), sentences: [] } };
-  }
+  // One shared pipeline (site and golden tests): retrieval, bank assist, canon, honest fallback.
+  let result = answerQuestion(question, { index: state.index, bm25: state.bm25, bm25Payload: state.index.bm25,
+    semantic: state.semantic, chunks: state.chunks, filters: state.filters, qvec: state.qvec });
+  const retrievalQuery = result.retrievalQuery;
   const { ranked, cohesion, answerHtml, citations, lowConfidence } = result;
 
   const trace = state.graph.highlightTrace(citations.map(c => c.chunk.id));

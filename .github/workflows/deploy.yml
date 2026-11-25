@@ -43,6 +43,11 @@ jobs:
           pip install --quiet sentence-transformers
           python -m pipeline.embed --index site/data/index.json --out site/data/vectors.json
 
+      - name: Cache-bust the site's modules with the commit id
+        run: |
+          STAMP="${GITHUB_SHA::8}"
+          find site -name '*.html' -o -name '*.js' | xargs sed -i -E "s/\?v=[0-9a-z]+/?v=${STAMP}/g"
+          grep -c "?v=${STAMP}" site/index.html
       - name: Verify build artifacts
         run: |
           test -f site/index.html
