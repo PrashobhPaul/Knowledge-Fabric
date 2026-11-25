@@ -31,7 +31,9 @@ class Chunk:
 # =============================================================================
 # Tokenization (simple but consistent across pipeline and JS client)
 # =============================================================================
-_TOKEN_RE = re.compile(r"[A-Za-z0-9]+")
+# \w covers letters/digits in every script; the range adds the Indic vowel signs
+# (Devanagari … Malayalam) that are combining marks, not word characters.
+_TOKEN_RE = re.compile(r"[\w\u0900-\u0DFF]+")
 
 
 def tokenize(text: str) -> list[str]:

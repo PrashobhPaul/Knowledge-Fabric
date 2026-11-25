@@ -108,6 +108,7 @@ the website — the fabric learns it within a week with nobody running anything.
 | Scope | "currently / now / today" restricts a career answer to the current role, read in full (role line + responsibilities) — never the whole history |
 | Whole-record reading | Once a record's opening line answers, its continuation sentences are read too (the duties behind a role, what a project does), with a strong second source always allowed in |
 | Cross-source joins | Every answer ends with openable cards: project page ↔ GitHub repository ↔ engagement; a question about a topic reaches the website project *and* its code |
+| Languages & voice | English by default; Malayalam, Telugu and Hindi questions are tokenised in their own script, carried onto English records by a small lexicon (`site/js/multilingual.js`), and answered from same-language evidence when a video or transcript has it. Mic input and spoken answers use the browser's speech APIs (`site/js/voice.js`), no backend |
 | Video depth | Chapters parsed from descriptions and transcript windows (60 s) are records of their own, cited with `&t=…s` links so an answer can point into a video at the right second |
 | Knowledge health | Coverage, connectivity, provenance, extraction quality, freshness — each with its formula |
 | Factory ↔ Fabric visibility | Source strip on the site: which systems fed it, how many records, when last synced |
@@ -295,6 +296,7 @@ site/                         static site (GitHub Pages)
   js/answer.js · summarize.js   MMR extractive summarisation, focus gate, relevance floor,
                                 whole-record reading, yes/no verdicts
   js/related.js                 cross-source "explore" cards (project ↔ repo ↔ video@timestamp)
+  js/multilingual.js · voice.js English default; Malayalam / Telugu / Hindi lexicon, mic in, spoken answers
   js/compose.js                 reply framing + discourse markers + cleanup
   js/confidence.js              5-signal derived confidence
   js/graph.js · graphvalue.js   knowledge galaxy + "what the graph contributed"

@@ -126,7 +126,7 @@ def embed_query(semantic: dict, query: str) -> np.ndarray | None:
     tv = np.array(semantic["term_vectors"], dtype=np.float32) * semantic["term_scale"] / 127.0
     idf = np.array(semantic["idf"], dtype=np.float32)
 
-    tokens = [t.lower() for t in re.findall(r"[A-Za-z0-9]{2,}", query)]
+    tokens = [t.lower() for t in re.findall(r"[\w\u0900-\u0DFF]{2,}", query)]
     hits = [term_index[t] for t in tokens if t in term_index]
     if not hits:
         return None

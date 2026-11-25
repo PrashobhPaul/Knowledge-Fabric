@@ -116,7 +116,7 @@ class Checker:
         self._rrf, self._embed, self._scores = rrf, embed_query, semantic_scores
 
     def check(self, question: str) -> dict:
-        tokens = [t for t in re.findall(r"[A-Za-z0-9]+", question.lower()) if len(t) > 1 and t not in FUNCTION_WORDS]
+        tokens = [t for t in re.findall(r"[\w\u0900-\u0DFF]+", question.lower()) if len(t) > 1 and t not in FUNCTION_WORDS]
         lex = self.bm25.search(question, 20)
         sem = []
         if self.semantic.get("enabled"):

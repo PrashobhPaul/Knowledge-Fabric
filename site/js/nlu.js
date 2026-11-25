@@ -1,3 +1,4 @@
+import { detectScript } from './multilingual.js?v=1';
 // ============================================================================
 // NLU — question understanding for a personal knowledge corpus
 // ============================================================================
@@ -22,7 +23,7 @@
 // No model, no training data. Cue patterns over a closed domain, which is the
 // right tool when the intent space is small and known.
 
-const TOKEN_RE = /[A-Za-z0-9]+/g;
+const TOKEN_RE = /[\p{L}\p{N}\p{M}]+/gu;
 
 const STOP = new Set(['the','a','an','of','for','to','in','on','at','is','are','was','were',
   'be','been','do','does','did','what','which','how','why','when','where','who','whom','and',
@@ -479,6 +480,7 @@ const FRAMING = new Set(['give', 'tell', 'show', 'short', 'brief', 'briefly', 'q
 
 export function analyseQuestion(question) {
   const intent = classifyIntent(question);
+  const lang = detectScript(question);
   const focus = extractFocus(question);
   const terms = contentTokens(question).filter(t => !FRAMING.has(t));
   // Opinions and comparisons are not yes/no matters, however they are phrased.
@@ -486,7 +488,7 @@ export function analyseQuestion(question) {
   const scope = CURRENT_RE.test(question) && (intent.name === 'CAREER' || intent.name === 'LOCATION' || intent.name === 'WHO' || intent.name === 'GENERAL')
     ? 'current' : null;
   return {
-    question, intent, focus, terms, polar, scope,
+    question, intent, focus, terms, polar, scope, lang,
     wantsList: LIST_RE.test(question),
     disjunctive: /\bor\b/i.test(question),
     predicate: polar ? predicateTerms(question) : [],

@@ -14,7 +14,7 @@
 // records"; the resume says "EMR systems" and "HL7 clinical data". BM25 scores
 // that zero.
 
-const TOKEN_RE = /[A-Za-z0-9]{2,}/g;
+const TOKEN_RE = /[\p{L}\p{N}\p{M}]{2,}/gu;
 
 export class SemanticIndex {
   constructor(payload) {

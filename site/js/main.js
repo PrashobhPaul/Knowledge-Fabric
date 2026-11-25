@@ -20,6 +20,8 @@ import { explainGraphContribution, renderGraphContribution, graphPurposeCopy }
   from './graphvalue.js?v=9';
 import { recordTrace, allTraces, renderTraces, renderFlagBox, renderGapBoard } from './traces.js?v=1';
 import { renderRelated } from './related.js?v=1';
+import { languageNote, LANGS } from './multilingual.js?v=1';
+import { currentLang, setLang, listen, speak, recognitionSupported, synthesisSupported, renderVoiceControls, renderSpeakButton } from './voice.js?v=1';
 
 const INDEX_URL = 'data/index.json';
 
@@ -536,6 +538,32 @@ function setupCopilot() {
   const input = document.getElementById('composer-input');
   const submit = document.getElementById('composer-submit');
 
+  // Voice in: pick a language (English by default), press the mic, the heard
+  // question is typed into the box and asked — and the answer is read back.
+  const vc = document.getElementById('voice-controls');
+  if (vc) {
+    vc.innerHTML = renderVoiceControls(currentLang());
+    const sel = vc.querySelector('#lang-select');
+    const mic = vc.querySelector('#mic-btn');
+    sel.addEventListener('change', () => setLang(sel.value));
+    if (!recognitionSupported()) { mic.disabled = true; mic.title = 'Voice input is not supported in this browser'; }
+    mic.addEventListener('click', async () => {
+      if (mic.dataset.listening === 'true') return;
+      mic.dataset.listening = 'true';
+      const placeholder = input.placeholder;
+      input.placeholder = `Listening (${LANGS[currentLang()].native})…`;
+      try {
+        const heard = await listen(currentLang());
+        if (heard) { input.value = heard; state.spokenQuestion = true; form.dispatchEvent(new Event('submit')); }
+      } catch (err) {
+        input.placeholder = err.message === 'not-allowed' ? 'Microphone access was blocked' : 'Did not catch that — try again';
+        setTimeout(() => { input.placeholder = placeholder; }, 2500);
+        return;
+      } finally { mic.dataset.listening = 'false'; }
+      input.placeholder = placeholder;
+    });
+  }
+
   form.addEventListener('submit', async e => {
     e.preventDefault();
     const q = input.value.trim();
@@ -729,6 +757,29 @@ async function ask(question, opts = {}) {
     const label = result.verdict && result.verdict.kind !== 'yes' ? 'You may be looking for' : 'Explore';
     rel.innerHTML = renderRelated(result.related || [], { label });
     rel.hidden = !(result.related && result.related.length);
+  }
+  const voiceEl = document.getElementById('answer-voice');
+  if (voiceEl) {
+    const lang = currentLang();
+    const qLang = (result.analysis && result.analysis.lang) || 'en';
+    const evidenceLangs = [...new Set(citations.map(c => (c.chunk.meta || {}).lang || 'en'))];
+    const note = languageNote(qLang, evidenceLangs);
+    const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    voiceEl.innerHTML = (synthesisSupported() ? renderSpeakButton() : '')
+      + (note ? `<span class="answer-voice-note">${esc(note)}</span>` : '')
+      + `<span class="answer-voice-status" id="answer-voice-status"></span>`;
+    voiceEl.hidden = !voiceEl.textContent.trim() && !synthesisSupported();
+    const plainAnswer = String(answerHtml).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    const say = () => {
+      const r = speak(plainAnswer, lang);
+      const st = voiceEl.querySelector('#answer-voice-status');
+      if (st) st.textContent = !r.ok ? 'Speech output is not supported here'
+        : r.fallback ? `No ${LANGS[lang].label} voice on this device — read in English`
+        : r.voice ? `Voice: ${r.voice}` : '';
+    };
+    const btn = voiceEl.querySelector('#answer-speak');
+    if (btn) btn.addEventListener('click', say);
+    if (state.spokenQuestion && !silent) { state.spokenQuestion = false; say(); }
   }
   renderGraphValue(citations, result.analysis);
   // Leave a trace; offer a flag. The seeded demo answer is not a visitor action.
