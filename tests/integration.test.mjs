@@ -798,9 +798,13 @@ check('off-topic questions, errands and private details in the harder rounds are
   assert(misses.length === 0, misses.join('\n          '));
 });
 
-check('client names stay confidential in every curated answer and note', () => {
+check('client names stay confidential in every curated answer, note and indexed record', () => {
+  const CLIENT = /Southwest|PwC|Pricewaterhouse|American Express|\bAmex\b/i;
   const canonText = JSON.stringify(idx.canon);
-  assert(!/Southwest|PwC|American Express/i.test(canonText), 'a client name is in the canon');
+  assert(!CLIENT.test(canonText), 'a client name is in the canon');
+  const leak = idx.chunks.find(c => CLIENT.test(c.text || '') || CLIENT.test(c.title || '') || CLIENT.test(JSON.stringify(c.meta || {})));
+  assert(!leak, `a client name is in the index: ${leak && (leak.text || '').slice(0, 120)}`);
+  assert(!CLIENT.test(JSON.stringify(idx.graph || idx.entities || {})), 'a client name is in the graph');
   for (const f of fs.readdirSync(path.join(ROOT, 'docs_source/notes'), { recursive: true })) {
     if (!String(f).endsWith('.md')) continue;
     const t = fs.readFileSync(path.join(ROOT, 'docs_source/notes', String(f)), 'utf8');

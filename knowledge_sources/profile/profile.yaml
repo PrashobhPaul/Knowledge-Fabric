@@ -127,7 +127,7 @@ experience:
     location: Cochin, India
     domains: [Enterprise Analytics, Robotics]
     highlights:
-      - Built AI-driven customer analytics and NLP models for enterprise clients including American Express.
+      - Built AI-driven customer analytics and NLP models for enterprise clients, including a global financial-services client.
       - Developed sentiment analysis and text classification models processing millions of customer interactions.
       - Created RNN-based control models for intelligent robotic platforms and deployed NLP models for document classification.
     source: ["resume"]

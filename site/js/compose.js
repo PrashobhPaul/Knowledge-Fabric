@@ -73,7 +73,7 @@ const CANONICAL = {
   qualizeal: 'Qualizeal', 'tech mahindra': 'Tech Mahindra', yash: 'Yash Technologies', 'yash technologies': 'Yash Technologies',
   brane: 'Brane Enterprises', 'brane enterprises': 'Brane Enterprises', primera: 'Primera Medical Technologies',
   'primera medical': 'Primera Medical Technologies', tcs: 'TCS', 'tata consultancy services': 'TCS',
-  amex: 'American Express', 'american express': 'American Express', microsoft: 'Microsoft',
+  microsoft: 'Microsoft',
    'srm university': 'SRM University', jntu: 'JNTU Hyderabad',
   rvonwheelz: 'RVonWheelz', 'soccer.ai': 'Soccer.AI', 'soccer ai': 'Soccer.AI', 'invest.iq': 'Invest.IQ', investiq: 'Invest.IQ',
   koode: 'Koode', 'knowledge fabric': 'Knowledge Fabric', 'pachaka lokam': 'Pachaka Lokam', iplbuzz: 'IPLBuzz',

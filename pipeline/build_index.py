@@ -182,6 +182,53 @@ def build_canon(chunks: list[dict]) -> tuple[list[dict], list[str]]:
     return out, unresolved
 
 
+def _client_rules(ks_dir: Path) -> list[tuple]:
+    import re
+    import yaml
+    f = ks_dir / "profile" / "confidential.yaml"
+    if not f.exists():
+        return []
+    rules = []
+    for c in (yaml.safe_load(f.read_text(encoding="utf-8")) or {}).get("clients") or []:
+        names = sorted((str(n) for n in c.get("names") or [] if n), key=len, reverse=True)
+        if names:
+            rules.append((re.compile(r"\b(?:" + "|".join(re.escape(n) for n in names) + r")\b", re.I), str(c.get("as") or "a client")))
+    return rules
+
+
+def _mask(value, rules):
+    if isinstance(value, str):
+        for rx, rep in rules:
+            value = rx.sub(rep, value)
+        return value
+    if isinstance(value, list):
+        return [_mask(v, rules) for v in value]
+    if isinstance(value, tuple):
+        return tuple(_mask(v, rules) for v in value)
+    if isinstance(value, dict):
+        return {k: _mask(v, rules) for k, v in value.items()}
+    return value
+
+
+def redact_clients(records: list, ks_dir: Path) -> int:
+    """Replace confidential client names (profile/confidential.yaml) in every record."""
+    rules = _client_rules(ks_dir)
+    if not rules:
+        return 0
+    n = 0
+    for r in records:
+        before = (r.text, r.title, repr(r.metadata), repr(getattr(r, "entities", None)))
+        r.text = _mask(r.text, rules)
+        r.title = _mask(r.title, rules)
+        r.metadata = _mask(r.metadata, rules)
+        if getattr(r, "entities", None):
+            r.entities = [e for e in _mask(list(r.entities), rules)
+                          if not (isinstance(e, (list, tuple)) and len(e) > 1 and any(rep == e[1] for _, rep in rules))]
+        if before != (r.text, r.title, repr(r.metadata), repr(getattr(r, "entities", None))):
+            n += 1
+    return n
+
+
 _ORG_GENERIC = {"technologies", "technology", "enterprises", "services", "medical", "consultancy", "systems",
                 "solutions", "tech", "labs", "india", "limited", "private", "global", "group", "the"}
 
@@ -244,6 +291,8 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
             repaired += 1
         r.text = cleaned
     print(f"      corpus lexicon {len(vocab)} words · {repaired}/{len(records)} records repaired")
+    hidden = redact_clients(records, ks_dir)
+    print(f"      client names kept confidential: {hidden} records masked")
 
     print("\n[3/7] Chunking")
     chunks, aligned = records_to_chunks(records)

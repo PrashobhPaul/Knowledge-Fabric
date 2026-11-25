@@ -27,15 +27,12 @@ ALIASES: dict[str, list[tuple[str, str]]] = {
         (r"\bbrane\s*enterprises\b|\bbrane\b", "Brane Enterprises"),
         (r"\bprim\s*era\s*medical(\s*technologies)?\b|\bprimera\b", "Primera Medical Technologies"),
         (r"\btata\s*consultancy\s*services\b|\btcs\b", "Tata Consultancy Services"),
-        (r"\bamerican\s*express\b|\bamex\b", "American Express"),
         (r"\bmicrosoft\b", "Microsoft"),
         (r"\banthropic\b", "Anthropic"),
         (r"\bopenai\b", "OpenAI"),
         (r"\bgoogle\b", "Google"),
     ],
-    "Client": [
-        (r"\bamerican\s*express\b|\bamex\b", "American Express"),
-    ],
+    "Client": [],   # client names are confidential (knowledge_sources/profile/confidential.yaml)
     "Institution": [
         (r"\bsrm\s*university\b|\bsrm\b", "SRM University"),
         (r"\bjntu(\s*hyderabad)?\b", "JNTU Hyderabad"),
