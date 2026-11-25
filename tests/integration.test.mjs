@@ -576,6 +576,7 @@ check('the related strip renders openable cards and is wired into the page', () 
   assert(/\.related-card/.test(CSS), 'related cards unstyled');
 });
 
+<<<<<<< HEAD
 // =============================================================================
 console.log('\n=== MULTILINGUAL & VOICE: ENGLISH DEFAULT, MALAYALAM / TELUGU / HINDI ===');
 const ml = await import(path.join(SITE, 'js/multilingual.js'));
@@ -624,6 +625,8 @@ check('an Indic-script question answered from English evidence says so; same-lan
   assert(ml.languageNote('ml', ['ml', 'en']) === null && ml.languageNote('en', ['en']) === null, 'note shown when not needed');
 });
 
+=======
+>>>>>>> dc289be67e7a0eeef540fe78096c081a23ca5af1
 console.log('\n' + '='.repeat(62));
 console.log(`  ${passed} passed, ${failed} failed`);
 console.log('='.repeat(62));

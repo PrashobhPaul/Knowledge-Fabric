@@ -20,8 +20,11 @@ import { explainGraphContribution, renderGraphContribution, graphPurposeCopy }
   from './graphvalue.js?v=9';
 import { recordTrace, allTraces, renderTraces, renderFlagBox, renderGapBoard } from './traces.js?v=1';
 import { renderRelated } from './related.js?v=1';
+<<<<<<< HEAD
 import { languageNote, LANGS } from './multilingual.js?v=1';
 import { currentLang, setLang, listen, speak, recognitionSupported, synthesisSupported, renderVoiceControls, renderSpeakButton } from './voice.js?v=1';
+=======
+>>>>>>> dc289be67e7a0eeef540fe78096c081a23ca5af1
 
 const INDEX_URL = 'data/index.json';
 
@@ -758,6 +761,7 @@ async function ask(question, opts = {}) {
     rel.innerHTML = renderRelated(result.related || [], { label });
     rel.hidden = !(result.related && result.related.length);
   }
+<<<<<<< HEAD
   const voiceEl = document.getElementById('answer-voice');
   if (voiceEl) {
     const lang = currentLang();
@@ -781,6 +785,8 @@ async function ask(question, opts = {}) {
     if (btn) btn.addEventListener('click', say);
     if (state.spokenQuestion && !silent) { state.spokenQuestion = false; say(); }
   }
+=======
+>>>>>>> dc289be67e7a0eeef540fe78096c081a23ca5af1
   renderGraphValue(citations, result.analysis);
   // Leave a trace; offer a flag. The seeded demo answer is not a visitor action.
   if (!silent) {

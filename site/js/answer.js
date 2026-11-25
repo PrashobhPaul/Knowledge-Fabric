@@ -22,7 +22,10 @@
 
 import { analyseQuestion, rerankByIntent, anchorRecordTypes, termSatisfied } from './nlu.js?v=7';
 import { relatedItems } from './related.js?v=1';
+<<<<<<< HEAD
 import { expandQuery } from './multilingual.js?v=1';
+=======
+>>>>>>> dc289be67e7a0eeef540fe78096c081a23ca5af1
 import { summarise } from './summarize.js?v=7';
 import { computeConfidence } from './confidence.js?v=7';
 import { composeResponse, composeNoAnswer } from './compose.js?v=8';
