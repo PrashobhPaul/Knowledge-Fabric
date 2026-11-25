@@ -4133,3 +4133,17 @@ summary:focus-visible, [tabindex]:focus-visible {
 .flag-btn { font-size: 11.5px; padding: 4px 10px; border-radius: 999px; background: var(--qz-pink, #EE1C5C); color: #fff; text-decoration: none; }
 .flag-btn-ghost { background: transparent; color: var(--text-dim); border: 1px solid var(--line, rgba(255,255,255,0.14)); }
 .flag-btn:hover { filter: brightness(1.1); }
+
+/* ===== Related strip — cross-source explore cards ===== */
+.answer-related { margin: 14px 0 6px; }
+.related-label { display: block; font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-mute); margin-bottom: 8px; }
+.related-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px; }
+.related-card { display: flex; gap: 10px; align-items: center; padding: 9px 11px; border-radius: 10px; text-decoration: none; background: var(--panel, rgba(255,255,255,0.04)); border: 1px solid var(--line, rgba(255,255,255,0.08)); color: var(--text); transition: border-color .15s, transform .15s; }
+.related-card:hover { border-color: var(--qz-blue, #4D7CFF); transform: translateY(-1px); }
+.related-icon { width: 30px; height: 30px; border-radius: 8px; display: grid; place-items: center; font-size: 12px; font-weight: 700; background: rgba(77,124,255,0.14); color: var(--qz-blue, #4D7CFF); flex: none; }
+.related-card[data-kind="video"] .related-icon { background: rgba(238,28,92,0.14); color: var(--qz-pink, #EE1C5C); }
+.related-card[data-kind="repository"] .related-icon { background: rgba(71,214,166,0.14); color: var(--sem-green, #47D6A6); }
+.related-thumb { width: 54px; height: 30px; object-fit: cover; border-radius: 6px; flex: none; }
+.related-body { display: flex; flex-direction: column; min-width: 0; }
+.related-title { font-size: 12.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.related-sub { font-size: 11px; color: var(--text-mute); }

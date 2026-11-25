@@ -48,6 +48,9 @@ MIN_SCORE = 0.60
 MIN_COVERAGE = 0.5
 
 FUNCTION_WORDS = {
+    # The person's own name is in every record — never evidence that a question is covered.
+    'prashobh', 'paul', 'prashobhs', 'given', 'ever', 'any',
+    
     "the", "a", "an", "and", "or", "but", "if", "then", "of", "to", "in", "on", "at", "by", "for",
     "with", "is", "are", "was", "were", "be", "been", "being", "it", "its", "this", "that", "these",
     "those", "as", "from", "so", "than", "too", "very", "can", "will", "just", "what", "which", "who",

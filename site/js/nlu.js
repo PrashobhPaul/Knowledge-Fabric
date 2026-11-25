@@ -45,12 +45,13 @@ export const INTENTS = {
     cues: [/\b(job|jobs|role|roles|position|employ(er|ed|ment)?|career|company|companies)\b/i,
            /\bwork(ed|s|ing)?\s+(at|for|currently|now|today)\b/i, /\bwhere (does|did|is) .* (work|working|employed)/i,
            /\bexperience (at|with|in)\b/i, /\bwhat (did|does|has) .* (do|did|done|build|built|work on|worked on) at\b/i,
-           /\bcurrent(ly)? (role|position|job|work|working)/i, /\b(joined|left|moved to|hired by)\b/i],
+           /\bcurrent(ly)? (role|position|job|work|working)/i, /\b(joined|left|moved to|hired by)\b/i,
+           /\b(responsibilit|duties|what does .* do at|day[- ]to[- ]day)\b/i],
     answerCues: [[/\b(has worked|worked|works) at\b/i, 1.0], [/\b(since|from) [A-Z][a-z]+ 20\d\d\b/, 0.9],
                  [/\b(led|built|designed|architected|spearhead|mentored|developed)\b/i, 0.7],
                  [/\bcurrent role\b/i, 0.8], [/\b(architect|engineer|scientist|leader)\b/i, 0.5]],
     prefer: { role: 1.6, document: 1.25, web_paragraph: 1.1, faq: 1.0 },
-    penalise: { video: 0.05, channel: 0.1, repository: 0.4, skill_group: 0.5, service: 0.4 },
+    penalise: { video: 0.05, channel: 0.1, repository: 0.4, project: 0.45, skill_group: 0.5, service: 0.4, post: 0.15, chapter: 0.05, transcript: 0.05 },
     wants: 'a career fact',
   },
   SKILLS: {
@@ -70,7 +71,7 @@ export const INTENTS = {
     answerCues: [[/\b(is|was) (a|an|the) [^.]{3,60}(app|application|dashboard|planner|companion|platform|demo|repository|project)\b/i, 1.0],
                  [/\bbuilt (with|for|to)\b/i, 0.9], [/\b(react|typescript|supabase|kotlin|python|javascript|pwa|android)\b/i, 0.6],
                  [/\b(live at|source code|download|open source)\b/i, 0.6], [/\bI built\b/i, 0.8]],
-    prefer: { project: 1.7, repository: 1.4, engagement: 1.3, career_project: 1.3, web_paragraph: 1.1 },
+    prefer: { project: 1.7, repository: 1.5, engagement: 1.5, career_project: 1.3, web_paragraph: 1.1, post: 1.1 },
     penalise: { video: 0.08, channel: 0.1, education: 0.3, languages: 0.1 },
     wants: 'a project description',
   },
@@ -104,7 +105,7 @@ export const INTENTS = {
            /\b(spiti|tabo|manali|monastery|chandratal|himachal|mumbai|kala ghoda|travel(led|ling)?|trip)\b/i],
     answerCues: [[/\bis a (YouTube Short|long-form video|video)\b/i, 1.0], [/\bpublished on\b/i, 0.9],
                  [/\bYouTube channel\b/i, 0.9], [/\b(views|subscribers)\b/i, 0.6], [/\bduration of\b/i, 0.5]],
-    prefer: { video: 1.6, channel: 1.6, personal: 1.2, faq: 0.9 },
+    prefer: { video: 1.5, chapter: 1.7, transcript: 1.6, channel: 1.4, personal: 1.1, faq: 0.8 },
     penalise: { role: 0.2, skill_group: 0.1, education: 0.1, repository: 0.3, service: 0.1 },
     wants: 'a video or channel fact',
   },
@@ -364,10 +365,23 @@ export const META_SITE_RE =
  * Evidence prior for a chunk given the question intent.
  * Multiplicative, so it reshapes ranking without discarding retrieval signal.
  */
-export function evidencePrior(chunk, intent) {
-  const rt = (chunk.meta && chunk.meta.record_type) || '';
+export function evidencePrior(chunk, intent, scope = null) {
+  const rt0 = (chunk.meta && chunk.meta.record_type) || '';
   const st = chunk.source_type || '';
+  // Chapters and transcript windows are parts of a video: unless an intent
+  // addresses them by name, they are routed exactly as the video would be.
+  const partOfVideo = rt0 === 'chapter' || rt0 === 'transcript';
+  const named = (intent.prefer && rt0 in intent.prefer) || (intent.penalise && rt0 in intent.penalise);
+  const rt = partOfVideo && !named ? 'video' : rt0;
   let prior = 1.0;
+  // Temporal scope: "currently / now / today" means the CURRENT role, and the
+  // other roles are not evidence for it, however well their words match.
+  if (scope === 'current') {
+    if (rt === 'role') prior *= chunk.meta.current ? 2.5 : 0.08;
+    else if (rt === 'post' || rt === 'video' || rt === 'chapter' || rt === 'transcript' || rt === 'personal') prior *= 0.1;
+    else if (rt === 'engagement') prior *= 1.4;
+    else if (rt === 'faq' && !/current|now|present|right now/i.test(chunk.text)) prior *= 0.4;
+  }
   if (intent.prefer) {
     if (intent.prefer[rt]) prior *= intent.prefer[rt];
     if (intent.prefer[st]) prior *= intent.prefer[st];
@@ -389,22 +403,93 @@ export function evidencePrior(chunk, intent) {
  * travel videos because they contain "built", the useful career records were
  * never in the pool to begin with.
  */
-export function rerankByIntent(ranked, chunks, intent, { keep = 24 } = {}) {
+export function rerankByIntent(ranked, chunks, intent, { keep = 24, scope = null } = {}) {
   const scored = ranked.map(r => {
     const chunk = chunks[r.chunkIdx];
-    const prior = chunk ? evidencePrior(chunk, intent) : 0;
+    const prior = chunk ? evidencePrior(chunk, intent, scope) : 0;
     return { ...r, baseScore: r.score, prior, score: r.score * prior };
   });
   scored.sort((a, b) => b.score - a.score);
   return scored.filter(r => r.prior > 0.12).slice(0, keep);
 }
 
+// Yes/no questions get a verdict, not a dump. The predicate is what must be
+// supported: "Does he TEACH AI ON YOUTUBE" -> teach, ai, youtube.
+const POLAR_RE = /^\s*(does|do|is|are|has|have|can|could|did|was|were|will|would|should)\b/i;
+const LIST_RE = /\b(all|list|every|each|which|what are|what projects|what videos|companies|roles)\b/i;
+const CURRENT_RE = /\b(current(ly)?|now|present(ly)?|today|these days|at the moment|right now)\b/i;
+
+// Predicate synonyms: the question's verb rarely matches the source's. Applied
+// only to the verdict, never to retrieval, so they cannot invent a match.
+const PREDICATE_SYNONYMS = {
+  teach: ['teaches', 'teaching', 'training', 'trainings', 'tutorial', 'tutorials', 'course', 'courses', 'lesson', 'lessons', 'explains', 'explained', 'workshop', 'coaching', 'educat'],
+  learn: ['tutorial', 'course', 'lesson', 'explained', 'guide'],
+  speak: ['spoke', 'speaker', 'talk', 'keynote', 'presented'],
+  write: ['wrote', 'written', 'post', 'posted', 'article', 'published'],
+  work: ['worked', 'works', 'working', 'role', 'architect', 'engineer', 'scientist'],
+  build: ['built', 'builds', 'building', 'developed', 'created', 'made'],
+  live: ['based', 'lives', 'hyderabad'],
+  travel: ['travelled', 'traveled', 'trip', 'journey', 'visited', 'explor'],
+  offer: ['offers', 'provides', 'services', 'consulting', 'training'],
+  use: ['uses', 'used', 'using', 'built with', 'skills'],
+  know: ['skills', 'expertise', 'experience'],
+  attend: ['attended', 'event', 'tour'],
+  hire: ['consult', 'service', 'offers', 'engage', 'available', 'contact'],
+  study: ['studied', 'degree', 'university', 'college', 'education', 'graduated'],
+  film: ['filmed', 'video', 'vlog', 'short'],
+  post: ['posted', 'wrote', 'linkedin', 'article'],
+  make: ['made', 'built', 'created', 'video'],
+  have: ['has', 'with'],
+  ai: ['artificial intelligence', 'genai', 'agentic', 'llm', 'machine learning'],
+  youtube: ['canvas of earth', 'channel', 'video', 'short'],
+};
+
+// Modifiers that qualify a term without being evidence on their own
+// ("AI-DRIVEN sdlc", "python-BASED") — never required for a yes.
+const PREDICATE_SKIP = new Set(['driven', 'based', 'powered', 'related', 'oriented', 'focused', 'enabled',
+  'native', 'specific', 'kind', 'sort', 'type', 'really', 'actually', 'ever', 'also', 'still', 'any', 'anything',
+  'something', 'things', 'stuff', 'currently', 'current', 'now', 'today', 'often', 'much', 'many', 'ever']);
+
+export function predicateTerms(question) {
+  // Drop the auxiliary and the subject; keep content words with their stems.
+  // The first surviving word is the HEAD — the verb or key noun the whole
+  // question hangs on ("does he TEACH ...", "is he BASED in ...").
+  const q = String(question).replace(POLAR_RE, '').replace(/\b(prashobh|paul|he|his|him|the canvas of earth)\b/gi, ' ');
+  const toks = tokens(q).filter(t => !STOP.has(t) && !PREDICATE_SKIP.has(t) && t.length > 1);
+  return toks.map((t, i) => ({ term: t, stem: stem(t), head: i === 0,
+                               alts: PREDICATE_SYNONYMS[t] || PREDICATE_SYNONYMS[stem(t)] || [] }));
+}
+
+/** Does one text satisfy a predicate term (stem match or synonym)? */
+export function termSatisfied(text, p) {
+  const low = String(text).toLowerCase();
+  const toks = new Set(tokens(low).map(stem));
+  if (toks.has(p.stem)) return true;
+  // Synonyms match at a word start only: "frameworks" is not "works".
+  return p.alts.some(a => new RegExp('\\b' + a.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).test(low));
+}
+
+// Words that frame a request without naming its subject: "GIVE me a SHORT
+// BIO", "TELL me a LITTLE about". They are not evidence words — no source
+// contains them — so they are dropped from coverage, not searched for.
+const FRAMING = new Set(['give', 'tell', 'show', 'short', 'brief', 'briefly', 'quick', 'quickly', 'little', 'bit',
+  'bio', 'biography', 'summary', 'summarise', 'summarize', 'overview', 'introduce', 'introduction', 'intro',
+  'describe', 'description', 'explain', 'know', 'information', 'info', 'details', 'detail', 'please', 'something',
+  'anything', 'everything', 'things', 'stuff', 'like', 'want', 'would', 'wondering', 'curious', 'interested']);
+
 export function analyseQuestion(question) {
   const intent = classifyIntent(question);
   const focus = extractFocus(question);
-  const terms = contentTokens(question);
+  const terms = contentTokens(question).filter(t => !FRAMING.has(t));
+  // Opinions and comparisons are not yes/no matters, however they are phrased.
+  const polar = POLAR_RE.test(question) && !['COMPARISON', 'OPINION', 'DEFINITION'].includes(intent.name);
+  const scope = CURRENT_RE.test(question) && (intent.name === 'CAREER' || intent.name === 'LOCATION' || intent.name === 'WHO' || intent.name === 'GENERAL')
+    ? 'current' : null;
   return {
-    question, intent, focus, terms,
+    question, intent, focus, terms, polar, scope,
+    wantsList: LIST_RE.test(question),
+    disjunctive: /\bor\b/i.test(question),
+    predicate: polar ? predicateTerms(question) : [],
     isIdentifierLookup: /\b[A-Za-z]+_[A-Za-z0-9_]+\b/.test(question) || /\bhttps?:\/\//.test(question),
     expects: intent.wants || DEFAULT_INTENT.wants,
   };

@@ -1,8 +1,22 @@
 [
- {"number": 101, "html_url": "https://github.com/PrashobhPaul/Knowledge-Fabric/issues/101", "created_at": "2026-11-24T18:00:00Z", "user": {"login": "visitor"},
+ {
+  "number": 101,
+  "html_url": "https://github.com/PrashobhPaul/Knowledge-Fabric/issues/101",
+  "created_at": "2026-11-24T18:00:00Z",
+  "user": {
+   "login": "visitor"
+  },
   "title": "[flag] What did Prashobh do at Tech Mahindra?",
-  "body": "### Question asked\n\nWhat did Prashobh do at Tech Mahindra?\n\n### What went wrong\n\nmissing — the sources do not cover this\n\n### What the answer should have been (if you know)\n\n_No response_\n\n### Confidence the fabric reported\n\n30%\n\n### Trace (filled in automatically when flagged from the site)\n\n```json\n{\"intent\": \"CAREER\"}\n```"},
- {"number": 102, "html_url": "https://github.com/PrashobhPaul/Knowledge-Fabric/issues/102", "created_at": "2026-11-24T18:10:00Z", "user": {"login": "visitor"},
-  "title": "[flag] Which conference talks has Prashobh given?",
-  "body": "### Question asked\n\nWhich conference talks has Prashobh given?\n\n### What went wrong\n\nmissing — the sources do not cover this\n\n### What the answer should have been (if you know)\n\nHe spoke at an internal Qualizeal AI session in 2026.\n\n### Confidence the fabric reported\n\n22%"}
+  "body": "### Question asked\n\nWhat did Prashobh do at Tech Mahindra?\n\n### What went wrong\n\nmissing — the sources do not cover this\n\n### What the answer should have been (if you know)\n\n_No response_\n\n### Confidence the fabric reported\n\n30%\n\n### Trace (filled in automatically when flagged from the site)\n\n```json\n{\"intent\": \"CAREER\"}\n```"
+ },
+ {
+  "number": 102,
+  "html_url": "https://github.com/PrashobhPaul/Knowledge-Fabric/issues/102",
+  "created_at": "2026-11-24T18:10:00Z",
+  "user": {
+   "login": "visitor"
+  },
+  "title": "[flag] Which podcasts has Prashobh been a guest on?",
+  "body": "### Question asked\n\nWhich podcasts has Prashobh been a guest on?\n\n### What went wrong\n\nmissing — the sources do not cover this\n\n### What the answer should have been (if you know)\n\nHe was a guest on the Qualizeal AI-CoE podcast in 2026.\n\n### Confidence the fabric reported\n\n22%"
+ }
 ]

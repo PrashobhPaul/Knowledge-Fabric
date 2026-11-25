@@ -495,6 +495,87 @@ check('the issue form, curator workflow and curator module exist and agree on th
   assert(/never invents/.test(cur), 'curator must not invent facts');
 });
 
+// =============================================================================
+console.log('\n=== ANSWER MATURITY: SCOPE, VERDICTS, JOINS, TIMESTAMPS ===');
+
+check('"currently" scopes a career question to the current role only', () => {
+  const r = ask('Where does Prashobh work currently?');
+  assert(r.analysis.scope === 'current', `scope was ${r.analysis.scope}`);
+  const text = plain(r);
+  assert(/Qualizeal/.test(text), 'current employer missing');
+  for (const past of ['Primera', 'Brane', 'Yash', 'Tech Mahindra', 'Tata']) {
+    assert(!new RegExp(past).test(text), `past employer leaked into a current-role answer: ${past}`);
+  }
+  assert(/spearheading|driving|leading/i.test(text), 'responsibilities not read from the role record');
+  assert(!/LinkedIn/.test(text), 'a LinkedIn post leaked into the career answer');
+});
+
+check('a yes/no question gets a verdict, and "no" still offers the nearest material', () => {
+  const r = ask('Does Prashobh teach AI on YouTube?');
+  assert(r.verdict && r.verdict.kind === 'no', `verdict was ${r.verdict && r.verdict.kind}`);
+  assert(/^\s*No\./.test(plain(r)), 'answer does not open with the verdict');
+  const sents = r.summary.sentences;
+  assert(sents.length <= 2, `a "no" dumped ${sents.length} sentences`);
+  assert(sents.every(s => s.chunk.source_type === 'youtube'), 'a YouTube question answered from elsewhere');
+  const rel = r.related || [];
+  assert(rel.length > 0 && rel[0].kind === 'video' && /AI Tour/i.test(rel[0].title), `related did not lead with the AI Tour video: ${rel.map(c => c.title)}`);
+  assert(/youtube\.com\/watch\?v=/.test(rel[0].url), 'related video card has no YouTube link');
+});
+
+check('a yes/no question answered by the sources gets "Yes" with the evidence sentence', () => {
+  for (const q of ['Did Prashobh attend the Microsoft AI Tour?', 'Does Prashobh work on AI-driven SDLC?', 'Can I hire Prashobh for consulting?']) {
+    const r = ask(q);
+    assert(r.verdict && r.verdict.kind === 'yes', `"${q}" verdict was ${r.verdict && r.verdict.kind}`);
+    assert(/^\s*Yes\./.test(plain(r)), `"${q}" does not open with Yes`);
+  }
+});
+
+check('opinion and comparison questions are never forced into yes/no', () => {
+  const r = ask('Is MCP better than A2A?');
+  assert(!r.verdict, 'a comparison got a verdict');
+  assert(!/^\s*(Yes|No)\./.test(plain(r)), 'comparison answered as yes/no');
+});
+
+check('a topic question maps to the project on the website AND its GitHub repository', () => {
+  const r = ask('Tell me about the Knowledge Fabric project and its code.');
+  const srcs = new Set(r.citations.map(c => c.chunk.source_type));
+  assert(srcs.has('website') && srcs.has('github'), `sources were ${[...srcs]}`);
+  const rel = r.related || [];
+  assert(rel.some(c => c.kind === 'repository' && /github\.com\/PrashobhPaul\/Knowledge-Fabric/.test(c.url)), 'repository card missing');
+  assert(rel.some(c => c.kind === 'project' && /prashobhpaul/.test(c.url)), 'website/live project card missing');
+});
+
+check('a video-level question cites a chapter or transcript window with a timestamped URL', () => {
+  const r = ask('What does Prashobh say about the history of Key Monastery?');
+  const deep = r.citations.filter(c => ['chapter', 'transcript'].includes((c.chunk.meta || {}).record_type));
+  assert(deep.length > 0, `no chapter/transcript cited: ${r.citations.map(c => (c.chunk.meta || {}).record_type)}`);
+  assert(deep.every(c => /&t=\d+s$/.test(c.chunk.url)), `timestamp missing from ${deep.map(c => c.chunk.url)}`);
+  assert(deep.every(c => c.chunk.meta.t_label), 'chapter/transcript lacks a readable time label');
+});
+
+check('chapter lists are records, not prose: no "0:00 –" dumps inside video text', () => {
+  const vids = idx.chunks.filter(c => (c.meta || {}).record_type === 'video');
+  const dumps = vids.filter(c => /\b\d{1,2}:\d{2}\s*[–\-—]?\s*[A-Z][^.]{3,40}\s+\d{1,2}:\d{2}\b/.test(c.text));
+  assert(dumps.length === 0, `${dumps.length} video records still carry a chapter list in prose`);
+  assert(idx.chunks.some(c => (c.meta || {}).record_type === 'chapter'), 'no chapter records built');
+  assert(idx.chunks.some(c => (c.meta || {}).record_type === 'transcript'), 'no transcript records built');
+});
+
+check('discourse markers never double up ("However, however")', () => {
+  for (const q of BANK) {
+    const text = plain(ask(q));
+    assert(!/\b(However|Separately|Specifically|Elsewhere),?\s+(however|separately|specifically|elsewhere)\b/i.test(text), `doubled marker in "${q}"`);
+  }
+});
+
+const { renderRelated } = await import(path.join(SITE, 'js/related.js'));
+check('the related strip renders openable cards and is wired into the page', () => {
+  const html = renderRelated([{ kind: 'video', title: 'T', url: 'https://www.youtube.com/watch?v=x&t=61s', sub: 'YouTube · ▶ 1:01', thumbnail: '' }]);
+  assert(/related-card/.test(html) && /t=61s/.test(html), 'card not rendered with its timestamped link');
+  assert(/id="answer-related"/.test(HTML), 'index.html lacks the related container');
+  assert(/\.related-card/.test(CSS), 'related cards unstyled');
+});
+
 console.log('\n' + '='.repeat(62));
 console.log(`  ${passed} passed, ${failed} failed`);
 console.log('='.repeat(62));

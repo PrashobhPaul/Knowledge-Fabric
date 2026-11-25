@@ -134,6 +134,9 @@ const OPENERS = {
 
 function buildOpener(analysis, sentences) {
   const subject = subjectPhrase(analysis);
+  if (analysis.scope === 'current' && analysis.intent.name === 'CAREER') {
+    return `Prashobh's current role, as the resume and website record it:`;
+  }
   const fn = OPENERS[analysis.intent.name] || OPENERS.GENERAL;
   const srcs = new Set(sentences.map(s => s.chunk.source_type)).size;
   const docs = new Set(sentences.map(s => s.chunk.document_id)).size;
@@ -161,6 +164,8 @@ const SOURCE_MARKER = {
 
 function pickMarker(prev, curr, usedMarkers) {
   let pool;
+  // A sentence that already opens with a connective ("However, …") needs none.
+  if (/^(however|separately|specifically|elsewhere|also|but|and|so)\b/i.test(curr.display)) return '';
   if (NEGATION_RE.test(curr.display) && !NEGATION_RE.test(prev.display)) pool = CONTRAST;
   else if (prev.chunk.source_type !== curr.chunk.source_type) {
     const m = SOURCE_MARKER[curr.chunk.source_type];
@@ -187,11 +192,32 @@ function decapitalise(text) {
 }
 
 // ---------------------------------------------------------------------------
+// 3b. Verdicts — a yes/no question gets an answer before the evidence
+// ---------------------------------------------------------------------------
+//
+// "Does he teach AI on YouTube?" must open with the answer. The verdict is
+// computed in answer.js from whether a single evidence sentence satisfies every
+// predicate term (yes), some of them (not directly), or none (no). Here it is
+// only phrased.
+function verdictOpener(analysis, verdict) {
+  const pred = (verdict.missing || []).map(p => p.term).join(', ');
+  if (verdict.kind === 'yes') {
+    return `Yes. The sources support this directly:`;
+  }
+  if (verdict.kind === 'partial') {
+    return `Partly. The sources touch on this but do not show "${pred}" as such — what they do show:`;
+  }
+  return `No. Nothing in the sources shows "${pred}" — the closest related material is:`;
+}
+
+// ---------------------------------------------------------------------------
 // 4. Closing — what the answer does not cover
 // ---------------------------------------------------------------------------
 function buildClosing(analysis, confidence, summary) {
   if (!confidence) return null;
-
+  if (analysis.scope === 'current') {
+    return `Scoped to the current role. Ask "list all the companies" for the full career history.`;
+  }
   if (confidence.percent < 30) {
     return `This is a weak match. The sources do not appear to contain a direct answer, ` +
            `so treat the passages above as related context rather than a settled answer.`;
@@ -211,11 +237,11 @@ function buildClosing(analysis, confidence, summary) {
 // ---------------------------------------------------------------------------
 // Main entry
 // ---------------------------------------------------------------------------
-export function composeResponse(analysis, sentences, citations, confidence, summary) {
+export function composeResponse(analysis, sentences, citations, confidence, summary, verdict = null) {
   if (!sentences.length) return { html: '', plain: '', opener: '', closing: null };
 
   const citeNum = new Map(citations.map(c => [c.chunkIdx, c.num]));
-  const opener = buildOpener(analysis, sentences);
+  const opener = verdict ? verdictOpener(analysis, verdict) : buildOpener(analysis, sentences);
   const usedMarkers = new Set();
 
   const parts = [];
@@ -231,9 +257,9 @@ export function composeResponse(analysis, sentences, citations, confidence, summ
       body = clean;
     } else {
       const marker = pickMarker(sentences[i - 1], s, usedMarkers);
-      const joined = decapitalise(clean);
-      body = `<span class="answer-marker">${marker}</span> ${joined}`;
-      plainParts.push(`${marker} ${joined}`);
+      const joined = marker ? decapitalise(clean) : clean;
+      body = marker ? `<span class="answer-marker">${marker}</span> ${joined}` : joined;
+      plainParts.push(marker ? `${marker} ${joined}` : joined);
     }
     if (i === 0) plainParts.push(clean);
 
