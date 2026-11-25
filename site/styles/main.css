@@ -4189,3 +4189,36 @@ summary:focus-visible, [tabindex]:focus-visible {
 .near-canon { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
 .near-chip { font: inherit; font-size: 13px; color: var(--text); background: rgba(255,255,255,0.06); border: 1px solid var(--line, rgba(255,255,255,0.12)); border-radius: 999px; padding: 6px 12px; cursor: pointer; }
 .near-chip:hover { border-color: var(--qz-blue, #4D7CFF); }
+
+/* ===== Mobile: one column, nothing wider than the screen ===== */
+@media (max-width: 900px) {
+  .hero-section { grid-template-columns: minmax(0, 1fr); gap: 18px; padding: 72px 16px 40px; min-height: auto; }
+  .hero-overlay, .hero-galaxy { min-width: 0; width: 100%; max-width: 100%; }
+  .twin-stage { width: 100%; max-width: 100%; height: auto; max-height: none; aspect-ratio: 4 / 5; }
+  .stage-actions { width: 100%; }
+  .stage-status { flex: 1 1 100%; min-width: 0; white-space: normal; }
+  .hero-composer { flex-wrap: wrap; width: 100%; max-width: 100%; gap: 8px; }
+  .hero-composer input { flex: 1 1 100%; min-width: 0; width: 100%; }
+  .voice-controls { margin: 0; flex: 1 1 auto; }
+  .hero-composer button[type="submit"] { flex: 0 0 auto; margin-left: auto; }
+  .hero-suggestions { width: 100%; }
+  .sticky-ask-inner { gap: 8px; padding: 8px 12px; }
+  .sticky-ask-label { display: none; }
+  .sticky-ask-form { flex: 1 1 auto; width: 100%; min-width: 0; }
+  .sticky-ask-form input { flex: 1 1 auto; min-width: 0; width: auto; }
+  .related-cards { grid-template-columns: 1fr; }
+  .answer-player iframe { border-radius: 8px; }
+  .story-section { padding-left: 16px; padding-right: 16px; }
+}
+@media (max-width: 480px) {
+  .hero-section { padding: 64px 12px 32px; }
+  .twin-stage { aspect-ratio: 1; }
+  .hero-galaxy { height: 42vh; }
+  .stage-btn { padding: 7px 10px; font-size: 12.5px; }
+  .bubble, .answer-body { font-size: 15px; }
+}
+@media (max-width: 900px) {
+  .source-strip { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; width: 100%; max-width: 100%; overflow: hidden; }
+  .src-card { width: auto; min-width: 0; }
+  .src-card > span, .src-card > b { max-width: 100%; }
+}
