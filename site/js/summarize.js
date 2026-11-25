@@ -267,7 +267,6 @@ export function summarise(query, ranked, chunks, opts = {}) {
   for (const r of ranked.slice(0, 20)) {
     const chunk = chunks[r.chunkIdx];
     if (!chunk) continue;
-<<<<<<< HEAD
     let prior = evidencePrior(chunk, intent, scope);
     if (prior < 0.12) { rejected++; continue; }   // routed out by intent or scope
     // Evidence in the question's own language (a Malayalam title, a Telugu
@@ -275,10 +274,6 @@ export function summarise(query, ranked, chunks, opts = {}) {
     // translation ever could — and the fabric never translates.
     const qLang = analysis.lang || 'en';
     if (qLang !== 'en' && (chunk.meta && chunk.meta.lang) === qLang) prior *= 1.6;
-=======
-    const prior = evidencePrior(chunk, intent, scope);
-    if (prior < 0.12) { rejected++; continue; }   // routed out by intent or scope
->>>>>>> dc289be67e7a0eeef540fe78096c081a23ca5af1
 
     const admitted = [];
     for (const sent of sentencesOf(chunk)) {

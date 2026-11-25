@@ -488,11 +488,7 @@ export function analyseQuestion(question) {
   const scope = CURRENT_RE.test(question) && (intent.name === 'CAREER' || intent.name === 'LOCATION' || intent.name === 'WHO' || intent.name === 'GENERAL')
     ? 'current' : null;
   return {
-<<<<<<< HEAD
     question, intent, focus, terms, polar, scope, lang,
-=======
-    question, intent, focus, terms, polar, scope,
->>>>>>> dc289be67e7a0eeef540fe78096c081a23ca5af1
     wantsList: LIST_RE.test(question),
     disjunctive: /\bor\b/i.test(question),
     predicate: polar ? predicateTerms(question) : [],
