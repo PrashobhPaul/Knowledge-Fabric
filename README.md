@@ -177,6 +177,9 @@ and the fabric must have cross-source joins.
 
 # Using it from the GitHub website (no command line)
 
+### The canon — your own answers, each with proof
+`knowledge_sources/profile/canon.yaml` holds the major questions answered the way you answer them. The build resolves every evidence link (a website page, resume record, repo, video or post) to the records that prove it and refuses silently unproven claims (they are reported as unresolved). A matching question gets your answer verbatim, the proofs as citations, and the fabric's own retrieval beneath as corroboration; the twin speaks it in full. Edit the file on GitHub to add or refine answers.
+
 ### The twin — your 3D, speaking self in the hero
 The avatar (left) answers beside the knowledge graph (right), lips synced to the audio, in your own voice once the one-time **Voice bake** workflow has run (no runtime API). It only rewrites cited sentences to the first person; it never generates facts. Cited videos play inline at the cited second. Setup: `twin/README.md`.
 

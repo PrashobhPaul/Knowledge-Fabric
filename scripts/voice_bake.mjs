@@ -46,6 +46,8 @@ const manifest = fs.existsSync(manifestPath) ? JSON.parse(fs.readFileSync(manife
 
 // Collect candidate lines: fixed lines first, then evidence sentences by priority.
 const lines = [TWIN_CONFIG.greeting, verdictLine({ kind: 'yes' }), verdictLine({ kind: 'partial' }), verdictLine({ kind: 'no' }), noAnswerLine()];
+// Curated answers first: they are what visitors hear most, verbatim.
+for (const e of idx.canon || []) for (const s of String(e.answer).split(/(?<=[.!?])\s+(?=[A-Z"'(])/)) lines.push(s.trim());
 const byType = new Map();
 for (const c of idx.chunks) {
   const rt = (c.meta || {}).record_type || 'other';

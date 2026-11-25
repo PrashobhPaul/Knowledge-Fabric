@@ -64,6 +64,7 @@ def registry_from(paths: dict[str, Path]) -> list:
     from .profile import ProfileConnector
     from .website import WebsiteConnector
     from .youtube import YouTubeConnector
+    from .canon import CanonConnector
 
     connectors = []
     docs = paths.get("documents")
@@ -75,6 +76,8 @@ def registry_from(paths: dict[str, Path]) -> list:
         ks = Path(ks)
         if (ks / "profile" / "profile.yaml").exists():
             connectors.append(ProfileConnector(ks / "profile" / "profile.yaml"))
+        if (ks / "profile" / "canon.yaml").exists():
+            connectors.append(CanonConnector(ks / "profile" / "canon.yaml"))
         if (ks / "website").exists():
             connectors.append(WebsiteConnector(ks / "website"))
         if (ks / "youtube" / "videos.json").exists():

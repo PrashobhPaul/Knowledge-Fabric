@@ -25,6 +25,7 @@ import { TWIN_CONFIG } from './twinconfig.js?v=1';
 import { createStage } from './stage.js?v=1';
 import { firstPersonAnswer, verdictLine, noAnswerLine } from './persona.js?v=1';
 import * as speaker from './speaker.js?v=1';
+import { matchCanon, applyCanon } from './canon.js?v=1';
 import { currentLang, setLang, listen, speak, recognitionSupported, synthesisSupported, renderVoiceControls, renderSpeakButton } from './voice.js?v=1';
 
 const INDEX_URL = 'data/index.json';
@@ -754,6 +755,10 @@ async function ask(question, opts = {}) {
     const rescued = retrieve(bankMatch.question);
     if (!rescued.lowConfidence) { result = rescued; retrievalQuery = bankMatch.question; }
   }
+  // Curated layer: a question the owner has answered himself gets that answer,
+  // verbatim, cited by its proof records; retrieval stays as corroboration.
+  const canonMatch = matchCanon(question, state.index.canon);
+  if (canonMatch) result = applyCanon(result, canonMatch, state.chunks);
   const { ranked, cohesion, answerHtml, citations, lowConfidence } = result;
 
   const trace = state.graph.highlightTrace(citations.map(c => c.chunk.id));
@@ -774,9 +779,12 @@ async function ask(question, opts = {}) {
   // from "he" to "I" by rules), in the owner's baked voice when available.
   {
     const hasEvidence = result.summary && result.summary.sentences && result.summary.sentences.length;
-    const reply = hasEvidence ? firstPersonAnswer(result, { spokenSentences: TWIN_CONFIG.spokenSentences })
+    const reply = result.canon ? { sentences: result.canon.sentences }
+                : hasEvidence ? firstPersonAnswer(result, { spokenSentences: TWIN_CONFIG.spokenSentences })
                               : { sentences: [noAnswerLine()], spoken: noAnswerLine() };
-    const lines = [result.verdict ? verdictLine(result.verdict) : '', ...reply.sentences.slice(0, TWIN_CONFIG.spokenSentences)].filter(Boolean);
+    // A curated answer is spoken in full — it is exactly what the owner would say.
+    const lines = result.canon ? reply.sentences
+      : [result.verdict ? verdictLine(result.verdict) : '', ...reply.sentences.slice(0, TWIN_CONFIG.spokenSentences)].filter(Boolean);
     const voiceEl = document.getElementById('answer-voice');
     if (voiceEl) {
       const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
