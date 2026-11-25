@@ -23,11 +23,52 @@ function stem(t) {
   else if (t.endsWith('ed') && t.length > 4) t = t.slice(0, -2);
   return t;
 }
-const setOf = (q) => new Set(tokenize(String(q)).filter(t => !STOP.has(t)).map(stem));
+// Visitor words → the words the canon uses. Applied to the question only.
+const SYNONYMS = {
+  kids: 'children', kid: 'child', spouse: 'wife', husband: 'wife', dad: 'father', mom: 'mother', mum: 'mother',
+  job: 'work', employer: 'company', firm: 'company', organisation: 'company', organization: 'company', org: 'company',
+  hometown: 'from', native: 'from', birthplace: 'born', bday: 'birthday', age: 'born',
+  hobby: 'hobbies', pastime: 'hobbies', teach: 'training', teaches: 'training', teaching: 'training', tutorials: 'training',
+  resume: 'career', cv: 'career', qualifications: 'education', qualification: 'education', degree: 'education',
+  vlog: 'youtube', vlogs: 'youtube', video: 'youtube', channel: 'youtube', films: 'videos',
+  painting: 'art', paintings: 'art', drawings: 'art', drawing: 'art', sketch: 'art',
+  motivates: 'drives', motivation: 'drives', inspires: 'inspiration', mentor: 'mentors', guru: 'mentors',
+  gear: 'camera', equipment: 'camera', apps: 'projects', app: 'project', repo: 'github', repos: 'github', code: 'github',
+  favourite: 'favourite', favorite: 'favourite', hardest: 'hardest', toughest: 'hardest', difficult: 'hardest',
+};
+const norm = (t) => SYNONYMS[t] || t;
+const setOf = (q) => new Set(tokenize(String(q)).filter(t => !STOP.has(t)).map(t => stem(norm(t))));
+
+// One-edit typo tolerance for words of five letters or more ("How may kids" → "many").
+function close(a, b) {
+  if (a === b) return true;
+  if (Math.min(a.length, b.length) < 5 || Math.abs(a.length - b.length) > 1) return false;
+  let i = 0, j = 0, edits = 0;
+  while (i < a.length && j < b.length) {
+    if (a[i] === b[j]) { i++; j++; continue; }
+    if (++edits > 1) return false;
+    if (a.length > b.length) i++; else if (a.length < b.length) j++; else { i++; j++; }
+  }
+  return edits + (a.length - i) + (b.length - j) <= 1;
+}
 function sim(a, b) {
   if (!a.size || !b.size) return 0;
-  let inter = 0; for (const t of a) if (b.has(t)) inter++;
+  let inter = 0;
+  for (const t of a) { if (b.has(t)) { inter++; continue; } for (const u of b) if (close(t, u)) { inter++; break; } }
   return inter / Math.sqrt(a.size * b.size);
+}
+/** Keyword hits: how many of an entry's hand-listed cue words/phrases the question contains. */
+function keywordHits(question, entry) {
+  const q = ' ' + String(question).toLowerCase().replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ') + ' ';
+  const toks = tokenize(q).map(t => stem(norm(t)));
+  let hits = 0;
+  for (const k of entry.keywords || []) {
+    const kk = String(k).toLowerCase();
+    if (kk.includes(' ')) { if (q.includes(' ' + kk + ' ')) hits++; continue; }
+    const ks = stem(norm(kk));
+    if (toks.some(t => t === ks || close(t, ks))) hits++;
+  }
+  return hits;
 }
 
 /** Best canon entry for a question, or null. Exact variant match wins; else cosine over content stems. */
@@ -38,11 +79,27 @@ export function matchCanon(question, canon, { threshold = 0.66 } = {}) {
   for (const e of canon) if ((e.questions || []).some(v => norm(v) === qn)) return { entry: e, score: 1 };
   const qs = setOf(question);
   let best = null, bestScore = 0;
-  for (const e of canon) for (const v of e.questions || []) {
-    const s = sim(qs, setOf(v));
-    if (s > bestScore) { bestScore = s; best = e; }
+  for (const e of canon) {
+    let s = 0;
+    for (const v of e.questions || []) s = Math.max(s, sim(qs, setOf(v)));
+    const hits = keywordHits(question, e);
+    // A strong phrasing match, or cue words the owner listed for this topic.
+    // Phrasing similarity breaks ties between entries sharing cue words.
+    const score = Math.max(s, hits >= 2 ? 0.8 + 0.05 * hits : hits === 1 ? Math.max(s, 0.45) + 0.25 : 0) + 0.1 * s;
+    if (score > bestScore) { bestScore = score; best = e; }
   }
-  return best && bestScore >= threshold ? { entry: best, score: bestScore } : null;
+  return best && bestScore >= threshold ? { entry: best, score: Math.min(1, bestScore) } : null;
+}
+
+/** Nearest canon questions, for a visitor whose question matched nothing. */
+export function suggestCanon(question, canon, n = 3) {
+  if (!Array.isArray(canon)) return [];
+  const qs = setOf(question);
+  const scored = canon.map(e => ({ e, s: Math.max(keywordHits(question, e) * 0.3, ...(e.questions || []).map(v => sim(qs, setOf(v)))) }))
+    .filter(x => x.s > 0).sort((a, b) => b.s - a.s).slice(0, n).map(x => x.e.questions[0]);
+  if (scored.length) return scored;
+  // Nothing related: offer the questions most visitors start with.
+  return ['who', 'current-role', 'projects'].map(id => (canon.find(e => e.id === id) || {}).questions?.[0]).filter(Boolean).slice(0, n);
 }
 
 export function splitSentences(text) {
