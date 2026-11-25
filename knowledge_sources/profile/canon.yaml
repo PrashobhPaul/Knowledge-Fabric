@@ -658,7 +658,8 @@ canon:
       - What is Prashobh's date of birth?
       - How old are you?
     answer: >-
-      I was born on 2 July 1990, in Kerala.
+      I was born on 2 July 1990, in Kerala, India. I grew up in a family of teachers, and I have
+      lived in Hyderabad for most of my working life.
     evidence:
       - url: doc:Personal_and_Family
         source: resume
