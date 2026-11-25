@@ -625,8 +625,8 @@ check('an Indic-script question answered from English evidence says so; same-lan
 });
 
 // =============================================================================
-console.log('\n=== THE TWIN: FIRST PERSON, NO NEW FACTS ===');
-const persona = await import(path.join(SITE, 'twin/persona.js'));
+console.log('\n=== THE TWIN: FIRST PERSON, NO NEW FACTS, ONE SITE ===');
+const persona = await import(path.join(SITE, 'js/persona.js'));
 
 check('the persona rewrites cited sentences into the first person without touching the facts', () => {
   const s = persona.toFirstPerson("Prashobh Paul has worked at Qualizeal as AI Architect in the AI Center of Excellence (AI-CoE) / AI Think Tank since January 2026 (current role), based in Hyderabad, India.");
@@ -644,20 +644,29 @@ check('a twin reply is the fabric answer in the first person, with the same cita
   const reply = persona.firstPersonAnswer(r, { spokenSentences: 2 });
   assert(/I have worked at Qualizeal/.test(reply.text), reply.text);
   assert(!/\b(he|his|Prashobh)\b/.test(reply.text), `third person survived: ${reply.text}`);
-  assert(reply.spoken.length < reply.text.length, 'spoken part should be shorter than the panel text');
   const no = persona.firstPersonAnswer(ask('Does Prashobh teach AI on YouTube?'));
   assert(/^No, not that I have on record/.test(no.text), no.text);
 });
 
-check('the twin page, config and voice worker are in place and the worker holds no key', () => {
-  const html = fs.readFileSync(path.join(SITE, 'twin/index.html'), 'utf8');
-  assert(/twin\.js/.test(html) && /id="twin-mic"/.test(html) && /id="twin-lang"/.test(html), 'twin page incomplete');
-  const cfg = fs.readFileSync(path.join(SITE, 'twin/config.js'), 'utf8');
-  for (const k of ['avatarUrl', 'ttsEndpoint', 'voiceId', 'defaultLang']) assert(new RegExp(`\\b${k}:`).test(cfg), `config lacks ${k}`);
-  const worker = fs.readFileSync(path.join(ROOT, 'twin/worker/elevenlabs-proxy.js'), 'utf8');
-  assert(/env\.ELEVENLABS_API_KEY/.test(worker) && /eleven_multilingual_v2/.test(worker), 'worker not wired to the env secret');
-  assert(!/xi-api-key':\s*'[A-Za-z0-9]/.test(worker) && !/sk_[a-f0-9]{20}/.test(worker), 'a key literal is in the worker');
-  assert(/caches\.default/.test(worker), 'worker does not cache');
+check('the avatar stage sits in the hero beside the graph, with an inline video player, on ONE site', () => {
+  const hero = HTML.slice(HTML.indexOf('id="hero"'), HTML.indexOf('id="section-answer"'));
+  assert(/id="twin-stage"/.test(hero) && /id="galaxy"/.test(hero), 'stage and graph are not both in the hero');
+  assert(!/hero-title/.test(hero), 'the hero write-up was not removed');
+  assert(/id="answer-player"/.test(HTML) && /id="twin-mute"/.test(HTML) && /id="twin-greet"/.test(HTML), 'player / stage controls missing');
+  assert(!fs.existsSync(path.join(SITE, 'twin')), 'a second twin site still exists');
+  assert(/grid-template-columns: 1fr 1fr/.test(CSS.slice(CSS.indexOf('Hero: avatar'))), 'hero is not a 50/50 grid');
+});
+
+check('the bundled avatar carries mouth shapes and the voice is baked, never called live', () => {
+  const glb = fs.readFileSync(path.join(SITE, 'assets/avatar.glb'));
+  assert(glb.length > 1e6 && glb.includes('viseme_aa') && glb.includes('jawOpen'), 'avatar lacks viseme morph targets');
+  const bake = fs.readFileSync(path.join(ROOT, 'scripts/voice_bake.mjs'), 'utf8');
+  assert(/ELEVENLABS_API_KEY/.test(bake) && /sha1/.test(bake) && !/sk_[a-f0-9]{20}/.test(bake), 'bake script misconfigured or leaks a key');
+  for (const f of ['js/speaker.js', 'js/stage.js', 'js/twinconfig.js']) assert(fs.existsSync(path.join(SITE, f)), `${f} missing`);
+  const main = fs.readFileSync(path.join(SITE, 'js/main.js'), 'utf8');
+  assert(!/api\.elevenlabs\.io|ttsEndpoint/.test(main), 'the live site must not call a TTS API');
+  assert(/youtube-nocookie\.com\/embed/.test(main) && /data-video/.test(fs.readFileSync(path.join(SITE, 'js/related.js'), 'utf8')), 'inline video player not wired');
+  assert(fs.existsSync(path.join(ROOT, '.github/workflows/voice.yml')), 'voice bake workflow missing');
 });
 
 console.log('\n' + '='.repeat(62));

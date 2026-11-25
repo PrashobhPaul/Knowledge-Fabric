@@ -1,0 +1,45 @@
+name: Voice bake (one-time, in the owner's cloned voice)
+
+# Synthesises the sentences the twin can say with ElevenLabs ONCE and commits
+# the audio to the repository, so the live site never calls the API.
+# Run it from the Actions tab: Voice bake → Run workflow → budget (characters).
+# Secrets (Settings → Secrets and variables → Actions):
+#   ELEVENLABS_API_KEY    an API key with Text to Speech permission
+#   ELEVENLABS_VOICE_ID   the id of your cloned voice
+
+on:
+  workflow_dispatch:
+    inputs:
+      budget:
+        description: "Characters to synthesise this run (ElevenLabs plan quota)"
+        required: false
+        default: "60000"
+
+permissions:
+  contents: write
+
+jobs:
+  bake:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - name: Build the fabric (the sentences come from the index)
+        run: |
+          pip install -r pipeline/requirements.txt
+          python -m pipeline.build_index --source documents --knowledge knowledge_sources --out site/data/index.json --semantic-out site/data/semantic.json
+      - name: Bake new sentences
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_VOICE_ID: ${{ secrets.ELEVENLABS_VOICE_ID }}
+        run: node scripts/voice_bake.mjs --budget "${{ github.event.inputs.budget }}"
+      - name: Commit the audio
+        run: |
+          git config user.name "knowledge-factory[bot]"
+          git config user.email "knowledge-factory@users.noreply.github.com"
+          git add site/voice
+          git diff --cached --quiet && echo "nothing new" || git commit -m "voice: bake new sentences in the owner's voice"
+          git push
