@@ -35,6 +35,18 @@ def _classify(path: Path, root: Path) -> tuple[str, str, str]:
     return DOMAIN_MAP.get(top, DEFAULT_DOMAIN)
 
 
+# Documents live in this repository, so their provenance link is the file on GitHub.
+REPO_BLOB = "https://github.com/PrashobhPaul/Prashobh_Knowledge_Factory/blob/main/"
+
+
+def _blob_url(path: Path, root: Path) -> str:
+    try:
+        rel = path.resolve().relative_to(root.resolve().parent)
+    except ValueError:
+        return ""
+    return REPO_BLOB + str(rel).replace("\\", "/").replace(" ", "%20")
+
+
 def _version_hint(name: str) -> str:
     """'Prashobh_Paul_Resume_May2025.pdf' -> '2025-05'. Lets the UI say which
     revision a sentence came from when two resumes are indexed side by side."""
@@ -78,7 +90,7 @@ class DocumentConnector:
                     text=para.text,
                     section_path=para.section_path,
                     page=para.page,
-                    url="",
+                    url=_blob_url(path, self.root),
                     metadata={
                         "record_type": "document_paragraph",
                         "document_name": parsed.name,

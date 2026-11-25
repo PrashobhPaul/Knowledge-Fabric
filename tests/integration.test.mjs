@@ -749,21 +749,62 @@ const { answerQuestion } = await import(path.join(SITE, 'js/pipeline.js'));
 const GOLD = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests/qa_gold.json'), 'utf8'));
 const pipeCtx = { index: idx, bm25, bm25Payload: idx.bm25, semantic, chunks: idx.chunks, filters: {}, qvec: null };
 
-check('every golden question lands on the expected curated answer, in the owner\'s words, with proofs', () => {
+check('every golden question lands on the expected curated answer, in the owner\'s words, with proofs and key facts', () => {
   const misses = [];
-  for (const [q, id] of GOLD.canon) {
-    const r = answerQuestion(q, pipeCtx);
-    if (!r.canonMatch || r.canonMatch.id !== id) { misses.push(`"${q}" → ${r.canonMatch ? r.canonMatch.id : (r.noAnswer ? 'no-answer' : 'retrieval')}`); continue; }
-    if (!/In Prashobh's own words/.test(plain(r)) || r.citations.length < 1) misses.push(`"${q}" matched but not framed/cited`);
+  for (const c of GOLD.cases) {
+    const r = answerQuestion(c.q, pipeCtx);
+    if (!r.canonMatch || r.canonMatch.id !== c.id) { misses.push(`"${c.q}" → ${r.canonMatch ? r.canonMatch.id : (r.noAnswer ? 'no-answer' : 'retrieval')}`); continue; }
+    if (!/In Prashobh's own words/.test(plain(r)) || r.citations.length < 1) misses.push(`"${c.q}" matched but not framed/cited`);
+    if (c.must && !plain(r).includes(c.must)) misses.push(`"${c.q}" lacks "${c.must}"`);
   }
-  assert(misses.length === 0, `${misses.length}/${GOLD.canon.length} golden questions off target:\n          ` + misses.join('\n          '));
+  assert(GOLD.cases.length >= 200, `golden set shrank to ${GOLD.cases.length}`);
+  assert(misses.length === 0, `${misses.length}/${GOLD.cases.length} golden questions off target:\n          ` + misses.join('\n          '));
 });
 
 check('questions with no answer on record say so instead of showing a collage', () => {
   for (const q of GOLD.no_answer) {
     const r = answerQuestion(q, pipeCtx);
-    assert(r.noAnswer || r.canonMatch === null && !r.lowConfidence, `"${q}" was answered from retrieval with low confidence`);
-    if (r.noAnswer) assert(/do not have a direct answer/.test(plain(r)) && (r.summary.sentences || []).length === 0, `"${q}" fallback not honest`);
+    assert(r.noAnswer, `"${q}" was answered (${r.canonMatch ? r.canonMatch.id : 'retrieval'})`);
+    assert(/do not have a direct answer|private, so it is not on record/.test(plain(r)) && (r.summary.sentences || []).length === 0, `"${q}" fallback not honest`);
+  }
+});
+
+// Rounds 2–7: unseen, harder questions written after the golden set — paraphrases,
+// typos and shorthand, Indic scripts, several questions in one, comparisons,
+// career before/after, follow-ups that say "it", small talk, privacy and errands.
+const ROUNDS = ['qa_round2.json', 'qa_round3.json', 'qa_round4.json', 'qa_round5.json', 'qa_round6.json', 'qa_round7.json']
+  .map(f => [f, JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8'))]);
+check('every harder round (multi-part, comparisons, follow-ups, Indic, typos) answers as the owner would', () => {
+  const misses = [];
+  let n = 0;
+  for (const [f, G] of ROUNDS) for (const c of G.cases) {
+    n++;
+    const r = answerQuestion(c.q, { ...pipeCtx, prev: c.prev || null });
+    const got = r.canonMatch ? r.canonMatch.id : (r.noAnswer ? 'NO-ANSWER' : 'RETRIEVAL');
+    const want = Array.isArray(c.id) ? c.id : [c.id];
+    if (!want.includes(got)) misses.push(`${f}: "${c.q}" → ${got} (want ${want.join('|')})`);
+    else if (c.must && !plain(r).includes(c.must)) misses.push(`${f}: "${c.q}" lacks "${c.must}"`);
+  }
+  assert(n >= 240, `the harder rounds shrank to ${n} questions`);
+  assert(misses.length === 0, `${misses.length}/${n} off target:\n          ` + misses.join('\n          '));
+});
+
+check('off-topic questions, errands and private details in the harder rounds are declined honestly', () => {
+  const misses = [];
+  for (const [f, G] of ROUNDS) for (const q of G.no_answer) {
+    const r = answerQuestion(q, pipeCtx);
+    if (!r.noAnswer) misses.push(`${f}: "${q}" → ${r.canonMatch ? r.canonMatch.id : 'retrieval'}`);
+  }
+  assert(misses.length === 0, misses.join('\n          '));
+});
+
+check('client names stay confidential in every curated answer and note', () => {
+  const canonText = JSON.stringify(idx.canon);
+  assert(!/Southwest|PwC|American Express/i.test(canonText), 'a client name is in the canon');
+  for (const f of fs.readdirSync(path.join(ROOT, 'docs_source/notes'), { recursive: true })) {
+    if (!String(f).endsWith('.md')) continue;
+    const t = fs.readFileSync(path.join(ROOT, 'docs_source/notes', String(f)), 'utf8');
+    assert(!/Southwest|PwC|American Express/i.test(t), `client name in ${f}`);
   }
 });
 

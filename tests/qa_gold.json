@@ -1,209 +1,916 @@
 {
- "canon": [
-  [
-   "How may kids do you have?",
-   "family"
-  ],
-  [
-   "Are you married?",
-   "family"
-  ],
-  [
-   "Who is your wife?",
-   "family"
-  ],
-  [
-   "Tell me about your parents.",
-   "family"
-  ],
-  [
-   "Where do you live?",
-   "location"
-  ],
-  [
-   "Where are you from?",
-   "origins"
-  ],
-  [
-   "Where did you go to school?",
-   "origins"
-  ],
-  [
-   "When were you born?",
-   "birthday"
-  ],
-  [
-   "How old are you?",
-   "birthday"
-  ],
-  [
-   "Where does Prashobh work currently?",
-   "current-role"
-  ],
-  [
-   "What do you do at Qualizeal?",
-   "current-role"
-  ],
-  [
-   "What is your current job?",
-   "current-role"
-  ],
-  [
-   "Which companies have you worked for?",
-   "career-history"
-  ],
-  [
-   "What did you do at TCS?",
-   "tcs-story"
-  ],
-  [
-   "What did you do at Tech Mahindra?",
-   "tech-mahindra"
-  ],
-  [
-   "Have you worked in healthcare?",
-   "healthcare"
-  ],
-  [
-   "Have you worked in banking?",
-   "bfsi"
-  ],
-  [
-   "Have you built robots?",
-   "robotics"
-  ],
-  [
-   "What degree do you have?",
-   "education"
-  ],
-  [
-   "What are your skills?",
-   "skills"
-  ],
-  [
-   "Which agent frameworks do you use?",
-   "skills"
-  ],
-  [
-   "What projects have you built?",
-   "projects"
-  ],
-  [
-   "What is Koode?",
-   "koode"
-  ],
-  [
-   "What is Pachaka Lokam?",
-   "pachaka-lokam"
-  ],
-  [
-   "What is Invest.IQ?",
-   "invest-iq"
-  ],
-  [
-   "What is the Knowledge Fabric project?",
-   "knowledge-fabric"
-  ],
-  [
-   "What does CogniFlow do?",
-   "cogniflow"
-  ],
-  [
-   "Do you work on AI-driven SDLC?",
-   "aidlc"
-  ],
-  [
-   "Can I hire you?",
-   "services"
-  ],
-  [
-   "Do you teach AI?",
-   "training"
-  ],
-  [
-   "How can I contact you?",
-   "contact"
-  ],
-  [
-   "Tell me about your YouTube channel.",
-   "youtube"
-  ],
-  [
-   "What videos have you made about Spiti?",
-   "spiti"
-  ],
-  [
-   "What is the Key Monastery video about?",
-   "key-monastery"
-  ],
-  [
-   "Did you meet Satya Nadella?",
-   "ai-tour"
-  ],
-  [
-   "What do you post on LinkedIn?",
-   "linkedin-knowledge"
-  ],
-  [
-   "What languages do you speak?",
-   "languages"
-  ],
-  [
-   "What are your hobbies?",
-   "interests"
-  ],
-  [
-   "Do you make art?",
-   "art"
-  ],
-  [
-   "Who is Phoenix de Artist?",
-   "art"
-  ],
-  [
-   "Why did you get into AI?",
-   "why-ai"
-  ],
-  [
-   "What is your proudest achievement?",
-   "proudest"
-  ],
-  [
-   "What was the hardest problem you solved?",
-   "hardest-problem"
-  ],
-  [
-   "Who were your mentors?",
-   "mentors"
-  ],
-  [
-   "What motivates you?",
-   "what-drives"
-  ],
-  [
-   "Which is your favourite journey till now?",
-   "youtube-why"
-  ],
-  [
-   "Which cricket team do you support?",
-   "teams"
-  ],
-  [
-   "What inspires you?",
-   "inspiration"
-  ],
-  [
-   "What is your daily routine?",
-   "typical-day"
-  ],
-  [
-   "What is your advice to your children?",
-   "children-message"
-  ]
+ "cases": [
+  {
+   "q": "Who is Prashobh Paul?",
+   "id": "who"
+  },
+  {
+   "q": "Tell me about yourself.",
+   "id": "who"
+  },
+  {
+   "q": "Introduce yourself",
+   "id": "who"
+  },
+  {
+   "q": "Who are you?",
+   "id": "who"
+  },
+  {
+   "q": "Give me a short bio of Prashobh.",
+   "id": "who"
+  },
+  {
+   "q": "who is prashobh",
+   "id": "who"
+  },
+  {
+   "q": "Where does Prashobh work currently?",
+   "id": "current-role"
+  },
+  {
+   "q": "Where do you work now?",
+   "id": "current-role"
+  },
+  {
+   "q": "What is your current job?",
+   "id": "current-role"
+  },
+  {
+   "q": "What do you do at Qualizeal?",
+   "id": "current-role",
+   "must": "AI Architect"
+  },
+  {
+   "q": "What is your role at Qualizeal?",
+   "id": "current-role"
+  },
+  {
+   "q": "What are your roles and responsibilities?",
+   "id": "current-role"
+  },
+  {
+   "q": "whats ur current position",
+   "id": "current-role"
+  },
+  {
+   "q": "Which company do you work for?",
+   "id": "current-role"
+  },
+  {
+   "q": "What is Prashobh's job title?",
+   "id": "current-role"
+  },
+  {
+   "q": "What are you building at Qualizeal?",
+   "id": "qualizeal-work"
+  },
+  {
+   "q": "Tell me about ValidAIte and QMentisAI.",
+   "id": "qualizeal-work"
+  },
+  {
+   "q": "What is ValidAIte?",
+   "id": "qualizeal-work"
+  },
+  {
+   "q": "What is QMentisAI?",
+   "id": "qualizeal-work"
+  },
+  {
+   "q": "What platforms do you build at work?",
+   "id": "qualizeal-work"
+  },
+  {
+   "q": "Which companies have you worked for?",
+   "id": "career-history"
+  },
+  {
+   "q": "List all the companies Prashobh has worked at.",
+   "id": "career-history"
+  },
+  {
+   "q": "What is your career history?",
+   "id": "career-history"
+  },
+  {
+   "q": "Where did you work before Qualizeal?",
+   "id": "career-history"
+  },
+  {
+   "q": "Walk me through your career.",
+   "id": "career-history"
+  },
+  {
+   "q": "What did you do at Tech Mahindra?",
+   "id": "tech-mahindra"
+  },
+  {
+   "q": "What was your role in Tech Mahindra?",
+   "id": "tech-mahindra"
+  },
+  {
+   "q": "tell me about tech mahindra",
+   "id": "tech-mahindra"
+  },
+  {
+   "q": "What did you do at TCS?",
+   "id": "tcs-story"
+  },
+  {
+   "q": "How did your career start?",
+   "id": "tcs-story"
+  },
+  {
+   "q": "What was your first job?",
+   "id": "tcs-story"
+  },
+  {
+   "q": "Tell me about your time at Tata Consultancy Services.",
+   "id": "tcs-story"
+  },
+  {
+   "q": "How did you get into the AI labs at TCS?",
+   "id": "tcs-story"
+  },
+  {
+   "q": "Have you worked in healthcare?",
+   "id": "healthcare"
+  },
+  {
+   "q": "What did you do at Primera Medical Technologies?",
+   "id": "healthcare"
+  },
+  {
+   "q": "What is your experience in healthcare NLP?",
+   "id": "healthcare"
+  },
+  {
+   "q": "Did you work on clinical NLP?",
+   "id": "healthcare"
+  },
+  {
+   "q": "Have you worked in banking?",
+   "id": "bfsi"
+  },
+  {
+   "q": "Has Prashobh worked in BFSI?",
+   "id": "bfsi"
+  },
+  {
+   "q": "Do you have finance domain experience?",
+   "id": "bfsi"
+  },
+  {
+   "q": "What did you do at Yash Technologies?",
+   "id": "bfsi"
+  },
+  {
+   "q": "Have you built robots?",
+   "id": "robotics"
+  },
+  {
+   "q": "What robotics work have you done?",
+   "id": "robotics"
+  },
+  {
+   "q": "What did you do at Brane Enterprises?",
+   "id": "robotics"
+  },
+  {
+   "q": "Have you worked on quadruped robots?",
+   "id": "robotics"
+  },
+  {
+   "q": "What degree do you have?",
+   "id": "education",
+   "must": "M.Tech"
+  },
+  {
+   "q": "Where did Prashobh study?",
+   "id": "education"
+  },
+  {
+   "q": "Which university did you go to?",
+   "id": "education"
+  },
+  {
+   "q": "What is your educational qualification?",
+   "id": "education"
+  },
+  {
+   "q": "Did you do a masters?",
+   "id": "education"
+  },
+  {
+   "q": "Where are you from?",
+   "id": "origins",
+   "must": "Thrissur"
+  },
+  {
+   "q": "Where did you go to school?",
+   "id": "origins"
+  },
+  {
+   "q": "What is your hometown?",
+   "id": "origins"
+  },
+  {
+   "q": "Which town in Kerala are you from?",
+   "id": "origins"
+  },
+  {
+   "q": "Tell me about your childhood.",
+   "id": "origins"
+  },
+  {
+   "q": "What are your skills?",
+   "id": "skills"
+  },
+  {
+   "q": "What is your tech stack?",
+   "id": "skills"
+  },
+  {
+   "q": "Which agent frameworks do you use?",
+   "id": "skills"
+  },
+  {
+   "q": "What programming languages do you know?",
+   "id": "skills"
+  },
+  {
+   "q": "What are Prashobh's core skills?",
+   "id": "skills"
+  },
+  {
+   "q": "What projects have you built?",
+   "id": "projects"
+  },
+  {
+   "q": "What are your side projects?",
+   "id": "projects"
+  },
+  {
+   "q": "Show me your personal projects.",
+   "id": "projects"
+  },
+  {
+   "q": "What has Prashobh built?",
+   "id": "projects"
+  },
+  {
+   "q": "What is the Knowledge Fabric project?",
+   "id": "knowledge-fabric"
+  },
+  {
+   "q": "What is a knowledge fabric?",
+   "id": "knowledge-fabric"
+  },
+  {
+   "q": "How does this knowledge fabric work?",
+   "id": "knowledge-fabric"
+  },
+  {
+   "q": "Tell me about the Knowledge Factory.",
+   "id": "knowledge-fabric"
+  },
+  {
+   "q": "What is Invest.IQ?",
+   "id": "invest-iq"
+  },
+  {
+   "q": "Tell me about your stock research app.",
+   "id": "invest-iq"
+  },
+  {
+   "q": "Do you have an AI based prediction system?",
+   "id": "invest-iq"
+  },
+  {
+   "q": "Have you built anything for the stock market?",
+   "id": "invest-iq"
+  },
+  {
+   "q": "what is investiq",
+   "id": "invest-iq"
+  },
+  {
+   "q": "What is Koode?",
+   "id": "koode",
+   "must": "Malayalam"
+  },
+  {
+   "q": "What does Koode mean?",
+   "id": "koode"
+  },
+  {
+   "q": "Tell me about your journey safety app.",
+   "id": "koode"
+  },
+  {
+   "q": "Is Koode a tracking app?",
+   "id": "koode"
+  },
+  {
+   "q": "What is Pachaka Lokam?",
+   "id": "pachaka-lokam"
+  },
+  {
+   "q": "Tell me about your meal planner.",
+   "id": "pachaka-lokam"
+  },
+  {
+   "q": "Do you have a cooking app?",
+   "id": "pachaka-lokam"
+  },
+  {
+   "q": "what is pachakalokam",
+   "id": "pachaka-lokam"
+  },
+  {
+   "q": "What is Soccer.AI?",
+   "id": "soccer-ai"
+  },
+  {
+   "q": "Tell me about your World Cup app.",
+   "id": "soccer-ai"
+  },
+  {
+   "q": "What did you build for the FIFA World Cup?",
+   "id": "soccer-ai"
+  },
+  {
+   "q": "Do you have a football app?",
+   "id": "soccer-ai"
+  },
+  {
+   "q": "What is IPLBuzz?",
+   "id": "iplbuzz"
+  },
+  {
+   "q": "Tell me about your IPL dashboard.",
+   "id": "iplbuzz"
+  },
+  {
+   "q": "Do you have a cricket app?",
+   "id": "iplbuzz"
+  },
+  {
+   "q": "What is RVonWheelz?",
+   "id": "rvonwheelz"
+  },
+  {
+   "q": "Tell me about your car pooling app.",
+   "id": "rvonwheelz"
+  },
+  {
+   "q": "What was the first app you built for others?",
+   "id": "rvonwheelz"
+  },
+  {
+   "q": "Do you have a ride sharing app?",
+   "id": "rvonwheelz"
+  },
+  {
+   "q": "Do you have a hockey app?",
+   "id": "hockey"
+  },
+  {
+   "q": "What is your hockey World Cup project?",
+   "id": "hockey"
+  },
+  {
+   "q": "What is Dhinasuthra?",
+   "id": "dhinasuthra"
+  },
+  {
+   "q": "Do you have a habit tracking app?",
+   "id": "dhinasuthra"
+  },
+  {
+   "q": "What does CogniFlow do?",
+   "id": "cogniflow"
+  },
+  {
+   "q": "What is CogniFlow?",
+   "id": "cogniflow"
+  },
+  {
+   "q": "Tell me about your architecture diagram tool.",
+   "id": "cogniflow"
+  },
+  {
+   "q": "Which of your projects are Android apps?",
+   "id": "android-apps"
+  },
+  {
+   "q": "Do you build mobile apps?",
+   "id": "android-apps"
+  },
+  {
+   "q": "Which apps can I install on my phone?",
+   "id": "android-apps"
+  },
+  {
+   "q": "Do you have any APKs?",
+   "id": "android-apps"
+  },
+  {
+   "q": "What have you built for your family?",
+   "id": "family-projects"
+  },
+  {
+   "q": "Did you build anything for your parents?",
+   "id": "family-projects"
+  },
+  {
+   "q": "What sports projects have you built?",
+   "id": "sports-projects"
+  },
+  {
+   "q": "Do you build sports analytics apps?",
+   "id": "sports-projects"
+  },
+  {
+   "q": "Which of your projects use Supabase?",
+   "id": "supabase-projects",
+   "must": "Koode"
+  },
+  {
+   "q": "What backend do your apps use?",
+   "id": "supabase-projects"
+  },
+  {
+   "q": "Where can I try your apps?",
+   "id": "try-apps"
+  },
+  {
+   "q": "Do you have live demos?",
+   "id": "try-apps"
+  },
+  {
+   "q": "Are your projects open source?",
+   "id": "open-source"
+  },
+  {
+   "q": "Is your code public?",
+   "id": "open-source"
+  },
+  {
+   "q": "Do you work on AI-driven SDLC?",
+   "id": "aidlc"
+  },
+  {
+   "q": "What is your work on AIDLC?",
+   "id": "aidlc"
+  },
+  {
+   "q": "Tell me about Kiro automation.",
+   "id": "aidlc"
+  },
+  {
+   "q": "Do you use agentic AI for software testing?",
+   "id": "aidlc"
+  },
+  {
+   "q": "Who are your clients?",
+   "id": "clients",
+   "must": "confidential"
+  },
+  {
+   "q": "Which companies have you built solutions for?",
+   "id": "clients"
+  },
+  {
+   "q": "Who do you work for as clients?",
+   "id": "clients"
+  },
+  {
+   "q": "How many years of experience do you have?",
+   "id": "experience-years",
+   "must": "eleven"
+  },
+  {
+   "q": "How long have you worked in AI?",
+   "id": "experience-years"
+  },
+  {
+   "q": "How experienced are you?",
+   "id": "experience-years"
+  },
+  {
+   "q": "Can I hire you?",
+   "id": "services"
+  },
+  {
+   "q": "Do you do consulting?",
+   "id": "services"
+  },
+  {
+   "q": "What services does Prashobh offer?",
+   "id": "services"
+  },
+  {
+   "q": "Are you available for freelance work?",
+   "id": "services"
+  },
+  {
+   "q": "Do you teach AI?",
+   "id": "training"
+  },
+  {
+   "q": "Does Prashobh do corporate training?",
+   "id": "training"
+  },
+  {
+   "q": "Do you run workshops?",
+   "id": "training"
+  },
+  {
+   "q": "Can you train my team on GenAI?",
+   "id": "training"
+  },
+  {
+   "q": "How can I contact you?",
+   "id": "contact"
+  },
+  {
+   "q": "How do I reach Prashobh?",
+   "id": "contact"
+  },
+  {
+   "q": "What is your email?",
+   "id": "contact"
+  },
+  {
+   "q": "Where do you live?",
+   "id": "location",
+   "must": "Hyderabad"
+  },
+  {
+   "q": "Where is Prashobh based?",
+   "id": "location"
+  },
+  {
+   "q": "Which city are you in?",
+   "id": "location"
+  },
+  {
+   "q": "Why do your apps have Malayalam names?",
+   "id": "location",
+   "must": "Koode"
+  },
+  {
+   "q": "Tell me about your YouTube channel.",
+   "id": "youtube"
+  },
+  {
+   "q": "What is The Canvas of Earth?",
+   "id": "youtube"
+  },
+  {
+   "q": "What do you make videos about?",
+   "id": "youtube"
+  },
+  {
+   "q": "How many subscribers does your channel have?",
+   "id": "youtube"
+  },
+  {
+   "q": "What videos have you made about Spiti?",
+   "id": "spiti"
+  },
+  {
+   "q": "Tell me about your Spiti trip.",
+   "id": "spiti"
+  },
+  {
+   "q": "Have you been to Spiti Valley?",
+   "id": "spiti"
+  },
+  {
+   "q": "What is the Key Monastery video about?",
+   "id": "key-monastery"
+  },
+  {
+   "q": "What does Prashobh say about the history of Key Monastery?",
+   "id": "key-monastery"
+  },
+  {
+   "q": "Did you meet Satya Nadella?",
+   "id": "ai-tour"
+  },
+  {
+   "q": "Did Prashobh attend the Microsoft AI Tour?",
+   "id": "ai-tour"
+  },
+  {
+   "q": "What did you see at the Microsoft AI Tour?",
+   "id": "ai-tour"
+  },
+  {
+   "q": "What do you post on LinkedIn?",
+   "id": "linkedin-knowledge"
+  },
+  {
+   "q": "What do you think about knowledge layers and ontologies for companies?",
+   "id": "linkedin-knowledge"
+  },
+  {
+   "q": "What is your view on agentic AI?",
+   "id": "agentic-view"
+  },
+  {
+   "q": "What is agentic AI according to Prashobh?",
+   "id": "agentic-view"
+  },
+  {
+   "q": "What languages do you speak?",
+   "id": "languages"
+  },
+  {
+   "q": "Do you speak Malayalam?",
+   "id": "languages"
+  },
+  {
+   "q": "How many languages do you know?",
+   "id": "languages"
+  },
+  {
+   "q": "What are your hobbies?",
+   "id": "interests"
+  },
+  {
+   "q": "What do you do outside work?",
+   "id": "interests"
+  },
+  {
+   "q": "What do you do for fun?",
+   "id": "interests"
+  },
+  {
+   "q": "How may kids do you have?",
+   "id": "family",
+   "must": "Helen Elizabeth"
+  },
+  {
+   "q": "How many children do you have?",
+   "id": "family",
+   "must": "Hayden Paul"
+  },
+  {
+   "q": "Are you married?",
+   "id": "family",
+   "must": "Nima"
+  },
+  {
+   "q": "Who is your wife?",
+   "id": "family"
+  },
+  {
+   "q": "Tell me about your parents.",
+   "id": "family"
+  },
+  {
+   "q": "Tell me about your family.",
+   "id": "family"
+  },
+  {
+   "q": "What does your father do?",
+   "id": "family"
+  },
+  {
+   "q": "what are your kids names",
+   "id": "family"
+  },
+  {
+   "q": "When were you born?",
+   "id": "birthday",
+   "must": "2 July 1990"
+  },
+  {
+   "q": "How old are you?",
+   "id": "birthday"
+  },
+  {
+   "q": "What is your date of birth?",
+   "id": "birthday"
+  },
+  {
+   "q": "When is your birthday?",
+   "id": "birthday"
+  },
+  {
+   "q": "Do you make art?",
+   "id": "art"
+  },
+  {
+   "q": "Who is Phoenix de Artist?",
+   "id": "art",
+   "must": "conceptual art"
+  },
+  {
+   "q": "What is your pen name?",
+   "id": "art"
+  },
+  {
+   "q": "Do you paint?",
+   "id": "art"
+  },
+  {
+   "q": "What kind of art do you do?",
+   "id": "art"
+  },
+  {
+   "q": "Why did you get into AI?",
+   "id": "why-ai"
+  },
+  {
+   "q": "Why did you choose computer science?",
+   "id": "why-ai"
+  },
+  {
+   "q": "How did you get into AI?",
+   "id": "why-ai"
+  },
+  {
+   "q": "Tell me about your voice-controlled UAV.",
+   "id": "voice-uav"
+  },
+  {
+   "q": "What was your college project?",
+   "id": "voice-uav"
+  },
+  {
+   "q": "Did you build a drone?",
+   "id": "voice-uav"
+  },
+  {
+   "q": "What is your proudest achievement?",
+   "id": "proudest"
+  },
+  {
+   "q": "What is your biggest accomplishment?",
+   "id": "proudest"
+  },
+  {
+   "q": "What are you most proud of?",
+   "id": "proudest"
+  },
+  {
+   "q": "What was the hardest problem you solved?",
+   "id": "hardest-problem"
+  },
+  {
+   "q": "Tell me about the physician's note reader.",
+   "id": "hardest-problem"
+  },
+  {
+   "q": "What was your toughest project?",
+   "id": "hardest-problem"
+  },
+  {
+   "q": "Who were your mentors?",
+   "id": "mentors"
+  },
+  {
+   "q": "Who do you mentor?",
+   "id": "mentors"
+  },
+  {
+   "q": "Who inspired your career?",
+   "id": "mentors"
+  },
+  {
+   "q": "Who are your role models?",
+   "id": "mentors"
+  },
+  {
+   "q": "How do you choose between LangGraph, CrewAI and AutoGen?",
+   "id": "framework-choice"
+  },
+  {
+   "q": "What does AI governance mean to you?",
+   "id": "framework-choice"
+  },
+  {
+   "q": "How do you evaluate AI systems?",
+   "id": "framework-choice"
+  },
+  {
+   "q": "What motivates you?",
+   "id": "what-drives"
+  },
+  {
+   "q": "What drives your career decisions?",
+   "id": "what-drives"
+  },
+  {
+   "q": "Which project are you most attached to?",
+   "id": "favourite-project"
+  },
+  {
+   "q": "What is your favourite project?",
+   "id": "favourite-project"
+  },
+  {
+   "q": "Which is your favorite project?",
+   "id": "favourite-project"
+  },
+  {
+   "q": "Why did you build Koode, Pachaka Lokam and Invest.IQ?",
+   "id": "why-projects"
+  },
+  {
+   "q": "What is the story behind your apps?",
+   "id": "why-projects"
+  },
+  {
+   "q": "Which is your favourite journey till now?",
+   "id": "youtube-why",
+   "must": "Spiti"
+  },
+  {
+   "q": "Why did you start your YouTube channel?",
+   "id": "youtube-why"
+  },
+  {
+   "q": "Which trip changed you the most?",
+   "id": "youtube-why"
+  },
+  {
+   "q": "What is on your travel bucket list?",
+   "id": "youtube-why"
+  },
+  {
+   "q": "What camera do you use?",
+   "id": "youtube-why",
+   "must": "DJI"
+  },
+  {
+   "q": "What editing software do you use?",
+   "id": "youtube-why"
+  },
+  {
+   "q": "Which cricket team do you support?",
+   "id": "teams",
+   "must": "CSK"
+  },
+  {
+   "q": "Which football team do you support?",
+   "id": "teams"
+  },
+  {
+   "q": "Are you a CSK fan?",
+   "id": "teams"
+  },
+  {
+   "q": "Which IPL team do you like?",
+   "id": "teams"
+  },
+  {
+   "q": "What inspires you?",
+   "id": "inspiration"
+  },
+  {
+   "q": "What books do you read?",
+   "id": "inspiration"
+  },
+  {
+   "q": "Who is your favourite poet?",
+   "id": "inspiration"
+  },
+  {
+   "q": "What is your daily routine?",
+   "id": "typical-day"
+  },
+  {
+   "q": "What does a typical day look like for you?",
+   "id": "typical-day"
+  },
+  {
+   "q": "What is your advice to your children?",
+   "id": "children-message"
+  },
+  {
+   "q": "What do you want your children to know about your work?",
+   "id": "children-message"
+  },
+  {
+   "q": "What is your phone number?",
+   "id": "contact"
+  }
  ],
  "no_answer": [
   "What is your blood group?",
   "Do you own a dog?",
-  "What is the capital of France?"
+  "What is the capital of France?",
+  "What is your salary?",
+  "What car do you drive?",
+  "Who won the 2022 World Cup?",
+  "Tell me a joke",
+  "What is the weather today?",
+  "How do I bake a cake?"
  ]
 }

@@ -755,7 +755,8 @@ async function ask(question, opts = {}) {
   state.qvec = semNLU.modelReady() ? await semNLU.embed(question) : null;
   // One shared pipeline (site and golden tests): retrieval, bank assist, canon, honest fallback.
   let result = answerQuestion(question, { index: state.index, bm25: state.bm25, bm25Payload: state.index.bm25,
-    semantic: state.semantic, chunks: state.chunks, filters: state.filters, qvec: state.qvec });
+    semantic: state.semantic, chunks: state.chunks, filters: state.filters, qvec: state.qvec,
+    prev: state.lastQuery || null });   // the previous question, for follow-ups ("who built it?")
   const retrievalQuery = result.retrievalQuery;
   const { ranked, cohesion, answerHtml, citations, lowConfidence } = result;
 

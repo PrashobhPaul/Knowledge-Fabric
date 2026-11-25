@@ -1,0 +1,307 @@
+{
+ "cases": [
+  {
+   "q": "Tell me about your family and where you live",
+   "id": [
+    "family+location",
+    "family"
+   ]
+  },
+  {
+   "q": "Is Prashobh married and does he have kids?",
+   "id": "family",
+   "must": "Nima"
+  },
+  {
+   "q": "What's the name of your daughter?",
+   "id": "family",
+   "must": "Helen Elizabeth"
+  },
+  {
+   "q": "What is your son's name?",
+   "id": "family",
+   "must": "Hayden Paul"
+  },
+  {
+   "q": "When did you join Qualizeal?",
+   "id": "current-role",
+   "must": "January 2026"
+  },
+  {
+   "q": "How long were you at Primera?",
+   "id": [
+    "healthcare",
+    "experience-years"
+   ],
+   "must": "four years"
+  },
+  {
+   "q": "What did you study in your M.Tech?",
+   "id": "education",
+   "must": "Knowledge Engineering"
+  },
+  {
+   "q": "Which school did you attend in Ottapalam?",
+   "id": "origins",
+   "must": "Ottapalam"
+  },
+  {
+   "q": "What is your experience with LangGraph?",
+   "id": [
+    "skills",
+    "framework-choice"
+   ],
+   "must": "LangGraph"
+  },
+  {
+   "q": "Do you know Python?",
+   "id": "skills",
+   "must": "Python"
+  },
+  {
+   "q": "Which apps did you build with Kotlin?",
+   "id": [
+    "android-apps"
+   ],
+   "must": "Kotlin"
+  },
+  {
+   "q": "Is Pachaka Lokam an offline app?",
+   "id": "pachaka-lokam",
+   "must": "offline"
+  },
+  {
+   "q": "Can I download Invest.IQ on Android?",
+   "id": [
+    "invest-iq",
+    "android-apps"
+   ],
+   "must": "Android"
+  },
+  {
+   "q": "Is Invest.IQ financial advice?",
+   "id": "invest-iq",
+   "must": "not financial advice"
+  },
+  {
+   "q": "What is the Ballon d'Or prediction?",
+   "id": "soccer-ai",
+   "must": "Ballon"
+  },
+  {
+   "q": "Do you support Manchester United?",
+   "id": "teams",
+   "must": "Manchester United"
+  },
+  {
+   "q": "What do you think of Wordsworth?",
+   "id": "inspiration",
+   "must": "Wordsworth"
+  },
+  {
+   "q": "What does Om Mani Padme Hum mean to you?",
+   "id": "youtube-why",
+   "must": "Om Mani Padme Hum"
+  },
+  {
+   "q": "Have you been to Chandratal?",
+   "id": [
+    "spiti",
+    "youtube"
+   ],
+   "must": "Chandratal"
+  },
+  {
+   "q": "Did you meet Satya?",
+   "id": "ai-tour",
+   "must": "Satya Nadella"
+  },
+  {
+   "q": "What happened on Engineer's Day 2012?",
+   "id": "voice-uav",
+   "must": "Engineer"
+  },
+  {
+   "q": "Who is Manoj Madhavan?",
+   "id": [
+    "mentors",
+    "tcs-story"
+   ],
+   "must": "Manoj Madhavan"
+  },
+  {
+   "q": "Who is Dr. Roshy?",
+   "id": "mentors",
+   "must": "Roshy"
+  },
+  {
+   "q": "How many interviews did you give to join the TCS AI labs?",
+   "id": "tcs-story",
+   "must": "sixteen"
+  },
+  {
+   "q": "What accuracy did you achieve in object detection?",
+   "id": "proudest",
+   "must": "89.5"
+  },
+  {
+   "q": "Which ontologies did you use in healthcare?",
+   "id": [
+    "hardest-problem",
+    "healthcare"
+   ],
+   "must": "SNOMED"
+  },
+  {
+   "q": "How many hospitals did your note reader cover?",
+   "id": "hardest-problem",
+   "must": "sixty"
+  },
+  {
+   "q": "Do you have a PhD?",
+   "id": "education",
+   "must": "M.Tech"
+  },
+  {
+   "q": "Do you teach on YouTube?",
+   "id": [
+    "training",
+    "youtube"
+   ],
+   "must": "travel"
+  },
+  {
+   "q": "Can you speak at our conference?",
+   "id": "training",
+   "must": "talks"
+  },
+  {
+   "q": "What's your LinkedIn?",
+   "id": "contact",
+   "must": "LinkedIn"
+  },
+  {
+   "q": "Where can I see your code?",
+   "id": "open-source",
+   "must": "GitHub"
+  },
+  {
+   "q": "What is your most recent project?",
+   "id": "soccer-ai",
+   "must": "most recent"
+  },
+  {
+   "q": "Which of Prashobh's apps work offline?",
+   "id": "pachaka-lokam",
+   "must": "offline"
+  },
+  {
+   "q": "What does Pachaka Lokam mean?",
+   "id": "pachaka-lokam",
+   "must": "world of cooking"
+  },
+  {
+   "q": "Which projects did you build for your community?",
+   "id": [
+    "rvonwheelz",
+    "projects"
+   ],
+   "must": "RVonWheelz"
+  },
+  {
+   "q": "What tech stack does Koode use?",
+   "id": "koode",
+   "must": "Kotlin"
+  },
+  {
+   "q": "Does Koode track my location?",
+   "id": "koode",
+   "must": "journey"
+  },
+  {
+   "q": "What is your take on agentic AI?",
+   "id": "agentic-view"
+  },
+  {
+   "q": "Have you worked with telecom clients?",
+   "id": [
+    "tech-mahindra",
+    "clients",
+    "career-history"
+   ],
+   "must": "telecom"
+  },
+  {
+   "q": "Did Prashobh work for a startup?",
+   "id": "robotics",
+   "must": "Brane"
+  },
+  {
+   "q": "What did you do for the visually impaired?",
+   "id": "robotics"
+  },
+  {
+   "q": "How old are your kids?",
+   "id": "family",
+   "must": "2022"
+  },
+  {
+   "q": "Where do your parents live?",
+   "id": "family"
+  },
+  {
+   "q": "What is Prashobh's wife's name?",
+   "id": "family",
+   "must": "Nima"
+  },
+  {
+   "q": "Tell me about your father.",
+   "id": "family",
+   "must": "Pauly"
+  },
+  {
+   "q": "Is your channel about AI?",
+   "id": "youtube",
+   "must": "travel"
+  },
+  {
+   "q": "How many videos have you posted?",
+   "id": "youtube",
+   "must": "fifty"
+  },
+  {
+   "q": "Which is your most watched video?",
+   "id": "youtube",
+   "must": "Kee Monastery"
+  },
+  {
+   "q": "പ്രശോഭ് ഇപ്പോൾ എവിടെ ജോലി ചെയ്യുന്നു?",
+   "id": "current-role",
+   "must": "Qualizeal"
+  },
+  {
+   "q": "നിങ്ങളുടെ കുടുംബം",
+   "id": "family",
+   "must": "Nima"
+  },
+  {
+   "q": "आपके परिवार के बारे में बताइए",
+   "id": "family",
+   "must": "Nima"
+  },
+  {
+   "q": "మీ కుటుంబం గురించి చెప్పండి",
+   "id": "family",
+   "must": "Nima"
+  }
+ ],
+ "no_answer": [
+  "Are you open to relocation?",
+  "What is your notice period?",
+  "What is your religion?",
+  "Who is the prime minister of India?",
+  "Write me a poem",
+  "Generate some code for me",
+  "What is 2 plus 2?"
+ ]
+}

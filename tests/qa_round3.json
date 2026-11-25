@@ -1,0 +1,240 @@
+{
+ "cases": [
+  {
+   "q": "kids?",
+   "id": "family",
+   "must": "Helen"
+  },
+  {
+   "q": "wife name",
+   "id": "family",
+   "must": "Nima"
+  },
+  {
+   "q": "csk",
+   "id": "teams",
+   "must": "CSK"
+  },
+  {
+   "q": "Does he have a daughter?",
+   "id": "family",
+   "must": "Helen Elizabeth"
+  },
+  {
+   "q": "Is he from Kerala?",
+   "id": [
+    "origins",
+    "location"
+   ],
+   "must": "Kerala"
+  },
+  {
+   "q": "How old is Prashobh?",
+   "id": "birthday",
+   "must": "1990"
+  },
+  {
+   "q": "Where did Prashobh do his B.Tech?",
+   "id": "education",
+   "must": "JNTU"
+  },
+  {
+   "q": "Is Prashobh still at Tech Mahindra?",
+   "id": [
+    "current-role",
+    "tech-mahindra"
+   ],
+   "must": "January 2026"
+  },
+  {
+   "q": "Compare Koode and RVonWheelz",
+   "id": "koode+rvonwheelz",
+   "must": "RVonWheelz"
+  },
+  {
+   "q": "Which of his apps are built with React?",
+   "id": "project-stacks",
+   "must": "React"
+  },
+  {
+   "q": "What is the name of your YouTube channel?",
+   "id": "youtube",
+   "must": "The Canvas of Earth"
+  },
+  {
+   "q": "How many subscribers?",
+   "id": "youtube",
+   "must": "nine thousand"
+  },
+  {
+   "q": "Did Prashobh go to IIT?",
+   "id": "education",
+   "must": "SRM"
+  },
+  {
+   "q": "Who are Prashobh's parents?",
+   "id": "family",
+   "must": "Pauly"
+  },
+  {
+   "q": "What did his mother teach?",
+   "id": "family",
+   "must": "English"
+  },
+  {
+   "q": "Was his grandfather a railway employee?",
+   "id": "family",
+   "must": "Railway"
+  },
+  {
+   "q": "Which festival menus does Pachaka Lokam remember?",
+   "id": "pachaka-lokam",
+   "must": "festival"
+  },
+  {
+   "q": "Is Koode private?",
+   "id": "koode",
+   "must": "invitation-only"
+  },
+  {
+   "q": "What happens to a Koode trip after arrival?",
+   "id": "koode",
+   "must": "thirty minutes"
+  },
+  {
+   "q": "Which maps does Koode use?",
+   "id": "koode",
+   "must": "OpenStreetMap"
+  },
+  {
+   "q": "When did you build Soccer.AI?",
+   "id": "soccer-ai"
+  },
+  {
+   "q": "Who is Nima?",
+   "id": "family",
+   "must": "Nima"
+  },
+  {
+   "q": "Who is Helen?",
+   "id": "family",
+   "must": "Helen"
+  },
+  {
+   "q": "What is Rajaram's role in your career?",
+   "id": [
+    "mentors",
+    "robotics"
+   ],
+   "must": "Rajaram"
+  },
+  {
+   "q": "Did you work on vision glasses?",
+   "id": "robotics",
+   "must": "visually impaired"
+  },
+  {
+   "q": "Tell me something about Thrissur",
+   "id": [
+    "origins",
+    "location"
+   ],
+   "must": "Thrissur"
+  },
+  {
+   "q": "What's Prashobh's take on LangChain?",
+   "id": [
+    "skills",
+    "RETRIEVAL"
+   ],
+   "must": "LangChain"
+  },
+  {
+   "q": "Does Prashobh do interview preparation?",
+   "id": [
+    "services",
+    "training"
+   ],
+   "must": "interview"
+  },
+  {
+   "q": "Can he help my startup with AI strategy?",
+   "id": "services",
+   "must": "strategy"
+  },
+  {
+   "q": "What does AI CoE stand for?",
+   "id": "current-role",
+   "must": "Center of Excellence"
+  },
+  {
+   "q": "Which videos are about Manali?",
+   "id": "RETRIEVAL",
+   "must": "Manali"
+  },
+  {
+   "q": "Which videos cover Tabo Monastery?",
+   "id": "RETRIEVAL",
+   "must": "Tabo"
+  },
+  {
+   "q": "How does Prashobh choose an architecture?",
+   "id": [
+    "framework-choice",
+    "RETRIEVAL"
+   ]
+  },
+  {
+   "q": "What's the meaning of Koode?",
+   "id": "koode",
+   "must": "together"
+  },
+  {
+   "q": "प्रशोभ कहाँ काम करता है?",
+   "id": "current-role",
+   "must": "Qualizeal"
+  },
+  {
+   "q": "ప్రశోభ్ ఎక్కడ పని చేస్తారు?",
+   "id": "current-role",
+   "must": "Qualizeal"
+  },
+  {
+   "q": "നിങ്ങളുടെ ഭാര്യ",
+   "id": "family",
+   "must": "Nima"
+  },
+  {
+   "q": "What is Prashobh's educational background?",
+   "id": "education",
+   "must": "M.Tech"
+  },
+  {
+   "q": "Has he lived in Kochi?",
+   "id": "tcs-story",
+   "must": "Kochi"
+  },
+  {
+   "q": "Which hospitals' data did you work with?",
+   "id": [
+    "hardest-problem",
+    "healthcare"
+   ],
+   "must": "Epic"
+  },
+  {
+   "q": "Does Soccer.AI work offline?",
+   "id": "soccer-ai",
+   "must": "offline"
+  }
+ ],
+ "no_answer": [
+  "What is your favourite colour?",
+  "Do you like biryani?",
+  "What is the meaning of life?",
+  "Explain quantum computing",
+  "Who is Virat Kohli?",
+  "What's the stock price of Infosys?",
+  "Can you book me a flight?"
+ ]
+}

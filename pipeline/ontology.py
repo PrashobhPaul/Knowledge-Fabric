@@ -34,8 +34,6 @@ ALIASES: dict[str, list[tuple[str, str]]] = {
         (r"\bgoogle\b", "Google"),
     ],
     "Client": [
-        (r"\bsouthwest\s*airlines\b|\bswa\b", "Southwest Airlines"),
-        (r"\bpwc\b|\bpricewaterhousecoopers\b", "PwC"),
         (r"\bamerican\s*express\b|\bamex\b", "American Express"),
     ],
     "Institution": [

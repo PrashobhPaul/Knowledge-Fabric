@@ -223,7 +223,7 @@ export const DEFAULT_INTENT = {
 const FOCUS_TERMS = [
   // organisations
   'qualizeal','tech mahindra','yash technologies','yash','brane enterprises','brane','primera medical','primera',
-  'tata consultancy services','tcs','american express','amex','microsoft','southwest airlines','pwc',
+  'tata consultancy services','tcs','american express','amex','microsoft',
   'srm university','jntu',
   // projects
   'rvonwheelz','soccer.ai','soccer ai','invest.iq','investiq','koode','knowledge fabric','pachaka lokam','iplbuzz',

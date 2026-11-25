@@ -173,6 +173,17 @@ the question bank must produce a cited answer, travel videos must never answer a
 career question, a question about one employer must not be answered from another,
 and the fabric must have cross-source joins.
 
+The same test runs **532 questions about Prashobh** through the exact answer path
+visitors use (`site/js/pipeline.js`): the golden set (`tests/qa_gold.json`, 221 +
+9 to decline) and six harder rounds written afterwards (`tests/qa_round2…7.json`).
+The rounds cover paraphrases, typos and texting shorthand, Malayalam / Telugu /
+Hindi, several questions in one, side-by-side comparisons, before/after career
+questions answered from the role dates, follow-ups that say "it" or "there",
+greetings and introductions, private details, errands and off-topic questions,
+which must be declined honestly. Rounds 6 and 7 were first run untuned, as
+held-out checks (81% and 78%), and fixed from there; every round passes in full now.
+`node tests/qa_eval.mjs tests/qa_round5.json` prints any miss with its top candidates.
+
 ---
 
 # Using it from the GitHub website (no command line)

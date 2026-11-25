@@ -1,0 +1,180 @@
+{
+ "cases": [
+  {
+   "q": "Introduce yourself in two lines",
+   "id": "who"
+  },
+  {
+   "q": "What kind of AI work do you do?",
+   "id": [
+    "current-role",
+    "qualizeal-work",
+    "who"
+   ]
+  },
+  {
+   "q": "Which LLMs have you used?",
+   "id": "skills",
+   "must": "Claude"
+  },
+  {
+   "q": "Have you done computer vision?",
+   "id": [
+    "robotics",
+    "proudest",
+    "skills"
+   ]
+  },
+  {
+   "q": "Tell me about the object detection problem",
+   "id": "proudest",
+   "must": "89.5"
+  },
+  {
+   "q": "What's the physician note reader?",
+   "id": "hardest-problem",
+   "must": "Epic"
+  },
+  {
+   "q": "Did you study in Chennai?",
+   "id": "education",
+   "must": "SRM"
+  },
+  {
+   "q": "Which school did you attend?",
+   "id": "origins",
+   "must": "KV"
+  },
+  {
+   "q": "When is your birthday?",
+   "id": "birthday",
+   "must": "July"
+  },
+  {
+   "q": "Who is Hayden?",
+   "id": "family",
+   "must": "Hayden"
+  },
+  {
+   "q": "Is your wife working?",
+   "id": [
+    "family"
+   ]
+  },
+  {
+   "q": "Who is your role model?",
+   "id": "mentors",
+   "must": "Roshy"
+  },
+  {
+   "q": "What's your favourite IPL team?",
+   "id": "teams",
+   "must": "CSK"
+  },
+  {
+   "q": "Do you like Manchester United?",
+   "id": "teams",
+   "must": "Manchester United"
+  },
+  {
+   "q": "Who is your favourite poet and artist?",
+   "id": "inspiration",
+   "must": "Wordsworth"
+  },
+  {
+   "q": "What is The Canvas of Earth about?",
+   "id": "youtube",
+   "must": "Spiti"
+  },
+  {
+   "q": "What's the highest post office video?",
+   "id": [
+    "spiti",
+    "youtube"
+   ],
+   "must": "Hikkim"
+  },
+  {
+   "q": "Tell me about Chandratal",
+   "id": [
+    "spiti",
+    "youtube"
+   ],
+   "must": "Chandratal"
+  },
+  {
+   "q": "What's IPLBuzz built with?",
+   "id": [
+    "iplbuzz",
+    "project-stacks"
+   ]
+  },
+  {
+   "q": "Is Dhinasuthra a calendar?",
+   "id": "dhinasuthra"
+  },
+  {
+   "q": "What does CogniFlow output?",
+   "id": "cogniflow",
+   "must": "diagrams"
+  },
+  {
+   "q": "How does Knowledge Fabric avoid hallucination?",
+   "id": "knowledge-fabric"
+  },
+  {
+   "q": "What came before Primera?",
+   "id": "timeline",
+   "must": "Tata Consultancy Services"
+  },
+  {
+   "q": "Where did you work after Yash Technologies?",
+   "id": "timeline",
+   "must": "Tech Mahindra"
+  },
+  {
+   "q": "Koode or RVonWheelz, which is newer?",
+   "id": [
+    "koode+rvonwheelz",
+    "rvonwheelz+koode"
+   ]
+  },
+  {
+   "q": "Where do you work, and what are your hobbies?",
+   "id": "current-role+interests"
+  },
+  {
+   "q": "hey whats ur name",
+   "id": "who",
+   "must": "Prashobh"
+  },
+  {
+   "q": "tel me abt ur projcts",
+   "id": "projects"
+  },
+  {
+   "q": "നിങ്ങളുടെ ഹോബി എന്താണ്?",
+   "id": "interests"
+  },
+  {
+   "q": "आप कहाँ रहते हैं?",
+   "id": "location",
+   "must": "Hyderabad"
+  },
+  {
+   "q": "మీ అభిరుచులు ఏమిటి?",
+   "id": "interests"
+  }
+ ],
+ "no_answer": [
+  "What is your caste?",
+  "Who is Elon Musk?",
+  "Can you draft an email to my boss?",
+  "What's 2+2?",
+  "Play some music",
+  "What is the best phone to buy?",
+  "Tell me about World War 2",
+  "What time is it?",
+  "Do you have siblings?"
+ ]
+}

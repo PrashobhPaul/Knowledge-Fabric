@@ -182,6 +182,36 @@ def build_canon(chunks: list[dict]) -> tuple[list[dict], list[str]]:
     return out, unresolved
 
 
+_ORG_GENERIC = {"technologies", "technology", "enterprises", "services", "medical", "consultancy", "systems",
+                "solutions", "tech", "labs", "india", "limited", "private", "global", "group", "the"}
+
+
+def build_timeline(chunks: list[dict], ks_dir: Path) -> list[dict]:
+    """The career in order, from profile.yaml, with each role's proof record: lets the
+    twin answer "Which company did you join after TCS?" from structured data."""
+    import yaml
+    prof = ks_dir / "profile" / "profile.yaml"
+    if not prof.exists():
+        return []
+    exp = (yaml.safe_load(prof.read_text(encoding="utf-8")) or {}).get("experience") or []
+    out = []
+    for r in sorted(exp, key=lambda r: str(r.get("start") or "")):
+        org = str(r.get("organization") or "")
+        if not org:
+            continue
+        aliases = {org.lower()}
+        if r.get("short_name"):
+            aliases.add(str(r["short_name"]).lower())
+        aliases.update(w for w in org.lower().split() if len(w) >= 4 and w not in _ORG_GENERIC)
+        ids = [j for j, ch in enumerate(chunks)
+               if (ch.get("meta") or {}).get("record_type") == "role" and org.lower() in
+               (str((ch.get("meta") or {}).get("organization", "")) + " " + str(ch.get("text", ""))[:200]).lower()][:2]
+        out.append({"organization": org, "short_name": r.get("short_name") or "", "role": r.get("role") or "",
+                    "start": str(r.get("start") or ""), "end": str(r.get("end") or ""), "location": r.get("location") or "",
+                    "aliases": sorted(aliases), "chunk_ids": ids})
+    return out
+
+
 def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -> dict:
     print("=" * 66)
     print("  KNOWLEDGE FABRIC - BUILD")
@@ -383,6 +413,7 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
         "sources": sources,
         "flags": flags_out,
         "canon": canon_entries,
+        "timeline": build_timeline(serialized, ks_dir),
         "canon_unresolved": canon_unresolved,
         "factory": {"generated_at": manifest.get("generated_at", ""), "generator": manifest.get("generator", "")},
         "bm25": bm25,
