@@ -17,7 +17,7 @@ Normal, Attention or Concern, and gives loved ones a reassurance channel with a 
 an ETA and a timeline of the trip.
 
 ## Privacy by design
-Koode is invitation-only, and every trip self-destructs thirty minutes after you arrive.
+Koode is invitation-only: each follower is approved by name. After arrival it builds a verified journey report; followers keep access for an hour, then the shared copy is gone.
 
 ## Technology
 Kotlin with Jetpack Compose on Android, OpenStreetMap for maps and Supabase for live

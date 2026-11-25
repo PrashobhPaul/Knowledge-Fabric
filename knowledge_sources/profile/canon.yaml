@@ -513,6 +513,7 @@ canon:
   - fabric
   - citation
   - explainable
+  project: Knowledge Fabric
 - id: invest-iq
   topics:
   - projects
@@ -556,16 +557,19 @@ canon:
   - equity
   - shares
   - nse
+  project: Invest.IQ
 - id: koode
   topics:
   - projects
   questions:
   - What is Koode?
-  answer: Koode means together, with you, in Malayalam. I built it because my parents worry every time
-    I drive between Hyderabad and Thrissur. It does not track a person; it watches the journey, rating
-    it Normal, Attention or Concern, and shows loved ones a live map, ETA and timeline. It is invitation-only
-    and every trip self-destructs thirty minutes after arrival. It is an Android app in Kotlin with Jetpack
-    Compose, using OpenStreetMap and Supabase, fully open source and zero cost.
+  answer: 'Koode means together, with you, in Malayalam. I built it because my parents worry every time
+    I drive between Hyderabad and Thrissur. It watches the journey, not the person: it rates it Normal,
+    Attention or Concern, gives a realistic arrival range instead of a single number, and its SOS works
+    offline. It is invitation-only: I approve each follower by name, and they see a live OpenStreetMap
+    map, ETA and timeline, even without the app. When I arrive it builds a verified journey report; followers
+    keep access for an hour, then the shared copy is gone. It is an Android app in Kotlin with Jetpack
+    Compose and Supabase, fully open source and zero cost.'
   evidence:
   - url: doc:Koode
     source: resume
@@ -576,6 +580,9 @@ canon:
   - url: https://github.com/PrashobhPaul/Koode
     source: github
     why: Koode source, Kotlin
+  - url: https://github.com/PrashobhPaul/Koode/blob/main/README.md
+    source: github
+    why: 'Koode README: how it works, privacy by design'
   keywords:
   - koode
   - safety
@@ -594,6 +601,7 @@ canon:
   - invite
   - invitation-only
   - who can see
+  project: Koode
 - id: pachaka-lokam
   topics:
   - projects
@@ -627,6 +635,7 @@ canon:
   - grocery
   - offline
   - work offline
+  project: Pachaka Lokam
 - id: aidlc
   topics:
   - projects
@@ -991,6 +1000,9 @@ canon:
   - take on
   - thoughts on
   - opinion on
+  links:
+  - label: Read my post on LinkedIn
+    url: https://www.linkedin.com/posts/prashobh-paul-00715578_genai-agenticai-aiarchitecture-activity-7439991102520139776-ikzv
 - id: languages
   topics:
   - personal
@@ -1485,6 +1497,7 @@ canon:
   - url: doc:CogniFlow
     source: resume
     why: CogniFlow in depth
+  project: CogniFlow
 - id: youtube-why
   topics:
   - youtube
@@ -1688,6 +1701,7 @@ canon:
   - url: https://www.prashobhpaul.com/works.html
     source: website
     why: Soccer.AI on the works page
+  project: Soccer.AI
 - id: iplbuzz
   topics:
   - projects
@@ -1718,6 +1732,7 @@ canon:
   - url: https://www.prashobhpaul.com/works.html
     source: website
     why: IPLBuzz on the works page
+  project: IPLBuzz
 - id: rvonwheelz
   topics:
   - projects
@@ -1755,6 +1770,7 @@ canon:
   - url: https://www.prashobhpaul.com/works.html
     source: website
     why: RVonWheelz on the works page
+  project: RVonWheelz
 - id: hockey
   topics:
   - projects
@@ -1777,6 +1793,7 @@ canon:
   - url: doc:Soccer_AI
     source: resume
     why: The hockey sibling project
+  project: Hockey World Cup
 - id: dhinasuthra
   topics:
   - projects
@@ -1797,6 +1814,7 @@ canon:
   - url: doc:Smaller_Projects
     source: resume
     why: Smaller projects
+  project: Dhinasuthra
 - id: android-apps
   topics:
   - projects

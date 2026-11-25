@@ -503,11 +503,45 @@ export function splitSentences(text) {
 
 const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+/** A code excerpt as a collapsible card, with a permalink to the exact lines. */
+export function codeCardHtml(c, open = false) {
+  const lines = (c.url.match(/#L(\d+)-L(\d+)/) || []).slice(1);
+  return `<details class="sc-code"${open ? ' open' : ''}><summary>From the code · <span class="sc-path">${esc(c.repo)}/${esc(c.path)}</span></summary>`
+    + `<pre><code class="lang-${esc(c.language)}">${esc(c.excerpt)}</code></pre>`
+    + `<a class="sc-code-link" href="${esc(c.url)}" target="_blank" rel="noopener">Open on GitHub${lines.length ? `, lines ${lines[0]}–${lines[1]}` : ''} ↗</a></details>`;
+}
+
+/**
+ * Proof you can touch, under a curated answer: try or download the app, see how
+ * it works (a workflow diagram, real screens), read the code, read the post.
+ */
+export function showcaseHtml(entries, showcase = {}) {
+  const blocks = [];
+  for (const e of entries) {
+    const sc = e.project ? showcase[e.project] : null;
+    const btns = [];
+    if (sc) {
+      for (const l of sc.links || []) {
+        if (l.kind === 'download') btns.push(`<a class="sc-btn sc-primary" href="${esc(l.url)}" target="_blank" rel="noopener">⬇ Download ${esc(e.project)} for Android</a>`);
+        else if (l.kind === 'live') btns.push(`<a class="sc-btn sc-primary" href="${esc(l.url)}" target="_blank" rel="noopener">▶ Try ${esc(e.project)} now</a>`);
+      }
+      if (sc.source) btns.push(`<a class="sc-btn" href="${esc(sc.source)}" target="_blank" rel="noopener">View the source on GitHub</a>`);
+    }
+    for (const l of e.links || []) btns.push(`<a class="sc-btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`);
+    let html = btns.length ? `<div class="sc-cta">${btns.join('')}</div>` : '';
+    if (sc && sc.diagram) html += `<figure class="sc-figure"><img src="${esc(sc.diagram)}" loading="lazy" alt="How ${esc(e.project)} works"><figcaption>How ${esc(e.project)} works</figcaption></figure>`;
+    if (sc && (sc.images || []).length) html += `<div class="sc-shots">${sc.images.map(i => `<a href="${esc(i.url)}" target="_blank" rel="noopener"><img src="${esc(i.url)}" loading="lazy" alt="${esc(e.project)}: ${esc(i.path.split('/').pop())}"></a>`).join('')}</div>`;
+    if (sc && (sc.code || []).length) html += codeCardHtml(sc.code[0]);
+    if (html) blocks.push(`<div class="showcase" data-project="${esc(e.project || e.id)}">${html}</div>`);
+  }
+  return blocks.join('');
+}
+
 /**
  * Replace a retrieval result's answer with the canon answer, cited by its proof
  * records. The retrieval citations are kept after the proofs as corroboration.
  */
-export function applyCanon(result, match, chunks) {
+export function applyCanon(result, match, chunks, showcase = {}) {
   const { entry } = match;
   const parts = entry.parts || [entry];
   const citations = [];
@@ -531,7 +565,7 @@ export function applyCanon(result, match, chunks) {
     ? `<p class="answer-closing">${match.missed.map(q => `“${esc(q)}”`).join(', ')}: nothing on record, so I will not guess.</p>` : '';
   const html =
     `<p class="answer-opener">${match.compare ? 'Side by side, in Prashobh\'s own words:' : 'In Prashobh\'s own words:'}</p>` +
-    body + missed +
+    body + missed + showcaseHtml(parts, showcase) +
     `<p class="answer-closing">Curated answer. Each proof below is a record from the website, resume, GitHub, YouTube or LinkedIn; the fabric's own retrieval is listed after them.</p>`;
   return {
     ...result,

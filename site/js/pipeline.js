@@ -11,7 +11,7 @@ import { cohereByDocument, tokenize } from './search.js?v=5';
 import { hybridSearch } from './hybrid.js?v=3';
 import { buildAnswer } from './answer.js?v=8';
 import { matchQuestionBank } from './questionbank.js?v=3';
-import { matchCanon, applyCanon, suggestCanon, contentWords, isImperativeTask, focus, smallTalk, resolveFollowUp, canonDecline } from './canon.js?v=1';
+import { matchCanon, applyCanon, suggestCanon, contentWords, isImperativeTask, focus, smallTalk, resolveFollowUp, canonDecline, codeCardHtml } from './canon.js?v=1';
 import { expandQuery } from './multilingual.js?v=1';
 import { relatedItems } from './related.js?v=1';
 import { matchCanonByVector, chunkRun } from './nlu_semantic.js?v=1';
@@ -84,6 +84,37 @@ function weakRetrieval(question, result, bm25, chunks) {
 // Personal data that is private by design: said plainly, never guessed at.
 const PRIVATE = /\b((home|house|residential|postal|street) address|salary|ctc|income|net worth|bank account|bank details|bank info|card details|credit card|debit card|upi id|account number|password|aadhaa?r|pan (number|card)|passport number|blood group|religion|caste|political party)\b/i;
 
+// "Show me your Python code", "How did you write the Koode tracking?": a real
+// excerpt from his public repositories, with a permalink to the lines.
+const CODE_Q = /\b(code|coding|source code|snippet|implementation|implemented|py file|python file|script|function|github code|show me how you (built|wrote|implemented))\b/i;
+const LANG_Q = { python: /\bpython\b/i, kotlin: /\bkotlin\b|\bandroid code\b/i, typescript: /\btypescript\b|\breact\b/i, javascript: /\bjavascript\b|\bjs\b/i };
+const sq = (t) => String(t).toLowerCase().replace(/[^a-z0-9]/g, '');
+export function pickCode(question, chunks, project = '') {
+  if (!CODE_Q.test(question) || isImperativeTask(question)) return null;   // "Write me a function" is an errand
+  const q = sq(question), words = new Set(tokenize(question));
+  let best = null, bestScore = 0;
+  for (const c of chunks) {
+    const m = c.meta || {};
+    if (m.record_type !== 'code') continue;
+    let sc = 0;
+    if (project && sq(m.project) === sq(project)) sc += 4;
+    else if (project) continue;
+    if (sq(m.repository).length > 3 && q.includes(sq(m.repository))) sc += 4;
+    if (sq(m.project).length > 3 && q.includes(sq(m.project))) sc += 4;
+    if (LANG_Q[m.language] && LANG_Q[m.language].test(question)) sc += 3;
+    const repoWords = tokenize(String(m.repository || '').replace(/([a-z])([A-Z])/g, '$1 $2').replace(/[_-]/g, ' '));
+    for (const w of repoWords) if (w.length > 3 && words.has(w)) sc += 2;
+    const near = (a, b) => a === b || (a.length >= 5 && b.length >= 5 && a.slice(0, 5) === b.slice(0, 5));
+    for (const t of [...(m.symbols || []), ...String(m.path || '').split(/[\/._-]/)])
+      for (const w of tokenize(t.replace(/([a-z])([A-Z])/g, '$1 $2'))) if (w.length > 3 && [...words].some(q => near(q, w))) sc += 1;
+    if (/agent|pipeline|engine|scorer|graph|index/i.test(m.path || '')) sc += 0.5;
+    if (sc > bestScore) { bestScore = sc; best = c; }
+  }
+  if (!best || bestScore < 3) return null;
+  const m = best.meta;
+  return { repo: m.repository, path: m.path, url: best.url, language: m.language, excerpt: String(m.excerpt || '').split('\n').slice(0, 40).join('\n'), chunk: best };
+}
+
 export function answerQuestion(asked, ctx) {
   const { index, bm25, chunks } = ctx;
   // Conversation first: greetings and introductions are not the question, small
@@ -120,9 +151,17 @@ export function answerQuestion(asked, ctx) {
   const byVector = (!decline && !lexical && ctx.qvec) ? matchCanonByVector(ctx.qvec, ctx.vectors || undefined, { threshold: 0.6, margin: 0.04 }) : null;
   const vEntry = byVector ? index.canon.find(e => e.id === byVector.id) : null;
   const canonMatch = lexical || (vEntry ? { entry: vEntry, score: byVector.score, via: 'embedding' } : null);
+  const code = pickCode(question, chunks, canonMatch ? (canonMatch.entry.project || '') : '');
   if (canonMatch) {
-    result = applyCanon(result, canonMatch, chunks);
+    result = applyCanon(result, canonMatch, chunks, index.showcase || {});
+    if (code && !(result.answerHtml || '').includes(code.url)) result.answerHtml = result.answerHtml.replace('<p class="answer-closing">Curated answer.', codeCardHtml(code, true) + '<p class="answer-closing">Curated answer.');
     result.related = relatedItems({ citations: result.citations, ranked: [], analysis: result.analysis, index: { chunks }, weak: false });
+  } else if (code) {
+    // A developer question with no curated answer: the code itself is the answer.
+    result = { ...result, answerHtml: `<p class="answer-opener">Here is how I wrote it, straight from my GitHub:</p>` + codeCardHtml(code, true),
+      citations: [{ num: 1, chunkIdx: chunks.indexOf(code.chunk), chunk: code.chunk, score: 1, confidence: 1, why: `${code.repo}/${code.path}` }],
+      summary: { ...(result.summary || {}), sentences: [{ text: `Here is how I wrote it, in ${code.repo}.`, display: `Here is how I wrote it, in ${code.repo}.`, chunkIdx: chunks.indexOf(code.chunk), chunk: code.chunk, final: 1, position: 0, tokens: new Set(), signals: {} }] },
+      lowConfidence: false, verdict: null, codeAnswer: true };
   } else if (result.lowConfidence || decline === 'dangling' || weakRetrieval(question, result, bm25, chunks)) {
     const near = suggestCanon(question, index.canon, 3);
     result = { ...result,
@@ -132,5 +171,5 @@ export function answerQuestion(asked, ctx) {
       citations: result.citations.slice(0, 1), noAnswer: true, related: [],
       summary: { ...(result.summary || {}), sentences: [] } };
   }
-  return { ...result, resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: canonMatch ? { id: canonMatch.entry.id, score: canonMatch.score, via: canonMatch.via || 'lexical' } : null };
+  return { ...result, resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: canonMatch ? { id: canonMatch.entry.id, score: canonMatch.score, via: canonMatch.via || 'lexical' } : (result.codeAnswer ? { id: 'code', score: 1, via: 'code' } : null), code: code ? { repo: code.repo, path: code.path, url: code.url } : null };
 }
