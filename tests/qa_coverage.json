@@ -1,0 +1,4305 @@
+{
+ "cases": [
+  {
+   "q": "Quick question: Who is Prashobh Paul?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "who is prashobh paul",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Who are you?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Who is Prashobh Paul?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me who is Prashobh Paul?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about yourself.",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about yourself.",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about yourself.",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about yourself.?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "give me a short bio of prashobh.",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Give me a short bio of Prashobh.",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Give me a short bio of you.",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Give me a short bio of Prashobh.",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me give me a short bio of Prashobh.?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Introduce yourself.",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "introduce yourself.",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Introduce yourself.",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me introduce yourself.?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Who are you?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "who are you",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Who is Prashobh?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me who are you?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me who is Prashobh?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "who is prashobh",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Who is Prashobh?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What does Prashobh do?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "what does prashobh do",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what does Prashobh do?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "What does Prashobh do?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "What do you do?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what do you do?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "what do you do",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What do you do?",
+   "id": "who",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me where does Prashobh work currently?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "Where do you work currently?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "where does prashobh work currently",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "Where does Prashobh work currently?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Where does Prashobh work currently?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's current role?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is Prashobh's current role?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "what is prashobh's current role",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your current role?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is Prashobh's current role?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "What do you do at Qualizeal?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "What does Prashobh do at Qualizeal?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "what do you do at qualizeal",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what do you do at Qualizeal?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What do you do at Qualizeal?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "What are your roles and responsibilities?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "what are your roles and responsibilities",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What are your roles and responsibilities?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what are your roles and responsibilities?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's roles and responsibilities?",
+   "id": "current-role",
+   "kind": "variant"
+  },
+  {
+   "q": "what are you building at qualizeal",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what are you building at Qualizeal?",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh building at Qualizeal?",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What are you building at Qualizeal?",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "What are you building at Qualizeal?",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "What platforms have you built at Qualizeal?",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What platforms has Prashobh built at Qualizeal?",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "what platforms has prashobh built at qualizeal",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "What platforms has Prashobh built at Qualizeal?",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what platforms has Prashobh built at Qualizeal?",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about ValidAIte and QMentisAI.",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about ValidAIte and QMentisAI.?",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about ValidAIte and QMentisAI.",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about validaite and qmentisai.",
+   "id": "qualizeal-work",
+   "kind": "variant"
+  },
+  {
+   "q": "List all the companies Prashobh has worked at.",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "list all the companies prashobh has worked at.",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "List all the companies you has worked at.",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: List all the companies Prashobh has worked at.",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me list all the companies Prashobh has worked at.?",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's career history?",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your career history?",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your career history?",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your career history?",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your career history",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "where have you worked before qualizeal",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me where have you worked before Qualizeal?",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "Where has Prashobh worked before Qualizeal?",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Where have you worked before Qualizeal?",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "Where have you worked before Qualizeal?",
+   "id": "career-history",
+   "kind": "variant"
+  },
+  {
+   "q": "What did you do at Tech Mahindra?",
+   "id": "tech-mahindra",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what did Prashobh do at Tech Mahindra?",
+   "id": "tech-mahindra",
+   "kind": "variant"
+  },
+  {
+   "q": "what did prashobh do at tech mahindra",
+   "id": "tech-mahindra",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What did Prashobh do at Tech Mahindra?",
+   "id": "tech-mahindra",
+   "kind": "variant"
+  },
+  {
+   "q": "What did Prashobh do at Tech Mahindra?",
+   "id": "tech-mahindra",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what was your role at Tech Mahindra?",
+   "id": "tech-mahindra",
+   "kind": "variant"
+  },
+  {
+   "q": "What was your role at Tech Mahindra?",
+   "id": "tech-mahindra",
+   "kind": "variant"
+  },
+  {
+   "q": "What was Prashobh's role at Tech Mahindra?",
+   "id": "tech-mahindra",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What was your role at Tech Mahindra?",
+   "id": "tech-mahindra",
+   "kind": "variant"
+  },
+  {
+   "q": "what was your role at tech mahindra",
+   "id": "tech-mahindra",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your experience in healthcare NLP?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is Prashobh's experience in healthcare NLP?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is Prashobh's experience in healthcare NLP?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's experience in healthcare NLP?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "what is prashobh's experience in healthcare nlp",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "what did you do at primera medical technologies",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "What did you do at Primera Medical Technologies?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what did you do at Primera Medical Technologies?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What did you do at Primera Medical Technologies?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "What did Prashobh do at Primera Medical Technologies?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "Have you worked in healthcare?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Have you worked in healthcare?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "Have Prashobh worked in healthcare?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "have you worked in healthcare",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me have you worked in healthcare?",
+   "id": "healthcare",
+   "kind": "variant"
+  },
+  {
+   "q": "has prashobh worked in bfsi or banking",
+   "id": "bfsi",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Has Prashobh worked in BFSI or banking?",
+   "id": "bfsi",
+   "kind": "variant"
+  },
+  {
+   "q": "Has you worked in BFSI or banking?",
+   "id": "bfsi",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me has Prashobh worked in BFSI or banking?",
+   "id": "bfsi",
+   "kind": "variant"
+  },
+  {
+   "q": "Has Prashobh worked in BFSI or banking?",
+   "id": "bfsi",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's experience in finance?",
+   "id": "bfsi",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your experience in finance?",
+   "id": "bfsi",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your experience in finance",
+   "id": "bfsi",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your experience in finance?",
+   "id": "bfsi",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your experience in finance?",
+   "id": "bfsi",
+   "kind": "variant"
+  },
+  {
+   "q": "What robotics work has Prashobh done?",
+   "id": "robotics",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what robotics work has Prashobh done?",
+   "id": "robotics",
+   "kind": "variant"
+  },
+  {
+   "q": "what robotics work has prashobh done",
+   "id": "robotics",
+   "kind": "variant"
+  },
+  {
+   "q": "What robotics work have you done?",
+   "id": "robotics",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What robotics work has Prashobh done?",
+   "id": "robotics",
+   "kind": "variant"
+  },
+  {
+   "q": "Have you worked on robots?",
+   "id": "robotics",
+   "kind": "variant"
+  },
+  {
+   "q": "have you worked on robots",
+   "id": "robotics",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Have you worked on robots?",
+   "id": "robotics",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me have you worked on robots?",
+   "id": "robotics",
+   "kind": "variant"
+  },
+  {
+   "q": "Have Prashobh worked on robots?",
+   "id": "robotics",
+   "kind": "variant"
+  },
+  {
+   "q": "Where did Prashobh study?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Where did Prashobh study?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me where did Prashobh study?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "where did prashobh study",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "Where did you study?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What degree does Prashobh have?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "what degree does prashobh have",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "What degree do you have?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "What degree does Prashobh have?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what degree does Prashobh have?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your educational background",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's educational background?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your educational background?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your educational background?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your educational background?",
+   "id": "education",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What are Prashobh's core skills?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "What are your core skills?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "what are prashobh's core skills",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "What are Prashobh's core skills?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what are Prashobh's core skills?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your tech stack",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your tech stack?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your tech stack?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's tech stack?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your tech stack?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "which agent frameworks do you use",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "Which agent frameworks do you use?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which agent frameworks do you use?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "Which agent frameworks does Prashobh use?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which agent frameworks do you use?",
+   "id": "skills",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what projects has Prashobh built?",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What projects has Prashobh built?",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What projects have you built?",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "what projects has prashobh built",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What projects has Prashobh built?",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "what are your personal projects",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's personal projects?",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What are your personal projects?",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What are your personal projects?",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what are your personal projects?",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Show me your side projects.",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me show me your side projects.?",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "show me your side projects.",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Show me your side projects.",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Show me Prashobh's side projects.",
+   "id": "projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What is the Knowledge Fabric project?",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is the Knowledge Fabric project?",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "what is the knowledge fabric project",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is the Knowledge Fabric project?",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about the knowledge fabric project and its code.",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about the Knowledge Fabric project and its code.",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about the Knowledge Fabric project and its code.",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about the Knowledge Fabric project and its code.?",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is a knowledge fabric?",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is a knowledge fabric?",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "What is a knowledge fabric?",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "what is a knowledge fabric",
+   "id": "knowledge-fabric",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is Invest.IQ?",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is Invest.IQ?",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "what is invest.iq",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Invest.IQ?",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about your stock research app.",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about Prashobh's stock research app.",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about your stock research app.?",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about your stock research app.",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about your stock research app.",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh have an AI based prediction system?",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you have an AI based prediction system?",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you have an AI based prediction system?",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "do you have an ai based prediction system",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you have an AI based prediction system?",
+   "id": "invest-iq",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Koode?",
+   "id": "koode",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is Koode?",
+   "id": "koode",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is Koode?",
+   "id": "koode",
+   "kind": "variant"
+  },
+  {
+   "q": "what is koode",
+   "id": "koode",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is Pachaka Lokam?",
+   "id": "pachaka-lokam",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is Pachaka Lokam?",
+   "id": "pachaka-lokam",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Pachaka Lokam?",
+   "id": "pachaka-lokam",
+   "kind": "variant"
+  },
+  {
+   "q": "what is pachaka lokam",
+   "id": "pachaka-lokam",
+   "kind": "variant"
+  },
+  {
+   "q": "Does Prashobh work on AI-driven SDLC?",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "does prashobh work on ai-driven sdlc",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Does Prashobh work on AI-driven SDLC?",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "Does you work on AI-driven SDLC?",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me does Prashobh work on AI-driven SDLC?",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your work on aidlc",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your work on AIDLC?",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your work on AIDLC?",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's work on AIDLC?",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your work on AIDLC?",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about Kiro automation.",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about kiro automation.",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about Kiro automation.",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about Kiro automation.?",
+   "id": "aidlc",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What services does Prashobh offer?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "what services does prashobh offer",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "What services do you offer?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what services does Prashobh offer?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "What services does Prashobh offer?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "Can I hire you?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Can I hire you?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "Can I hire Prashobh?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "can i hire you",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me can I hire you?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you do consulting?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you do consulting?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you do consulting?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh do consulting?",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "do you do consulting",
+   "id": "services",
+   "kind": "variant"
+  },
+  {
+   "q": "Does Prashobh do corporate training?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Does you do corporate training?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me does Prashobh do corporate training?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Does Prashobh do corporate training?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "does prashobh do corporate training",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you teach AI?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "do you teach ai",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you teach AI?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you teach AI?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh teach AI?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you run workshops?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you run workshops?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "do you run workshops",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh run workshops?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you run workshops?",
+   "id": "training",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: How can I contact Prashobh?",
+   "id": "contact",
+   "kind": "variant"
+  },
+  {
+   "q": "How can I contact Prashobh?",
+   "id": "contact",
+   "kind": "variant"
+  },
+  {
+   "q": "How can I contact you?",
+   "id": "contact",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me how can I contact Prashobh?",
+   "id": "contact",
+   "kind": "variant"
+  },
+  {
+   "q": "how can i contact prashobh",
+   "id": "contact",
+   "kind": "variant"
+  },
+  {
+   "q": "How do I reach Prashobh?",
+   "id": "contact",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: How do I reach you?",
+   "id": "contact",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me how do I reach you?",
+   "id": "contact",
+   "kind": "variant"
+  },
+  {
+   "q": "how do i reach you",
+   "id": "contact",
+   "kind": "variant"
+  },
+  {
+   "q": "How do I reach you?",
+   "id": "contact",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me where is Prashobh based?",
+   "id": "location",
+   "kind": "variant"
+  },
+  {
+   "q": "Where are you based?",
+   "id": "location",
+   "kind": "variant"
+  },
+  {
+   "q": "where is prashobh based",
+   "id": "location",
+   "kind": "variant"
+  },
+  {
+   "q": "Where is Prashobh based?",
+   "id": "location",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Where is Prashobh based?",
+   "id": "location",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Where do you live?",
+   "id": "location",
+   "kind": "variant"
+  },
+  {
+   "q": "where do you live",
+   "id": "location",
+   "kind": "variant"
+  },
+  {
+   "q": "Where does Prashobh live?",
+   "id": "location",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me where do you live?",
+   "id": "location",
+   "kind": "variant"
+  },
+  {
+   "q": "Where do you live?",
+   "id": "location",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is The Canvas of Earth?",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is The Canvas of Earth?",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "what is the canvas of earth",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "What is The Canvas of Earth?",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about your YouTube channel.?",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about your YouTube channel.",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about your YouTube channel.",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about your youtube channel.",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about Prashobh's YouTube channel.",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "What do you make videos about?",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "what do you make videos about",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what do you make videos about?",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What do you make videos about?",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "What does Prashobh make videos about?",
+   "id": "youtube",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What videos has Prashobh made about Spiti Valley?",
+   "id": "spiti",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what videos has Prashobh made about Spiti Valley?",
+   "id": "spiti",
+   "kind": "variant"
+  },
+  {
+   "q": "What videos have you made about Spiti Valley?",
+   "id": "spiti",
+   "kind": "variant"
+  },
+  {
+   "q": "What videos has Prashobh made about Spiti Valley?",
+   "id": "spiti",
+   "kind": "variant"
+  },
+  {
+   "q": "what videos has prashobh made about spiti valley",
+   "id": "spiti",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about your Spiti trip.",
+   "id": "spiti",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about your Spiti trip.?",
+   "id": "spiti",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about Prashobh's Spiti trip.",
+   "id": "spiti",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about your Spiti trip.",
+   "id": "spiti",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about your spiti trip.",
+   "id": "spiti",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is the Key Monastery video about?",
+   "id": "key-monastery",
+   "kind": "variant"
+  },
+  {
+   "q": "what is the key monastery video about",
+   "id": "key-monastery",
+   "kind": "variant"
+  },
+  {
+   "q": "What is the Key Monastery video about?",
+   "id": "key-monastery",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is the Key Monastery video about?",
+   "id": "key-monastery",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What does Prashobh say about the history of Key Monastery?",
+   "id": "key-monastery",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what does Prashobh say about the history of Key Monastery?",
+   "id": "key-monastery",
+   "kind": "variant"
+  },
+  {
+   "q": "what does prashobh say about the history of key monastery",
+   "id": "key-monastery",
+   "kind": "variant"
+  },
+  {
+   "q": "What does Prashobh say about the history of Key Monastery?",
+   "id": "key-monastery",
+   "kind": "variant"
+  },
+  {
+   "q": "What do you say about the history of Key Monastery?",
+   "id": "key-monastery",
+   "kind": "variant"
+  },
+  {
+   "q": "Did you attend the Microsoft AI Tour?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "Did Prashobh attend the Microsoft AI Tour?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "did prashobh attend the microsoft ai tour",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Did Prashobh attend the Microsoft AI Tour?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me did Prashobh attend the Microsoft AI Tour?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what did you see at the Microsoft AI Tour?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What did you see at the Microsoft AI Tour?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "what did you see at the microsoft ai tour",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "What did Prashobh see at the Microsoft AI Tour?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "What did you see at the Microsoft AI Tour?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me did you meet Satya Nadella?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Did you meet Satya Nadella?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "Did Prashobh meet Satya Nadella?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "Did you meet Satya Nadella?",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "did you meet satya nadella",
+   "id": "ai-tour",
+   "kind": "variant"
+  },
+  {
+   "q": "what has prashobh posted about on linkedin",
+   "id": "linkedin-knowledge",
+   "kind": "variant"
+  },
+  {
+   "q": "What have you posted about on LinkedIn?",
+   "id": "linkedin-knowledge",
+   "kind": "variant"
+  },
+  {
+   "q": "What has Prashobh posted about on LinkedIn?",
+   "id": "linkedin-knowledge",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what has Prashobh posted about on LinkedIn?",
+   "id": "linkedin-knowledge",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What has Prashobh posted about on LinkedIn?",
+   "id": "linkedin-knowledge",
+   "kind": "variant"
+  },
+  {
+   "q": "what do you think about knowledge layers and ontologies for companies",
+   "id": "linkedin-knowledge",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What do you think about knowledge layers and ontologies for companies?",
+   "id": "linkedin-knowledge",
+   "kind": "variant"
+  },
+  {
+   "q": "What does Prashobh think about knowledge layers and ontologies for companies?",
+   "id": "linkedin-knowledge",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what do you think about knowledge layers and ontologies for companies?",
+   "id": "linkedin-knowledge",
+   "kind": "variant"
+  },
+  {
+   "q": "What do you think about knowledge layers and ontologies for companies?",
+   "id": "linkedin-knowledge",
+   "kind": "variant"
+  },
+  {
+   "q": "What is agentic AI according to Prashobh?",
+   "id": "agentic-view",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is agentic AI according to Prashobh?",
+   "id": "agentic-view",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is agentic AI according to Prashobh?",
+   "id": "agentic-view",
+   "kind": "variant"
+  },
+  {
+   "q": "what is agentic ai according to prashobh",
+   "id": "agentic-view",
+   "kind": "variant"
+  },
+  {
+   "q": "What is agentic AI according to you?",
+   "id": "agentic-view",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's view on agentic AI?",
+   "id": "agentic-view",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your view on agentic AI?",
+   "id": "agentic-view",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your view on agentic ai",
+   "id": "agentic-view",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your view on agentic AI?",
+   "id": "agentic-view",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your view on agentic AI?",
+   "id": "agentic-view",
+   "kind": "variant"
+  },
+  {
+   "q": "What languages do you speak?",
+   "id": "languages",
+   "kind": "variant"
+  },
+  {
+   "q": "What languages does Prashobh speak?",
+   "id": "languages",
+   "kind": "variant"
+  },
+  {
+   "q": "what languages does prashobh speak",
+   "id": "languages",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what languages does Prashobh speak?",
+   "id": "languages",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What languages does Prashobh speak?",
+   "id": "languages",
+   "kind": "variant"
+  },
+  {
+   "q": "What are your hobbies?",
+   "id": "interests",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what are Prashobh's hobbies?",
+   "id": "interests",
+   "kind": "variant"
+  },
+  {
+   "q": "What are Prashobh's hobbies?",
+   "id": "interests",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What are Prashobh's hobbies?",
+   "id": "interests",
+   "kind": "variant"
+  },
+  {
+   "q": "what are prashobh's hobbies",
+   "id": "interests",
+   "kind": "variant"
+  },
+  {
+   "q": "What do you do outside work?",
+   "id": "interests",
+   "kind": "variant"
+  },
+  {
+   "q": "What does Prashobh do outside work?",
+   "id": "interests",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what do you do outside work?",
+   "id": "interests",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What do you do outside work?",
+   "id": "interests",
+   "kind": "variant"
+  },
+  {
+   "q": "what do you do outside work",
+   "id": "interests",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about your family.",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about your family.?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about your family.",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about your family.",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about Prashobh's family.",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Are you married?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Are Prashobh married?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "are you married",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me are you married?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Are you married?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh have children?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you have children?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you have children?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you have children?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "do you have children",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me who are your parents?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Who are your parents?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Who are your parents?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Who is Prashobh's parents?",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "who are your parents",
+   "id": "family",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me when were you born?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "When were you born?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "when were you born",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: When were you born?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "When were Prashobh born?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is Prashobh's date of birth?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "what is prashobh's date of birth",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's date of birth?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your date of birth?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is Prashobh's date of birth?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "How old is Prashobh?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "how old are you",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "How old are you?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: How old are you?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me how old are you?",
+   "id": "birthday",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you make art?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "do you make art",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you make art?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you make art?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh make art?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "Who is Phoenix de Artist?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Who is Phoenix de Artist?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me who is Phoenix de Artist?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "who is phoenix de artist",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your pen name?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's pen name?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your pen name",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your pen name?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your pen name?",
+   "id": "art",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me where are you from?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "where are you from",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Where are you from?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Where are you from?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Where is Prashobh from?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "where did you go to school",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Where did you go to school?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Where did you go to school?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Where did Prashobh go to school?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me where did you go to school?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Which town in Kerala is Prashobh from?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which town in Kerala are you from?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Which town in Kerala are you from?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which town in Kerala are you from?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "which town in kerala are you from",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about your childhood.",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about your childhood.",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about your childhood.",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about Prashobh's childhood.",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about your childhood.?",
+   "id": "origins",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me why did you choose computer science and AI?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "why did you choose computer science and ai",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Why did you choose computer science and AI?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Why did Prashobh choose computer science and AI?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Why did you choose computer science and AI?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "how did you get into ai",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: How did you get into AI?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "How did you get into AI?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me how did you get into AI?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "How did Prashobh get into AI?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "what was your first ai project",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what was your first AI project?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "What was your first AI project?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What was your first AI project?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "What was Prashobh's first AI project?",
+   "id": "why-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "what did you do at tcs",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what did you do at TCS?",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "What did you do at TCS?",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "What did Prashobh do at TCS?",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What did you do at TCS?",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: How did your career start?",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "How did your career start?",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "How did Prashobh's career start?",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "how did your career start",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me how did your career start?",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me the story of your first job.?",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me the story of your first job.",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me the story of your first job.",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me the story of Prashobh's first job.",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me the story of your first job.",
+   "id": "tcs-story",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what achievement are you proudest of?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "What achievement are you proudest of?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What achievement are you proudest of?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "What achievement is Prashobh proudest of?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "what achievement are you proudest of",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your biggest accomplishment",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your biggest accomplishment?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's biggest accomplishment?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your biggest accomplishment?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your biggest accomplishment?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's best work?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your best work?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your best work?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your best work?",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your best work",
+   "id": "proudest",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what was the hardest problem you solved?",
+   "id": "hardest-problem",
+   "kind": "variant"
+  },
+  {
+   "q": "What was the hardest problem you solved?",
+   "id": "hardest-problem",
+   "kind": "variant"
+  },
+  {
+   "q": "What was the hardest problem Prashobh solved?",
+   "id": "hardest-problem",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What was the hardest problem you solved?",
+   "id": "hardest-problem",
+   "kind": "variant"
+  },
+  {
+   "q": "what was the hardest problem you solved",
+   "id": "hardest-problem",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about the physician's note reader.",
+   "id": "hardest-problem",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about the physician's note reader.",
+   "id": "hardest-problem",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about the physician's note reader.?",
+   "id": "hardest-problem",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about the physician's note reader.",
+   "id": "hardest-problem",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me who were your mentors?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "who were your mentors",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Who were your mentors?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Who were your mentors?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Who were Prashobh's mentors?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Who do you mentor?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Who do you mentor?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me who do you mentor?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "who do you mentor",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Who does Prashobh mentor?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Who inspired your career?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Who inspired Prashobh's career?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me who inspired your career?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Who inspired your career?",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "who inspired your career",
+   "id": "mentors",
+   "kind": "variant"
+  },
+  {
+   "q": "How do you choose between LangGraph, CrewAI and AutoGen?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "How does Prashobh choose between LangGraph, CrewAI and AutoGen?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: How do you choose between LangGraph, CrewAI and AutoGen?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "how do you choose between langgraph, crewai and autogen",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me how do you choose between LangGraph, CrewAI and AutoGen?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "what does ai governance mean to you",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what does AI governance mean to you?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "What does AI governance mean to Prashobh?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "What does AI governance mean to you?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What does AI governance mean to you?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "How does Prashobh evaluate AI systems?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "How do you evaluate AI systems?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me how do you evaluate AI systems?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "how do you evaluate ai systems",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: How do you evaluate AI systems?",
+   "id": "framework-choice",
+   "kind": "variant"
+  },
+  {
+   "q": "What drives Prashobh's career decisions?",
+   "id": "what-drives",
+   "kind": "variant"
+  },
+  {
+   "q": "What drives your career decisions?",
+   "id": "what-drives",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What drives your career decisions?",
+   "id": "what-drives",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what drives your career decisions?",
+   "id": "what-drives",
+   "kind": "variant"
+  },
+  {
+   "q": "what drives your career decisions",
+   "id": "what-drives",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What motivates you?",
+   "id": "what-drives",
+   "kind": "variant"
+  },
+  {
+   "q": "What motivates you?",
+   "id": "what-drives",
+   "kind": "variant"
+  },
+  {
+   "q": "What motivates Prashobh?",
+   "id": "what-drives",
+   "kind": "variant"
+  },
+  {
+   "q": "what motivates you",
+   "id": "what-drives",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what motivates you?",
+   "id": "what-drives",
+   "kind": "variant"
+  },
+  {
+   "q": "Which project are you most attached to?",
+   "id": "favourite-project",
+   "kind": "variant"
+  },
+  {
+   "q": "Which project is Prashobh most attached to?",
+   "id": "favourite-project",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which project are you most attached to?",
+   "id": "favourite-project",
+   "kind": "variant"
+  },
+  {
+   "q": "which project are you most attached to",
+   "id": "favourite-project",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which project are you most attached to?",
+   "id": "favourite-project",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's favourite project?",
+   "id": "favourite-project",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your favourite project?",
+   "id": "favourite-project",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your favourite project?",
+   "id": "favourite-project",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your favourite project",
+   "id": "favourite-project",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your favourite project?",
+   "id": "favourite-project",
+   "kind": "variant"
+  },
+  {
+   "q": "why did you build koode, pachaka lokam and invest.iq",
+   "id": "why-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Why did you build Koode, Pachaka Lokam and Invest.IQ?",
+   "id": "why-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me why did you build Koode, Pachaka Lokam and Invest.IQ?",
+   "id": "why-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Why did Prashobh build Koode, Pachaka Lokam and Invest.IQ?",
+   "id": "why-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Why did you build Koode, Pachaka Lokam and Invest.IQ?",
+   "id": "why-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is the story behind your apps?",
+   "id": "why-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "what is the story behind your apps",
+   "id": "why-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What is the story behind Prashobh's apps?",
+   "id": "why-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What is the story behind your apps?",
+   "id": "why-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is the story behind your apps?",
+   "id": "why-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "what does cogniflow do",
+   "id": "cogniflow",
+   "kind": "variant"
+  },
+  {
+   "q": "What does CogniFlow do?",
+   "id": "cogniflow",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What does CogniFlow do?",
+   "id": "cogniflow",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what does CogniFlow do?",
+   "id": "cogniflow",
+   "kind": "variant"
+  },
+  {
+   "q": "What is CogniFlow?",
+   "id": "cogniflow",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is CogniFlow?",
+   "id": "cogniflow",
+   "kind": "variant"
+  },
+  {
+   "q": "what is cogniflow",
+   "id": "cogniflow",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is CogniFlow?",
+   "id": "cogniflow",
+   "kind": "variant"
+  },
+  {
+   "q": "Why did you start your YouTube channel?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Why did you start your YouTube channel?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Why did Prashobh start Prashobh's YouTube channel?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me why did you start your YouTube channel?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "why did you start your youtube channel",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Which trip changed Prashobh the most?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Which trip changed you the most?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which trip changed you the most?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which trip changed you the most?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "which trip changed you the most",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is on your travel bucket list?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "What is on Prashobh's travel bucket list?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is on your travel bucket list?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "what is on your travel bucket list",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "What is on your travel bucket list?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what camera and editing setup do you use?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "What camera and editing setup do you use?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "What camera and editing setup does Prashobh use?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "what camera and editing setup do you use",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What camera and editing setup do you use?",
+   "id": "youtube-why",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what does a typical day look like for you?",
+   "id": "typical-day",
+   "kind": "variant"
+  },
+  {
+   "q": "What does a typical day look like for you?",
+   "id": "typical-day",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What does a typical day look like for you?",
+   "id": "typical-day",
+   "kind": "variant"
+  },
+  {
+   "q": "what does a typical day look like for you",
+   "id": "typical-day",
+   "kind": "variant"
+  },
+  {
+   "q": "What does a typical day look like for Prashobh?",
+   "id": "typical-day",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your daily routine?",
+   "id": "typical-day",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's daily routine?",
+   "id": "typical-day",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your daily routine?",
+   "id": "typical-day",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your daily routine?",
+   "id": "typical-day",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your daily routine",
+   "id": "typical-day",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which cricket and football teams do you follow?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Which cricket and football teams do you follow?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which cricket and football teams do you follow?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "which cricket and football teams do you follow",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Which cricket and football teams does Prashobh follow?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which team do you support?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "which team do you support",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Which team does Prashobh support?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Which team do you support?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which team do you support?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Are you a cricket fan?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Are Prashobh a cricket fan?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me are you a cricket fan?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "are you a cricket fan",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Are you a cricket fan?",
+   "id": "teams",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What books or people shape your thinking?",
+   "id": "inspiration",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what books or people shape your thinking?",
+   "id": "inspiration",
+   "kind": "variant"
+  },
+  {
+   "q": "what books or people shape your thinking",
+   "id": "inspiration",
+   "kind": "variant"
+  },
+  {
+   "q": "What books or people shape Prashobh's thinking?",
+   "id": "inspiration",
+   "kind": "variant"
+  },
+  {
+   "q": "What books or people shape your thinking?",
+   "id": "inspiration",
+   "kind": "variant"
+  },
+  {
+   "q": "What inspires you?",
+   "id": "inspiration",
+   "kind": "variant"
+  },
+  {
+   "q": "what inspires you",
+   "id": "inspiration",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what inspires you?",
+   "id": "inspiration",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What inspires you?",
+   "id": "inspiration",
+   "kind": "variant"
+  },
+  {
+   "q": "What inspires Prashobh?",
+   "id": "inspiration",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What do you want your children to know about your work?",
+   "id": "children-message",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what do you want your children to know about your work?",
+   "id": "children-message",
+   "kind": "variant"
+  },
+  {
+   "q": "what do you want your children to know about your work",
+   "id": "children-message",
+   "kind": "variant"
+  },
+  {
+   "q": "What does Prashobh want Prashobh's children to know about Prashobh's work?",
+   "id": "children-message",
+   "kind": "variant"
+  },
+  {
+   "q": "What do you want your children to know about your work?",
+   "id": "children-message",
+   "kind": "variant"
+  },
+  {
+   "q": "What advice would you give?",
+   "id": "children-message",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what advice would you give?",
+   "id": "children-message",
+   "kind": "variant"
+  },
+  {
+   "q": "What advice would Prashobh give?",
+   "id": "children-message",
+   "kind": "variant"
+  },
+  {
+   "q": "what advice would you give",
+   "id": "children-message",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What advice would you give?",
+   "id": "children-message",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is Soccer.AI?",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is Soccer.AI?",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Soccer.AI?",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "what is soccer.ai",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about your World Cup app.",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about your world cup app.",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about your World Cup app.",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about Prashobh's World Cup app.",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about your World Cup app.?",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what did you build for the FIFA World Cup?",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What did you build for the FIFA World Cup?",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "What did you build for the FIFA World Cup?",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "What did Prashobh build for the FIFA World Cup?",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "what did you build for the fifa world cup",
+   "id": "soccer-ai",
+   "kind": "variant"
+  },
+  {
+   "q": "What is IPLBuzz?",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is IPLBuzz?",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "what is iplbuzz",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is IPLBuzz?",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about your IPL dashboard.",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about your ipl dashboard.",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about your IPL dashboard.",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about Prashobh's IPL dashboard.",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about your IPL dashboard.?",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "do you have a cricket app",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh have a cricket app?",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you have a cricket app?",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you have a cricket app?",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you have a cricket app?",
+   "id": "iplbuzz",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is RVonWheelz?",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "what is rvonwheelz",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is RVonWheelz?",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "What is RVonWheelz?",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about your car pooling app.",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about your car pooling app.?",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about Prashobh's car pooling app.",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about your car pooling app.",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about your car pooling app.",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "What was the first app Prashobh built for others?",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What was the first app you built for others?",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what was the first app you built for others?",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "what was the first app you built for others",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "What was the first app you built for others?",
+   "id": "rvonwheelz",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you have a hockey app?",
+   "id": "hockey",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh have a hockey app?",
+   "id": "hockey",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you have a hockey app?",
+   "id": "hockey",
+   "kind": "variant"
+  },
+  {
+   "q": "do you have a hockey app",
+   "id": "hockey",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you have a hockey app?",
+   "id": "hockey",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's hockey World Cup project?",
+   "id": "hockey",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is your hockey World Cup project?",
+   "id": "hockey",
+   "kind": "variant"
+  },
+  {
+   "q": "what is your hockey world cup project",
+   "id": "hockey",
+   "kind": "variant"
+  },
+  {
+   "q": "What is your hockey World Cup project?",
+   "id": "hockey",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is your hockey World Cup project?",
+   "id": "hockey",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Dhinasuthra?",
+   "id": "dhinasuthra",
+   "kind": "variant"
+  },
+  {
+   "q": "what is dhinasuthra",
+   "id": "dhinasuthra",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what is Dhinasuthra?",
+   "id": "dhinasuthra",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What is Dhinasuthra?",
+   "id": "dhinasuthra",
+   "kind": "variant"
+  },
+  {
+   "q": "do you have a habit tracking app",
+   "id": "dhinasuthra",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you have a habit tracking app?",
+   "id": "dhinasuthra",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh have a habit tracking app?",
+   "id": "dhinasuthra",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you have a habit tracking app?",
+   "id": "dhinasuthra",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you have a habit tracking app?",
+   "id": "dhinasuthra",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which of your projects are Android apps?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which of your projects are Android apps?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "which of your projects are android apps",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Which of your projects are Android apps?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Which of Prashobh's projects are Android apps?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you build mobile apps?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you build mobile apps?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you build mobile apps?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "do you build mobile apps",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh build mobile apps?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which apps can I install on my phone?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Which apps can I install on my phone?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "which apps can i install on my phone",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which apps can I install on my phone?",
+   "id": "android-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "What have you built for your family?",
+   "id": "family-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What have you built for your family?",
+   "id": "family-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what have you built for your family?",
+   "id": "family-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What has Prashobh built for Prashobh's family?",
+   "id": "family-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "what have you built for your family",
+   "id": "family-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me did you build anything for your parents or wife?",
+   "id": "family-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Did you build anything for your parents or wife?",
+   "id": "family-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Did Prashobh build anything for Prashobh's parents or wife?",
+   "id": "family-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "did you build anything for your parents or wife",
+   "id": "family-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Did you build anything for your parents or wife?",
+   "id": "family-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What sports projects has Prashobh built?",
+   "id": "sports-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What sports projects have you built?",
+   "id": "sports-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What sports projects have you built?",
+   "id": "sports-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what sports projects have you built?",
+   "id": "sports-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "what sports projects have you built",
+   "id": "sports-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you build sports analytics apps?",
+   "id": "sports-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you build sports analytics apps?",
+   "id": "sports-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you build sports analytics apps?",
+   "id": "sports-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh build sports analytics apps?",
+   "id": "sports-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "do you build sports analytics apps",
+   "id": "sports-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which of your projects use Supabase?",
+   "id": "supabase-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which of your projects use Supabase?",
+   "id": "supabase-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Which of your projects use Supabase?",
+   "id": "supabase-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "which of your projects use supabase",
+   "id": "supabase-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Which of Prashobh's projects use Supabase?",
+   "id": "supabase-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What backend do your apps use?",
+   "id": "supabase-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What backend do your apps use?",
+   "id": "supabase-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "What backend does Prashobh's apps use?",
+   "id": "supabase-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "what backend do your apps use",
+   "id": "supabase-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what backend do your apps use?",
+   "id": "supabase-projects",
+   "kind": "variant"
+  },
+  {
+   "q": "Where can I try your apps?",
+   "id": "try-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me where can I try your apps?",
+   "id": "try-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "where can i try your apps",
+   "id": "try-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Where can I try Prashobh's apps?",
+   "id": "try-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Where can I try your apps?",
+   "id": "try-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you have live demos?",
+   "id": "try-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me do you have live demos?",
+   "id": "try-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "do you have live demos",
+   "id": "try-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Do Prashobh have live demos?",
+   "id": "try-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Do you have live demos?",
+   "id": "try-apps",
+   "kind": "variant"
+  },
+  {
+   "q": "Are Prashobh's projects open source?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Are your projects open source?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "are your projects open source",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Are your projects open source?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me are your projects open source?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "is your code public",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me is your code public?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Is your code public?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Is Prashobh's code public?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Is your code public?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which of your projects are on GitHub?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which of your projects are on GitHub?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "which of your projects are on github",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Which of your projects are on GitHub?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Which of Prashobh's projects are on GitHub?",
+   "id": "open-source",
+   "kind": "variant"
+  },
+  {
+   "q": "Who is Prashobh's clients?",
+   "id": "clients",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me who are your clients?",
+   "id": "clients",
+   "kind": "variant"
+  },
+  {
+   "q": "Who are your clients?",
+   "id": "clients",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Who are your clients?",
+   "id": "clients",
+   "kind": "variant"
+  },
+  {
+   "q": "who are your clients",
+   "id": "clients",
+   "kind": "variant"
+  },
+  {
+   "q": "which companies have you built solutions for",
+   "id": "clients",
+   "kind": "variant"
+  },
+  {
+   "q": "Which companies have you built solutions for?",
+   "id": "clients",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which companies have you built solutions for?",
+   "id": "clients",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which companies have you built solutions for?",
+   "id": "clients",
+   "kind": "variant"
+  },
+  {
+   "q": "Which companies has Prashobh built solutions for?",
+   "id": "clients",
+   "kind": "variant"
+  },
+  {
+   "q": "How many years of experience does Prashobh have?",
+   "id": "experience-years",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me how many years of experience do you have?",
+   "id": "experience-years",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: How many years of experience do you have?",
+   "id": "experience-years",
+   "kind": "variant"
+  },
+  {
+   "q": "How many years of experience do you have?",
+   "id": "experience-years",
+   "kind": "variant"
+  },
+  {
+   "q": "how many years of experience do you have",
+   "id": "experience-years",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me how long have you worked in AI?",
+   "id": "experience-years",
+   "kind": "variant"
+  },
+  {
+   "q": "How long have you worked in AI?",
+   "id": "experience-years",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: How long have you worked in AI?",
+   "id": "experience-years",
+   "kind": "variant"
+  },
+  {
+   "q": "how long have you worked in ai",
+   "id": "experience-years",
+   "kind": "variant"
+  },
+  {
+   "q": "How long has Prashobh worked in AI?",
+   "id": "experience-years",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Tell me about your voice-controlled UAV.",
+   "id": "voice-uav",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about Prashobh's voice-controlled UAV.",
+   "id": "voice-uav",
+   "kind": "variant"
+  },
+  {
+   "q": "Tell me about your voice-controlled UAV.",
+   "id": "voice-uav",
+   "kind": "variant"
+  },
+  {
+   "q": "tell me about your voice-controlled uav.",
+   "id": "voice-uav",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me tell me about your voice-controlled UAV.?",
+   "id": "voice-uav",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what was your college project?",
+   "id": "voice-uav",
+   "kind": "variant"
+  },
+  {
+   "q": "what was your college project",
+   "id": "voice-uav",
+   "kind": "variant"
+  },
+  {
+   "q": "What was Prashobh's college project?",
+   "id": "voice-uav",
+   "kind": "variant"
+  },
+  {
+   "q": "What was your college project?",
+   "id": "voice-uav",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What was your college project?",
+   "id": "voice-uav",
+   "kind": "variant"
+  },
+  {
+   "q": "Which technologies do your apps use?",
+   "id": "project-stacks",
+   "kind": "variant"
+  },
+  {
+   "q": "Which technologies does Prashobh's apps use?",
+   "id": "project-stacks",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me which technologies do your apps use?",
+   "id": "project-stacks",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: Which technologies do your apps use?",
+   "id": "project-stacks",
+   "kind": "variant"
+  },
+  {
+   "q": "which technologies do your apps use",
+   "id": "project-stacks",
+   "kind": "variant"
+  },
+  {
+   "q": "What are your projects built with?",
+   "id": "project-stacks",
+   "kind": "variant"
+  },
+  {
+   "q": "Can you tell me what are your projects built with?",
+   "id": "project-stacks",
+   "kind": "variant"
+  },
+  {
+   "q": "what are your projects built with",
+   "id": "project-stacks",
+   "kind": "variant"
+  },
+  {
+   "q": "What is Prashobh's projects built with?",
+   "id": "project-stacks",
+   "kind": "variant"
+  },
+  {
+   "q": "Quick question: What are your projects built with?",
+   "id": "project-stacks",
+   "kind": "variant"
+  },
+  {
+   "q": "Do you have a video about Everything Comes to You at the Right Time?",
+   "cite": "SHI80b8FUng",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about You’re Not Seeing Yourself Correctly?",
+   "cite": "2idAcePaG6k",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Microsoft AI Tour Glimpses?",
+   "cite": "ZSb4hwYdjRk",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about The Kala Ghoda Festival 2026 is about to End?",
+   "cite": "pMupR-jfY98",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Mumbai After the Conference?",
+   "cite": "DHnojwhWcJE",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Mumbai's Most Awaited Kala Ghoda Art Festival is back?",
+   "cite": "l9HuPupy2vU",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about We Met Satya Nadella! Microsoft AI Tour Mumbai 2025?",
+   "cite": "k7kcsrzLn80",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about The Penguin That Truly Lived: Herzog's Antarctica Journey?",
+   "cite": "ZBJU3MMnKWk",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about India's 77th Republic Day?",
+   "cite": "8g0wEfNa4b0",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Happy Republic Day 🇮🇳?",
+   "cite": "bgqBKunJ2B8",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about ഞങ്ങൾ മൈക്രോസോഫ്റ്റ് സിഇഒയെ കണ്ടു?",
+   "cite": "wF-8Aw-pnzw",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Mumbai Sirf Ek Shehar Nahi Hai?",
+   "cite": "EC2q5BZiC_s",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about A New Horizon in Color • The Journey That Begins Again?",
+   "cite": "ib6KFmAL3ck",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Recap 2025?",
+   "cite": "OiW4w9fy-r0",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Happy New Year!?",
+   "cite": "qAwOmxxkHmk",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Microsoft AI Tour Mumbai 2025 Vlog Coming Soon!?",
+   "cite": "9I3r1u96vJs",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Satya @ Microsoft AI Tour India 2025?",
+   "cite": "2ClJq-fNLYk",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Merry Christmas?",
+   "cite": "QtigWXDyxv8",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Joy of Exploring the Villages of Himachal?",
+   "cite": "2gX1SA7hN5w",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Teavel Inspiration?",
+   "cite": "0yYOz7ND57Y",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Hidden in the Cedars?",
+   "cite": "JZ63XXEYQdQ",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Exploring the Museum of Himachal Culture & Folk Art?",
+   "cite": "Om6bbQ7ZF5k",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Langza Buddha Statue of Spiti?",
+   "cite": "OFtW5C-nOxE",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Key Monastery Explained?",
+   "cite": "FspMmQOcVq0",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Happy 1000 Subscribers?",
+   "cite": "fifrQFNks6k",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Spiti Valley Trek: A Quiet Moment by the Stream?",
+   "cite": "_3g--45nMY8",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Craft the Person you Want to Be?",
+   "cite": "0Iww2_D7ozE",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Beauty of every moment? Magic of being Alive!?",
+   "cite": "jYClMU6w-lI",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about A Journey to Atal Tunnel’s North Portal — Unreal Scenery!?",
+   "cite": "6clRiLJkmnw",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about The Most Peaceful Viewpoint in Spiti Valley?",
+   "cite": "mN1s63L2ZGQ",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Chicham Bridge: How Was the World’s Highest Bridge Built? Unbelievable Engineering at 13?",
+   "cite": "IB1kQHMEnvk",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about I Traveled to the World’s Highest Post Office?",
+   "cite": "TTyO34xx2FE",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about When Life Feels Heavy… Watch This?",
+   "cite": "bYtm_hPAnvA",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Don’t just explore — experience it!?",
+   "cite": "UnZCQjWHb9U",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Unreal Views from 13,668 ft?",
+   "cite": "z1r6PM2jB2E",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Chandrathal Lake - The Hidden Heaven of Himachal You Must See Once in Life?",
+   "cite": "4nUAK487e-c",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Peace at 14,000 ft?",
+   "cite": "6CYGYEvtyYY",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about A Journey to Remember – Spiti Valley Photo Story?",
+   "cite": "xh_likSs8Do",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Friends, Backpacks & Mountains?",
+   "cite": "oF_iyITbuvs",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Spiti Trip‍️️ Hiking?",
+   "cite": "_u5TiGmbg4E",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Spiti Trip: Enjoying The Walk?",
+   "cite": "5acdJaFDNjo",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Walkaround of Tabu Monastery?",
+   "cite": "JcVNx4oaCDY",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about The New Tabo Monastery?",
+   "cite": "E3L1gpi53LM",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Heaven of Apples?",
+   "cite": "SnEC5SjzZAs",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Spiti Trip: Tabo Village?",
+   "cite": "-cFKNxwmVlU",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about The Ancient Tabo Monastery: Entrance and Surroundings?",
+   "cite": "N0xpu8e4L9M",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Exploring the Ancient Tabo Monastery ️?",
+   "cite": "j0AN8oP5h7g",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about Spiti Trip: Tabo Monastery?",
+   "cite": "75La_Nby3ag",
+   "kind": "video"
+  },
+  {
+   "q": "Do you have a video about The Tricolor Touches the Sky 🇮🇳?",
+   "cite": "cPq2S-oujjY",
+   "kind": "video"
+  },
+  {
+   "q": "What is your IPLBuzz project on GitHub?",
+   "cite": "github.com/PrashobhPaul/IPLBuzz",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Stock Analysis Indian Market project on GitHub?",
+   "cite": "github.com/PrashobhPaul/StockAnalysis_IndianMarket",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Pachaka Lokam project on GitHub?",
+   "cite": "github.com/PrashobhPaul/Pachaka-Lokam",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your worldcup2026fifa project on GitHub?",
+   "cite": "github.com/PrashobhPaul/worldcup2026fifa",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your profitnow project on GitHub?",
+   "cite": "github.com/PrashobhPaul/profitnow",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Koode project on GitHub?",
+   "cite": "github.com/PrashobhPaul/Koode",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your worldcup2026hockey project on GitHub?",
+   "cite": "github.com/PrashobhPaul/worldcup2026hockey",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Profit Pilot v1 project on GitHub?",
+   "cite": "github.com/PrashobhPaul/ProfitPilot_v1",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Finance 10k Automation project on GitHub?",
+   "cite": "github.com/PrashobhPaul/Finance_10k_Automation",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Chat GPT project on GitHub?",
+   "cite": "github.com/PrashobhPaul/ChatGPT",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your SDLC Lifecycle  Kiro Automation project on GitHub?",
+   "cite": "github.com/PrashobhPaul/SDLC_Lifecycle__KiroAutomation",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Dhinasuthra project on GitHub?",
+   "cite": "github.com/PrashobhPaul/Dhinasuthra",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Digital Card project on GitHub?",
+   "cite": "github.com/PrashobhPaul/Digital_Card",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Cogni Flow project on GitHub?",
+   "cite": "github.com/PrashobhPaul/CogniFlow",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Open NLP project on GitHub?",
+   "cite": "github.com/PrashobhPaul/OpenNLP",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your rvonwheelz project on GitHub?",
+   "cite": "github.com/PrashobhPaul/rvonwheelz",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your JEV Researchwork project on GitHub?",
+   "cite": "github.com/PrashobhPaul/JEV_Researchwork",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Invest IQ project on GitHub?",
+   "cite": "github.com/PrashobhPaul/InvestIQ",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Hockey World Cup2026 Women project on GitHub?",
+   "cite": "github.com/PrashobhPaul/HockeyWorldCup2026_Women",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your rvonwheelz old project on GitHub?",
+   "cite": "github.com/PrashobhPaul/rvonwheelz_old",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Model Optimization project on GitHub?",
+   "cite": "github.com/PrashobhPaul/Model_Optimization",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Ride Analytics Dashboard project on GitHub?",
+   "cite": "github.com/PrashobhPaul/RideAnalyticsDashboard",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Agent Based System project on GitHub?",
+   "cite": "github.com/PrashobhPaul/AgentBasedSystem",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your arch animate project on GitHub?",
+   "cite": "github.com/PrashobhPaul/arch-animate",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your novabiomedicaldocs demo project on GitHub?",
+   "cite": "github.com/PrashobhPaul/novabiomedicaldocs_demo",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Knowledge Fabric project on GitHub?",
+   "cite": "github.com/PrashobhPaul/Knowledge-Fabric",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Personal Website project on GitHub?",
+   "cite": "github.com/PrashobhPaul/Personal_Website",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Preprocessing project on GitHub?",
+   "cite": "github.com/PrashobhPaul/Preprocessing",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Trip Wise project on GitHub?",
+   "cite": "github.com/PrashobhPaul/TripWise",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Prashobh Paul project on GitHub?",
+   "cite": "github.com/PrashobhPaul/PrashobhPaul",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Chatbot project on GitHub?",
+   "cite": "github.com/PrashobhPaul/Chatbot",
+   "kind": "repo"
+  },
+  {
+   "q": "What is your Code Fabric project on GitHub?",
+   "cite": "github.com/PrashobhPaul/CodeFabric",
+   "kind": "repo"
+  }
+ ],
+ "no_answer": []
+}

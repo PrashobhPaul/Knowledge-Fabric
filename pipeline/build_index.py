@@ -178,7 +178,8 @@ def build_canon(chunks: list[dict]) -> tuple[list[dict], list[str]]:
             evidence.append({"url": url, "source": ev.get("source", ""), "why": ev.get("why", ""), "chunk_ids": ids[:4]})
         out.append({"id": m.get("canon_id"), "chunk_idx": i, "questions": m.get("questions") or [], "answer": m.get("answer") or c.get("text", ""),
                     "keywords": m.get("keywords") or [],
-                    "topics": m.get("topics") or [], "evidence": evidence})
+                    "topics": m.get("topics") or [], "evidence": evidence,
+                    "project": m.get("showcase") or "", "links": m.get("links") or []})
     return out, unresolved
 
 
@@ -231,6 +232,62 @@ def redact_clients(records: list, ks_dir: Path) -> int:
 
 _ORG_GENERIC = {"technologies", "technology", "enterprises", "services", "medical", "consultancy", "systems",
                 "solutions", "tech", "labs", "india", "limited", "private", "global", "group", "the"}
+
+
+def _squash(t: str) -> str:
+    import re
+    return re.sub(r"[^a-z0-9]", "", str(t).lower())
+
+
+def build_showcase(ks_dir: Path, site_dir: Path, canon: list[dict]) -> dict:
+    """Per project: how to try it (website links), its source, pictures that explain
+    it (an architecture/workflow diagram, repo screenshots) and real code.
+    Keyed by the project name the curated answers carry."""
+    import json as _json
+    projects = {}
+    pj = ks_dir / "website" / "projects.json"
+    if pj.exists():
+        data = _json.loads(pj.read_text(encoding="utf-8"))
+        for p in (data if isinstance(data, list) else data.get("projects", [])):
+            projects[_squash(p.get("name", ""))] = p
+    code = {}
+    cj = ks_dir / "github" / "code.json"
+    if cj.exists():
+        for r in _json.loads(cj.read_text(encoding="utf-8")).get("repos", []):
+            code[_squash(r.get("name", ""))] = r
+    alias = {"hockeyworldcup": "hockeyworldcup2026women"}
+    homes = {}
+    rj = ks_dir / "github" / "repos.json"
+    if rj.exists():
+        rows = _json.loads(rj.read_text(encoding="utf-8"))
+        for r in (rows.get("repos", rows) if isinstance(rows, dict) else rows):
+            if r.get("homepage"):
+                homes[_squash(r.get("name", ""))] = r["homepage"]
+    out = {}
+    for name in sorted({e.get("project") for e in canon if e.get("project")}):
+        k = _squash(name)
+        web = projects.get(k) or next((v for kk, v in projects.items() if kk.startswith(k) or k.startswith(kk)), None)
+        repo = code.get(k) or code.get(alias.get(k, ""))      # exact repo only: never an older or unrelated one
+        links = []
+        for l in (web or {}).get("links", []):
+            if l.get("url") and not any(x["url"] == l["url"] and x["kind"] == l.get("kind") for x in links):
+                links.append({"label": l.get("label", "").split(" · ")[0].strip(), "url": l["url"], "kind": l.get("kind", "live")})
+        for l in links:     # the repository was renamed; GitHub Pages does not redirect
+            l["url"] = l["url"].replace("prashobhpaul.github.io/Knowledge-Fabric", "prashobhpaul.github.io/Prashobh_Knowledge_Factory")
+        home = homes.get(k) or homes.get(alias.get(k, ""))
+        if home and not any(l["kind"] == "live" for l in links):
+            links.insert(0, {"label": "Open the live app", "url": home, "kind": "live"})
+        diagram = site_dir / "assets" / "diagrams" / f"{k}.svg"
+        files = (repo or {}).get("files", [])[:2]
+        out[name] = {
+            "links": links,
+            "source": (repo or {}).get("url", "") if repo else "",
+            "diagram": f"assets/diagrams/{k}.svg" if diagram.exists() else "",
+            "images": [i for i in (repo or {}).get("images", []) if i.get("kind") in ("architecture", "screen")][:4],
+            "code": [{"repo": repo["name"], "path": f["path"], "url": f["url"], "language": f["language"],
+                      "excerpt": "\n".join(f["excerpt"].splitlines()[:28])} for f in files] if repo else [],
+        }
+    return out
 
 
 def build_timeline(chunks: list[dict], ks_dir: Path) -> list[dict]:
@@ -445,6 +502,14 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
             flags_out = None
 
     canon_entries, canon_unresolved = build_canon(serialized)
+    i18n_path = ks_dir / "profile" / "canon_i18n.yaml"
+    if i18n_path.exists():
+        import yaml as _yaml
+        tr = (_yaml.safe_load(i18n_path.read_text(encoding="utf-8")) or {}).get("translations") or {}
+        for e in canon_entries:
+            if tr.get(e["id"]):
+                e["i18n"] = {k: " ".join(str(v).split()) for k, v in tr[e["id"]].items() if v}
+        print(f"      translations: {sum(1 for e in canon_entries if e.get('i18n'))} curated answers in Malayalam, Telugu, Tamil, Hindi")
     for _u in canon_unresolved:
         print(f"      [canon] evidence not found in the index: {_u}")
     print(f"      canon: {len(canon_entries)} curated answers · {len(canon_unresolved)} unresolved evidence links")
@@ -463,6 +528,7 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
         "flags": flags_out,
         "canon": canon_entries,
         "timeline": build_timeline(serialized, ks_dir),
+        "showcase": build_showcase(ks_dir, out_path.parent.parent, canon_entries),
         "canon_unresolved": canon_unresolved,
         "factory": {"generated_at": manifest.get("generated_at", ""), "generator": manifest.get("generator", "")},
         "bm25": bm25,

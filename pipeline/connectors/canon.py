@@ -41,6 +41,8 @@ class CanonConnector:
                           "answer": " ".join(str(e["answer"]).split()),
                           "keywords": [str(k) for k in (e.get("keywords") or [])],
                           "date": self.as_of, "as_of": self.as_of, "date_source": "canon",
-                          "questions": qs, "evidence": ev, "topics": list(e.get("topics") or []), "domain": "Canon"},
+                          "questions": qs, "evidence": ev, "topics": list(e.get("topics") or []), "domain": "Canon",
+                          "showcase": str(e.get("project") or ""),
+                          "links": [{"label": str(x.get("label", "")), "url": str(x.get("url", ""))} for x in (e.get("links") or []) if x.get("url")]},
                 entities=[("Person", "Prashobh Paul")],
             )

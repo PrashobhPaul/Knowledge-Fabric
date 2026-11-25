@@ -31,12 +31,31 @@
         "no LinkedIn export found — upload the CSVs from 'Get a copy of your data' to knowledge_sources/linkedin/export/ to index posts, certifications, honors and events"
       ],
       "last_good_sync": "2026-11-24T19:44:47+00:00"
+    },
+    "github_code": {
+      "status": "ok",
+      "last_synced": "2026-11-25T20:34:22+00:00",
+      "records": 256,
+      "files": [
+        "github/code.json"
+      ],
+      "error": null,
+      "notes": [
+        "worldcup2026fifa: not public, skipped",
+        "profitnow: not public, skipped",
+        "rvonwheelz: not public, skipped",
+        "InvestIQ: not public, skipped",
+        "arch-animate: not public, skipped",
+        "Preprocessing: not public, skipped",
+        "24 public repositories mined: 67 code excerpts, 189 README sections, 14 images"
+      ],
+      "last_good_sync": "2026-11-25T20:34:22+00:00"
     }
   },
   "person": {
     "name": "Prashobh Paul",
     "short_name": "Prashobh"
   },
-  "generated_at": "2026-11-24T19:44:47+00:00",
+  "generated_at": "2026-11-25T20:34:22+00:00",
   "generator": "knowledge-factory/1.0"
 }

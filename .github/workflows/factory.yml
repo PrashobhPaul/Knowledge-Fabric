@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
     inputs:
       only:
-        description: "Comma-separated subset of sources (website,youtube,github). Empty = all."
+        description: "Comma-separated subset of sources (website,youtube,github,github_code,linkedin). Empty = all."
         required: false
         default: ""
 

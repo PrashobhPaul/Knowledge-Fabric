@@ -4222,3 +4222,24 @@ summary:focus-visible, [tabindex]:focus-visible {
   .src-card { width: auto; min-width: 0; }
   .src-card > span, .src-card > b { max-width: 100%; }
 }
+
+/* ---- Showcase: try it, see how it works, read the code ------------------ */
+.showcase { margin: 14px 0 6px; display: grid; gap: 12px; }
+.sc-cta { display: flex; flex-wrap: wrap; gap: 8px; }
+.sc-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; font-size: 13.5px;
+  font-weight: 600; text-decoration: none; border: 1px solid var(--line, #cbd5e1); color: inherit; background: transparent; }
+.sc-btn:hover { border-color: currentColor; }
+.sc-btn.sc-primary { background: #2563eb; border-color: #2563eb; color: #fff; }
+.sc-btn.sc-primary:hover { background: #1d4ed8; }
+.sc-figure { margin: 0; }
+.sc-figure img { width: 100%; max-width: 560px; height: auto; border-radius: 14px; display: block; }
+.sc-figure figcaption { font-size: 12px; opacity: .7; margin-top: 4px; }
+.sc-shots { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scroll-snap-type: x mandatory; }
+.sc-shots img { height: 220px; width: auto; border-radius: 10px; scroll-snap-align: start; flex: none; }
+.sc-code { border: 1px solid var(--line, #cbd5e1); border-radius: 12px; overflow: hidden; }
+.sc-code summary { cursor: pointer; padding: 8px 12px; font-size: 13px; font-weight: 600; }
+.sc-code .sc-path { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-weight: 500; opacity: .85; }
+.sc-code pre { margin: 0; padding: 12px; max-height: 360px; overflow: auto; background: #0b1220; color: #e2e8f0;
+  font-size: 12.5px; line-height: 1.5; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.sc-code-link { display: block; padding: 8px 12px; font-size: 12.5px; }
+@media (max-width: 640px) { .sc-shots img { height: 180px; } .sc-btn { font-size: 13px; padding: 8px 12px; } }

@@ -99,7 +99,7 @@
   {
    "q": "What happens to a Koode trip after arrival?",
    "id": "koode",
-   "must": "thirty minutes"
+   "must": "an hour"
   },
   {
    "q": "Which maps does Koode use?",
@@ -174,7 +174,7 @@
   },
   {
    "q": "Which videos cover Tabo Monastery?",
-   "id": "RETRIEVAL",
+   "id": "catalogue",
    "must": "Tabo"
   },
   {

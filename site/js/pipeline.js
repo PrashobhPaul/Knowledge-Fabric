@@ -11,7 +11,7 @@ import { cohereByDocument, tokenize } from './search.js?v=5';
 import { hybridSearch } from './hybrid.js?v=3';
 import { buildAnswer } from './answer.js?v=8';
 import { matchQuestionBank } from './questionbank.js?v=3';
-import { matchCanon, applyCanon, suggestCanon, contentWords, isImperativeTask, focus, smallTalk, resolveFollowUp, canonDecline } from './canon.js?v=1';
+import { matchCanon, applyCanon, suggestCanon, contentWords, isImperativeTask, focus, smallTalk, resolveFollowUp, canonDecline, codeCardHtml } from './canon.js?v=1';
 import { expandQuery } from './multilingual.js?v=1';
 import { relatedItems } from './related.js?v=1';
 import { matchCanonByVector, chunkRun } from './nlu_semantic.js?v=1';
@@ -40,7 +40,12 @@ export function retrieve(q, ctx) {
 /** Indic-script questions are matched through the lexicon's English forms. */
 function canonQuestion(question) {
   const ex = expandQuery(question);
-  return ex.lang === 'en' || !ex.added.length ? question : 'your ' + ex.added.join(' ');
+  if (ex.lang === 'en' || !ex.added.length) return question;
+  // keep names written in Latin script ("Koode యాప్ ఏమిటి?")
+  const latin = String(question).match(/[A-Za-z][A-Za-z.]*(?:\s+[A-Z][A-Za-z.]*)*/g) || [];
+  // "നിങ്ങൾ ആരാണ്?" / "आप कौन हैं?": nothing but "you" and "who" means "Who are you?"
+  if (!latin.length && ex.added.includes('who is') && ex.added.every(w => /^(you|your|who is|what is)$/.test(w))) return 'Who are you?';
+  return 'your ' + [...ex.added, ...latin].join(' ');
 }
 
 // Proper names the corpus uses ("Tabo", "Manali", "Qualizeal"): capitalised
@@ -69,7 +74,10 @@ function weakRetrieval(question, result, bm25, chunks) {
   const aboutHim = /\b(you|your|yours|yourself|u|ur|prashobh|paul|he|his|him|himself)\b/i.test(question);
   if (!aboutHim && (/^\s*who\b/i.test(question) || (result.summary && result.summary.coverage < 0.67))) return true;
   // Not about him and naming nothing of his ("What is the meaning of life?"): not his to answer.
-  if (!aboutHim && chunks && expandQuery(question).lang === 'en') {
+  // Naming nothing in the corpus ("What is the meaning of life?", "What car do
+  // you drive?"): the words occur in my READMEs and notes, but not as an answer.
+  // Personal questions are answered by the curated layer or not at all.
+  if (chunks && expandQuery(question).lang === 'en') {
     const names = corpusNames(chunks);
     if (!tokenize(question).some(w => names.has(w))) return true;
   }
@@ -79,7 +87,104 @@ function weakRetrieval(question, result, bm25, chunks) {
 }
 
 // Personal data that is private by design: said plainly, never guessed at.
-const PRIVATE = /\b((home|house|residential|postal|street) address|salary|ctc|income|net worth|bank account|account number|password|aadhaa?r|pan (number|card)|passport number|blood group|religion|caste|political party)\b/i;
+const PRIVATE = /\b((home|house|residential|postal|street) address|salary|ctc|income|net worth|bank account|bank details|bank info|card details|credit card|debit card|upi id|account number|password|aadhaa?r|pan (number|card)|passport number|blood group|religion|caste|political party)\b/i;
+
+// "Show me your Python code", "How did you write the Koode tracking?": a real
+// excerpt from his public repositories, with a permalink to the lines.
+const CODE_Q = /\b(code|coding|source code|snippet|implementation|implemented|py file|python file|script|function|github code|show me how you (built|wrote|implemented))\b/i;
+const LANG_Q = { python: /\bpython\b/i, kotlin: /\bkotlin\b|\bandroid code\b/i, typescript: /\btypescript\b|\breact\b/i, javascript: /\bjavascript\b|\bjs\b/i };
+const sq = (t) => String(t).toLowerCase().replace(/[^a-z0-9]/g, '');
+export function pickCode(question, chunks, project = '') {
+  if (!CODE_Q.test(question) || isImperativeTask(question)) return null;   // "Write me a function" is an errand
+  const q = sq(question), words = new Set(tokenize(question));
+  let best = null, bestScore = 0;
+  for (const c of chunks) {
+    const m = c.meta || {};
+    if (m.record_type !== 'code') continue;
+    let sc = 0;
+    if (project && sq(m.project) === sq(project)) sc += 4;
+    else if (project) continue;
+    if (sq(m.repository).length > 3 && q.includes(sq(m.repository))) sc += 4;
+    if (sq(m.project).length > 3 && q.includes(sq(m.project))) sc += 4;
+    if (LANG_Q[m.language] && LANG_Q[m.language].test(question)) sc += 3;
+    const repoWords = tokenize(String(m.repository || '').replace(/([a-z])([A-Z])/g, '$1 $2').replace(/[_-]/g, ' '));
+    for (const w of repoWords) if (w.length > 3 && words.has(w)) sc += 2;
+    const near = (a, b) => a === b || (a.length >= 5 && b.length >= 5 && a.slice(0, 5) === b.slice(0, 5));
+    for (const t of [...(m.symbols || []), ...String(m.path || '').split(/[\/._-]/)])
+      for (const w of tokenize(t.replace(/([a-z])([A-Z])/g, '$1 $2'))) if (w.length > 3 && [...words].some(q => near(q, w))) sc += 1;
+    if (/agent|pipeline|engine|scorer|graph|index/i.test(m.path || '')) sc += 0.5;
+    if (sc > bestScore) { bestScore = sc; best = c; }
+  }
+  if (!best || bestScore < 3) return null;
+  const m = best.meta;
+  return { repo: m.repository, path: m.path, url: best.url, language: m.language, excerpt: String(m.excerpt || '').split('\n').slice(0, 40).join('\n'), chunk: best };
+}
+
+// ---------------------------------------------------------------------------
+// Catalogue lookup: "Do you have a video about Peace at 14,000 ft?", "What is your
+// TripWise project on GitHub?" — the visitor names one item; answer with exactly it.
+// ---------------------------------------------------------------------------
+const MEDIA_Q = /\b(videos?|vlogs?|shorts?|clips?|watch|youtube|repos?|repository|github|project)\b/i;
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const when = (iso) => { const [y, m] = String(iso || '').split('-'); return y && m ? `${MONTHS[Number(m) - 1]} ${y}` : (y || ''); };
+const titleWords = (t) => tokenize(String(t).replace(/([a-z])([A-Z])/g, '$1 $2').replace(/[_-]/g, ' ')).filter(w => w.length > 1);
+export function lookupTitle(question, chunks) {
+  if (!MEDIA_Q.test(question)) return null;
+  const qw = new Set(titleWords(question)), q = sq(question);
+  let best = null, bestScore = 0;
+  const hits = [];
+  for (const c of chunks) {
+    const m = c.meta || {};
+    if (m.record_type !== 'video' && m.record_type !== 'repository') continue;
+    const name = m.record_type === 'video' ? (c.document_name || '') : String(c.document_name || '').replace(/^GitHub · /, '');
+    // Score against the whole title and its main part ("Peace at 14,000 ft | Chandratal | Spiti").
+    const segs = [name, ...String(name).split(/\s*(?:\|\|?|#|•|—|–|:| - )\s*/)].filter(x => titleWords(x).length);
+    let score = 0, tw = [];
+    for (const [k, sg] of segs.entries()) {
+      const w = [...new Set(titleWords(sg))];
+      // the whole title outranks a part of it, so near-identical titles stay apart
+      const sc = (w.filter(x => qw.has(x)).length / w.length) * (k === 0 ? 1 : 0.9) + (k === 0 ? 0.001 * w.length : 0);
+      if (sc > score || (sc === score && w.length > tw.length)) { score = sc; tw = w; }
+    }
+    if (!tw.length) continue;
+    if (m.record_type === 'repository' && sq(name).length >= 4 && q.includes(sq(name))) score = Math.max(score, 1);
+    if (tw.length < 2 && m.record_type === 'video') score *= 0.6;          // one-word titles are too easy to hit
+    if (m.record_type === 'video' && score >= 0.75) hits.push(c);
+    if (score > bestScore || (score === bestScore && best && (m.views || 0) > ((best.meta || {}).views || 0))) { bestScore = score; best = c; }
+  }
+  if (!best || bestScore < 0.75) return null;
+  // "Which videos cover Tabo Monastery?": every matching video, most watched first.
+  if (/\b(videos|vlogs|shorts|clips)\b/i.test(question)) {
+    // every video whose title carries all the topic words asked about
+    const topic = titleWords(question).filter(w => !/^(which|what|videos?|vlogs?|shorts?|clips?|cover|covers|about|on|of|have|you|your|do|any|made|show|me|list|all|the|is|are)$/.test(w));
+    if (topic.length) for (const c of chunks) {
+      const m = c.meta || {};
+      if (m.record_type === 'video' && !hits.includes(c) && topic.every(w => titleWords(c.document_name || '').includes(w))) hits.push(c);
+    }
+  }
+  if (/\b(videos|vlogs|shorts|clips)\b/i.test(question) && hits.length >= 2) {
+    const list = hits.sort((a, b) => ((b.meta || {}).views || 0) - ((a.meta || {}).views || 0)).slice(0, 6);
+    const names = list.map(c => `“${c.document_name.replace(/\s+/g, ' ').trim()}”`);
+    const text = `I have ${list.length === hits.length ? list.length : `${hits.length}, here are the top ${list.length}`} videos on that on The Canvas of Earth: `
+      + `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}. Each one plays right here.`;
+    return { kind: 'videos', chunk: list[0], chunks: list, text };
+  }
+  const m = best.meta || {};
+  if (m.record_type === 'video') {
+    const where = (m.places || []).filter(Boolean).slice(0, 2).join(', ');
+    const text = `Yes. “${best.document_name.replace(/\s+/g, ' ').trim()}” is on my channel, The Canvas of Earth`
+      + `${m.format === 'short' ? ', as a short' : ''}${where ? `, filmed in ${where}` : ''}`
+      + `${m.published ? `, published in ${when(m.published)}` : ''}${m.views ? `, with ${Number(m.views).toLocaleString('en-IN')} views` : ''}. It plays right here.`;
+    return { kind: 'video', chunk: best, text };
+  }
+  const repo = String(best.document_name || '').replace(/^GitHub · /, '');
+  const readme = chunks.find(c => (c.meta || {}).record_type === 'readme_section' && (c.meta || {}).repository === repo);
+  const lead = readme ? String(readme.text).replace(/^[^.]*?—\s*[^.]*\.\s*/, '').split(/(?<=[.!?])\s/).slice(0, 2).join(' ') : '';
+  const lang = m.language ? `, written mainly in ${m.language}` : '';
+  const upd = m.pushed ? `, last updated in ${when(m.pushed)}` : '';
+  const text = `${repo} is one of my public GitHub repositories${lang}${upd}.` + (lead ? ` ${lead}` : (m.description ? ` ${m.description}.` : ''));
+  return { kind: 'repository', chunk: best, text: text.replace(/\.\./g, '.') };
+}
 
 export function answerQuestion(asked, ctx) {
   const { index, bm25, chunks } = ctx;
@@ -117,9 +222,39 @@ export function answerQuestion(asked, ctx) {
   const byVector = (!decline && !lexical && ctx.qvec) ? matchCanonByVector(ctx.qvec, ctx.vectors || undefined, { threshold: 0.6, margin: 0.04 }) : null;
   const vEntry = byVector ? index.canon.find(e => e.id === byVector.id) : null;
   const canonMatch = lexical || (vEntry ? { entry: vEntry, score: byVector.score, via: 'embedding' } : null);
-  if (canonMatch) {
-    result = applyCanon(result, canonMatch, chunks);
+  const code = pickCode(question, chunks, canonMatch ? (canonMatch.entry.project || '') : '');
+  // A named item wins when the visitor asks for the video or the repo itself; a
+  // project with a curated answer keeps it otherwise.
+  const explicit = /\b(videos?|vlogs?|shorts?|clips?|watch|github|repos?|repository)\b/i.test(question);
+  const item = decline || (canonMatch && !explicit) ? null : lookupTitle(question, chunks);
+  if (item) {
+    const idxOf = chunks.indexOf(item.chunk);
+    const cite = { num: 1, chunkIdx: idxOf, chunk: item.chunk, score: 1, confidence: 1, why: item.chunk.document_name };
+    result = { ...result,
+      answerHtml: `<p class="answer-body answer-canon">${esc(item.text)} <sup class="cite-ref" data-cite="1">[1]</sup></p>`
+        + (item.kind === 'repository' ? `<div class="showcase"><div class="sc-cta"><a class="sc-btn sc-primary" href="${esc(item.chunk.url)}" target="_blank" rel="noopener">View ${esc(item.chunk.document_name.replace(/^GitHub · /, ''))} on GitHub</a></div></div>` : ''),
+      citations: item.chunks
+        ? item.chunks.map((ch, i) => ({ num: i + 1, chunkIdx: chunks.indexOf(ch), chunk: ch, score: 1, confidence: 1, why: ch.document_name }))
+        : [cite, ...(result.citations || []).filter(c => c.chunkIdx !== idxOf).slice(0, 2).map((c, i) => ({ ...c, num: i + 2 }))],
+      summary: { ...(result.summary || {}), sentences: [{ text: item.text, display: item.text, chunkIdx: idxOf, chunk: item.chunk, final: 1, position: 0, tokens: new Set(), signals: {} }] },
+      canon: { id: 'catalogue', answer: item.text, sentences: [item.text], evidence: [] },
+      lowConfidence: false, verdict: null, catalogue: item.kind };
     result.related = relatedItems({ citations: result.citations, ranked: [], analysis: result.analysis, index: { chunks }, weak: false });
+    return { ...result, answerLang: (result.canon && result.canon.lang) || 'en', resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: { id: 'catalogue', score: 1, via: item.kind }, code: null };
+  }
+  // Answer language: the script the question was written in, else the visitor's chosen language.
+  const scriptLang = expandQuery(asked).lang;
+  const answerLang = scriptLang !== 'en' ? scriptLang : (ctx.answerLang || 'en');
+  if (canonMatch) {
+    result = applyCanon(result, { ...canonMatch, lang: answerLang }, chunks, index.showcase || {});
+    if (code && !(result.answerHtml || '').includes(code.url)) result.answerHtml = result.answerHtml.replace('<p class="answer-closing">Curated answer.', codeCardHtml(code, true) + '<p class="answer-closing">Curated answer.');
+    result.related = relatedItems({ citations: result.citations, ranked: [], analysis: result.analysis, index: { chunks }, weak: false });
+  } else if (code) {
+    // A developer question with no curated answer: the code itself is the answer.
+    result = { ...result, answerHtml: `<p class="answer-opener">Here is how I wrote it, straight from my GitHub:</p>` + codeCardHtml(code, true),
+      citations: [{ num: 1, chunkIdx: chunks.indexOf(code.chunk), chunk: code.chunk, score: 1, confidence: 1, why: `${code.repo}/${code.path}` }],
+      summary: { ...(result.summary || {}), sentences: [{ text: `Here is how I wrote it, in ${code.repo}.`, display: `Here is how I wrote it, in ${code.repo}.`, chunkIdx: chunks.indexOf(code.chunk), chunk: code.chunk, final: 1, position: 0, tokens: new Set(), signals: {} }] },
+      lowConfidence: false, verdict: null, codeAnswer: true };
   } else if (result.lowConfidence || decline === 'dangling' || weakRetrieval(question, result, bm25, chunks)) {
     const near = suggestCanon(question, index.canon, 3);
     result = { ...result,
@@ -129,5 +264,5 @@ export function answerQuestion(asked, ctx) {
       citations: result.citations.slice(0, 1), noAnswer: true, related: [],
       summary: { ...(result.summary || {}), sentences: [] } };
   }
-  return { ...result, resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: canonMatch ? { id: canonMatch.entry.id, score: canonMatch.score, via: canonMatch.via || 'lexical' } : null };
+  return { ...result, answerLang: (result.canon && result.canon.lang) || 'en', resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: canonMatch ? { id: canonMatch.entry.id, score: canonMatch.score, via: canonMatch.via || 'lexical' } : (result.codeAnswer ? { id: 'code', score: 1, via: 'code' } : null), code: code ? { repo: code.repo, path: code.path, url: code.url } : null };
 }

@@ -133,7 +133,7 @@ const normQ = (s) => ' ' + String(s).toLowerCase().replace(/[’']/g, '').replac
 const ABOUT_HIM = /\b(you|your|yours|yourself|u|ur|prashobh|paul|he|his|him|himself)\b/i;
 const IMPERATIVE = /^\s*(please\s+)?(write|generate|create|compose|translate|calculate|solve|draw|code|summari[sz]e|make me|give me a)\b/i;
 // Errands asked of the twin itself ("Can you book me a flight?"): a task, never a question about him.
-const TASK = /^\s*(please\s+)?((can|could|will|would)\s+(you|u)\s+(please\s+)?)?(book|order|buy|reserve|schedule|remind|call me|email me|text me|play|translate|calculate|solve|generate|compose|summari[sz]e|write|draft|proofread|review my|edit my|fix my|draw me|tell me a joke|sing)\b/i;
+const TASK = /^\s*(please\s+)?((can|could|will|would)\s+(you|u)\s+(please\s+)?)?(book|order|buy|reserve|schedule|remind|send me|send|call me|email me|text me|play|translate|calculate|solve|generate|compose|summari[sz]e|write|draft|proofread|review my|edit my|fix my|draw me|tell me a joke|sing)\b/i;
 const COMPARE = /\b(compare|comparison|compared|versus|vs|difference|differences|differ|different|similar|similarities|better than|which is better)\b/i;
 const VIDEO_LIST = /\b(which|what|list|show|find|any)\b.*\b(videos?|vlogs?|episodes?)\b/i;
 
@@ -205,7 +205,12 @@ function scoreAll(question, canon) {
   }).sort((a, b) => (b.score - a.score) || (b.s - a.s));
 }
 
-const normV = (s) => String(s).toLowerCase().replace(/[’']/g, '').replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\b(prashobh paul|prashobh|paul)\b/g, ' ').replace(/\s+/g, ' ').trim();
+// Exact-match form: punctuation-free, and the same whether asked of "you" or "Prashobh".
+const normV = (s) => String(s).toLowerCase().replace(/[’']/g, '')
+  .replace(/\bprashobh paul\b/g, 'prashobh').replace(/\bprashobhs\b/g, 'your')
+  .replace(/\b(does|is|has|was) prashobh\b/g, (m, v) => ({ does: 'do', is: 'are', has: 'have', was: 'were' }[v]) + ' you')
+  .replace(/\bprashobh\b/g, 'you').replace(/\bhis\b/g, 'your').replace(/\b(he|him)\b/g, 'you')
+  .replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
 
 /** One question → its best canon entry, or null. */
 function matchOne(question, canon, threshold) {
@@ -408,9 +413,17 @@ export function isImperativeTask(question) { question = casual(question); return
 const GREET = /^(hi+|hello|helo|hey|namaste|namaskar|good (morning|afternoon|evening)|greetings|yo)\b[\s,!.]*((prashobh|paul|sir|there|buddy|friend|all|everyone)\b[\s,!.]*)?/i;
 const INTRO = /^(i am|i'm|im|my name is|this is)\s+[^.?!]{1,60}[.!]\s*/i;
 /** The question itself, without "Hi, I'm Rahul." in front of it. */
+// Conversational wrappers around the real question ("Quick question:", "Can you tell me…").
+const PREAMBLE = /^(quick question|just curious|curious|one more (thing|question)|by the way|btw|also|ok(ay)?|so|well|and|i was wondering|question)\b[\s,:;!.-]+/i;
+const ASK = /^((can|could|would|will) (you|u) (please )?(tell|let) me( know)?|please tell me|tell me,|i (want|wanted|would like|'d like|wish) to know|i('m| am) curious( to know)?|do you mind telling me)\b[\s,:]*/i;
 export function focus(question) {
   let t = String(question).trim();
-  for (let k = 0; k < 3; k++) { const b = t; t = t.replace(GREET, '').replace(INTRO, '').trim(); if (t === b) break; }
+  for (let k = 0; k < 4; k++) {
+    const b = t;
+    t = t.replace(GREET, '').replace(INTRO, '').replace(PREAMBLE, '').replace(ASK, '').trim();
+    if (t === b) break;
+  }
+  t = t.replace(/\.\s*\?$/, '?');
   return t || String(question).trim();
 }
 const SMALL = [
@@ -503,11 +516,45 @@ export function splitSentences(text) {
 
 const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+/** A code excerpt as a collapsible card, with a permalink to the exact lines. */
+export function codeCardHtml(c, open = false) {
+  const lines = (c.url.match(/#L(\d+)-L(\d+)/) || []).slice(1);
+  return `<details class="sc-code"${open ? ' open' : ''}><summary>From the code · <span class="sc-path">${esc(c.repo)}/${esc(c.path)}</span></summary>`
+    + `<pre><code class="lang-${esc(c.language)}">${esc(c.excerpt)}</code></pre>`
+    + `<a class="sc-code-link" href="${esc(c.url)}" target="_blank" rel="noopener">Open on GitHub${lines.length ? `, lines ${lines[0]}–${lines[1]}` : ''} ↗</a></details>`;
+}
+
+/**
+ * Proof you can touch, under a curated answer: try or download the app, see how
+ * it works (a workflow diagram, real screens), read the code, read the post.
+ */
+export function showcaseHtml(entries, showcase = {}) {
+  const blocks = [];
+  for (const e of entries) {
+    const sc = e.project ? showcase[e.project] : null;
+    const btns = [];
+    if (sc) {
+      for (const l of sc.links || []) {
+        if (l.kind === 'download') btns.push(`<a class="sc-btn sc-primary" href="${esc(l.url)}" target="_blank" rel="noopener">⬇ Download ${esc(e.project)} for Android</a>`);
+        else if (l.kind === 'live') btns.push(`<a class="sc-btn sc-primary" href="${esc(l.url)}" target="_blank" rel="noopener">▶ Try ${esc(e.project)} now</a>`);
+      }
+      if (sc.source) btns.push(`<a class="sc-btn" href="${esc(sc.source)}" target="_blank" rel="noopener">View the source on GitHub</a>`);
+    }
+    for (const l of e.links || []) btns.push(`<a class="sc-btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`);
+    let html = btns.length ? `<div class="sc-cta">${btns.join('')}</div>` : '';
+    if (sc && sc.diagram) html += `<figure class="sc-figure"><img src="${esc(sc.diagram)}" loading="lazy" alt="How ${esc(e.project)} works"><figcaption>How ${esc(e.project)} works</figcaption></figure>`;
+    if (sc && (sc.images || []).length) html += `<div class="sc-shots">${sc.images.map(i => `<a href="${esc(i.url)}" target="_blank" rel="noopener"><img src="${esc(i.url)}" loading="lazy" alt="${esc(e.project)}: ${esc(i.path.split('/').pop())}"></a>`).join('')}</div>`;
+    if (sc && (sc.code || []).length) html += codeCardHtml(sc.code[0]);
+    if (html) blocks.push(`<div class="showcase" data-project="${esc(e.project || e.id)}">${html}</div>`);
+  }
+  return blocks.join('');
+}
+
 /**
  * Replace a retrieval result's answer with the canon answer, cited by its proof
  * records. The retrieval citations are kept after the proofs as corroboration.
  */
-export function applyCanon(result, match, chunks) {
+export function applyCanon(result, match, chunks, showcase = {}) {
   const { entry } = match;
   const parts = entry.parts || [entry];
   const citations = [];
@@ -526,18 +573,28 @@ export function applyCanon(result, match, chunks) {
   for (const c of (result.citations || []).slice(0, 3)) addCite(c.chunkIdx, '');
   const sentences = splitSentences(entry.answer);
   const refHtml = (cs) => cs.map(c => `<sup class="cite-ref" data-cite="${c.num}" title="${esc(c.why)}">[${c.num}]</sup>`).join('');
-  const body = parts.map((e, i) => `<p class="answer-body answer-canon">${esc(e.answer)} ${refHtml(partRefs[i])}</p>`).join('');
+  // In the visitor's language when a curated translation exists; the English
+  // original, the source of record, stays one tap away.
+  const lang = match.lang && match.lang !== 'en' ? match.lang : null;
+  const tr = (e) => (lang && e.i18n && e.i18n[lang]) || null;
+  const translated = lang && parts.every(tr);
+  const body = parts.map((e, i) => translated
+    ? `<p class="answer-body answer-canon" lang="${esc(lang)}">${esc(tr(e))} ${refHtml(partRefs[i])}</p>`
+    : `<p class="answer-body answer-canon">${esc(e.answer)} ${refHtml(partRefs[i])}</p>`).join('')
+    + (translated ? `<details class="answer-original"><summary>My original answer, in English</summary>${parts.map(e => `<p>${esc(e.answer)}</p>`).join('')}</details>` : '');
   const missed = (match.missed || []).length
     ? `<p class="answer-closing">${match.missed.map(q => `“${esc(q)}”`).join(', ')}: nothing on record, so I will not guess.</p>` : '';
   const html =
     `<p class="answer-opener">${match.compare ? 'Side by side, in Prashobh\'s own words:' : 'In Prashobh\'s own words:'}</p>` +
-    body + missed +
+    body + missed + showcaseHtml(parts, showcase) +
     `<p class="answer-closing">Curated answer. Each proof below is a record from the website, resume, GitHub, YouTube or LinkedIn; the fabric's own retrieval is listed after them.</p>`;
   return {
     ...result,
     answerHtml: html,
     citations,
-    canon: { id: entry.id, answer: entry.answer, sentences, evidence: entry.evidence, score: match.score },
+    canon: { id: entry.id, answer: entry.answer, evidence: entry.evidence, score: match.score,
+             sentences: translated ? parts.map(tr).flatMap(t => t.split(/(?<=[.!?।])\s+/)).filter(Boolean) : sentences,
+             lang: translated ? lang : 'en' },
     summary: { ...(result.summary || {}), sentences: sentences.map((s, i) => ({ text: s, display: s, chunkIdx: citations[0] ? citations[0].chunkIdx : 0, chunk: citations[0] ? citations[0].chunk : chunks[0], final: 1, position: i, tokens: new Set(), signals: {} })) },
     lowConfidence: false,
     verdict: null,
