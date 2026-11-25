@@ -24,3 +24,6 @@ factory-dry-*/
 
 # Logs
 *.log
+
+# transcript fetch markers (videos without captions)
+knowledge_sources/youtube/transcripts/*.none

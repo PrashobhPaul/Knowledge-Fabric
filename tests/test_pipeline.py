@@ -305,7 +305,7 @@ def test_curator_resolves_covered_flags_and_proposes_the_rest(tmp_path):
     assert by_id[102]["status"] == "open", by_id[102]["check"]
     proposals = (tmp_path / "flags" / "proposals.md").read_text()
     assert "Flag #102" in proposals and "Flag #101" not in proposals
-    assert "He spoke at an internal Qualizeal AI session" in proposals   # the reporter's fact, verbatim
+    assert "He was a guest on the Qualizeal AI-CoE podcast" in proposals   # the reporter's fact, verbatim
     # second run: a resolved flag that is no longer an open issue stays as a regression check
     result2 = run([flags[1]], out, sem, close=False, out_dir=tmp_path / "flags")
     statuses = {f["id"]: f["status"] for f in result2["ledger"]["flags"]}

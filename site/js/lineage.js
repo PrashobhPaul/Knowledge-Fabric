@@ -70,8 +70,10 @@ const SOURCE_WORD = { document: 'resume', website: 'website', profile: 'profile'
 function renderPage(citation) {
   const c = citation.chunk;
   const sectionPath = c.section_path?.length ? c.section_path.join(' › ') : '(no section)';
+  const m = c.meta || {};
   const where = c.source_type === 'document'
     ? `page ${c.page} · ¶${c.paragraph_indices.join(', ¶')}`
+    : m.t_label ? `YouTube · ▶ ${escapeHtml(m.t_label)}`
     : (SOURCE_WORD[c.source_type] || c.source_type) + ' record';
   const link = c.url
     ? ` · <a class="lineage-link" href="${escapeHtml(c.url)}" target="_blank" rel="noreferrer">open source ↗</a>`

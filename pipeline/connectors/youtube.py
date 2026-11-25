@@ -18,6 +18,20 @@ from .. import ontology
 from .base import KnowledgeRecord, sanitize
 
 HASHTAG_RE = re.compile(r"#(\w+)")
+CHAPTER_RE = re.compile(r"(?m)^\s*(\d{1,2}:\d{2}(?::\d{2})?)\s*(?:[–\-—:|]\s*)?([^\d\s].*?)\s*$")
+CHAPTER_HEAD_RE = re.compile(r"(?mi)^\s*(chapters?|timestamps?|time\s*stamps?)\s*:?\s*$")
+WINDOW_SECONDS = 60          # transcript windows: one citable record per ~minute
+WINDOW_CHARS = 420
+
+
+def _secs(stamp: str) -> int:
+    parts = [int(p) for p in stamp.split(":")]
+    return parts[0] * 3600 + parts[1] * 60 + parts[2] if len(parts) == 3 else parts[0] * 60 + parts[1]
+
+
+def _stamp(sec: int) -> str:
+    return f"{sec // 3600}:{(sec % 3600) // 60:02d}:{sec % 60:02d}" if sec >= 3600 else f"{sec // 60}:{sec % 60:02d}"
+
 URL_RE = re.compile(r"https?://\S+")
 DETECT_KINDS = ("Place", "Topic", "Event", "Person", "Organization", "Domain", "Technology")
 
@@ -61,7 +75,9 @@ def _views(n) -> str:
 
 def _clean_desc(desc: str) -> tuple[str, list[str]]:
     tags = [t.lower() for t in HASHTAG_RE.findall(desc or "")]
-    text = HASHTAG_RE.sub("", desc or "")
+    # Chapter lists become their own timestamped records; in prose they are noise.
+    text = CHAPTER_HEAD_RE.sub("", CHAPTER_RE.sub("", desc or ""))
+    text = HASHTAG_RE.sub("", text)
     text = URL_RE.sub("", text)
     text = re.sub(r"[\U0001F300-\U0001FAFF☀-➿]", " ", text)   # emoji
     text = sanitize(text.replace("\n", " "))
@@ -155,6 +171,80 @@ class YouTubeConnector:
                           "thumbnail": v.get("thumbnail")},
                 entities=ents)
 
+    # ------------------------------------------------------------ chapters & transcripts
+    def _transcript(self, vid: str) -> dict | None:
+        p = self.root / "transcripts" / f"{vid}.json"
+        if not p.exists():
+            return None
+        try:
+            data = json.loads(p.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            return None
+        return data if data.get("language", "en").startswith("en") and data.get("segments") else None
+
+    def _video_depth(self, v: dict) -> Iterator[KnowledgeRecord]:
+        """Chapters (from the description) and transcript windows — each a citable
+        record whose URL opens the video at that second. This is what lets an
+        answer say 'at 1:36 he describes seeing Satya Nadella in person' and
+        link straight to it."""
+        title = sanitize(HASHTAG_RE.sub("", v.get("title", "")).rstrip(" |-"))
+        vid = v["id"]
+        _, year = _date(v.get("publishedAt", ""))
+        base = v.get("url") or f"https://www.youtube.com/watch?v={vid}"
+        doc = title[:90]
+        common = {"document_name": doc, "domain": "YouTube", "video_id": vid, "year": year,
+                  "published": v.get("publishedAt", ""), "video_title": title, "thumbnail": v.get("thumbnail")}
+        chapters = [(_secs(t), sanitize(name)) for t, name in CHAPTER_RE.findall(v.get("description") or "")]
+        transcript = self._transcript(vid)
+        segs = (transcript or {}).get("segments", [])
+
+        def text_between(a: int, b: int | None) -> str:
+            return " ".join(s["text"] for s in segs if s["t"] >= a and (b is None or s["t"] < b))
+
+        if chapters:
+            for i, (t, name) in enumerate(chapters):
+                nxt = chapters[i + 1][0] if i + 1 < len(chapters) else None
+                spoken = text_between(t, nxt)[:WINDOW_CHARS * 2]
+                text = (f"At {_stamp(t)} in the video '{title}', the chapter '{name}' begins. "
+                        f"{spoken}").strip()
+                yield KnowledgeRecord(
+                    source_type=self.source_type, source_system=self.name, source_id=f"chapter:{vid}:{t}",
+                    title=f"{title} — {name}", text=text,
+                    section_path=["YouTube", self.channel_title, title[:60], "Chapters"],
+                    url=f"{base}&t={t}s",
+                    metadata={**common, "record_type": "chapter", "t": t, "t_label": _stamp(t), "chapter": name,
+                              "place": "", "topic": ""},
+                    entities=[("Person", ontology.PERSON), ("Video", title[:80])]
+                             + ontology.detect(f"{name} {spoken}", DETECT_KINDS))
+        if segs and not chapters:
+            # No chapters: window the transcript by time and size.
+            window: list[dict] = []
+            start = segs[0]["t"]
+            for s in segs + [None]:
+                flush = s is None or (s["t"] - start >= WINDOW_SECONDS and sum(len(w["text"]) for w in window) >= 120) \
+                        or sum(len(w["text"]) for w in window) >= WINDOW_CHARS
+                if flush and window:
+                    spoken = " ".join(w["text"] for w in window)
+                    text = f"At {_stamp(start)} in the video '{title}', {ontology.PERSON} says: {spoken}"
+                    yield KnowledgeRecord(
+                        source_type=self.source_type, source_system=self.name, source_id=f"transcript:{vid}:{start}",
+                        title=f"{title} @ {_stamp(start)}", text=text,
+                        section_path=["YouTube", self.channel_title, title[:60], "Transcript"],
+                        url=f"{base}&t={start}s",
+                        metadata={**common, "record_type": "transcript", "t": start, "t_label": _stamp(start),
+                                  "place": "", "topic": ""},
+                        entities=[("Person", ontology.PERSON), ("Video", title[:80])]
+                                 + ontology.detect(spoken, DETECT_KINDS))
+                    window = []
+                    if s is not None:
+                        start = s["t"]
+                if s is not None:
+                    window.append(s)
+
     def fetch(self) -> Iterator[KnowledgeRecord]:
         yield from self._channel()
+        for v in self.videos:
+            if not v.get("id"):
+                continue
+            yield from self._video_depth(v)
         yield from self._videos()

@@ -9,3 +9,4 @@ scikit-learn>=1.4
 # Factory (sync-time) + shared
 pyyaml>=6.0
 requests>=2.31
+youtube-transcript-api>=1.0

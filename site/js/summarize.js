@@ -84,7 +84,13 @@ function sentencesOf(chunk) {
 // ---------------------------------------------------------------------------
 // Relevance scoring — six signals, each independently defensible
 // ---------------------------------------------------------------------------
-function scoreSentence(sent, ctx) {
+// Records that are read as a whole once their opening line answers: the role
+// line is followed by its duties, the project line by what it does. Those
+// continuation sentences share no words with the question — by design, they
+// are the detail the question's words could not name.
+const WHOLE_RECORD_TYPES = new Set(['role', 'engagement', 'project', 'career_project', 'event', 'repository', 'post', 'video']);
+
+function scoreSentence(sent, ctx, opts = {}) {
   const { queryTokens, idf, intent, focus, semantic } = ctx;
   const sTokens = tokenSet(sent.text);
   if (!sTokens.size) return null;
@@ -137,7 +143,9 @@ function scoreSentence(sent, ctx) {
   // different question.
   let focusHit = 0;
   let focusConflict = 1.0;
-  if (focus.length) {
+  if (opts.rescueFocus) {
+    focusHit = 1;                       // its record's opening line named the focus
+  } else if (focus.length) {
     const low = sent.text.toLowerCase();
     focusHit = focus.some(f => focusMatches(low, f)) ? 1 : 0;
     // The question named something; a sentence that never mentions it is
@@ -161,13 +169,16 @@ function scoreSentence(sent, ctx) {
   //    statement more often than the tail does.
   const position = 1 - Math.min(1, sent.position / Math.max(sent.total, 1)) * 0.35;
 
-  if (coverage === 0 && semSim < 0.2 && cueScore === 0) return null;
+  if (coverage === 0 && semSim < 0.2 && cueScore === 0 && !opts.rescueCoverage) return null;
+  // A rescued continuation inherits part of its record's lead-line coverage.
+  const coverageEff = Math.max(coverage, opts.rescueCoverage || 0);
 
   let metaPenalty = 1.0;
   if (META_SITE_RE.test(sent.text)) metaPenalty = 0.55;
+  if (sent.text.length > 380) metaPenalty *= 0.6;   // a list dump, not a statement
 
   const relevance = metaPenalty * focusConflict * (
-      0.26 * coverage +
+      0.26 * coverageEff +
       0.22 * semSim +
       0.18 * cue +
       0.16 * focusHit +
@@ -179,6 +190,7 @@ function scoreSentence(sent, ctx) {
     tokens: sTokens,
     relevance,
     signals: {
+      rescued: !!opts.rescueCoverage,
       coverage: +coverage.toFixed(3),
       semantic: +semSim.toFixed(3),
       cue: +cue.toFixed(3),
@@ -230,6 +242,10 @@ function isMetaNavigational(text) {
  */
 export function summarise(query, ranked, chunks, opts = {}) {
   const { analysis, semantic, bm25, maxSentences = MAX_SENTENCES } = opts;
+  const scope = analysis.scope || null;
+  // A scoped question ("currently") wants ONE record read in full, not five
+  // records skimmed. Fewer, deeper sentences.
+  const cohesive = !analysis.wantsList;
   const intent = analysis.intent;
   const queryTokens = analysis.terms;
   const focus = analysis.focus;
@@ -251,9 +267,10 @@ export function summarise(query, ranked, chunks, opts = {}) {
   for (const r of ranked.slice(0, 20)) {
     const chunk = chunks[r.chunkIdx];
     if (!chunk) continue;
-    const prior = evidencePrior(chunk, intent);
-    if (prior < 0.12) { rejected++; continue; }   // routed out by intent
+    const prior = evidencePrior(chunk, intent, scope);
+    if (prior < 0.12) { rejected++; continue; }   // routed out by intent or scope
 
+    const admitted = [];
     for (const sent of sentencesOf(chunk)) {
       if (sent.text.length < MIN_SENTENCE_CHARS) continue;
       const tablesOk = TABLE_ADMITTING_INTENTS.has(intent.name);
@@ -262,10 +279,29 @@ export function summarise(query, ranked, chunks, opts = {}) {
       if (isDanglingLeadIn(sent.text)) { rejected++; continue; }
       if (/\?\s*$/.test(sent.text)) { rejected++; continue; }   // a question is never an answer
       if (isMetaNavigational(sent.text)) { rejected++; continue; }
+      admitted.push({ sent, scored: scoreSentence(sent, ctx) });
+    }
 
-      const scored = scoreSentence(sent, ctx);
+    // Whole-record reading: when a record's opening line answers the question
+    // well, its continuation sentences are admitted too (list questions excepted —
+    // they want breadth across records, not depth in one).
+    const rt = (chunk.meta && chunk.meta.record_type) || '';
+    if (cohesive && WHOLE_RECORD_TYPES.has(rt)) {
+      const lead = admitted.find(x => x.scored && x.sent.position === 0);
+      if (lead && lead.scored.signals.coverage >= 0.5) {
+        // Every continuation sentence is re-read as part of the record: it
+        // inherits the lead's focus (the record IS about the thing asked) and,
+        // if it has no query words of its own, a share of the lead's coverage.
+        for (const x of admitted) {
+          if (x === lead) continue;
+          x.scored = scoreSentence(x.sent, ctx, { rescueCoverage: lead.scored.signals.coverage * 0.6,
+                                                  rescueFocus: !!lead.scored.signals.focus });
+        }
+      }
+    }
+
+    for (const { scored } of admitted) {
       if (!scored) continue;
-
       candidates.push({
         ...scored,
         chunkIdx: r.chunkIdx,
@@ -302,14 +338,32 @@ export function summarise(query, ranked, chunks, opts = {}) {
   while (selected.length < maxSentences && pool.length) {
     let bestIdx = -1, bestScore = -Infinity;
 
+    // Cross-source availability: a fabric answer should not be one record read
+    // five sentences deep while a strong second source (the GitHub side of a
+    // website project, the resume behind a profile line) waits unused. Once
+    // the lead record has had three sentences, it yields to such a source.
+    const leadIdx = selected.length ? selected[0].chunkIdx : -1;
+    const fromLead = selected.filter(s => s.chunkIdx === leadIdx).length;
+    const leadSource = selected.length ? selected[0].chunk.source_type : null;
+    const crossReady = fromLead >= 3 && pool.some(c => c.chunk.source_type !== leadSource && c.final >= 0.6 * best);
+
     for (let i = 0; i < pool.length; i++) {
       const cand = pool[i];
+      if (crossReady && cand.chunkIdx === leadIdx) continue;
       let maxSim = 0;
       for (const chosen of selected) {
         const sim = redundancy(cand.tokens, chosen.tokens);
         if (sim > maxSim) maxSim = sim;
       }
-      const mmr = MMR_LAMBDA * cand.final - (1 - MMR_LAMBDA) * maxSim;
+      // Record cohesion: once a record is answering, its next sentences
+      // (responsibilities after the role line) outrank a different record's
+      // opening line — unless the question asked for a list across records.
+      // The boost lasts for three sentences of the lead record; after that,
+      // other records (the GitHub side of a project, a second source) compete
+      // on their own merits — depth first, but never only one voice.
+      const fromLead = selected.length ? selected.filter(s => s.chunkIdx === selected[0].chunkIdx).length : 0;
+      const cohesion = (cohesive && selected.length && selected[0].chunkIdx === cand.chunkIdx && fromLead < 3) ? 1.45 : 1.0;
+      const mmr = MMR_LAMBDA * cand.final * cohesion - (1 - MMR_LAMBDA) * maxSim;
       if (mmr > bestScore) { bestScore = mmr; bestIdx = i; }
     }
     if (bestIdx < 0) break;
@@ -320,7 +374,11 @@ export function summarise(query, ranked, chunks, opts = {}) {
     // it longer and worse — a two-sentence answer beats a five-sentence drift.
     // A question with no content words ("Who is Prashobh?") cannot discriminate
     // by coverage, so the floor is relaxed and the summary records carry it.
-    const floor = queryTokens.length ? 0.4 : 0.2;
+    let floor = queryTokens.length ? 0.4 : 0.2;
+    // The record that opened the answer may continue with sentences that
+    // share none of the question's words (a role line, then its duties).
+    // Those are the detail the reader came for, so the floor drops for them.
+    if (cohesive && selected.length && pick.chunkIdx === selected[0].chunkIdx) floor *= 0.35;
     if (selected.length >= 1 && pick.final < floor * best) break;
     // Hard redundancy floor — a near-paraphrase adds nothing, whatever MMR says.
     const dup = selected.some(s => redundancy(pick.tokens, s.tokens) > 0.62);
@@ -334,11 +392,21 @@ export function summarise(query, ranked, chunks, opts = {}) {
   }
 
   // ---- ordering: group by document, preserve original reading order --------
+  // Documents are ordered by their strongest sentence, so the comparator is a
+  // total order: every sentence of a record stays together, in reading order,
+  // and the discourse markers between them refer to the right record.
+  const docBest = new Map();
+  for (const s of selected) {
+    const d = s.chunk.document_id;
+    docBest.set(d, Math.max(docBest.get(d) ?? -Infinity, s.final));
+  }
   selected.sort((a, b) => {
-    if (a.chunk.document_id !== b.chunk.document_id) {
-      return b.final - a.final;                 // strongest document first
+    const da = a.chunk.document_id, db = b.chunk.document_id;
+    if (da !== db) {
+      const diff = docBest.get(db) - docBest.get(da);   // strongest document first
+      return diff !== 0 ? diff : String(da).localeCompare(String(db));
     }
-    return a.position - b.position;             // then natural order within it
+    return a.position - b.position;                     // then natural order within it
   });
 
   // ---- how much of the question did we actually cover ---------------------
@@ -347,5 +415,5 @@ export function summarise(query, ranked, chunks, opts = {}) {
   const coverage = queryTokens.length ? answered.size / queryTokens.length : 0;
   const facets = new Set(selected.map(s => s.chunk.document_id)).size;
 
-  return { sentences: selected, coverage, facets, rejected, candidateCount: candidates.length };
+  return { sentences: selected, coverage, facets, rejected, candidateCount: candidates.length, candidates };
 }

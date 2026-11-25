@@ -19,6 +19,7 @@ import { BRAND, COPY, applyBrand } from './brand.js?v=9';
 import { explainGraphContribution, renderGraphContribution, graphPurposeCopy }
   from './graphvalue.js?v=9';
 import { recordTrace, allTraces, renderTraces, renderFlagBox, renderGapBoard } from './traces.js?v=1';
+import { renderRelated } from './related.js?v=1';
 
 const INDEX_URL = 'data/index.json';
 
@@ -723,6 +724,12 @@ async function ask(question, opts = {}) {
                        summary: result.summary };
 
   populateAnswerStage(question, answerHtml, citations, ranked, trace, cohesion);
+  const rel = document.getElementById('answer-related');
+  if (rel) {
+    const label = result.verdict && result.verdict.kind !== 'yes' ? 'You may be looking for' : 'Explore';
+    rel.innerHTML = renderRelated(result.related || [], { label });
+    rel.hidden = !(result.related && result.related.length);
+  }
   renderGraphValue(citations, result.analysis);
   // Leave a trace; offer a flag. The seeded demo answer is not a visitor action.
   if (!silent) {

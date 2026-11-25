@@ -18,7 +18,7 @@ const KEY = 'kf.traces.v1';
 const MAX_TRACES = 40;
 const LOW_BAND = 45;
 
-export const FLAG_REPO = 'PrashobhPaul/Knowledge-Fabric';
+export const FLAG_REPO = 'PrashobhPaul/Prashobh_Knowledge_Factory';
 
 function load() {
   try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (_) { return []; }

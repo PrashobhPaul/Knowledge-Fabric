@@ -80,6 +80,14 @@ export const QUESTION_BANK = [
   'What is the Key Monastery video about?',
   'How many subscribers does The Canvas of Earth have?',
 
+  // --- Scoped, yes/no, cross-source, video depth ---
+  'What is Prashobh\u2019s current role and responsibilities?',
+  'Does Prashobh teach AI on YouTube?',
+  'Does Prashobh work on AI-driven SDLC?',
+  'Tell me about the Knowledge Fabric project and its code.',
+  'What does Prashobh say about the history of Key Monastery?',
+  'What did Prashobh see at the Microsoft AI Tour?',
+
   // --- LinkedIn posts & events ---
   'What has Prashobh posted about on LinkedIn?',
   'What does Prashobh say about knowledge factories and ontologies?',

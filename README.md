@@ -104,6 +104,11 @@ the website — the fabric learns it within a week with nobody running anything.
 | Question understanding | 18 intents (career, skills, projects, education, services, contact, posts, events, YouTube, …) with evidence routing |
 | Extractive answers | MMR sentence selection, focus gate, relevance floor — verbatim, cited, never paraphrased |
 | Derived confidence | Weighted geometric mean of 5 measured retrieval signals |
+| Yes/no questions | A verdict first (**Yes / Partly / No**) decided by whether one evidence sentence carries the predicate; a "No" still hands over the nearest material |
+| Scope | "currently / now / today" restricts a career answer to the current role, read in full (role line + responsibilities) — never the whole history |
+| Whole-record reading | Once a record's opening line answers, its continuation sentences are read too (the duties behind a role, what a project does), with a strong second source always allowed in |
+| Cross-source joins | Every answer ends with openable cards: project page ↔ GitHub repository ↔ engagement; a question about a topic reaches the website project *and* its code |
+| Video depth | Chapters parsed from descriptions and transcript windows (60 s) are records of their own, cited with `&t=…s` links so an answer can point into a video at the right second |
 | Knowledge health | Coverage, connectivity, provenance, extraction quality, freshness — each with its formula |
 | Factory ↔ Fabric visibility | Source strip on the site: which systems fed it, how many records, when last synced |
 | Evaluation gate | `eval/gold_set.yaml` — recall / MRR / nDCG per retrieval mode; CI fails on regression |
@@ -287,7 +292,9 @@ pipeline/                     THE FABRIC — indexing
 eval/                         gold set + Recall/MRR/nDCG harness with CI gate
 site/                         static site (GitHub Pages)
   js/nlu.js                     16 intents, focus extraction, evidence routing
-  js/answer.js · summarize.js   MMR extractive summarisation, focus gate, relevance floor
+  js/answer.js · summarize.js   MMR extractive summarisation, focus gate, relevance floor,
+                                whole-record reading, yes/no verdicts
+  js/related.js                 cross-source "explore" cards (project ↔ repo ↔ video@timestamp)
   js/compose.js                 reply framing + discourse markers + cleanup
   js/confidence.js              5-signal derived confidence
   js/graph.js · graphvalue.js   knowledge galaxy + "what the graph contributed"

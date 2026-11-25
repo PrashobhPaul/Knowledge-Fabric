@@ -7,7 +7,7 @@ from pathlib import Path
 
 import requests
 
-USER_AGENT = "knowledge-factory/1.0 (+https://github.com/PrashobhPaul/Knowledge-Fabric)"
+USER_AGENT = "knowledge-factory/1.0 (+https://github.com/PrashobhPaul/Prashobh_Knowledge_Factory)"
 TIMEOUT = 30
 
 

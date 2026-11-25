@@ -118,6 +118,35 @@ def merge(existing: list[dict], fresh: list[dict]) -> list[dict]:
     return out
 
 
+def fetch_transcripts(videos: list[dict], yt_dir: Path, limit: int = 15) -> tuple[int, str]:
+    """Captions via youtube-transcript-api when it is installed; otherwise a note.
+    Only videos without a stored transcript are tried, newest first, capped so a
+    sync never spends more than a few seconds on it. Failures are per-video."""
+    try:
+        from youtube_transcript_api import YouTubeTranscriptApi  # type: ignore
+    except ImportError:
+        return 0, "youtube-transcript-api not installed — transcripts skipped"
+    tdir = yt_dir / "transcripts"
+    tdir.mkdir(parents=True, exist_ok=True)
+    got = 0
+    api = YouTubeTranscriptApi()
+    for v in videos[:60]:
+        vid = v.get("id")
+        if not vid or (tdir / f"{vid}.json").exists() or (tdir / f"{vid}.none").exists():
+            continue
+        if got >= limit:
+            break
+        try:
+            tr = api.fetch(vid, languages=["en", "en-IN", "en-US"])
+            segs = [{"t": int(s.start), "text": " ".join(s.text.split())} for s in tr if s.text.strip()]
+            write_json(tdir / f"{vid}.json", {"videoId": vid, "language": tr.language_code, "source": "youtube-transcript-api",
+                                              "segments": segs})
+            got += 1
+        except Exception as exc:  # noqa: BLE001 — no captions / blocked: remember, don't retry forever
+            (tdir / f"{vid}.none").write_text(f"{type(exc).__name__}: {exc}\n", encoding="utf-8")
+    return got, f"{got} new transcripts"
+
+
 def sync(config: dict, out_dir: Path, repo_root: Path) -> SyncResult:
     res = SyncResult("youtube")
     cfg = config["youtube"]
@@ -137,6 +166,9 @@ def sync(config: dict, out_dir: Path, repo_root: Path) -> SyncResult:
             res.notes.append(f"yt-dlp unavailable: {exc}")
 
     videos = merge(existing, fresh)
+    if cfg.get("transcripts", True):
+        n, note = fetch_transcripts(videos, yt_dir, int(cfg.get("transcript_limit", 15)))
+        res.notes.append(note)
     channel_out = {**channel_prev, **{k: v for k, v in channel.items() if v},
                    "handle": cfg.get("handle", channel_prev.get("handle", "")),
                    "videoCount": len(videos), "last_synced": now_iso()}
