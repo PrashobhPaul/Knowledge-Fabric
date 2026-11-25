@@ -354,3 +354,20 @@ def test_indic_scripts_tokenise_and_tag():
     assert "ജീവിതയാത്ര" in toks and "ప్రయాణం" in toks and "यात्रा" in toks, toks
     assert _lang_of("ജീവിതയാത്ര | The Journey Of Life") == "ml"
     assert _lang_of("ప్రయాణం") == "te" and _lang_of("यात्रा") == "hi" and _lang_of("Spiti Trip") == "en"
+
+
+# =============================================================================
+# Canon — curated answers with evidence that must resolve
+# =============================================================================
+def test_canon_entries_resolve_to_records(tmp_path):
+    from pipeline.build_index import build
+    ks = ROOT / "knowledge_sources"
+    if not (ks / "profile" / "canon.yaml").exists():
+        pytest.skip("canon not present")
+    out, sem = tmp_path / "index.json", tmp_path / "semantic.json"
+    build(ROOT / "docs_source", ks, out, sem)
+    idx = json.loads(out.read_text())
+    assert len(idx["canon"]) >= 25
+    assert idx["canon_unresolved"] == [], idx["canon_unresolved"]
+    kinds = {ev["source"] for e in idx["canon"] for ev in e["evidence"]}
+    assert {"website", "resume", "github", "youtube", "linkedin"} <= kinds

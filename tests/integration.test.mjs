@@ -669,6 +669,45 @@ check('the bundled avatar carries mouth shapes and the voice is baked, never cal
   assert(fs.existsSync(path.join(ROOT, '.github/workflows/voice.yml')), 'voice bake workflow missing');
 });
 
+// =============================================================================
+console.log('\n=== CANON: THE OWNER\'S OWN ANSWERS, EACH WITH PROOF ===');
+const canonMod = await import(path.join(SITE, 'js/canon.js'));
+
+check('the index ships the curated canon and every evidence link resolved to a record', () => {
+  assert(Array.isArray(idx.canon) && idx.canon.length >= 25, `canon has ${idx.canon && idx.canon.length} entries`);
+  assert((idx.canon_unresolved || []).length === 0, `unresolved evidence: ${idx.canon_unresolved}`);
+  for (const e of idx.canon) {
+    assert(e.questions.length && e.answer.length > 80, `${e.id} is thin`);
+    assert(e.evidence.length && e.evidence.every(ev => ev.chunk_ids.length), `${e.id} has evidence without a proof record`);
+  }
+});
+
+check('the major questions land on the canon and are answered in the owner\'s words with proofs from several sources', () => {
+  const cases = [
+    ['Where does Prashobh work currently?', 'current-role', /I work at Qualizeal as an AI Architect/],
+    ['What projects has Prashobh built?', 'projects', /RVonWheelz.*Koode.*Pachaka Lokam.*Invest\.IQ/],
+    ['Do you teach AI?', 'training', /Yes, I do\./],
+    ['Which companies have you worked for?', 'career-history', /Tech Mahindra/],
+    ['What is the Key Monastery video about?', 'key-monastery', /eleventh century/],
+  ];
+  for (const [q, id, re] of cases) {
+    const m = canonMod.matchCanon(q, idx.canon);
+    assert(m && m.entry.id === id, `"${q}" matched ${m && m.entry.id}`);
+    const r = canonMod.applyCanon(ask(q), m, idx.chunks);
+    assert(re.test(r.canon.answer), `${id}: answer text unexpected`);
+    assert(r.citations.length >= 2, `${id}: fewer than two proofs`);
+    assert(/In Prashobh's own words/.test(plain(r)), 'canon answer not framed as the owner\'s words');
+  }
+  const proj = canonMod.applyCanon(ask('What projects has Prashobh built?'), canonMod.matchCanon('What projects has Prashobh built?', idx.canon), idx.chunks);
+  const srcs = new Set(proj.citations.map(c => c.chunk.source_type));
+  assert(srcs.has('github') && srcs.has('website'), `projects proofs came from ${[...srcs]}`);
+});
+
+check('questions the owner has not curated still go through the fabric', () => {
+  assert(canonMod.matchCanon('What is the capital of France?', idx.canon) === null, 'off-topic question matched the canon');
+  assert(canonMod.matchCanon('Which videos are about Manali?', idx.canon) === null || canonMod.matchCanon('Which videos are about Manali?', idx.canon).score < 1, 'unexpected exact match');
+});
+
 console.log('\n' + '='.repeat(62));
 console.log(`  ${passed} passed, ${failed} failed`);
 console.log('='.repeat(62));

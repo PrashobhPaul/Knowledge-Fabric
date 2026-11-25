@@ -1,0 +1,633 @@
+# =============================================================================
+# Canon — the major questions about Prashobh, answered the way he answers them
+# =============================================================================
+#
+# This is the curated layer of the fabric. Each entry is an answer in Prashobh's
+# own words, with the EVIDENCE that backs it: links into the website, resume,
+# GitHub, YouTube and LinkedIn records the Factory already syncs. At build time
+# every evidence link is resolved against the index (a link that matches no
+# record is reported), and at answer time the fabric shows the canon answer
+# first and the supporting records beneath it as proof.
+#
+# Rules for editing:
+#   - First person, as Prashobh would say it aloud. Short sentences.
+#   - No claim without evidence. If a fact is not on any source yet, add it to
+#     profile.yaml (self-reported) or the website first, then cite it.
+#   - `questions` are the phrasings that should land here; the first is canonical.
+#   - `evidence` entries: a record URL (website page, resume, repo, video, post)
+#     or a profile reference (profile:roles/Qualizeal). `why` says what it proves.
+
+canon:
+  - id: who
+    topics: [identity]
+    questions:
+      - Who is Prashobh Paul?
+      - Tell me about yourself.
+      - Give me a short bio of Prashobh.
+      - Introduce yourself.
+    answer: >-
+      I am Prashobh Paul, an AI Architect based in Hyderabad, India, with over eleven years in
+      AI, Generative AI, NLP and robotics. Today I lead the AI Center of Excellence work at
+      Qualizeal, where I design and build agentic AI systems for enterprises and AI-testing
+      platforms. Before that I spent years in healthcare NLP, BFSI analytics and autonomous
+      robotics. Outside work I run a travel channel on YouTube called The Canvas of Earth and I
+      build small apps that solve real problems for people around me.
+    evidence:
+      - url: https://www.prashobhpaul.com/
+        source: website
+        why: "Home page: AI Architect, Hyderabad, 11+ years, Generative AI and Enterprise AI Transformation"
+      - url: profile:roles/Qualizeal
+        source: resume
+        why: "Current role: AI Architect, AI Center of Excellence, since January 2026"
+      - url: https://www.youtube.com/@TheCanvasOfEarth
+        source: youtube
+        why: "The Canvas of Earth, the travel channel"
+
+  - id: current-role
+    topics: [career]
+    questions:
+      - Where does Prashobh work currently?
+      - What is Prashobh's current role?
+      - What do you do at Qualizeal?
+      - What are your roles and responsibilities?
+    answer: >-
+      I work at Qualizeal as an AI Architect in the AI Center of Excellence, since January 2026.
+      I lead the AI CoE roadmap and I stay hands-on: I design and implement production-grade
+      multi-agent systems with frameworks like LangGraph, CrewAI and AutoGen, I drive the AI
+      architecture and governance strategy, and I set the practices for GenAI integration,
+      prompt engineering and RAG pipelines across our programs. I contribute to both our
+      internal platforms and our client solutions, from architecture through implementation.
+    evidence:
+      - url: profile:roles/Qualizeal
+        source: resume
+        why: "Role, unit, start date and the four responsibilities"
+      - url: https://www.prashobhpaul.com/
+        source: website
+        why: "Career timeline: Qualizeal, AI Architect, Jan 2026 to present"
+
+  - id: qualizeal-work
+    topics: [career, projects]
+    questions:
+      - What are you building at Qualizeal?
+      - What platforms has Prashobh built at Qualizeal?
+      - Tell me about ValidAIte and QMentisAI.
+    answer: >-
+      At Qualizeal I work on two internal platforms and on client solutions. ValidAIte is our
+      AI-system testing platform for validating AI and GenAI systems, and QMentisAI is our AI
+      testing and quality-engineering platform. On the client side I build agentic AI for the
+      software development life cycle with Kiro for Southwest Airlines, and agentic AI for the
+      software testing life cycle with the Microsoft Agent Framework and .NET for PwC.
+    evidence:
+      - url: profile:engagements/ValidAIte
+        source: resume
+        why: "ValidAIte, internal platform at the Qualizeal AI CoE"
+      - url: profile:engagements/QMentisAI
+        source: resume
+        why: "QMentisAI, internal platform"
+      - url: profile:engagements/Agentic AI for the SDLC
+        source: resume
+        why: "Southwest Airlines, Kiro"
+      - url: profile:engagements/Agentic AI for the STLC
+        source: resume
+        why: "PwC, Microsoft Agent Framework and .NET"
+      - url: https://github.com/PrashobhPaul/SDLC_Lifecycle__KiroAutomation
+        source: github
+        why: "The Kiro SDLC automation repository"
+
+  - id: career-history
+    topics: [career]
+    questions:
+      - List all the companies Prashobh has worked at.
+      - What is your career history?
+      - Where have you worked before Qualizeal?
+    answer: >-
+      Before Qualizeal I was Technical Architect for Data Science at Tech Mahindra from June
+      2023 to January 2026, leading Generative AI and agentic AI implementations for telecom and
+      BFSI clients. Before that I was a Senior Data Scientist at Yash Technologies in BFSI and
+      risk analytics, Associate Solutions Leader at Brane Enterprises working on robotics and
+      computer vision, Senior NLP Engineer at Primera Medical Technologies building clinical NLP
+      for US hospitals, and I started my career at Tata Consultancy Services.
+    evidence:
+      - url: profile:roles/Tech Mahindra
+        source: resume
+        why: "Technical Architect, Data Science, June 2023 to January 2026"
+      - url: profile:roles/Yash Technologies
+        source: resume
+        why: "Senior Data Scientist, BFSI and Risk Analytics"
+      - url: profile:roles/Brane Enterprises
+        source: resume
+        why: "Associate Solutions Leader, Robotics and Computer Vision"
+      - url: profile:roles/Primera Medical Technologies
+        source: resume
+        why: "Senior NLP Engineer, Healthcare and Clinical NLP"
+      - url: profile:roles/Tata Consultancy Services
+        source: resume
+        why: "Where the career started"
+
+  - id: tech-mahindra
+    topics: [career]
+    questions:
+      - What did Prashobh do at Tech Mahindra?
+      - What was your role at Tech Mahindra?
+    answer: >-
+      At Tech Mahindra I was Technical Architect for Data Science from June 2023 to January
+      2026. I led Generative AI and agentic AI enterprise implementations for telecom and BFSI
+      clients, designed multi-agent orchestration frameworks for customer insights, digital
+      reporting and automated decision-making, mentored AI teams across three geographies and
+      advised C-level stakeholders on AI strategy and roadmap.
+    evidence:
+      - url: profile:roles/Tech Mahindra
+        source: resume
+        why: "Role dates and the highlights"
+
+  - id: healthcare
+    topics: [career, domain]
+    questions:
+      - What is Prashobh's experience in healthcare NLP?
+      - What did you do at Primera Medical Technologies?
+      - Have you worked in healthcare?
+    answer: >-
+      Yes, four years of it. At Primera Medical Technologies, from 2017 to 2021, I was a Senior
+      NLP Engineer. I built NLP pipelines for EMR systems such as Epic and Meditech processing
+      HL7 and FHIR clinical data at scale, developed clinical NLP systems used across more than
+      sixty US hospitals including a real-time medical note reader and OCR tools, and built
+      predictive models for patient outcomes and clinical decision support.
+    evidence:
+      - url: profile:roles/Primera Medical Technologies
+        source: resume
+        why: "Role, dates, HL7/FHIR pipelines, 60+ hospitals, note reader"
+      - url: profile:career_projects/Medical Note Reader
+        source: resume
+        why: "Medical Note Reader deployed across 60+ US hospitals"
+
+  - id: bfsi
+    topics: [career, domain]
+    questions:
+      - Has Prashobh worked in BFSI or banking?
+      - What is your experience in finance?
+    answer: >-
+      Yes. At Yash Technologies I was a Senior Data Scientist working on BFSI and risk
+      analytics, and at Tech Mahindra I led GenAI and agentic implementations for BFSI clients.
+      Earlier, at TCS, I built AI-driven customer analytics and NLP models for enterprise
+      clients including American Express. I have also built finance tooling on my own time, such
+      as automating 10-K and 10-Q filings analysis and stock research for Indian equities.
+    evidence:
+      - url: profile:roles/Yash Technologies
+        source: resume
+        why: "Senior Data Scientist, BFSI and Risk Analytics"
+      - url: profile:roles/Tech Mahindra
+        source: resume
+        why: "BFSI clients"
+      - url: https://github.com/PrashobhPaul/Finance_10k_Automation
+        source: github
+        why: "10-K / 10-Q automation and NLP"
+      - url: https://github.com/PrashobhPaul/InvestIQ
+        source: github
+        why: "Invest.IQ stock research"
+
+  - id: robotics
+    topics: [career, domain]
+    questions:
+      - What robotics work has Prashobh done?
+      - Have you worked on robots?
+    answer: >-
+      Yes, at Brane Enterprises from 2021 to 2022 as Associate Solutions Leader, working on
+      robotics and computer vision. One piece I like to mention is the quadrupedal robot work:
+      machine-learning based gait tuning and object detection for a four-legged robot platform.
+      My robotics toolkit includes ROS, SLAM, sensor fusion, autonomous navigation and edge AI.
+    evidence:
+      - url: profile:roles/Brane Enterprises
+        source: resume
+        why: "Role in Robotics and Computer Vision"
+      - url: profile:career_projects/Quadrupedal Robot AI
+        source: resume
+        why: "Gait tuning and object detection for a quadrupedal robot"
+      - url: profile:skills/Robotics & Automation
+        source: resume
+        why: "ROS, SLAM, sensor fusion, autonomous navigation"
+
+  - id: education
+    topics: [education]
+    questions:
+      - Where did Prashobh study?
+      - What degree does Prashobh have?
+      - What is your educational background?
+    answer: >-
+      I did my M.Tech in Knowledge Engineering with an AI specialisation at SRM University in
+      Chennai, from 2012 to 2014, and before that a B.Tech in Computer Science and Engineering
+      under JNTU Hyderabad at Christu Jyothi Institute of Technology and Science, from 2008 to
+      2012.
+    evidence:
+      - url: profile:education/SRM University
+        source: resume
+        why: "M.Tech Knowledge Engineering (AI), 2012 to 2014"
+      - url: profile:education/JNTU Hyderabad
+        source: resume
+        why: "B.Tech CSE, 2008 to 2012"
+
+  - id: skills
+    topics: [skills]
+    questions:
+      - What are Prashobh's core skills?
+      - What is your tech stack?
+      - Which agent frameworks do you use?
+    answer: >-
+      My core is agentic and generative AI: LangGraph, CrewAI and AutoGen for multi-agent
+      systems, RAG and LangChain, fine-tuning, and the major LLM platforms, OpenAI, Claude and
+      Gemini. Underneath that is a decade of NLP and machine learning with transformers,
+      computer vision and predictive modelling, and the architecture side: solution
+      architecture, AI governance, AWS and GCP including SageMaker and Vertex AI. I build mostly
+      in Python with PyTorch, TensorFlow, Hugging Face and FastAPI, and I ship web and mobile
+      apps in TypeScript and React.
+    evidence:
+      - url: profile:skills/Generative AI & Agents
+        source: resume
+        why: "LangGraph, CrewAI, AutoGen, RAG, LangChain, fine-tuning"
+      - url: profile:skills/Architecture & Cloud
+        source: resume
+        why: "Solution architecture, AI governance, AWS, GCP"
+      - url: profile:skills/Programming & Frameworks
+        source: resume
+        why: "Python, PyTorch, TensorFlow, Hugging Face, FastAPI, TypeScript, React"
+      - url: profile:skills/LLM Platforms
+        source: resume
+        why: "OpenAI, Claude, Gemini"
+
+  - id: projects
+    topics: [projects]
+    questions:
+      - What projects has Prashobh built?
+      - What are your personal projects?
+      - Show me your side projects.
+    answer: >-
+      On my own time I build apps that solve a real problem for someone I know. RVonWheelz is
+      a car and bike pooling app for my own community. Koode, Malayalam for "together", lets
+      family know you are safe on long trips. Pachaka Lokam is an offline South Indian meal
+      planner I made for my mom and my wife. Invest.IQ is AI stock research for Indian equities,
+      IPLBuzz and Soccer.AI are my sports analytics companions, and Knowledge Fabric is the
+      explainable, citation-grounded AI you are talking to right now. Every one of them has its
+      code on my GitHub.
+    evidence:
+      - url: https://www.prashobhpaul.com/works.html
+        source: website
+        why: "The works page with every project and its story"
+      - url: https://github.com/PrashobhPaul/rvonwheelz
+        source: github
+        why: "RVonWheelz source"
+      - url: https://github.com/PrashobhPaul/Koode
+        source: github
+        why: "Koode source"
+      - url: https://github.com/PrashobhPaul/Pachaka-Lokam
+        source: github
+        why: "Pachaka Lokam source"
+      - url: https://github.com/PrashobhPaul/InvestIQ
+        source: github
+        why: "Invest.IQ source"
+      - url: https://github.com/PrashobhPaul/IPLBuzz
+        source: github
+        why: "IPLBuzz source"
+      - url: https://github.com/PrashobhPaul/worldcup2026fifa
+        source: github
+        why: "Soccer.AI source"
+      - url: https://github.com/PrashobhPaul/Prashobh_Knowledge_Factory
+        source: github
+        why: "Knowledge Fabric and Factory source"
+
+  - id: knowledge-fabric
+    topics: [projects, knowledge-engineering]
+    questions:
+      - What is the Knowledge Fabric project?
+      - Tell me about the Knowledge Fabric project and its code.
+      - What is a knowledge fabric?
+    answer: >-
+      Knowledge Fabric is my demo of explainable, citation-grounded AI: a Knowledge Factory
+      syncs everything public about me, my website, resume, GitHub, YouTube and LinkedIn, and
+      the Fabric links it into one graph and answers questions with verbatim, cited evidence
+      and a derived confidence score. Nothing is generated; every sentence is traced to its
+      source. It runs as a static site, and the feedback loop turns flagged answers into
+      curator work. The code is public on GitHub.
+    evidence:
+      - url: https://www.prashobhpaul.com/works.html
+        source: website
+        why: "Knowledge Fabric on the works page"
+      - url: https://github.com/PrashobhPaul/Prashobh_Knowledge_Factory
+        source: github
+        why: "The repository"
+
+  - id: invest-iq
+    topics: [projects]
+    questions:
+      - What is Invest.IQ?
+      - Tell me about your stock research app.
+      - Do you have an AI based prediction system?
+    answer: >-
+      Invest.IQ is where I pushed the AI the furthest in my side projects. It is AI stock
+      research for Indian equities: heavy analytics plus an AI reasoning layer that turns a
+      tiered universe of stocks into one opinionated, backtest-first shortlist across short,
+      medium and long horizons. It is live on the web and as an Android app, built with React,
+      TypeScript and Capacitor. It grew out of my earlier stock-analysis and ProfitPilot
+      experiments, which are also on GitHub. It is educational, not financial advice.
+    evidence:
+      - url: https://www.prashobhpaul.com/works.html
+        source: website
+        why: "Invest.IQ description and links"
+      - url: https://github.com/PrashobhPaul/InvestIQ
+        source: github
+        why: "Invest.IQ source"
+      - url: https://github.com/PrashobhPaul/StockAnalysis_IndianMarket
+        source: github
+        why: "Earlier stock analysis with O'Neil score, technicals and news"
+      - url: https://github.com/PrashobhPaul/ProfitPilot_v1
+        source: github
+        why: "Stock prediction experiment"
+
+  - id: koode
+    topics: [projects]
+    questions:
+      - What is Koode?
+    answer: >-
+      Koode means "together, with you" in Malayalam. I built it for the people who worry when
+      you travel: it lets family and friends know you are okay on a long journey without you
+      having to call or text. It is fully open source and zero cost, using OpenStreetMap for
+      maps and Supabase for live sharing, with no Google services and no billing anywhere. It is
+      an Android app written in Kotlin with Jetpack Compose.
+    evidence:
+      - url: https://www.prashobhpaul.com/works.html
+        source: website
+        why: "Koode on the works page"
+      - url: https://github.com/PrashobhPaul/Koode
+        source: github
+        why: "Koode source, Kotlin"
+
+  - id: pachaka-lokam
+    topics: [projects]
+    questions:
+      - What is Pachaka Lokam?
+    answer: >-
+      Pachaka Lokam is my most personal project. It started as a hobby to make life easier for
+      my mom and my wife in the kitchen: an offline South Indian meal planner. No accounts, no
+      cloud, just a practical app for everyday cooking.
+    evidence:
+      - url: https://www.prashobhpaul.com/works.html
+        source: website
+        why: "Pachaka Lokam on the works page"
+      - url: https://github.com/PrashobhPaul/Pachaka-Lokam
+        source: github
+        why: "Source"
+
+  - id: aidlc
+    topics: [projects, agentic]
+    questions:
+      - Does Prashobh work on AI-driven SDLC?
+      - What is your work on AIDLC?
+      - Tell me about Kiro automation.
+    answer: >-
+      Yes. For Southwest Airlines I build agentic AI for the software development life cycle
+      using Kiro, and for PwC I build agentic AI for the software testing life cycle with the
+      Microsoft Agent Framework and .NET, both as part of the Qualizeal AI Center of Excellence.
+      The Kiro SDLC automation work is on my GitHub.
+    evidence:
+      - url: profile:engagements/Agentic AI for the SDLC
+        source: resume
+        why: "Southwest Airlines, Kiro"
+      - url: profile:engagements/Agentic AI for the STLC
+        source: resume
+        why: "PwC, Microsoft Agent Framework, .NET"
+      - url: https://github.com/PrashobhPaul/SDLC_Lifecycle__KiroAutomation
+        source: github
+        why: "Kiro SDLC automation repository"
+
+  - id: services
+    topics: [services]
+    questions:
+      - What services does Prashobh offer?
+      - Can I hire you?
+      - Do you do consulting?
+    answer: >-
+      Yes. I take on AI consulting and strategy work, enterprise GenAI strategy, architecture
+      reviews and AI governance. I design and deliver agentic AI systems hands-on, and I build
+      GenAI solutions end to end, RAG pipelines, LLM workflows and conversational AI. I also run
+      corporate training and workshops, offer interview preparation and coaching for AI, ML and
+      data science roles, and provide IT advisory. I work remote-first and I am open to global
+      collaboration.
+    evidence:
+      - url: profile:services/AI Consulting & Strategy
+        source: website
+        why: "Consulting and strategy"
+      - url: profile:services/Agentic AI System Design
+        source: website
+        why: "Agentic system design"
+      - url: profile:services/Corporate Training & Workshops
+        source: website
+        why: "Training and workshops"
+      - url: profile:services/Interview Preparation & Coaching
+        source: website
+        why: "Interview preparation"
+      - url: https://www.prashobhpaul.com/
+        source: website
+        why: "Services on the website"
+
+  - id: training
+    topics: [services]
+    questions:
+      - Does Prashobh do corporate training?
+      - Do you teach AI?
+      - Do you run workshops?
+    answer: >-
+      Yes, I do. I run one-hour introductory AI talks, half-day and full-day GenAI and agentic
+      AI workshops, and custom corporate programmes. I also do personalised interview
+      preparation for AI, ML and data science roles. My YouTube channel is about travel, not
+      teaching, so the training happens in sessions and workshops rather than on video.
+    evidence:
+      - url: profile:services/Corporate Training & Workshops
+        source: website
+        why: "Talks, workshops, corporate programmes"
+      - url: profile:services/Interview Preparation & Coaching
+        source: website
+        why: "Interview preparation"
+      - url: https://www.youtube.com/@TheCanvasOfEarth
+        source: youtube
+        why: "The channel's niche is travel"
+
+  - id: contact
+    topics: [contact]
+    questions:
+      - How can I contact Prashobh?
+      - How do I reach you?
+    answer: >-
+      The easiest way is through my website, prashobhpaul.com, which has the contact form and
+      my LinkedIn. I am based in Hyderabad, India, and I work remote-first with teams anywhere.
+    evidence:
+      - url: https://www.prashobhpaul.com/
+        source: website
+        why: "Contact section"
+      - url: https://www.linkedin.com/in/prashobh-paul-00715578/
+        source: linkedin
+        why: "LinkedIn profile"
+
+  - id: location
+    topics: [contact]
+    questions:
+      - Where is Prashobh based?
+      - Where do you live?
+    answer: >-
+      I am based in Hyderabad, India. I am from Kerala originally, which is why some of my
+      projects and videos carry Malayalam names.
+    evidence:
+      - url: https://www.prashobhpaul.com/
+        source: website
+        why: "Hyderabad, India"
+      - url: https://www.prashobhpaul.com/works.html
+        source: website
+        why: "Koode, a Malayalam name"
+
+  - id: youtube
+    topics: [youtube]
+    questions:
+      - What is The Canvas of Earth?
+      - Tell me about your YouTube channel.
+      - What do you make videos about?
+    answer: >-
+      The Canvas of Earth is my travel channel on YouTube. It is where I film the journeys,
+      mostly the Himalayas: Spiti Valley, Key Monastery, Chandratal Lake, the world's highest
+      post office at Hikkim, Manali. It has grown to around nine thousand subscribers and close
+      to half a million views across fifty videos. It is a hobby I take seriously, not a
+      teaching channel.
+    evidence:
+      - url: https://www.youtube.com/@TheCanvasOfEarth
+        source: youtube
+        why: "Channel, subscribers, views, video count"
+      - url: https://www.youtube.com/watch?v=z1r6PM2jB2E
+        source: youtube
+        why: "Most watched: Kee Monastery at 13,668 ft"
+      - url: https://www.youtube.com/watch?v=TTyO34xx2FE
+        source: youtube
+        why: "World's highest post office, Hikkim"
+
+  - id: spiti
+    topics: [youtube, travel]
+    questions:
+      - What videos has Prashobh made about Spiti Valley?
+      - Tell me about your Spiti trip.
+    answer: >-
+      Spiti Valley is the heart of my channel. I filmed Kee Monastery from 13,668 feet, the
+      Key Monastery history explainer, the Sakya viewpoint, Chandratal Lake at 14,000 feet,
+      the world's highest post office at Hikkim, and the road, the friends and the backpacks in
+      between. If you want one video, start with the Kee Monastery views.
+    evidence:
+      - url: https://www.youtube.com/watch?v=z1r6PM2jB2E
+        source: youtube
+        why: "Kee Monastery views"
+      - url: https://www.youtube.com/watch?v=FspMmQOcVq0
+        source: youtube
+        why: "Key Monastery explained"
+      - url: https://www.youtube.com/watch?v=mN1s63L2ZGQ
+        source: youtube
+        why: "Sakya viewpoint"
+      - url: https://www.youtube.com/watch?v=4nUAK487e-c
+        source: youtube
+        why: "Chandratal Lake"
+      - url: https://www.youtube.com/watch?v=oF_iyITbuvs
+        source: youtube
+        why: "Friends, backpacks and mountains"
+
+  - id: key-monastery
+    topics: [youtube, travel]
+    questions:
+      - What is the Key Monastery video about?
+      - What does Prashobh say about the history of Key Monastery?
+    answer: >-
+      In the Key Monastery explainer I walk through the monastery's origins in the eleventh
+      century, the prayer hall inaugurated by the Dalai Lama in 2000, the earthquakes, attacks
+      and restorations it survived, and its honeycomb architecture of interconnected chambers.
+      It is not one structure built at one time; it evolved over centuries.
+    evidence:
+      - url: https://www.youtube.com/watch?v=FspMmQOcVq0
+        source: youtube
+        why: "Key Monastery Explained, chapters and transcript"
+
+  - id: ai-tour
+    topics: [events, youtube]
+    questions:
+      - Did Prashobh attend the Microsoft AI Tour?
+      - What did you see at the Microsoft AI Tour?
+      - Did you meet Satya Nadella?
+    answer: >-
+      Yes. I attended the Microsoft AI Tour in Mumbai in December 2025 at the Jio World Centre,
+      I met Satya Nadella, and I vlogged the day on The Canvas of Earth, including what stayed
+      with me: AI already at work, and the shift from being busy to being meaningful.
+    evidence:
+      - url: profile:events/Microsoft AI Tour Mumbai 2025
+        source: linkedin
+        why: "Event, date, place"
+      - url: https://www.youtube.com/watch?v=k7kcsrzLn80
+        source: youtube
+        why: "The AI Tour vlog, with chapters"
+
+  - id: linkedin-knowledge
+    topics: [posts, knowledge-engineering]
+    questions:
+      - What has Prashobh posted about on LinkedIn?
+      - What do you think about knowledge layers and ontologies for companies?
+    answer: >-
+      On LinkedIn I write about how companies will build their own ontology and knowledge
+      layer. My view is that this pattern will emerge in every organisation as agents become
+      major contributors to work, and that the architecture will evolve towards one cohesive
+      "brain" for the company. The nuance I keep pointing at is risk: a company's knowledge,
+      how it works and its product thinking can be leaked or hacked, and that can be
+      catastrophic. This fabric is my working answer to that problem.
+    evidence:
+      - url: profile:posts/ontology and knowledge layer
+        source: linkedin
+        why: "The knowledge-layer post"
+      - url: https://github.com/PrashobhPaul/Prashobh_Knowledge_Factory
+        source: github
+        why: "The fabric itself"
+
+  - id: agentic-view
+    topics: [opinion, agentic]
+    questions:
+      - What is agentic AI according to Prashobh?
+      - What is your view on agentic AI?
+    answer: >-
+      Agentic AI is my primary area of work right now. For me it means systems where models
+      plan, call tools and collaborate as agents to finish real work, with governance,
+      evaluation and observability designed in from the start. I pick the tooling for the
+      problem, LangGraph, CrewAI or AutoGen, and I care more about clean architecture and
+      reliable delivery than about any single framework.
+    evidence:
+      - url: https://www.prashobhpaul.com/
+        source: website
+        why: "FAQ: agentic AI is the primary area of work; tooling depends on the problem"
+      - url: profile:roles/Qualizeal
+        source: resume
+        why: "Spearheading agentic AI enterprise initiatives"
+
+  - id: languages
+    topics: [personal]
+    questions:
+      - What languages does Prashobh speak?
+    answer: >-
+      English, Hindi and Malayalam, which is my mother tongue, and I get by in Telugu from my
+      years in Hyderabad.
+    evidence:
+      - url: profile:languages
+        source: resume
+        why: "Languages and proficiency"
+
+  - id: interests
+    topics: [personal]
+    questions:
+      - What are Prashobh's hobbies?
+      - What do you do outside work?
+    answer: >-
+      Travel and filming it for The Canvas of Earth, photography and art, and sport, cricket
+      and football, which is why IPLBuzz and Soccer.AI exist. Most of my side projects start
+      as something useful for my family or my community.
+    evidence:
+      - url: profile:personal
+        source: resume
+        why: "Interests: travel, art, content creation, photography, cricket, football"
+      - url: https://www.prashobhpaul.com/works.html
+        source: website
+        why: "IPLBuzz and Soccer.AI, the sports projects"

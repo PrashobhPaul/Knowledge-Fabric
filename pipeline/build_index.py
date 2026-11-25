@@ -123,6 +123,60 @@ def load_manifest(ks_dir: Path) -> dict:
         return {}
 
 
+
+# ---------------------------------------------------------------------------
+# Canon — curated answers, each evidence link resolved to the records that prove it
+# ---------------------------------------------------------------------------
+_PROFILE_SECTION = {"roles": "role", "engagements": "engagement", "education": "education", "skills": "skill_group",
+                    "services": "service", "career_projects": "career_project", "events": "event", "posts": "post",
+                    "languages": "languages", "personal": "personal"}
+
+
+def build_canon(chunks: list[dict]) -> tuple[list[dict], list[str]]:
+    """Return (canon entries with resolved evidence chunk ids, unresolved evidence links)."""
+    out, unresolved = [], []
+    by_url: dict[str, list[int]] = {}
+    for i, c in enumerate(chunks):
+        u = (c.get("url") or "").split("&t=")[0].rstrip("/")
+        if u:
+            by_url.setdefault(u, []).append(i)
+    seen_ids: set[str] = set()
+    for i, c in enumerate(chunks):
+        m = c.get("meta") or {}
+        if m.get("record_type") != "canon" or m.get("canon_id") in seen_ids:
+            continue   # a long answer may span several chunks; the entry is built once, from the full answer
+        seen_ids.add(m.get("canon_id"))
+        evidence = []
+        for ev in m.get("evidence") or []:
+            url = ev.get("url", "")
+            ids: list[int] = []
+            if url.startswith("profile:"):
+                section, _, name = url[len("profile:"):].partition("/")
+                rtype = _PROFILE_SECTION.get(section, section)
+                needle = name.lower()
+                for j, ch in enumerate(chunks):
+                    mm = ch.get("meta") or {}
+                    if mm.get("record_type") != rtype:
+                        continue
+                    hay = " ".join(str(v) for v in (ch.get("document_name", ""), ch.get("text", "")[:200],
+                                                    mm.get("organization", ""), mm.get("project", ""), mm.get("event", ""))).lower()
+                    if not needle or needle in hay:
+                        ids.append(j)
+                        if rtype in ("role", "engagement", "education", "event", "career_project", "service", "skill_group"):
+                            break
+            else:
+                key = url.split("&t=")[0].rstrip("/")
+                ids = list(by_url.get(key, []))
+                if not ids:  # a page URL may be cited by records with fragments / query strings
+                    ids = [j for j, ch in enumerate(chunks) if (ch.get("url") or "").startswith(key)][:3]
+            if not ids:
+                unresolved.append(f"{m.get('canon_id')}: {url}")
+            evidence.append({"url": url, "source": ev.get("source", ""), "why": ev.get("why", ""), "chunk_ids": ids[:4]})
+        out.append({"id": m.get("canon_id"), "chunk_idx": i, "questions": m.get("questions") or [], "answer": m.get("answer") or c.get("text", ""),
+                    "topics": m.get("topics") or [], "evidence": evidence})
+    return out, unresolved
+
+
 def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -> dict:
     print("=" * 66)
     print("  KNOWLEDGE FABRIC - BUILD")
@@ -306,6 +360,11 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
         except (json.JSONDecodeError, AttributeError):
             flags_out = None
 
+    canon_entries, canon_unresolved = build_canon(serialized)
+    for _u in canon_unresolved:
+        print(f"      [canon] evidence not found in the index: {_u}")
+    print(f"      canon: {len(canon_entries)} curated answers · {len(canon_unresolved)} unresolved evidence links")
+
     index = {
         "version": "3.0",
         "generator": "knowledge-fabric/personal",
@@ -318,6 +377,8 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
         "facets": build_facets(aligned),
         "sources": sources,
         "flags": flags_out,
+        "canon": canon_entries,
+        "canon_unresolved": canon_unresolved,
         "factory": {"generated_at": manifest.get("generated_at", ""), "generator": manifest.get("generator", "")},
         "bm25": bm25,
         "retrieval": {
