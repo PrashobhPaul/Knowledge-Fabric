@@ -672,6 +672,7 @@ check('the bundled avatar carries mouth shapes and the voice is baked, never cal
 // =============================================================================
 console.log('\n=== CANON: THE OWNER\'S OWN ANSWERS, EACH WITH PROOF ===');
 const canonMod = await import(path.join(SITE, 'js/canon.js'));
+const semNLU = await import(path.join(SITE, 'js/nlu_semantic.js'));
 
 check('the index ships the curated canon and every evidence link resolved to a record', () => {
   assert(Array.isArray(idx.canon) && idx.canon.length >= 25, `canon has ${idx.canon && idx.canon.length} entries`);
@@ -716,6 +717,25 @@ check('everyday phrasings, typos and synonyms still reach the right curated answ
   }
   assert(idx.canon.length >= 45, `canon has ${idx.canon.length}`);
   assert(canonMod.suggestCanon('what is your blood group', idx.canon).length >= 1, 'no suggestions for an unanswered question');
+});
+
+check('semantic NLU: cosine matching with margin, and a chunk run from vectors', () => {
+  const v = (...xs) => { const n = Math.hypot(...xs); return xs.map(x => x / n); };
+  const vectors = { canon: [
+    { id: 'youtube-why', vectors: [v(1, 0.2, 0), v(0.9, 0.3, 0)] },
+    { id: 'favourite-project', vectors: [v(0, 1, 0.1)] },
+  ], chunks: [v(1, 0, 0), v(0, 1, 0), v(0.7, 0.7, 0)] };
+  const q = v(0.95, 0.25, 0.02);
+  const m = semNLU.matchCanonByVector(q, vectors);
+  assert(m && m.id === 'youtube-why' && m.score > 0.9, JSON.stringify(m));
+  assert(semNLU.matchCanonByVector(v(0, 0, 1), vectors) === null, 'unrelated vector should not match');
+  assert(semNLU.matchCanonByVector(v(1, 1, 0), { canon: [{ id: 'a', vectors: [v(1, 0, 0)] }, { id: 'b', vectors: [v(0, 1, 0)] }] }) === null, 'a tie must not pick a side');
+  const run = semNLU.chunkRun(q, vectors, 2);
+  assert(run.length === 2 && run[0].chunkIdx === 0, JSON.stringify(run));
+  assert(!semNLU.modelReady() && semNLU.embed('x') instanceof Promise, 'embed must be safe before the model loads');
+  const hy = fs.readFileSync(path.join(SITE, 'js/hybrid.js'), 'utf8');
+  assert(/extraRun/.test(hy) && /retriever: 'embedding'/.test(hy), 'embedding run not fused');
+  assert(/pipeline\.embed/.test(fs.readFileSync(path.join(ROOT, '.github/workflows/deploy.yml'), 'utf8')), 'deploy does not compute vectors');
 });
 
 check('questions the owner has not curated still go through the fabric', () => {

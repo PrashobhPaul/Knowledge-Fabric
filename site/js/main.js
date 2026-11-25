@@ -26,6 +26,7 @@ import { createStage } from './stage.js?v=1';
 import { firstPersonAnswer, verdictLine, noAnswerLine } from './persona.js?v=1';
 import * as speaker from './speaker.js?v=1';
 import { matchCanon, applyCanon, suggestCanon } from './canon.js?v=1';
+import * as semNLU from './nlu_semantic.js?v=1';
 import { currentLang, setLang, listen, speak, recognitionSupported, synthesisSupported, renderVoiceControls, renderSpeakButton } from './voice.js?v=1';
 
 const INDEX_URL = 'data/index.json';
@@ -54,6 +55,8 @@ async function boot() {
     createStage(stageHost, { avatarUrl: TWIN_CONFIG.avatarUrl, photoUrl: TWIN_CONFIG.photoUrl, name: TWIN_CONFIG.ownerName })
       .then(st => { state.stage = st; setTwinStatus(); });
     speaker.loadVoiceManifest(TWIN_CONFIG.voiceDir).then(setTwinStatus);
+    // Semantic NLU warms in the background; lexical matching serves meanwhile.
+    semNLU.loadVectors().then(v => { if (v) semNLU.warmModel().then(setTwinStatus); });
     wireStageActions();
   }
   try {
@@ -671,6 +674,7 @@ function retrieve(q) {
     chunks: state.chunks,
     filters: state.filters,
     topK: 20,
+    extraRun: state.qvec ? semNLU.chunkRun(state.qvec) : null,
   });
 
   // `chunkIdx` is the retrieval key every downstream consumer indexes on
@@ -750,6 +754,9 @@ async function ask(question, opts = {}) {
   const bankMatch = matchQuestionBank(question, { vocab: state.bm25.termId });
   const BANK_STRONG = 0.7, BANK_RESCUE = 0.45;
   let retrievalQuery = (bankMatch && bankMatch.score >= BANK_STRONG) ? bankMatch.question : question;
+  // Semantic NLU: embed the question with the same model the Factory used, so
+  // matching and retrieval work by meaning. Null until the model is warm.
+  state.qvec = semNLU.modelReady() ? await semNLU.embed(question) : null;
   let result = retrieve(retrievalQuery);
   if (result.lowConfidence && retrievalQuery === question && bankMatch && bankMatch.score >= BANK_RESCUE) {
     const rescued = retrieve(bankMatch.question);
@@ -757,7 +764,10 @@ async function ask(question, opts = {}) {
   }
   // Curated layer: a question the owner has answered himself gets that answer,
   // verbatim, cited by its proof records; retrieval stays as corroboration.
-  const canonMatch = matchCanon(question, state.index.canon);
+  const byVector = state.qvec ? semNLU.matchCanonByVector(state.qvec) : null;
+  const canonMatch = byVector
+    ? { entry: state.index.canon.find(e => e.id === byVector.id), score: byVector.score, via: 'embedding' }
+    : matchCanon(question, state.index.canon);
   if (canonMatch) result = applyCanon(result, canonMatch, state.chunks);
   else if (result.lowConfidence) {
     // A weak retrieval is not an answer. Say so, and offer the nearest things
@@ -1195,6 +1205,7 @@ function setTwinStatus() {
   if (!el) return;
   const parts = [];
   if (state.stage && state.stage.mode !== '3d') parts.push('avatar model not loaded — portrait fallback');
+  if (semNLU.modelReady()) parts.push('semantic NLU ready');
   const n = speaker.bakedCount();
   parts.push(n ? `${n} lines in my own voice` : 'browser voice until the voice bake runs');
   el.textContent = parts.join(' · ');

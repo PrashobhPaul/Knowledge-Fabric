@@ -371,3 +371,13 @@ def test_canon_entries_resolve_to_records(tmp_path):
     assert idx["canon_unresolved"] == [], idx["canon_unresolved"]
     kinds = {ev["source"] for e in idx["canon"] for ev in e["evidence"]}
     assert {"website", "resume", "github", "youtube", "linkedin"} <= kinds
+
+
+def test_embed_degrades_without_model(tmp_path):
+    """The embedding step must never fail a build: no package or no model → no vectors, exit 0."""
+    import subprocess, sys
+    out = tmp_path / "vectors.json"
+    r = subprocess.run([sys.executable, "-m", "pipeline.embed", "--index", str(ROOT / "site/data/index.json"), "--out", str(out)],
+                       cwd=ROOT, capture_output=True, text=True, timeout=600)
+    assert r.returncode == 0, r.stderr
+    assert "[embed]" in r.stdout
