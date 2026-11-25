@@ -127,7 +127,7 @@ experience:
     location: Cochin, India
     domains: [Enterprise Analytics, Robotics]
     highlights:
-      - Built AI-driven customer analytics and NLP models for enterprise clients including American Express.
+      - Built AI-driven customer analytics and NLP models for enterprise clients, including a global financial-services client.
       - Developed sentiment analysis and text classification models processing millions of customer interactions.
       - Created RNN-based control models for intelligent robotic platforms and deployed NLP models for document classification.
     source: ["resume"]
@@ -147,16 +147,16 @@ engagements:
   - name: Agentic AI for the SDLC
     kind: client solution
     organization: Qualizeal
-    client: Southwest Airlines
+    client: a major US airline (client name kept confidential)
     technologies: [Kiro, Agentic AI]
-    description: Agentic AI systems for the software development life cycle built with Kiro for Southwest Airlines.
+    description: Agentic AI systems for the software development life cycle built with Kiro for a major US airline client.
     source: ["self-reported"]
   - name: Agentic AI for the STLC
     kind: client solution
     organization: Qualizeal
-    client: PwC
+    client: a global professional-services firm (client name kept confidential)
     technologies: [Microsoft Agent Framework, .NET, Agentic AI]
-    description: Agentic AI solutions for the software testing life cycle built with the Microsoft Agent Framework and .NET for PwC.
+    description: Agentic AI solutions for the software testing life cycle built with the Microsoft Agent Framework and .NET for a global professional-services client.
     source: ["self-reported"]
 
 # ----------------------------------------------------------------------------- education

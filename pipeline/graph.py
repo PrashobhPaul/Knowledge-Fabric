@@ -148,7 +148,7 @@ class KnowledgeGraph:
                         self.edge(r, d, "IN_DOMAIN", cid)
                     for t in by_kind["Technology"]:
                         self.edge(r, t, "USES", cid)
-                for o in orgs[1:]:          # clients named in highlights (e.g. American Express)
+                for o in orgs[1:]:          # organisations named in highlights
                     for r in roles:
                         self.edge(r, o, "FOR_CLIENT", cid)
 

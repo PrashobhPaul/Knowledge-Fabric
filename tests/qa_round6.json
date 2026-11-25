@@ -1,0 +1,193 @@
+{
+ "cases": [
+  {
+   "q": "What's your current designation?",
+   "id": "current-role",
+   "must": "AI Architect"
+  },
+  {
+   "q": "Which city are you based in?",
+   "id": "location",
+   "must": "Hyderabad"
+  },
+  {
+   "q": "Are you married?",
+   "id": "family",
+   "must": "Nima"
+  },
+  {
+   "q": "Tell me about your son",
+   "id": "family",
+   "must": "Hayden"
+  },
+  {
+   "q": "What are your parents' names?",
+   "id": "family",
+   "must": "Lilly"
+  },
+  {
+   "q": "Describe Pachaka Lokam in a few words",
+   "id": "pachaka-lokam",
+   "must": "offline"
+  },
+  {
+   "q": "Who uses RVonWheelz?",
+   "id": "rvonwheelz"
+  },
+  {
+   "q": "What does Invest.IQ do?",
+   "id": "invest-iq"
+  },
+  {
+   "q": "Is Soccer.AI about the World Cup?",
+   "id": "soccer-ai",
+   "must": "World Cup"
+  },
+  {
+   "q": "What is the hockey app?",
+   "id": "hockey"
+  },
+  {
+   "q": "Do you have any Android apps?",
+   "id": "android-apps"
+  },
+  {
+   "q": "What was your role at Brane?",
+   "id": "robotics",
+   "must": "Associate Solutions Leader"
+  },
+  {
+   "q": "What did you do at Yash Technologies?",
+   "id": "bfsi"
+  },
+  {
+   "q": "Who gave you your break into AI?",
+   "id": [
+    "tcs-story",
+    "mentors"
+   ],
+   "must": "Manoj"
+  },
+  {
+   "q": "Which professor helped you in college?",
+   "id": "mentors",
+   "must": "Uma"
+  },
+  {
+   "q": "What is your favourite sport?",
+   "id": "teams",
+   "must": "Cricket"
+  },
+  {
+   "q": "Do you paint?",
+   "id": "art",
+   "must": "Phoenix"
+  },
+  {
+   "q": "What inspires your art?",
+   "id": [
+    "art",
+    "inspiration"
+   ]
+  },
+  {
+   "q": "How did you start your YouTube channel?",
+   "id": "youtube-why",
+   "must": "The Canvas of Earth"
+  },
+  {
+   "q": "What was your M.Tech project about?",
+   "id": [
+    "voice-uav",
+    "education"
+   ]
+  },
+  {
+   "q": "How many years of experience do you have?",
+   "id": "experience-years"
+  },
+  {
+   "q": "Are you a team lead?",
+   "id": [
+    "current-role",
+    "mentors",
+    "teams"
+   ]
+  },
+  {
+   "q": "Where did you go to school?",
+   "id": "origins",
+   "must": "Kendriya Vidyalaya"
+  },
+  {
+   "q": "Hi there! What's Koode?",
+   "id": "koode",
+   "must": "together"
+  },
+  {
+   "q": "Is it free?",
+   "id": [
+    "koode",
+    "open-source"
+   ],
+   "must": "zero cost",
+   "prev": "Hi there! What's Koode?"
+  },
+  {
+   "q": "Compare RVonWheelz and Koode",
+   "id": "rvonwheelz+koode"
+  },
+  {
+   "q": "Which company came after Yash?",
+   "id": "timeline",
+   "must": "Tech Mahindra"
+  },
+  {
+   "q": "What did you do before Brane?",
+   "id": "timeline",
+   "must": "Primera"
+  },
+  {
+   "q": "Tell me about your kids and your wife",
+   "id": "family",
+   "must": "Helen"
+  },
+  {
+   "q": "Where do you live and what do you do for a living?",
+   "id": [
+    "location+current-role",
+    "current-role+location"
+   ],
+   "must": "Qualizeal"
+  },
+  {
+   "q": "താങ്കൾ എവിടെ ജോലി ചെയ്യുന്നു?",
+   "id": "current-role",
+   "must": "Qualizeal"
+  },
+  {
+   "q": "आपके बच्चे कितने हैं?",
+   "id": "family",
+   "must": "Helen"
+  },
+  {
+   "q": "మీరు ఎక్కడ నుండి వచ్చారు?",
+   "id": [
+    "origins",
+    "location"
+   ]
+  }
+ ],
+ "no_answer": [
+  "What's your favourite food?",
+  "Who won IPL 2025?",
+  "What is quantum entanglement?",
+  "Can you write my resume?",
+  "Send me your bank details",
+  "How do I cook biryani?",
+  "What is the GDP of India?",
+  "Will it rain tomorrow?",
+  "Who is the president of the USA?",
+  "Do you believe in god?"
+ ]
+}

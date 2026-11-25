@@ -45,14 +45,16 @@ export const LEXICON = {
     'വീഡിയോ': 'video', 'ചാനൽ': 'channel', 'ജോലി': 'work role', 'കമ്പനി': 'company', 'പ്രോജക്ട്': 'project',
     'പ്രോജക്റ്റ്': 'project', 'സ്കിൽ': 'skills', 'കഴിവ്': 'skills', 'പഠിച്ച': 'study education degree',
     'വിദ്യാഭ്യാസം': 'education', 'എവിടെ': 'where', 'ആരാണ്': 'who is', 'എന്താണ്': 'what is',
-    'ഇപ്പോൾ': 'currently', 'യാത്ര': 'travel journey', 'ലിങ്ക്ഡ്ഇൻ': 'linkedin', 'ഗിറ്റ്ഹബ്': 'github',
+    'ഇപ്പോൾ': 'currently', 'കുടുംബം': 'family', 'കുടുംബ': 'family', 'കുട്ടികൾ': 'children', 'മക്കൾ': 'children', 'ഭാര്യ': 'wife', 'അച്ഛൻ': 'father', 'അമ്മ': 'mother', 'യാത്ര': 'travel journey', 'ലിങ്ക്ഡ്ഇൻ': 'linkedin', 'ഗിറ്റ്ഹബ്': 'github',
+    'നിങ്ങൾ': 'you', 'താങ്കൾ': 'you', 'നിന്ന്': 'hometown', 'നാട്': 'hometown from', 'സ്വദേശം': 'hometown from', 'താമസം': 'live', 'ഹോബി': 'hobbies',
   },
   te: {
     'ప్రశోభ్': 'prashobh', 'క్వాలిజీల్': 'qualizeal', 'మైక్రోసాఫ్ట్': 'microsoft', 'సత్య నాదెళ్ల': 'satya nadella',
     'హైదరాబాద్': 'hyderabad', 'స్పితి': 'spiti', 'మనాలి': 'manali', 'యూట్యూబ్': 'youtube', 'వీడియో': 'video',
     'ఛానల్': 'channel', 'ఉద్యోగం': 'work job role', 'పని': 'work', 'కంపెనీ': 'company', 'ప్రాజెక్ట్': 'project',
     'నైపుణ్యాలు': 'skills', 'చదువు': 'education degree', 'విద్య': 'education', 'ఎక్కడ': 'where',
-    'ఎవరు': 'who is', 'ఏమిటి': 'what is', 'ప్రస్తుతం': 'currently', 'ప్రయాణం': 'travel journey',
+    'ఎవరు': 'who is', 'ఏమిటి': 'what is', 'ప్రస్తుతం': 'currently', 'కుటుంబం': 'family', 'పిల్లలు': 'children', 'భార్య': 'wife', 'నాన్న': 'father', 'అమ్మ': 'mother', 'ప్రయాణం': 'travel journey',
+    'మీరు': 'you', 'మీ': 'your', 'నుండి': 'hometown', 'వచ్చారు': 'hometown', 'ఊరు': 'hometown from', 'నివసిస్తున్నారు': 'live', 'అభిరుచులు': 'hobbies',
   },
   hi: {
     'प्रशोभ': 'prashobh', 'क्वालिज़ील': 'qualizeal', 'क्वालिजील': 'qualizeal', 'माइक्रोसॉफ्ट': 'microsoft',
@@ -60,7 +62,8 @@ export const LEXICON = {
     'मनाली': 'manali', 'यूट्यूब': 'youtube', 'वीडियो': 'video', 'चैनल': 'channel', 'काम': 'work',
     'नौकरी': 'job role', 'कंपनी': 'company', 'प्रोजेक्ट': 'project', 'कौशल': 'skills', 'पढ़ाई': 'education degree',
     'शिक्षा': 'education', 'कहाँ': 'where', 'कहां': 'where', 'कौन': 'who is', 'क्या': 'what is',
-    'अभी': 'currently', 'यात्रा': 'travel journey',
+    'अभी': 'currently', 'परिवार': 'family', 'बच्चे': 'children', 'पत्नी': 'wife', 'पिता': 'father', 'माँ': 'mother', 'यात्रा': 'travel journey',
+    'आप': 'you', 'आपके': 'your', 'आपकी': 'your', 'आपका': 'your', 'कहाँ से': 'hometown', 'कहां से': 'hometown', 'रहते': 'live', 'शौक': 'hobbies',
   },
 };
 

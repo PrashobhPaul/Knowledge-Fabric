@@ -1,0 +1,10 @@
+# Client names stay confidential. The build replaces every listed name, in every
+# source (website, resume PDFs, GitHub, YouTube, LinkedIn, notes), before indexing,
+# so the fabric can never quote one. Add a client here; nothing else to change.
+clients:
+  - names: ["American Express", "Amex"]
+    as: "a global financial-services client"
+  - names: ["Southwest Airlines", "Southwest"]
+    as: "a major US airline"
+  - names: ["PricewaterhouseCoopers", "PwC"]
+    as: "a global professional-services firm"

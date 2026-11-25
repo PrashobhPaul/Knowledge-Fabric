@@ -223,7 +223,7 @@ export const DEFAULT_INTENT = {
 const FOCUS_TERMS = [
   // organisations
   'qualizeal','tech mahindra','yash technologies','yash','brane enterprises','brane','primera medical','primera',
-  'tata consultancy services','tcs','american express','amex','microsoft','southwest airlines','pwc',
+  'tata consultancy services','tcs','microsoft',
   'srm university','jntu',
   // projects
   'rvonwheelz','soccer.ai','soccer ai','invest.iq','investiq','koode','knowledge fabric','pachaka lokam','iplbuzz',
@@ -246,7 +246,7 @@ const FOCUS_TERMS = [
 // answer a question about Qualizeal, however well its words match.
 export const ENTITY_FAMILIES = {
   organization: ['qualizeal', 'tech mahindra', 'yash technologies', 'brane enterprises', 'primera medical',
-                 'tata consultancy services', 'tcs', 'american express'],
+                 'tata consultancy services', 'tcs'],
   project: ['rvonwheelz', 'soccer.ai', 'invest.iq', 'koode', 'knowledge fabric', 'pachaka lokam', 'iplbuzz',
             'cogniflow', 'profitpilot', 'validaite', 'qmentisai', 'dhinasuthra', 'tripwise'],
   place: ['spiti', 'tabo', 'kaza', 'key monastery', 'chandratal', 'chicham', 'atal tunnel', 'langza', 'manali',
@@ -258,7 +258,7 @@ export const ENTITY_FAMILIES = {
 const FOCUS_ALIASES = {
   tcs: ['tata consultancy services'], 'tata consultancy services': ['tcs'],
   'primera medical': ['primera'], 'yash technologies': ['yash'], 'brane enterprises': ['brane'],
-  amex: ['american express'], 'invest.iq': ['investiq'], investiq: ['invest.iq'],
+  'invest.iq': ['investiq'], investiq: ['invest.iq'],
   'soccer.ai': ['soccer ai', 'worldcup2026fifa', 'fifa2026'], 'knowledge fabric': ['knowledge-fabric'],
   'pachaka lokam': ['pachakalokam', 'pachaka-lokam'], 'key monastery': ['kee monastery', 'ki monastery'],
   'the canvas of earth': ['canvas of earth'], 'spiti valley': ['spiti'], 'microsoft ai tour': ['ai tour'],

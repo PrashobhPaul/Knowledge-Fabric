@@ -26,6 +26,10 @@ canon:
   - Tell me about yourself.
   - Give me a short bio of Prashobh.
   - Introduce yourself.
+  - Who are you?
+  - Who is Prashobh?
+  - What does Prashobh do?
+  - What do you do?
   answer: I am Prashobh Paul, an AI Architect based in Hyderabad, India, with over eleven years in AI,
     Generative AI, NLP and robotics. Today I lead the AI Center of Excellence work at Qualizeal, where
     I design and build agentic AI systems for enterprises and AI-testing platforms. Before that I spent
@@ -49,6 +53,12 @@ canon:
   - introduce
   - background
   - profile
+  - your name
+  - whats your name
+  - what is your name
+  - who are you
+  - introduce yourself
+  - about yourself
 - id: current-role
   topics:
   - career
@@ -71,15 +81,42 @@ canon:
     source: website
     why: 'Career timeline: Qualizeal, AI Architect, Jan 2026 to present'
   keywords:
-  - work
-  - job
-  - role
-  - currently
-  - now
   - qualizeal
   - responsibilities
   - title
   - position
+  - current position
+  - do you work
+  - work for
+  - where do you work
+  - designation
+  - job
+  - current job
+  - currently working
+  - which company
+  - company do you work
+  - join
+  - joined
+  - since when
+  - coe
+  - ai coe
+  - center of excellence
+  - centre of excellence
+  - team lead
+  - lead a team
+  - do you lead
+  - leadership
+  - manage a team
+  - for a living
+  - do for a living
+  - profession
+  - occupation
+  - what do you do
+  - kind of work
+  - kind of ai work
+  - type of work
+  - work do you do
+  - what work do you do
 - id: qualizeal-work
   topics:
   - career
@@ -88,11 +125,11 @@ canon:
   - What are you building at Qualizeal?
   - What platforms has Prashobh built at Qualizeal?
   - Tell me about ValidAIte and QMentisAI.
-  answer: At Qualizeal I work on two internal platforms and on client solutions. ValidAIte is our AI-system
-    testing platform for validating AI and GenAI systems, and QMentisAI is our AI testing and quality-engineering
-    platform. On the client side I build agentic AI for the software development life cycle with Kiro
-    for Southwest Airlines, and agentic AI for the software testing life cycle with the Microsoft Agent
-    Framework and .NET for PwC.
+  answer: At Qualizeal I work on two internal platforms and on client solutions. ValidAIte is our platform
+    for testing and validating AI and GenAI systems, and QMentisAI is our AI testing and quality-engineering
+    platform. For clients I build agentic AI for the software development life cycle with Kiro for a major
+    US airline, and agentic AI for the software testing life cycle with the Microsoft Agent Framework
+    and .NET for a global professional-services firm. I keep client names confidential.
   evidence:
   - url: profile:engagements/ValidAIte
     source: resume
@@ -102,22 +139,28 @@ canon:
     why: QMentisAI, internal platform
   - url: profile:engagements/Agentic AI for the SDLC
     source: resume
-    why: Southwest Airlines, Kiro
+    why: Airline client, Kiro
   - url: profile:engagements/Agentic AI for the STLC
     source: resume
-    why: PwC, Microsoft Agent Framework and .NET
+    why: Professional-services client, Microsoft Agent Framework and .NET
   - url: https://github.com/PrashobhPaul/SDLC_Lifecycle__KiroAutomation
     source: github
     why: The Kiro SDLC automation repository
   keywords:
   - validaite
   - qmentisai
-  - platform
   - qualizeal
-  - clients
-  - southwest
-  - pwc
-  - building
+  - validaite
+  - qmentisai
+  - at work
+  - internal platforms
+  - platforms at qualizeal
+  - at qualizeal
+  - products
+  - qualizeal products
+  - your products
+  - platforms
+  - tools you built
 - id: career-history
   topics:
   - career
@@ -150,15 +193,19 @@ canon:
   keywords:
   - companies
   - career
-  - history
   - worked
   - employers
-  - before
-  - journey
-  - experience
   - worked for
   - worked at
   - past
+  - have you worked
+  - previous companies
+  - walk me through
+  - journey so far
+  - previously
+  - history
+  - career history
+  - before qualizeal
 - id: tech-mahindra
   topics:
   - career
@@ -186,9 +233,9 @@ canon:
   - Have you worked in healthcare?
   answer: Yes, four years of it. At Primera Medical Technologies, from 2017 to 2021, I was a Senior NLP
     Engineer. I built NLP pipelines for EMR systems such as Epic and Meditech processing HL7 and FHIR
-    clinical data at scale, developed clinical NLP systems used across more than sixty US hospitals including
-    a real-time medical note reader and OCR tools, and built predictive models for patient outcomes and
-    clinical decision support.
+    clinical data at scale and mapping it to clinical ontologies like SNOMED, LOINC and ICD-10, developed
+    clinical NLP systems used across more than sixty US hospitals including a real-time medical note reader
+    and OCR tools, and built predictive models for patient outcomes and clinical decision support.
   evidence:
   - url: profile:roles/Primera Medical Technologies
     source: resume
@@ -206,6 +253,8 @@ canon:
   - primera
   - emr
   - hl7
+  - clinical nlp
+  - primera medical
 - id: bfsi
   topics:
   - career
@@ -215,9 +264,9 @@ canon:
   - What is your experience in finance?
   answer: Yes. At Yash Technologies I was a Senior Data Scientist working on BFSI and risk analytics,
     and at Tech Mahindra I led GenAI and agentic implementations for BFSI clients. Earlier, at TCS, I
-    built AI-driven customer analytics and NLP models for enterprise clients including American Express.
-    I have also built finance tooling on my own time, such as automating 10-K and 10-Q filings analysis
-    and stock research for Indian equities.
+    built AI-driven customer analytics and NLP models for enterprise clients including a global financial-services
+    company. I have also built finance tooling on my own time, such as automating 10-K and 10-Q filings
+    analysis and stock research for Indian equities.
   evidence:
   - url: profile:roles/Yash Technologies
     source: resume
@@ -240,6 +289,9 @@ canon:
   - insurance
   - yash
   - fintech
+  - yash technologies
+  - risk analytics
+  - fraud
 - id: robotics
   topics:
   - career
@@ -247,11 +299,15 @@ canon:
   questions:
   - What robotics work has Prashobh done?
   - Have you worked on robots?
-  answer: 'Yes, at Brane Enterprises from 2021 to 2022 as Associate Solutions Leader, working on robotics
-    and computer vision. One piece I like to mention is the quadrupedal robot work: machine-learning based
-    gait tuning and object detection for a four-legged robot platform. My robotics toolkit includes ROS,
-    SLAM, sensor fusion, autonomous navigation and edge AI.'
+  answer: Yes. From 2021 to 2022 I was Associate Solutions Leader in AI and Robotics at Brane Enterprises,
+    a Hyderabad startup where my mentors Dr. Roshy and Rajaram had called me back to work with them. I
+    led object detection, gait and path planning and the physics engine for quadrupedal robots, took AI
+    onto edge devices with ONNX, and worked on vision glasses for the visually impaired as part of a Telangana
+    State Government initiative. My toolkit there included ROS, SLAM, sensor fusion and autonomous navigation.
   evidence:
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Brane in depth
   - url: profile:roles/Brane Enterprises
     source: resume
     why: Role in Robotics and Computer Vision
@@ -268,6 +324,12 @@ canon:
   - brane
   - quadruped
   - vision
+  - brane enterprises
+  - quadrupedal
+  - startup
+  - visually impaired
+  - vision glasses
+  - edge ai
 - id: education
   topics:
   - education
@@ -297,6 +359,20 @@ canon:
   - srm
   - jntu
   - qualification
+  - masters
+  - graduation
+  - iit
+  - iim
+  - nit
+  - iiit
+  - alma mater
+  - which college
+  - which university
+  - engineering college
+  - b.tech
+  - m.tech
+  - bachelor
+  - post graduation
 - id: skills
   topics:
   - skills
@@ -333,6 +409,29 @@ canon:
   - langgraph
   - crewai
   - autogen
+  - programming languages
+  - programming
+  - tech stack
+  - technical skills
+  - languages do you code
+  - python
+  - pytorch
+  - aws
+  - gcp
+  - llm
+  - llms
+  - large language models
+  - gpt
+  - openai
+  - claude
+  - gemini
+  - langchain
+  - rag
+  - machine learning
+  - deep learning
+  - nlp
+  - generative ai
+  - genai
 - id: projects
   topics:
   - projects
@@ -340,12 +439,12 @@ canon:
   - What projects has Prashobh built?
   - What are your personal projects?
   - Show me your side projects.
-  answer: On my own time I build apps that solve a real problem for someone I know. RVonWheelz is a car
-    and bike pooling app for my own community. Koode, Malayalam for "together", lets family know you are
-    safe on long trips. Pachaka Lokam is an offline South Indian meal planner I made for my mom and my
-    wife. Invest.IQ is AI stock research for Indian equities, IPLBuzz and Soccer.AI are my sports analytics
-    companions, and Knowledge Fabric is the explainable, citation-grounded AI you are talking to right
-    now. Every one of them has its code on my GitHub.
+  answer: I build apps that solve a real problem for someone I know. RVonWheelz is a car and bike pooling
+    app for my own community. Koode, Malayalam for together, lets family know you are safe on long trips.
+    Pachaka Lokam is an offline South-Indian meal planner I made for my mom and my wife. Invest.IQ is
+    AI stock research for Indian equities. IPLBuzz, Soccer.AI and a hockey World Cup companion are my
+    sports analytics apps. CogniFlow animates architecture diagrams, and Knowledge Fabric is the explainable,
+    cited AI you are talking to now. The code for all of them is on my GitHub.
   evidence:
   - url: https://www.prashobhpaul.com/works.html
     source: website
@@ -371,13 +470,20 @@ canon:
   - url: https://github.com/PrashobhPaul/Prashobh_Knowledge_Factory
     source: github
     why: Knowledge Fabric and Factory source
+  - url: https://github.com/PrashobhPaul/CogniFlow
+    source: github
+    why: CogniFlow source
   keywords:
   - projects
   - side projects
-  - apps
   - built
   - portfolio
-  - github
+  - what have you built
+  - what apps
+  - apps
+  - what has
+  - build
+  - personal projects
 - id: knowledge-fabric
   topics:
   - projects
@@ -392,6 +498,9 @@ canon:
     Nothing is generated; every sentence is traced to its source. It runs as a static site, and the feedback
     loop turns flagged answers into curator work. The code is public on GitHub.'
   evidence:
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Knowledge Fabric in depth
   - url: https://www.prashobhpaul.com/works.html
     source: website
     why: Knowledge Fabric on the works page
@@ -430,6 +539,9 @@ canon:
   - url: https://github.com/PrashobhPaul/ProfitPilot_v1
     source: github
     why: Stock prediction experiment
+  - url: doc:Invest_IQ
+    source: resume
+    why: Invest.IQ in depth, in his words
   keywords:
   - invest
   - investiq
@@ -439,17 +551,25 @@ canon:
   - prediction
   - trading
   - market
+  - stock market
+  - stock research
+  - equity
+  - shares
+  - nse
 - id: koode
   topics:
   - projects
   questions:
   - What is Koode?
-  answer: 'Koode means "together, with you" in Malayalam. I built it for the people who worry when you
-    travel: it lets family and friends know you are okay on a long journey without you having to call
-    or text. It is fully open source and zero cost, using OpenStreetMap for maps and Supabase for live
-    sharing, with no Google services and no billing anywhere. It is an Android app written in Kotlin with
-    Jetpack Compose.'
+  answer: Koode means together, with you, in Malayalam. I built it because my parents worry every time
+    I drive between Hyderabad and Thrissur. It does not track a person; it watches the journey, rating
+    it Normal, Attention or Concern, and shows loved ones a live map, ETA and timeline. It is invitation-only
+    and every trip self-destructs thirty minutes after arrival. It is an Android app in Kotlin with Jetpack
+    Compose, using OpenStreetMap and Supabase, fully open source and zero cost.
   evidence:
+  - url: doc:Koode
+    source: resume
+    why: Koode in depth, in his words
   - url: https://www.prashobhpaul.com/works.html
     source: website
     why: Koode on the works page
@@ -461,15 +581,33 @@ canon:
   - safety
   - trip
   - journey app
+  - tracking
+  - track
+  - journey safety
+  - safety app
+  - koode mean
+  - what does koode mean
+  - travel safety
+  - private
+  - privacy
+  - invitation
+  - invite
+  - invitation-only
+  - who can see
 - id: pachaka-lokam
   topics:
   - projects
   questions:
   - What is Pachaka Lokam?
-  answer: 'Pachaka Lokam is my most personal project. It started as a hobby to make life easier for my
-    mom and my wife in the kitchen: an offline South Indian meal planner. No accounts, no cloud, just
-    a practical app for everyday cooking.'
+  answer: Pachaka Lokam, the world of cooking in Malayalam, is my most personal project. I made it for
+    my mom and my wife, and to make sure I buy everything the kitchen needs on a busy day. It is a fully
+    offline South-Indian meal planner that suggests today's meals from what is in your kitchen, remembers
+    festival menus and tracks grocery and household reminders. No accounts, no cloud, no tracking. It
+    installs on Android as a web app.
   evidence:
+  - url: doc:Pachaka_Lokam
+    source: resume
+    why: Pachaka Lokam in depth
   - url: https://www.prashobhpaul.com/works.html
     source: website
     why: Pachaka Lokam on the works page
@@ -483,6 +621,12 @@ canon:
   - cooking
   - kitchen
   - recipe
+  - pachakalokam
+  - meal planner
+  - cooking app
+  - grocery
+  - offline
+  - work offline
 - id: aidlc
   topics:
   - projects
@@ -491,17 +635,18 @@ canon:
   - Does Prashobh work on AI-driven SDLC?
   - What is your work on AIDLC?
   - Tell me about Kiro automation.
-  answer: Yes. For Southwest Airlines I build agentic AI for the software development life cycle using
-    Kiro, and for PwC I build agentic AI for the software testing life cycle with the Microsoft Agent
-    Framework and .NET, both as part of the Qualizeal AI Center of Excellence. The Kiro SDLC automation
-    work is on my GitHub.
+  answer: Yes. Agentic AI across the software life cycle is my core work at Qualizeal. I build agentic
+    AI for the software development life cycle with Kiro for a major US airline, and agentic AI for the
+    software testing life cycle with the Microsoft Agent Framework and .NET for a global professional-services
+    firm. My Kiro SDLC automation experiments are on GitHub, and Knowledge Fabric is my take on the knowledge
+    layer an AI-driven development life cycle needs.
   evidence:
   - url: profile:engagements/Agentic AI for the SDLC
     source: resume
-    why: Southwest Airlines, Kiro
+    why: Airline client, Kiro
   - url: profile:engagements/Agentic AI for the STLC
     source: resume
-    why: PwC, Microsoft Agent Framework, .NET
+    why: Professional-services client, Microsoft Agent Framework, .NET
   - url: https://github.com/PrashobhPaul/SDLC_Lifecycle__KiroAutomation
     source: github
     why: Kiro SDLC automation repository
@@ -510,9 +655,10 @@ canon:
   - aidlc
   - kiro
   - stlc
-  - southwest
-  - pwc
   - development life cycle
+  - software testing
+  - testing
+  - agentic ai for software
 - id: services
   topics:
   - services
@@ -550,6 +696,33 @@ canon:
   - offer
   - engage
   - help
+  - available
+  - availability
+  - hire you
+  - engagement
+  - freelance work
+  - available for
+  - take projects
+  - startup
+  - strategy
+  - ai strategy
+  - advisory
+  - help my startup
+  - help my company
+  - help my team
+  - work with you
+  - collaborate
+  - collaboration
+  - chatbot
+  - build a chatbot
+  - for my company
+  - for my business
+  - my company
+  - my business
+  - my organisation
+  - my organization
+  - proof of concept
+  - poc
 - id: training
   topics:
   - services
@@ -580,6 +753,18 @@ canon:
   - course
   - coaching
   - classes
+  - train my team
+  - train
+  - corporate training
+  - genai training
+  - sessions
+  - speak at
+  - conference
+  - talk
+  - talks
+  - keynote
+  - speaker
+  - teach on
 - id: contact
   topics:
   - contact
@@ -601,6 +786,11 @@ canon:
   - email
   - connect
   - message
+  - phone
+  - phone number
+  - your linkedin
+  - linkedin profile
+  - linkedin id
 - id: location
   topics:
   - contact
@@ -622,11 +812,10 @@ canon:
   - live
   - location
   - city
-  - hyderabad
   - where from
   - malayalam names
-  - kerala
-  - thrissur
+  - why malayalam
+  - named in malayalam
 - id: youtube
   topics:
   - youtube
@@ -634,10 +823,11 @@ canon:
   - What is The Canvas of Earth?
   - Tell me about your YouTube channel.
   - What do you make videos about?
-  answer: 'The Canvas of Earth is my travel channel on YouTube. It is where I film the journeys, mostly
-    the Himalayas: Spiti Valley, Key Monastery, Chandratal Lake, the world''s highest post office at Hikkim,
-    Manali. It has grown to around nine thousand subscribers and close to half a million views across
-    fifty videos. It is a hobby I take seriously, not a teaching channel.'
+  answer: 'The Canvas of Earth is my travel channel on YouTube, mostly the Himalayas: Spiti Valley, Key
+    Monastery, Chandratal Lake, the world''s highest post office at Hikkim, Manali. It has grown to around
+    nine thousand subscribers and close to half a million views across about fifty videos, and my most
+    watched video is the view from Kee Monastery at 13,668 feet. It is a travel channel, a hobby I take
+    seriously, not a teaching channel.'
   evidence:
   - url: https://www.youtube.com/@TheCanvasOfEarth
     source: youtube
@@ -655,6 +845,17 @@ canon:
   - canvas of earth
   - subscribers
   - vlog
+  - how many videos
+  - videos posted
+  - most watched
+  - most viewed
+  - popular video
+  - views
+  - channel name
+  - name of your channel
+  - name of your youtube
+  - name of the channel
+  - youtube channel
 - id: spiti
   topics:
   - youtube
@@ -694,10 +895,10 @@ canon:
   questions:
   - What is the Key Monastery video about?
   - What does Prashobh say about the history of Key Monastery?
-  answer: In the Key Monastery explainer I walk through the monastery's origins in the eleventh century,
-    the prayer hall inaugurated by the Dalai Lama in 2000, the earthquakes, attacks and restorations it
-    survived, and its honeycomb architecture of interconnected chambers. It is not one structure built
-    at one time; it evolved over centuries.
+  answer: Key Monastery, also spelt Kee, stands at about 13,668 feet in Spiti Valley, Himachal Pradesh.
+    In my explainer I walk through its origins in the eleventh century, the prayer hall inaugurated by
+    the Dalai Lama in 2000, the earthquakes, attacks and restorations it survived, and its honeycomb architecture
+    of interconnected chambers. It is not one structure built at one time; it evolved over centuries.
   evidence:
   - url: https://www.youtube.com/watch?v=FspMmQOcVq0
     source: youtube
@@ -706,6 +907,8 @@ canon:
   - key monastery
   - kee monastery
   - monastery
+  - where is key monastery
+  - kee
 - id: ai-tour
   topics:
   - events
@@ -730,7 +933,6 @@ canon:
   - satya
   - nadella
   - event
-  - conference
   - mumbai
 - id: linkedin-knowledge
   topics:
@@ -752,12 +954,15 @@ canon:
     source: github
     why: The fabric itself
   keywords:
-  - linkedin
   - post
   - posts
   - ontology
   - knowledge layer
   - wrote
+  - on linkedin
+  - linkedin posts
+  - linkedin post
+  - post on linkedin
 - id: agentic-view
   topics:
   - opinion
@@ -782,6 +987,10 @@ canon:
   - opinion
   - view
   - think
+  - your take
+  - take on
+  - thoughts on
+  - opinion on
 - id: languages
   topics:
   - personal
@@ -794,12 +1003,15 @@ canon:
     source: resume
     why: Languages and proficiency
   keywords:
-  - languages
   - speak
+  - spoken
   - malayalam
   - hindi
   - telugu
   - mother tongue
+  - languages do you speak
+  - languages you speak
+  - how many languages
 - id: interests
   topics:
   - personal
@@ -860,6 +1072,19 @@ canon:
   - grandfather
   - grandmother
   - spouse
+  - kids names
+  - children names
+  - how many kids
+  - how many children
+  - your wife
+  - your parents
+  - your family
+  - your kids
+  - your children
+  - your father
+  - your mother
+  - your daughter
+  - your son
 - id: birthday
   topics:
   - personal
@@ -911,6 +1136,9 @@ canon:
   - phoenix
   - pen name
   - conceptual
+  - kind of art
+  - what art
+  - art do you
 - id: origins
   topics:
   - personal
@@ -987,6 +1215,17 @@ canon:
   - opennlp
   - ultimatix
   - date tagger
+  - tata consultancy services
+  - career start
+  - started your career
+  - sixteen interviews
+  - break into ai
+  - first break
+  - big break
+  - your break
+  - gave you a chance
+  - gave you your break
+  - break in ai
   questions:
   - What did you do at TCS?
   - How did your career start?
@@ -1022,6 +1261,8 @@ canon:
   - highlight
   - object detection
   - accuracy
+  - most proud
+  - proud of
   questions:
   - What achievement are you proudest of?
   - What is your biggest accomplishment?
@@ -1060,10 +1301,10 @@ canon:
   - Tell me about the physician's note reader.
   answer: The physician's note reader at Primera. It had to read every inpatient note across more than
     sixty hospitals, from Epic and Meditech, in HL7 and MAR, collate physician notes, nursing notes and
-    medication records per patient, map them through SNOMED, LOINC and ICD-10, build custom relationship
-    graphs and feed real-time analytics. Lots of small but powerful NLP and ML on huge data, for the first
-    time, while I was the pillar of the NLP team. I am prouder of that than of today's sophisticated agentic
-    work.
+    medication records per patient, map them through clinical ontologies like SNOMED, LOINC and ICD-10,
+    build custom relationship graphs and feed real-time analytics. Lots of small but powerful NLP and
+    ML on huge data, for the first time, while I was the pillar of the NLP team. I am prouder of that
+    than of today's sophisticated agentic work.
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1087,6 +1328,13 @@ canon:
   - roshy
   - rajaram
   - interns
+  - who inspired your career
+  - professor
+  - teacher
+  - college mentor
+  - helped you
+  - supported you
+  - guided you
   questions:
   - Who were your mentors?
   - Who do you mentor?
@@ -1113,13 +1361,21 @@ canon:
   - governance
   - evaluate
   - evaluation
+  - choose an architecture
+  - choose architecture
+  - architecture decision
+  - architecture decisions
+  - how do you architect
+  - design an architecture
+  - pick a framework
   questions:
   - How do you choose between LangGraph, CrewAI and AutoGen?
   - What does AI governance mean to you?
   - How do you evaluate AI systems?
-  answer: Framework choice depends on the client's need and the situation; I do not marry a framework.
-    AI governance means a lot to me because AI adoption is now in everything. On evaluating AI systems
-    I have my own approaches and thoughts, beyond the products Qualizeal offers.
+  answer: Between LangGraph, CrewAI, AutoGen or custom orchestration, the choice depends on the client's
+    need and the situation; I do not marry a framework. AI governance means a lot to me because AI adoption
+    is now in everything. On evaluating AI systems I have my own approaches and thoughts, beyond the products
+    Qualizeal offers.
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1132,13 +1388,12 @@ canon:
   - personal
   - career
   keywords:
-  - drives
   - motivates
   - motivation
-  - decision
-  - decisions
-  - change jobs
-  - values
+  - drives you
+  - drives your
+  - what drives
+  - keeps you going
   questions:
   - What drives your career decisions?
   - What motivates you?
@@ -1210,6 +1465,10 @@ canon:
   - diagrams
   - animated
   - motion
+  - architecture diagram
+  - diagram tool
+  - animated diagrams
+  - diagram
   questions:
   - What does CogniFlow do?
   - What is CogniFlow?
@@ -1223,6 +1482,9 @@ canon:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
     why: Why CogniFlow
+  - url: doc:CogniFlow
+    source: resume
+    why: CogniFlow in depth
 - id: youtube-why
   topics:
   - youtube
@@ -1248,6 +1510,11 @@ canon:
   - favorite journey
   - best trip
   - travel
+  - favourite trip
+  - favorite trip
+  - journey till now
+  - memorable trip
+  - editing software
   questions:
   - Why did you start your YouTube channel?
   - Which trip changed you the most?
@@ -1303,6 +1570,20 @@ canon:
   - hockey
   - support
   - fan
+  - ipl team
+  - favourite team
+  - favorite team
+  - club
+  - football club
+  - clubs
+  - premier league
+  - isl
+  - sport
+  - sports
+  - favourite sport
+  - favorite sport
+  - which sport
+  - watch cricket
   questions:
   - Which cricket and football teams do you follow?
   - Which team do you support?
@@ -1331,6 +1612,16 @@ canon:
   - poems
   - wordsworth
   - thinking
+  - poet
+  - favourite poet
+  - favorite poet
+  - artist
+  - artists
+  - favourite artist
+  - favorite artist
+  - painter
+  - favourite painter
+  - who inspires you
   questions:
   - What books or people shape your thinking?
   - What inspires you?
@@ -1352,6 +1643,7 @@ canon:
   - message
   - lesson
   - teach your kids
+  - advice to your children
   questions:
   - What do you want your children to know about your work?
   - What advice would you give?
@@ -1361,3 +1653,413 @@ canon:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
     why: What I want my children to know
+- id: soccer-ai
+  topics:
+  - projects
+  - sports
+  keywords:
+  - soccer
+  - soccer.ai
+  - fifa
+  - world cup
+  - football app
+  - ballon
+  - soccer app
+  - world cup app
+  - most recent
+  - latest project
+  - recent project
+  - working on now
+  questions:
+  - What is Soccer.AI?
+  - Tell me about your World Cup app.
+  - What did you build for the FIFA World Cup?
+  answer: 'Soccer.AI is my AI companion for the 2026 FIFA World Cup and my most recent build: AI-written
+    match stories, tournament simulations, visual analytics and a live Ballon d''Or prediction. It is
+    an offline-first progressive web app in React and TypeScript with Supabase, so it installs on your
+    phone like a native app. Try it at fifa2026.prashobhpaul.com.'
+  evidence:
+  - url: doc:Soccer_AI
+    source: resume
+    why: Soccer.AI in depth
+  - url: https://github.com/PrashobhPaul/worldcup2026fifa
+    source: github
+    why: Soccer.AI source
+  - url: https://www.prashobhpaul.com/works.html
+    source: website
+    why: Soccer.AI on the works page
+- id: iplbuzz
+  topics:
+  - projects
+  - sports
+  keywords:
+  - iplbuzz
+  - ipl buzz
+  - ipl dashboard
+  - points table
+  - leaderboard
+  - cricket app
+  - cricket analytics
+  questions:
+  - What is IPLBuzz?
+  - Tell me about your IPL dashboard.
+  - Do you have a cricket app?
+  answer: 'IPLBuzz is one of my favourite side projects: the whole IPL 2026 season in one place, with
+    points tables, squads, batting and bowling leaderboards, live scores and match analytics. It started
+    as a simple season tracker and grew into a complete cricket analytics dashboard. It is a JavaScript
+    web app at prashobhpaul.github.io/IPLBuzz.'
+  evidence:
+  - url: doc:IPLBuzz
+    source: resume
+    why: IPLBuzz in depth
+  - url: https://github.com/PrashobhPaul/IPLBuzz
+    source: github
+    why: IPLBuzz source
+  - url: https://www.prashobhpaul.com/works.html
+    source: website
+    why: IPLBuzz on the works page
+- id: rvonwheelz
+  topics:
+  - projects
+  keywords:
+  - rvonwheelz
+  - rv on wheelz
+  - pooling
+  - carpool
+  - car pool
+  - ride sharing
+  - commute
+  - raheja
+  - ride
+  - carpooling
+  - co rider
+  - community
+  - neighbours
+  - neighbors
+  questions:
+  - What is RVonWheelz?
+  - Tell me about your car pooling app.
+  - What was the first app you built for others?
+  answer: RVonWheelz was the very first thing I built for people other than myself. In my community, Raheja
+    Vistas Elite in Nacharam, Hyderabad, the daily office commute was a shared headache, so neighbours
+    can now offer or book car and bike rides, chat with co-riders and get real-time alerts for requests,
+    approvals and reminders. It is a small non-profit app in React and TypeScript with Capacitor for Android
+    and Supabase.
+  evidence:
+  - url: doc:RVonWheelz
+    source: resume
+    why: RVonWheelz in depth
+  - url: https://github.com/PrashobhPaul/rvonwheelz
+    source: github
+    why: RVonWheelz source
+  - url: https://www.prashobhpaul.com/works.html
+    source: website
+    why: RVonWheelz on the works page
+- id: hockey
+  topics:
+  - projects
+  - sports
+  keywords:
+  - hockey
+  - fih
+  - hockey world cup
+  - hockey app
+  questions:
+  - Do you have a hockey app?
+  - What is your hockey World Cup project?
+  answer: 'Yes. After Soccer.AI I built a hockey companion for the FIH Hockey World Cup 2026, to analyse,
+    predict and experience the tournament. Hockey matters to me too: I follow the Indian national team,
+    then the Netherlands. It is a JavaScript web app at prashobhpaul.github.io/HockeyWorldCup2026_Women.'
+  evidence:
+  - url: https://github.com/PrashobhPaul/HockeyWorldCup2026_Women
+    source: github
+    why: Hockey World Cup companion
+  - url: doc:Soccer_AI
+    source: resume
+    why: The hockey sibling project
+- id: dhinasuthra
+  topics:
+  - projects
+  keywords:
+  - dhinasuthra
+  - daily routine app
+  - routine patterns
+  - habit
+  questions:
+  - What is Dhinasuthra?
+  - Do you have a habit tracking app?
+  answer: Dhinasuthra is a small Android app in Kotlin that I built in August 2026 to capture the patterns
+    in your daily routine and help you see them.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Dhinasuthra
+    source: github
+    why: Dhinasuthra repository
+  - url: doc:Smaller_Projects
+    source: resume
+    why: Smaller projects
+- id: android-apps
+  topics:
+  - projects
+  keywords:
+  - android
+  - android apps
+  - apk
+  - mobile apps
+  - mobile app
+  - play store
+  - phone app
+  - install
+  - kotlin
+  questions:
+  - Which of your projects are Android apps?
+  - Do you build mobile apps?
+  - Which apps can I install on my phone?
+  answer: Several. RVonWheelz and Invest.IQ ship as Android APKs, Koode and Dhinasuthra are native Android
+    apps in Kotlin, and Pachaka Lokam and Soccer.AI are progressive web apps you install from the browser
+    with Add to Home screen. The download links are on my works page.
+  evidence:
+  - url: https://www.prashobhpaul.com/works.html
+    source: website
+    why: APK and install links on the works page
+  - url: https://github.com/PrashobhPaul/Koode
+    source: github
+    why: Koode, Kotlin Android
+  - url: doc:RVonWheelz
+    source: resume
+    why: RVonWheelz APK
+- id: family-projects
+  topics:
+  - projects
+  - family
+  keywords:
+  - for your family
+  - for family
+  - for your parents
+  - for your wife
+  - for your mom
+  - personal projects
+  - family apps
+  questions:
+  - What have you built for your family?
+  - Did you build anything for your parents or wife?
+  answer: Two of my apps exist because of my family. Koode, because my parents worry whenever I drive
+    between Hyderabad and Thrissur. Pachaka Lokam, for my mom and my wife in the kitchen. And RVonWheelz
+    was for my neighbours. Most of what I build starts with making life easier for people close to me.
+  evidence:
+  - url: doc:Koode
+    source: resume
+    why: Koode, built for his parents
+  - url: doc:Pachaka_Lokam
+    source: resume
+    why: Pachaka Lokam, built for his mom and wife
+- id: sports-projects
+  topics:
+  - projects
+  - sports
+  keywords:
+  - sports projects
+  - sports apps
+  - sports analytics
+  - sport app
+  questions:
+  - What sports projects have you built?
+  - Do you build sports analytics apps?
+  answer: 'Three, all built in 2026: IPLBuzz, a complete IPL cricket analytics dashboard; Soccer.AI, an
+    AI companion for the FIFA World Cup with match stories, simulations and a Ballon d''Or prediction;
+    and a companion for the FIH Hockey World Cup. Sport is where I play with analytics for fun.'
+  evidence:
+  - url: doc:IPLBuzz
+    source: resume
+    why: IPLBuzz
+  - url: doc:Soccer_AI
+    source: resume
+    why: Soccer.AI and the hockey companion
+- id: supabase-projects
+  topics:
+  - projects
+  - skills
+  keywords:
+  - supabase
+  - backend
+  - database
+  questions:
+  - Which of your projects use Supabase?
+  - What backend do your apps use?
+  answer: 'Supabase is my default backend for apps that need live data: RVonWheelz for rides and real-time
+    alerts, Koode for live journey sharing, and Soccer.AI. Pachaka Lokam is deliberately the opposite,
+    fully offline with no backend, and Knowledge Fabric is a static site with no backend at all.'
+  evidence:
+  - url: https://www.prashobhpaul.com/works.html
+    source: website
+    why: Technologies listed per project
+  - url: doc:Koode
+    source: resume
+    why: Koode uses Supabase for live sharing
+- id: try-apps
+  topics:
+  - projects
+  keywords:
+  - try
+  - demo
+  - live
+  - links
+  - link
+  - use your apps
+  questions:
+  - Where can I try your apps?
+  - Do you have live demos?
+  answer: Most of them are live. Invest.IQ at investiq.prashobhpaul.com, Soccer.AI at fifa2026.prashobhpaul.com,
+    Pachaka Lokam at pachakalokam.prashobhpaul.com, IPLBuzz on GitHub Pages, CogniFlow at archianimate.prashobhpaul.com,
+    and the Android APKs for RVonWheelz and Koode are linked from my works page.
+  evidence:
+  - url: https://www.prashobhpaul.com/works.html
+    source: website
+    why: Live links on the works page
+  - url: https://github.com/PrashobhPaul/CogniFlow
+    source: github
+    why: CogniFlow
+- id: open-source
+  topics:
+  - projects
+  keywords:
+  - open source
+  - opensource
+  - source code
+  - free
+  - see your code
+  - your code
+  - github
+  - on github
+  - public apps
+  - which apps are public
+  - projects on github
+  questions:
+  - Are your projects open source?
+  - Is your code public?
+  - Which of your projects are on GitHub?
+  answer: Yes, my personal projects are public on GitHub, and Koode in particular is fully open source
+    and zero cost by design, with no Google services and no billing. Client work stays confidential.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Koode
+    source: github
+    why: Koode, open source
+  - url: https://www.prashobhpaul.com/works.html
+    source: website
+    why: Source links on the works page
+- id: clients
+  topics:
+  - career
+  keywords:
+  - clients
+  - client
+  - customers
+  - companies you work with
+  - who do you work for
+  questions:
+  - Who are your clients?
+  - Which companies have you built solutions for?
+  answer: I keep client names confidential. At Qualizeal I build agentic AI for a major US airline and
+    a global professional-services firm, and over my career I have worked with clients in telecom, banking
+    and financial services, insurance and US healthcare.
+  evidence:
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Career in depth, clients by industry
+  - url: profile:engagements/Agentic AI for the SDLC
+    source: resume
+    why: Client engagement, name confidential
+- id: experience-years
+  topics:
+  - career
+  keywords:
+  - years of experience
+  - how many years
+  - how long
+  - experience
+  - senior
+  - how experienced
+  - years
+  questions:
+  - How many years of experience do you have?
+  - How long have you worked in AI?
+  answer: More than eleven years. I started in the TCS AI Labs in 2015, then spent four years in clinical
+    NLP at Primera, moved into robotics and computer vision at Brane, BFSI analytics at Yash Technologies,
+    led GenAI and agentic AI at Tech Mahindra, and since January 2026 I have been an AI Architect at Qualizeal.
+  evidence:
+  - url: https://www.prashobhpaul.com/
+    source: website
+    why: 11+ years of experience
+  - url: doc:Career_In_Depth
+    source: resume
+    why: The timeline
+- id: voice-uav
+  topics:
+  - career
+  - personal
+  keywords:
+  - uav
+  - drone
+  - plane
+  - voice controlled
+  - college project
+  - engineering project
+  - btech project
+  - hmm
+  - newspaper
+  - flying
+  - build a drone
+  - built a drone
+  - engineer
+  - engineers day
+  - '2012'
+  questions:
+  - Tell me about your voice-controlled UAV.
+  - What was your college project?
+  answer: In 2012, on Engineer's Day, I flew a voice-controlled UAV, a climate-analyser smart plane, using
+    speech recognition I built on Hidden Markov Models. It started because I wanted machines to read my
+    textbooks aloud, it made the regional Telugu newspapers, it carried me into my M.Tech in Knowledge
+    Engineering, and it was my launchpad into AI.
+  evidence:
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: The voice-controlled UAV
+  - url: doc:Smaller_Projects
+    source: resume
+    why: Where it all started
+- id: project-stacks
+  topics:
+  - projects
+  - skills
+  keywords:
+  - technologies
+  - tech used
+  - built with
+  - stack of
+  - react
+  - typescript
+  - kotlin
+  - capacitor
+  - jetpack compose
+  - which language
+  - your apps built with
+  - apps built with
+  - technologies across
+  questions:
+  - Which technologies do your apps use?
+  - What are your projects built with?
+  answer: Each app uses what its problem needs. RVonWheelz is React and TypeScript with Capacitor for
+    Android and Supabase. Invest.IQ is React and TypeScript with Capacitor and an AI reasoning layer.
+    Soccer.AI is a React and TypeScript progressive web app with Supabase. Koode and Dhinasuthra are native
+    Android apps in Kotlin, Koode with Jetpack Compose, OpenStreetMap and Supabase. Pachaka Lokam and
+    IPLBuzz are JavaScript web apps, Pachaka Lokam fully offline. CogniFlow is TypeScript, and Knowledge
+    Fabric is Python with a static JavaScript site.
+  evidence:
+  - url: https://www.prashobhpaul.com/works.html
+    source: website
+    why: Technologies listed per project
+  - url: https://github.com/PrashobhPaul/Koode
+    source: github
+    why: Koode, Kotlin
+  - url: https://github.com/PrashobhPaul/InvestIQ
+    source: github
+    why: Invest.IQ, TypeScript
