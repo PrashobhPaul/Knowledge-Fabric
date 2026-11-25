@@ -685,7 +685,7 @@ check('the index ships the curated canon and every evidence link resolved to a r
 check('the major questions land on the canon and are answered in the owner\'s words with proofs from several sources', () => {
   const cases = [
     ['Where does Prashobh work currently?', 'current-role', /I work at Qualizeal as an AI Architect/],
-    ['What projects has Prashobh built?', 'projects', /RVonWheelz .* Koode .* Pachaka Lokam .* Invest\.IQ/],
+    ['What projects has Prashobh built?', 'projects', /RVonWheelz.*Koode.*Pachaka Lokam.*Invest\.IQ/],
     ['Do you teach AI?', 'training', /Yes, I do\./],
     ['Which companies have you worked for?', 'career-history', /Tech Mahindra/],
     ['What is the Key Monastery video about?', 'key-monastery', /eleventh century/],
