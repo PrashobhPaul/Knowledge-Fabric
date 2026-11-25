@@ -21,6 +21,10 @@ import { explainGraphContribution, renderGraphContribution, graphPurposeCopy }
 import { recordTrace, allTraces, renderTraces, renderFlagBox, renderGapBoard } from './traces.js?v=1';
 import { renderRelated } from './related.js?v=1';
 import { languageNote, LANGS } from './multilingual.js?v=1';
+import { TWIN_CONFIG } from './twinconfig.js?v=1';
+import { createStage } from './stage.js?v=1';
+import { firstPersonAnswer, verdictLine, noAnswerLine } from './persona.js?v=1';
+import * as speaker from './speaker.js?v=1';
 import { currentLang, setLang, listen, speak, recognitionSupported, synthesisSupported, renderVoiceControls, renderSpeakButton } from './voice.js?v=1';
 
 const INDEX_URL = 'data/index.json';
@@ -43,6 +47,14 @@ const state = {
 // Boot
 // ============================================================================
 async function boot() {
+  // The twin: avatar on the stage, baked voice manifest, stage controls.
+  const stageHost = document.getElementById('twin-stage');
+  if (stageHost) {
+    createStage(stageHost, { avatarUrl: TWIN_CONFIG.avatarUrl, photoUrl: TWIN_CONFIG.photoUrl, name: TWIN_CONFIG.ownerName })
+      .then(st => { state.stage = st; setTwinStatus(); });
+    speaker.loadVoiceManifest(TWIN_CONFIG.voiceDir).then(setTwinStatus);
+    wireStageActions();
+  }
   try {
     // 'no-cache' forces the browser to revalidate the index with the server on
     // every load, so a freshly-deployed corpus (new documents) shows up without
@@ -758,28 +770,24 @@ async function ask(question, opts = {}) {
     rel.innerHTML = renderRelated(result.related || [], { label });
     rel.hidden = !(result.related && result.related.length);
   }
-  const voiceEl = document.getElementById('answer-voice');
-  if (voiceEl) {
-    const lang = currentLang();
-    const qLang = (result.analysis && result.analysis.lang) || 'en';
-    const evidenceLangs = [...new Set(citations.map(c => (c.chunk.meta || {}).lang || 'en'))];
-    const note = languageNote(qLang, evidenceLangs);
-    const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    voiceEl.innerHTML = (synthesisSupported() ? renderSpeakButton() : '')
-      + (note ? `<span class="answer-voice-note">${esc(note)}</span>` : '')
-      + `<span class="answer-voice-status" id="answer-voice-status"></span>`;
-    voiceEl.hidden = !voiceEl.textContent.trim() && !synthesisSupported();
-    const plainAnswer = String(answerHtml).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-    const say = () => {
-      const r = speak(plainAnswer, lang);
-      const st = voiceEl.querySelector('#answer-voice-status');
-      if (st) st.textContent = !r.ok ? 'Speech output is not supported here'
-        : r.fallback ? `No ${LANGS[lang].label} voice on this device — read in English`
-        : r.voice ? `Voice: ${r.voice}` : '';
-    };
-    const btn = voiceEl.querySelector('#answer-speak');
-    if (btn) btn.addEventListener('click', say);
-    if (state.spokenQuestion && !silent) { state.spokenQuestion = false; say(); }
+  // The twin speaks the answer in the first person (cited sentences, rewritten
+  // from "he" to "I" by rules), in the owner's baked voice when available.
+  {
+    const hasEvidence = result.summary && result.summary.sentences && result.summary.sentences.length;
+    const reply = hasEvidence ? firstPersonAnswer(result, { spokenSentences: TWIN_CONFIG.spokenSentences })
+                              : { sentences: [noAnswerLine()], spoken: noAnswerLine() };
+    const lines = [result.verdict ? verdictLine(result.verdict) : '', ...reply.sentences.slice(0, TWIN_CONFIG.spokenSentences)].filter(Boolean);
+    const voiceEl = document.getElementById('answer-voice');
+    if (voiceEl) {
+      const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      voiceEl.innerHTML = `<button type="button" class="voice-btn voice-speak" id="answer-speak">▶ Hear it in my words</button>`
+        + `<span class="answer-voice-status">${esc(lines.join(' '))}</span>`;
+      voiceEl.hidden = false;
+      voiceEl.querySelector('#answer-speak').addEventListener('click', () => sayLines(lines));
+    }
+    const player = document.getElementById('answer-player');
+    if (player) { player.innerHTML = ''; player.hidden = true; }
+    if (!silent && TWIN_CONFIG.autoSpeak) sayLines(lines);
   }
   renderGraphValue(citations, result.analysis);
   // Leave a trace; offer a flag. The seeded demo answer is not a visitor action.
@@ -1157,3 +1165,57 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }, 50);
 });
+
+
+// ---------------------------------------------------------------------------
+// The twin: speaking, mood, inline video
+// ---------------------------------------------------------------------------
+function setTwinStatus() {
+  const el = document.getElementById('twin-status');
+  if (!el) return;
+  const parts = [];
+  if (state.stage && state.stage.mode !== '3d') parts.push('avatar model not loaded — portrait fallback');
+  const n = speaker.bakedCount();
+  parts.push(n ? `${n} lines in my own voice` : 'browser voice until the voice bake runs');
+  el.textContent = parts.join(' · ');
+}
+
+function wireStageActions() {
+  const greet = document.getElementById('twin-greet');
+  const mute = document.getElementById('twin-mute');
+  let muted = false;
+  try { muted = localStorage.getItem('kf.mute') === '1'; } catch { /* private mode */ }
+  speaker.setMuted(muted);
+  const paint = () => { mute.setAttribute('aria-pressed', String(muted)); mute.textContent = muted ? 'Sound off' : 'Sound on'; };
+  paint();
+  mute.addEventListener('click', () => { muted = !muted; speaker.setMuted(muted); try { localStorage.setItem('kf.mute', muted ? '1' : '0'); } catch { /* noop */ } paint(); });
+  greet.addEventListener('click', () => sayLines([TWIN_CONFIG.greeting]));
+  // A related video card plays here, at its timestamp, instead of leaving the page.
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('[data-video]');
+    if (!a) return;
+    e.preventDefault();
+    openPlayer(a.dataset.video, Number(a.dataset.t) || 0, a.querySelector('.related-title')?.textContent || '');
+  });
+}
+
+function sayLines(lines) {
+  if (!state.stage || !lines.length) return;
+  state.stage.setMood('speaking');
+  speaker.speak(lines, { lang: currentLang(), onLevel: (l) => state.stage.setMouth(l) })
+    .then(() => state.stage.setMood('idle'));
+}
+
+function openPlayer(videoId, t, title) {
+  const host = document.getElementById('answer-player');
+  if (!host) return;
+  speaker.stop();
+  const safe = String(videoId).replace(/[^A-Za-z0-9_-]/g, '');
+  host.innerHTML = `<div class="player-frame">
+      <iframe src="https://www.youtube-nocookie.com/embed/${safe}?start=${Math.max(0, t | 0)}&autoplay=1&rel=0" title="${title.replace(/"/g, '&quot;')}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      <button type="button" class="player-close" aria-label="Close video">✕</button>
+    </div><p class="player-title">${title.replace(/</g, '&lt;')}${t ? ` · from ${Math.floor(t / 60)}:${String(t % 60).padStart(2, '0')}` : ''}</p>`;
+  host.hidden = false;
+  host.querySelector('.player-close').addEventListener('click', () => { host.innerHTML = ''; host.hidden = true; });
+  host.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}

@@ -36,7 +36,7 @@ function cardsFor(chunk) {
     const t = m.t_label ? ` · ▶ ${m.t_label}` : '';
     out.push(card('video', m.video_title || chunk.document_name, chunk.url,
                   `${rt === 'video' ? (m.format === 'short' ? 'YouTube Short' : 'YouTube video') : 'YouTube' }${t}`,
-                  { thumbnail: m.thumbnail || '' }));
+                  { thumbnail: m.thumbnail || '', videoId: m.video_id || '', t: m.t || 0 }));
   } else if (rt === 'post') {
     out.push(card('post', chunk.document_name.replace(/^LinkedIn · /, ''), chunk.url, 'LinkedIn post'));
   } else if (rt === 'event') {
@@ -139,7 +139,7 @@ export function renderRelated(cards, { label = 'Explore' } = {}) {
       <span class="related-label">${escapeHtml(label)}</span>
       <div class="related-cards">
         ${cards.map(c => `
-          <a class="related-card" data-kind="${escapeHtml(c.kind)}" href="${escapeHtml(c.url)}" target="_blank" rel="noreferrer">
+          <a class="related-card" data-kind="${escapeHtml(c.kind)}" href="${escapeHtml(c.url)}" target="_blank" rel="noreferrer"${c.videoId ? ` data-video="${escapeHtml(c.videoId)}" data-t="${Number(c.t) || 0}" title="Play here"` : ''}>
             ${c.thumbnail ? `<img class="related-thumb" src="${escapeHtml(c.thumbnail)}" alt="" loading="lazy" />`
                           : `<span class="related-icon" aria-hidden="true">${ICON[c.kind] || '•'}</span>`}
             <span class="related-body">

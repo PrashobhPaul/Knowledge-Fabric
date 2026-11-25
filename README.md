@@ -177,8 +177,8 @@ and the fabric must have cross-source joins.
 
 # Using it from the GitHub website (no command line)
 
-### The twin — a speaking 3D version
-See `twin/README.md`: the fabric with a face (`/twin/`), your Ready Player Me avatar and your cloned voice behind a small worker. The twin only rewrites cited sentences to the first person; it never generates facts.
+### The twin — your 3D, speaking self in the hero
+The avatar (left) answers beside the knowledge graph (right), lips synced to the audio, in your own voice once the one-time **Voice bake** workflow has run (no runtime API). It only rewrites cited sentences to the first person; it never generates facts. Cited videos play inline at the cited second. Setup: `twin/README.md`.
 
 ### Publish the site
 

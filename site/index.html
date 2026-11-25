@@ -81,8 +81,12 @@
        ============================================================ -->
   <section class="story-section hero-section" id="hero">
     <div class="hero-overlay">
-      <h1 class="hero-title">Everything about Prashobh,<br/><em>traced to its source.</em></h1>
-      <p class="hero-sub">The resume, the website, the YouTube channel and the GitHub repositories already hold the answers. Knowledge Fabric finds them, links them across sources, shows exactly where each one came from, and tells you how certain it is.</p>
+      <div id="twin-stage" class="twin-stage" data-mood="idle" aria-label="Prashobh's avatar"></div>
+      <div class="stage-actions">
+        <button type="button" id="twin-greet" class="stage-btn">Say hello</button>
+        <button type="button" id="twin-mute" class="stage-btn" aria-pressed="false">Sound on</button>
+        <span id="twin-status" class="stage-status"></span>
+      </div>
 
       <form class="hero-composer" id="composer-form">
         <input id="composer-input" type="text" placeholder="Ask anything about Prashobh Paul…" autocomplete="off" spellcheck="false" />
@@ -152,6 +156,7 @@
         <div class="answer-a-card">
           <span class="answer-a-eyebrow">Knowledge Fabric Answer</span>
           <div class="answer-a-text" id="answer-stage-text">—</div>
+          <div class="answer-player" id="answer-player" hidden></div>
           <div class="answer-related" id="answer-related" hidden></div>
           <div class="answer-voice" id="answer-voice" hidden></div>
           <p class="answer-assurance" data-brand="answerAssurance"></p>

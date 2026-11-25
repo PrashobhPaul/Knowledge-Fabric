@@ -1,31 +1,21 @@
-# The twin — a speaking, 3D Prashobh on top of the Knowledge Fabric
+# The twin — your 3D, speaking self inside the Knowledge Fabric
 
-Live at **https://prashobhpaul.github.io/Prashobh_Knowledge_Factory/twin/** (same GitHub Pages site as the fabric, no extra hosting).
+The avatar lives in the hero of **https://prashobhpaul.github.io/Prashobh_Knowledge_Factory/** (left), beside the knowledge graph (right). Every answer is read aloud in the first person; the mouth follows the audio. Nothing is generated: the fabric's cited sentences are rewritten from "he" to "I" by rules (`site/js/persona.js`).
 
-| Layer | What it is | Where |
-|---|---|---|
-| Brain | The fabric's retrieval, verdicts, citations and languages — unchanged | `site/js/` |
-| Persona | Rule-based rewrite of the cited sentences from "he" to "I". No model, no new facts | `site/twin/persona.js` |
-| Face | Any GLB with ARKit/Oculus visemes; mouth follows the audio, blinks, idle head motion; portrait fallback | `site/twin/stage.js` |
-| Voice | Your cloned voice via a Cloudflare Worker that holds the key; browser voice until then | `twin/worker/` |
-| Ears | Mic input in English, Malayalam, Telugu or Hindi (Web Speech API) | `site/js/voice.js` |
+Everything owner-specific is in **`site/js/twinconfig.js`**.
 
-Everything you need to change is in **`site/twin/config.js`**.
+## 1. Your face (10 minutes, website only)
+The bundled `site/assets/avatar.glb` is the reference model with mouth shapes. Replace it with one made from your photo:
+- **Avaturn** (avaturn.me → create from a selfie → export GLB with blendshapes), or
+- **Ready Player Me** (readyplayer.me → Create avatar → Upload a photo → copy the link and append `?morphTargets=ARKit,Oculus%20Visemes`).
 
-## Make the avatar (Ready Player Me, website only — about 10 minutes)
-1. Go to **readyplayer.me** → **Create avatar** (no account needed; an account lets you edit later).
-2. Choose **Take a photo** or **Upload a photo** — use a front-facing, evenly lit photo of your face.
-3. Adjust hair, glasses, outfit; click **Next / Done**. The page shows your avatar and a link such as
-   `https://models.readyplayer.me/68a1…c3.glb` (also under **My avatars → ⋯ → Copy avatar link**).
-4. Add the mouth shapes to the link — this is what makes the lips move:
-   `https://models.readyplayer.me/<id>.glb?morphTargets=ARKit,Oculus%20Visemes`
-5. On GitHub open `site/twin/config.js` → pencil icon → set `avatarUrl: '<that link>'` → **Commit changes** to `main`.
-   The deploy runs itself; reload `/twin/`.
+Then on GitHub: `site/js/twinconfig.js` → pencil → `avatarUrl: '<link or assets/your-file.glb>'` → Commit to `main`. (To host the file in the repo, upload it to `site/assets/` via *Add file → Upload files*.)
 
-Optional: for a photo while the model loads, set `photoUrl` to any image URL (for example the portrait on your website).
+## 2. Your voice, paid once (no API calls on the live site)
+1. ElevenLabs → **Voices → Add → Instant Voice Clone** → upload 1–3 minutes of your clean narration (your YouTube explainers work) → copy the **Voice ID**. Create an API key (Text to Speech only).
+2. GitHub → **Settings → Secrets and variables → Actions** → add `ELEVENLABS_API_KEY` and `ELEVENLABS_VOICE_ID`.
+3. **Actions → "Voice bake" → Run workflow** with a character budget (your plan's monthly quota). It synthesises the sentences the twin can say, commits the MP3s to `site/voice/`, and the site deploys. Already-baked sentences are never paid for again; after a knowledge refresh, run it once more for the new ones.
+4. Cancel the ElevenLabs plan when the bake is complete. Sentences not yet baked fall back to the browser voice, and the status line under the avatar says how many are in your voice.
 
-## Give it your voice
-Follow `twin/worker/README.md` (ElevenLabs clone + a 5-line Cloudflare Worker, all from the dashboards). Until then the twin uses the browser's voice and says so.
-
-## Why it cannot hallucinate
-The twin never composes text. The fabric picks sentences that answer the question, cites them, and the persona layer only swaps pronouns and verb forms ("Prashobh Paul worked at" → "I worked at"). Open **Sources** under any reply, or **Full answer with lineage** to see the same evidence on the fabric page.
+## 3. Videos
+A cited or related YouTube video plays inside the answer, at the cited second, instead of leaving the page.
