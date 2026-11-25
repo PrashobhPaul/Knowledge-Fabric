@@ -38,6 +38,10 @@ jobs:
             --knowledge knowledge_sources \
             --out site/data/index.json \
             --semantic-out site/data/semantic.json
+      - name: Sentence embeddings (semantic NLU for the canon and retrieval)
+        run: |
+          pip install --quiet sentence-transformers
+          python -m pipeline.embed --index site/data/index.json --out site/data/vectors.json
 
       - name: Verify build artifacts
         run: |

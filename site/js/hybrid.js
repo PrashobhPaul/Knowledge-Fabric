@@ -97,7 +97,7 @@ export function applyFacets(results, chunks, filters) {
  * and this is exactly Phase 1 BM25 — with `mode` reporting which path ran, so
  * the UI can tell the truth about how an answer was found.
  */
-export function hybridSearch(query, { bm25, semantic, chunks, filters, topK = 20 } = {}) {
+export function hybridSearch(query, { bm25, semantic, chunks, filters, topK = 20, extraRun = null } = {}) {
   // Indic-script questions are searched as written plus the English forms of
   // the names and question words they contain (see multilingual.js).
   query = expandQuery(query).query;
@@ -125,6 +125,9 @@ export function hybridSearch(query, { bm25, semantic, chunks, filters, topK = 20
   const runs = [];
   if (lexical.length) runs.push({ retriever: 'bm25', results: lexical, weight: 1.0 });
   if (semanticHits.length) runs.push({ retriever: 'semantic', results: semanticHits, weight: 1.0 });
+  // Sentence-embedding run (MiniLM in the browser, vectors from the Factory):
+  // the retriever that understands paraphrase. Weighted above the LSA run.
+  if (extraRun && extraRun.length) runs.push({ retriever: 'embedding', results: extraRun, weight: 1.3 });
 
   let fused = reciprocalRankFusion(runs, { topK: topK * 2 });
   if (filters && chunks) fused = applyFacets(fused, chunks, filters);

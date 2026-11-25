@@ -1149,13 +1149,13 @@ canon:
   - projects
   - personal
   keywords:
-  - favourite
-  - favorite
-  - attached
+  - favourite project
+  - favorite project
+  - most attached
   - love most
   - best project
-  - closest
-  - meaningful
+  - closest project
+  - meaningful project
   questions:
   - Which project are you most attached to?
   - What is your favourite project?
@@ -1235,6 +1235,15 @@ canon:
   - dji
   - filmora
   - edit
+  - journey
+  - journeys
+  - trip
+  - trips
+  - memorable
+  - favourite journey
+  - favorite journey
+  - best trip
+  - travel
   questions:
   - Why did you start your YouTube channel?
   - Which trip changed you the most?
