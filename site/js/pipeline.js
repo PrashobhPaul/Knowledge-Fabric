@@ -40,7 +40,12 @@ export function retrieve(q, ctx) {
 /** Indic-script questions are matched through the lexicon's English forms. */
 function canonQuestion(question) {
   const ex = expandQuery(question);
-  return ex.lang === 'en' || !ex.added.length ? question : 'your ' + ex.added.join(' ');
+  if (ex.lang === 'en' || !ex.added.length) return question;
+  // keep names written in Latin script ("Koode యాప్ ఏమిటి?")
+  const latin = String(question).match(/[A-Za-z][A-Za-z.]*(?:\s+[A-Z][A-Za-z.]*)*/g) || [];
+  // "നിങ്ങൾ ആരാണ്?" / "आप कौन हैं?": nothing but "you" and "who" means "Who are you?"
+  if (!latin.length && ex.added.includes('who is') && ex.added.every(w => /^(you|your|who is|what is)$/.test(w))) return 'Who are you?';
+  return 'your ' + [...ex.added, ...latin].join(' ');
 }
 
 // Proper names the corpus uses ("Tabo", "Manali", "Qualizeal"): capitalised
@@ -235,10 +240,13 @@ export function answerQuestion(asked, ctx) {
       canon: { id: 'catalogue', answer: item.text, sentences: [item.text], evidence: [] },
       lowConfidence: false, verdict: null, catalogue: item.kind };
     result.related = relatedItems({ citations: result.citations, ranked: [], analysis: result.analysis, index: { chunks }, weak: false });
-    return { ...result, resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: { id: 'catalogue', score: 1, via: item.kind }, code: null };
+    return { ...result, answerLang: (result.canon && result.canon.lang) || 'en', resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: { id: 'catalogue', score: 1, via: item.kind }, code: null };
   }
+  // Answer language: the script the question was written in, else the visitor's chosen language.
+  const scriptLang = expandQuery(asked).lang;
+  const answerLang = scriptLang !== 'en' ? scriptLang : (ctx.answerLang || 'en');
   if (canonMatch) {
-    result = applyCanon(result, canonMatch, chunks, index.showcase || {});
+    result = applyCanon(result, { ...canonMatch, lang: answerLang }, chunks, index.showcase || {});
     if (code && !(result.answerHtml || '').includes(code.url)) result.answerHtml = result.answerHtml.replace('<p class="answer-closing">Curated answer.', codeCardHtml(code, true) + '<p class="answer-closing">Curated answer.');
     result.related = relatedItems({ citations: result.citations, ranked: [], analysis: result.analysis, index: { chunks }, weak: false });
   } else if (code) {
@@ -256,5 +264,5 @@ export function answerQuestion(asked, ctx) {
       citations: result.citations.slice(0, 1), noAnswer: true, related: [],
       summary: { ...(result.summary || {}), sentences: [] } };
   }
-  return { ...result, resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: canonMatch ? { id: canonMatch.entry.id, score: canonMatch.score, via: canonMatch.via || 'lexical' } : (result.codeAnswer ? { id: 'code', score: 1, via: 'code' } : null), code: code ? { repo: code.repo, path: code.path, url: code.url } : null };
+  return { ...result, answerLang: (result.canon && result.canon.lang) || 'en', resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: canonMatch ? { id: canonMatch.entry.id, score: canonMatch.score, via: canonMatch.via || 'lexical' } : (result.codeAnswer ? { id: 'code', score: 1, via: 'code' } : null), code: code ? { repo: code.repo, path: code.path, url: code.url } : null };
 }

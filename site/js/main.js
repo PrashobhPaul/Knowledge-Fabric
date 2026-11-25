@@ -756,7 +756,7 @@ async function ask(question, opts = {}) {
   // One shared pipeline (site and golden tests): retrieval, bank assist, canon, honest fallback.
   let result = answerQuestion(question, { index: state.index, bm25: state.bm25, bm25Payload: state.index.bm25,
     semantic: state.semantic, chunks: state.chunks, filters: state.filters, qvec: state.qvec,
-    prev: state.lastQuery || null });   // the previous question, for follow-ups ("who built it?")
+    prev: state.lastQuery || null, answerLang: currentLang() });   // the previous question, for follow-ups ("who built it?")
   const retrievalQuery = result.retrievalQuery;
   const { ranked, cohesion, answerHtml, citations, lowConfidence } = result;
 
@@ -790,11 +790,11 @@ async function ask(question, opts = {}) {
       voiceEl.innerHTML = `<button type="button" class="voice-btn voice-speak" id="answer-speak">▶ Hear it in my words</button>`
         + `<span class="answer-voice-status">${esc(lines.join(' '))}</span>`;
       voiceEl.hidden = false;
-      voiceEl.querySelector('#answer-speak').addEventListener('click', () => sayLines(lines));
+      voiceEl.querySelector('#answer-speak').addEventListener('click', () => sayLines(lines, result.answerLang || currentLang()));
     }
     const player = document.getElementById('answer-player');
     if (player) { player.innerHTML = ''; player.hidden = true; }
-    if (!silent && TWIN_CONFIG.autoSpeak) sayLines(lines);
+    if (!silent && TWIN_CONFIG.autoSpeak) sayLines(lines, result.answerLang || currentLang());
   }
   renderGraphValue(citations, result.analysis);
   // Leave a trace; offer a flag. The seeded demo answer is not a visitor action.
@@ -1212,10 +1212,10 @@ function wireStageActions() {
   });
 }
 
-function sayLines(lines) {
+function sayLines(lines, lang = currentLang()) {
   if (!state.stage || !lines.length) return;
   state.stage.setMood('speaking');
-  speaker.speak(lines, { lang: currentLang(), onLevel: (l) => state.stage.setMouth(l) })
+  speaker.speak(lines, { lang, onLevel: (l) => state.stage.setMouth(l) })
     .then(() => state.stage.setMood('idle'));
 }
 

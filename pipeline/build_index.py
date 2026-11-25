@@ -502,6 +502,14 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
             flags_out = None
 
     canon_entries, canon_unresolved = build_canon(serialized)
+    i18n_path = ks_dir / "profile" / "canon_i18n.yaml"
+    if i18n_path.exists():
+        import yaml as _yaml
+        tr = (_yaml.safe_load(i18n_path.read_text(encoding="utf-8")) or {}).get("translations") or {}
+        for e in canon_entries:
+            if tr.get(e["id"]):
+                e["i18n"] = {k: " ".join(str(v).split()) for k, v in tr[e["id"]].items() if v}
+        print(f"      translations: {sum(1 for e in canon_entries if e.get('i18n'))} curated answers in Malayalam, Telugu, Tamil, Hindi")
     for _u in canon_unresolved:
         print(f"      [canon] evidence not found in the index: {_u}")
     print(f"      canon: {len(canon_entries)} curated answers · {len(canon_unresolved)} unresolved evidence links")

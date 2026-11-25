@@ -573,7 +573,15 @@ export function applyCanon(result, match, chunks, showcase = {}) {
   for (const c of (result.citations || []).slice(0, 3)) addCite(c.chunkIdx, '');
   const sentences = splitSentences(entry.answer);
   const refHtml = (cs) => cs.map(c => `<sup class="cite-ref" data-cite="${c.num}" title="${esc(c.why)}">[${c.num}]</sup>`).join('');
-  const body = parts.map((e, i) => `<p class="answer-body answer-canon">${esc(e.answer)} ${refHtml(partRefs[i])}</p>`).join('');
+  // In the visitor's language when a curated translation exists; the English
+  // original, the source of record, stays one tap away.
+  const lang = match.lang && match.lang !== 'en' ? match.lang : null;
+  const tr = (e) => (lang && e.i18n && e.i18n[lang]) || null;
+  const translated = lang && parts.every(tr);
+  const body = parts.map((e, i) => translated
+    ? `<p class="answer-body answer-canon" lang="${esc(lang)}">${esc(tr(e))} ${refHtml(partRefs[i])}</p>`
+    : `<p class="answer-body answer-canon">${esc(e.answer)} ${refHtml(partRefs[i])}</p>`).join('')
+    + (translated ? `<details class="answer-original"><summary>My original answer, in English</summary>${parts.map(e => `<p>${esc(e.answer)}</p>`).join('')}</details>` : '');
   const missed = (match.missed || []).length
     ? `<p class="answer-closing">${match.missed.map(q => `“${esc(q)}”`).join(', ')}: nothing on record, so I will not guess.</p>` : '';
   const html =
@@ -584,7 +592,9 @@ export function applyCanon(result, match, chunks, showcase = {}) {
     ...result,
     answerHtml: html,
     citations,
-    canon: { id: entry.id, answer: entry.answer, sentences, evidence: entry.evidence, score: match.score },
+    canon: { id: entry.id, answer: entry.answer, evidence: entry.evidence, score: match.score,
+             sentences: translated ? parts.map(tr).flatMap(t => t.split(/(?<=[.!?।])\s+/)).filter(Boolean) : sentences,
+             lang: translated ? lang : 'en' },
     summary: { ...(result.summary || {}), sentences: sentences.map((s, i) => ({ text: s, display: s, chunkIdx: citations[0] ? citations[0].chunkIdx : 0, chunk: citations[0] ? citations[0].chunk : chunks[0], final: 1, position: i, tokens: new Set(), signals: {} })) },
     lowConfidence: false,
     verdict: null,

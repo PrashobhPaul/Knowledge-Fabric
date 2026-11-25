@@ -1,0 +1,332 @@
+{
+ "cases": [
+  {
+   "q": "നിങ്ങൾ ആരാണ്?",
+   "id": "who",
+   "must": "പ്രശോഭ്",
+   "lang": "ml"
+  },
+  {
+   "q": "നിങ്ങൾ എവിടെയാണ് ജോലി ചെയ്യുന്നത്?",
+   "id": "current-role",
+   "must": "ആർക്കിടെക്റ്റ",
+   "lang": "ml"
+  },
+  {
+   "q": "നിങ്ങളുടെ കുടുംബത്തെക്കുറിച്ച് പറയൂ",
+   "id": "family",
+   "must": "നിമ",
+   "lang": "ml"
+  },
+  {
+   "q": "നിങ്ങളുടെ കുട്ടികൾ ആരൊക്കെ?",
+   "id": "family",
+   "must": "ഹെലൻ",
+   "lang": "ml"
+  },
+  {
+   "q": "നിങ്ങൾ എവിടെയാണ് താമസം?",
+   "id": "location",
+   "must": "ഹൈദരാബാദ",
+   "lang": "ml"
+  },
+  {
+   "q": "നിങ്ങളുടെ നാട് എവിടെയാണ്?",
+   "id": [
+    "origins",
+    "location"
+   ],
+   "must": "തൃശ്ശൂര",
+   "lang": "ml"
+  },
+  {
+   "q": "നിങ്ങൾ എന്താണ് പഠിച്ചത്?",
+   "id": "education",
+   "must": "SRM",
+   "lang": "ml"
+  },
+  {
+   "q": "നിങ്ങളുടെ പ്രോജക്റ്റുകൾ ഏതൊക്കെ?",
+   "id": "projects",
+   "must": "Koode",
+   "lang": "ml"
+  },
+  {
+   "q": "കൂടെ ആപ്പ് എന്താണ്?",
+   "id": "koode",
+   "must": "Android",
+   "lang": "ml"
+  },
+  {
+   "q": "പാചക ലോകം എന്താണ്?",
+   "id": "pachaka-lokam",
+   "must": "പാചക",
+   "lang": "ml"
+  },
+  {
+   "q": "നിങ്ങളുടെ കഴിവുകൾ എന്തൊക്കെ?",
+   "id": "skills",
+   "must": "LangGraph",
+   "lang": "ml"
+  },
+  {
+   "q": "നിങ്ങളുടെ യൂട്യൂബ് ചാനൽ ഏതാണ്?",
+   "id": "youtube",
+   "must": "Canvas",
+   "lang": "ml"
+  },
+  {
+   "q": "നിങ്ങളെ എങ്ങനെ ബന്ധപ്പെടാം?",
+   "id": "contact",
+   "must": "prashobhpaul.com",
+   "lang": "ml"
+  },
+  {
+   "q": "మీరు ఎవరు?",
+   "id": "who",
+   "must": "ప్రశోభ్",
+   "lang": "te"
+  },
+  {
+   "q": "మీరు ఎక్కడ పని చేస్తారు?",
+   "id": "current-role",
+   "must": "ఆర్కిటెక్ట్",
+   "lang": "te"
+  },
+  {
+   "q": "మీ కుటుంబం గురించి చెప్పండి",
+   "id": "family",
+   "must": "నిమ",
+   "lang": "te"
+  },
+  {
+   "q": "మీ పిల్లలు ఎవరు?",
+   "id": "family",
+   "must": "హెలెన్",
+   "lang": "te"
+  },
+  {
+   "q": "మీరు ఎక్కడ ఉంటారు?",
+   "id": "location",
+   "must": "హైదరాబాద్",
+   "lang": "te"
+  },
+  {
+   "q": "మీ ఊరు ఏది?",
+   "id": [
+    "origins",
+    "location"
+   ],
+   "must": "త్రిశూర్",
+   "lang": "te"
+  },
+  {
+   "q": "మీరు ఏమి చదువుకున్నారు?",
+   "id": "education",
+   "must": "SRM",
+   "lang": "te"
+  },
+  {
+   "q": "మీ ప్రాజెక్టులు ఏమిటి?",
+   "id": "projects",
+   "must": "Koode",
+   "lang": "te"
+  },
+  {
+   "q": "Koode యాప్ ఏమిటి?",
+   "id": "koode",
+   "must": "Android",
+   "lang": "te"
+  },
+  {
+   "q": "Pachaka Lokam అంటే ఏమిటి?",
+   "id": "pachaka-lokam",
+   "must": "Pachaka",
+   "lang": "te"
+  },
+  {
+   "q": "మీ నైపుణ్యాలు ఏమిటి?",
+   "id": "skills",
+   "must": "LangGraph",
+   "lang": "te"
+  },
+  {
+   "q": "మీ యూట్యూబ్ ఛానల్ ఏది?",
+   "id": "youtube",
+   "must": "Canvas",
+   "lang": "te"
+  },
+  {
+   "q": "మిమ్మల్ని ఎలా సంప్రదించాలి?",
+   "id": "contact",
+   "must": "prashobhpaul.com",
+   "lang": "te"
+  },
+  {
+   "q": "நீங்கள் யார்?",
+   "id": "who",
+   "must": "பிரஷோப்",
+   "lang": "ta"
+  },
+  {
+   "q": "நீங்கள் எங்கே வேலை செய்கிறீர்கள்?",
+   "id": "current-role",
+   "must": "ஆர்கிடெக்ட",
+   "lang": "ta"
+  },
+  {
+   "q": "உங்கள் குடும்பம் பற்றி சொல்லுங்கள்",
+   "id": "family",
+   "must": "நிமா",
+   "lang": "ta"
+  },
+  {
+   "q": "உங்கள் குழந்தைகள் யார்?",
+   "id": "family",
+   "must": "ஹெலன்",
+   "lang": "ta"
+  },
+  {
+   "q": "நீங்கள் எங்கே வசிக்கிறீர்கள்?",
+   "id": "location",
+   "must": "ஹைதராபாத்",
+   "lang": "ta"
+  },
+  {
+   "q": "உங்கள் சொந்த ஊர் எது?",
+   "id": [
+    "origins",
+    "location"
+   ],
+   "must": "திருச்சூர",
+   "lang": "ta"
+  },
+  {
+   "q": "நீங்கள் என்ன படித்தீர்கள்?",
+   "id": "education",
+   "must": "SRM",
+   "lang": "ta"
+  },
+  {
+   "q": "உங்கள் திட்டங்கள் என்ன?",
+   "id": "projects",
+   "must": "Koode",
+   "lang": "ta"
+  },
+  {
+   "q": "Koode ஆப் என்ன?",
+   "id": "koode",
+   "must": "Android",
+   "lang": "ta"
+  },
+  {
+   "q": "Pachaka Lokam என்றால் என்ன?",
+   "id": "pachaka-lokam",
+   "must": "Pachaka",
+   "lang": "ta"
+  },
+  {
+   "q": "உங்கள் திறமைகள் என்ன?",
+   "id": "skills",
+   "must": "LangGraph",
+   "lang": "ta"
+  },
+  {
+   "q": "உங்கள் யூடியூப் சேனல் எது?",
+   "id": "youtube",
+   "must": "Canvas",
+   "lang": "ta"
+  },
+  {
+   "q": "உங்களை எப்படி தொடர்பு கொள்வது?",
+   "id": "contact",
+   "must": "prashobhpaul.com",
+   "lang": "ta"
+  },
+  {
+   "q": "आप कौन हैं?",
+   "id": "who",
+   "must": "प्रशोभ",
+   "lang": "hi"
+  },
+  {
+   "q": "आप कहाँ काम करते हैं?",
+   "id": "current-role",
+   "must": "आर्किटेक्ट",
+   "lang": "hi"
+  },
+  {
+   "q": "आपके परिवार के बारे में बताइए",
+   "id": "family",
+   "must": "निमा",
+   "lang": "hi"
+  },
+  {
+   "q": "आपके बच्चे कौन हैं?",
+   "id": "family",
+   "must": "हेलन",
+   "lang": "hi"
+  },
+  {
+   "q": "आप कहाँ रहते हैं?",
+   "id": "location",
+   "must": "हैदराबाद",
+   "lang": "hi"
+  },
+  {
+   "q": "आप कहाँ से हैं?",
+   "id": [
+    "origins",
+    "location"
+   ],
+   "must": "त्रिशूर",
+   "lang": "hi"
+  },
+  {
+   "q": "आपने क्या पढ़ाई की है?",
+   "id": "education",
+   "must": "SRM",
+   "lang": "hi"
+  },
+  {
+   "q": "आपके प्रोजेक्ट्स क्या हैं?",
+   "id": "projects",
+   "must": "Koode",
+   "lang": "hi"
+  },
+  {
+   "q": "Koode ऐप क्या है?",
+   "id": "koode",
+   "must": "Android",
+   "lang": "hi"
+  },
+  {
+   "q": "Pachaka Lokam क्या है?",
+   "id": "pachaka-lokam",
+   "must": "Pachaka",
+   "lang": "hi"
+  },
+  {
+   "q": "आपके कौशल क्या हैं?",
+   "id": "skills",
+   "must": "LangGraph",
+   "lang": "hi"
+  },
+  {
+   "q": "आपका यूट्यूब चैनल कौन सा है?",
+   "id": "youtube",
+   "must": "Canvas",
+   "lang": "hi"
+  },
+  {
+   "q": "आपसे कैसे संपर्क करें?",
+   "id": "contact",
+   "must": "prashobhpaul.com",
+   "lang": "hi"
+  }
+ ],
+ "no_answer": [
+  "நாளை மழை பெய்யுமா?",
+  "कल मौसम कैसा रहेगा?"
+ ]
+}

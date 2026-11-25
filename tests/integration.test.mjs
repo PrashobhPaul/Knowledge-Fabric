@@ -611,10 +611,10 @@ check('the lexicon carries Indic-script names onto English records', () => {
   assert(ml.expandQuery('Where does Prashobh work?').added.length === 0, 'English questions are never expanded');
 });
 
-check('English is the default language and the four languages carry BCP-47 codes', () => {
+check('English is the default language and the five languages carry BCP-47 codes', () => {
   assert(ml.DEFAULT_LANG === 'en');
   for (const [k, v] of Object.entries(ml.LANGS)) assert(new RegExp(`^${k}-IN$`).test(v.code), `${k} code ${v.code}`);
-  assert(Object.keys(ml.LANGS).join() === 'en,ml,te,hi');
+  assert(Object.keys(ml.LANGS).join() === 'en,ml,te,ta,hi');
 });
 
 check('voice controls and the listen button are wired into the page', () => {
@@ -778,7 +778,7 @@ check('questions with no answer on record say so instead of showing a collage', 
 // Rounds 2–7: unseen, harder questions written after the golden set — paraphrases,
 // typos and shorthand, Indic scripts, several questions in one, comparisons,
 // career before/after, follow-ups that say "it", small talk, privacy and errands.
-const ROUNDS = ['qa_round2.json', 'qa_round3.json', 'qa_round4.json', 'qa_round5.json', 'qa_round6.json', 'qa_round7.json']
+const ROUNDS = ['qa_round2.json', 'qa_round3.json', 'qa_round4.json', 'qa_round5.json', 'qa_round6.json', 'qa_round7.json', 'qa_lang.json']
   .map(f => [f, JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8'))]);
 check('every harder round (multi-part, comparisons, follow-ups, Indic, typos) answers as the owner would', () => {
   const misses = [];
@@ -810,6 +810,20 @@ check('coverage: every wording of every curated question, every video and every 
   }
   assert(COV.cases.length >= 800, `coverage shrank to ${COV.cases.length}`);
   assert(misses.length === 0, `${misses.length}/${COV.cases.length} off:\n          ` + misses.slice(0, 15).join('\n          '));
+});
+
+check('voice in and out in English, Malayalam, Telugu, Tamil and Hindi; core answers translated in all four', () => {
+  const { LANGS, detectScript } = ml;
+  for (const [k, code] of [['en', 'en-IN'], ['ml', 'ml-IN'], ['te', 'te-IN'], ['ta', 'ta-IN'], ['hi', 'hi-IN']])
+    assert(LANGS[k] && LANGS[k].code === code, `language ${k} missing`);
+  assert(detectScript('நீங்கள் யார்?') === 'ta' && detectScript('आप कौन हैं?') === 'hi', 'script detection');
+  const core = ['who', 'current-role', 'family', 'location', 'origins', 'education', 'projects', 'koode', 'pachaka-lokam', 'skills', 'youtube', 'contact'];
+  for (const id of core) {
+    const e = idx.canon.find(x => x.id === id);
+    for (const l of ['ml', 'te', 'ta', 'hi']) assert(e && e.i18n && e.i18n[l] && detectScript(e.i18n[l]) === l, `${id} has no ${l} translation`);
+  }
+  const r = answerQuestion('நீங்கள் எங்கே வேலை செய்கிறீர்கள்?', pipeCtx);
+  assert(r.answerLang === 'ta' && /lang="ta"/.test(r.answerHtml) && /answer-original/.test(r.answerHtml), 'a Tamil question is answered in Tamil, with the English original');
 });
 
 check('off-topic questions, errands and private details in the harder rounds are declined honestly', () => {
