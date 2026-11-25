@@ -1,0 +1,209 @@
+{
+ "canon": [
+  [
+   "How may kids do you have?",
+   "family"
+  ],
+  [
+   "Are you married?",
+   "family"
+  ],
+  [
+   "Who is your wife?",
+   "family"
+  ],
+  [
+   "Tell me about your parents.",
+   "family"
+  ],
+  [
+   "Where do you live?",
+   "location"
+  ],
+  [
+   "Where are you from?",
+   "origins"
+  ],
+  [
+   "Where did you go to school?",
+   "origins"
+  ],
+  [
+   "When were you born?",
+   "birthday"
+  ],
+  [
+   "How old are you?",
+   "birthday"
+  ],
+  [
+   "Where does Prashobh work currently?",
+   "current-role"
+  ],
+  [
+   "What do you do at Qualizeal?",
+   "current-role"
+  ],
+  [
+   "What is your current job?",
+   "current-role"
+  ],
+  [
+   "Which companies have you worked for?",
+   "career-history"
+  ],
+  [
+   "What did you do at TCS?",
+   "tcs-story"
+  ],
+  [
+   "What did you do at Tech Mahindra?",
+   "tech-mahindra"
+  ],
+  [
+   "Have you worked in healthcare?",
+   "healthcare"
+  ],
+  [
+   "Have you worked in banking?",
+   "bfsi"
+  ],
+  [
+   "Have you built robots?",
+   "robotics"
+  ],
+  [
+   "What degree do you have?",
+   "education"
+  ],
+  [
+   "What are your skills?",
+   "skills"
+  ],
+  [
+   "Which agent frameworks do you use?",
+   "skills"
+  ],
+  [
+   "What projects have you built?",
+   "projects"
+  ],
+  [
+   "What is Koode?",
+   "koode"
+  ],
+  [
+   "What is Pachaka Lokam?",
+   "pachaka-lokam"
+  ],
+  [
+   "What is Invest.IQ?",
+   "invest-iq"
+  ],
+  [
+   "What is the Knowledge Fabric project?",
+   "knowledge-fabric"
+  ],
+  [
+   "What does CogniFlow do?",
+   "cogniflow"
+  ],
+  [
+   "Do you work on AI-driven SDLC?",
+   "aidlc"
+  ],
+  [
+   "Can I hire you?",
+   "services"
+  ],
+  [
+   "Do you teach AI?",
+   "training"
+  ],
+  [
+   "How can I contact you?",
+   "contact"
+  ],
+  [
+   "Tell me about your YouTube channel.",
+   "youtube"
+  ],
+  [
+   "What videos have you made about Spiti?",
+   "spiti"
+  ],
+  [
+   "What is the Key Monastery video about?",
+   "key-monastery"
+  ],
+  [
+   "Did you meet Satya Nadella?",
+   "ai-tour"
+  ],
+  [
+   "What do you post on LinkedIn?",
+   "linkedin-knowledge"
+  ],
+  [
+   "What languages do you speak?",
+   "languages"
+  ],
+  [
+   "What are your hobbies?",
+   "interests"
+  ],
+  [
+   "Do you make art?",
+   "art"
+  ],
+  [
+   "Who is Phoenix de Artist?",
+   "art"
+  ],
+  [
+   "Why did you get into AI?",
+   "why-ai"
+  ],
+  [
+   "What is your proudest achievement?",
+   "proudest"
+  ],
+  [
+   "What was the hardest problem you solved?",
+   "hardest-problem"
+  ],
+  [
+   "Who were your mentors?",
+   "mentors"
+  ],
+  [
+   "What motivates you?",
+   "what-drives"
+  ],
+  [
+   "Which is your favourite journey till now?",
+   "youtube-why"
+  ],
+  [
+   "Which cricket team do you support?",
+   "teams"
+  ],
+  [
+   "What inspires you?",
+   "inspiration"
+  ],
+  [
+   "What is your daily routine?",
+   "typical-day"
+  ],
+  [
+   "What is your advice to your children?",
+   "children-message"
+  ]
+ ],
+ "no_answer": [
+  "What is your blood group?",
+  "Do you own a dog?",
+  "What is the capital of France?"
+ ]
+}

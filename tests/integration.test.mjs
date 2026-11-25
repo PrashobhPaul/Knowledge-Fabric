@@ -743,6 +743,37 @@ check('questions the owner has not curated still go through the fabric', () => {
   assert(canonMod.matchCanon('Which videos are about Manali?', idx.canon) === null || canonMod.matchCanon('Which videos are about Manali?', idx.canon).score < 1, 'unexpected exact match');
 });
 
+// =============================================================================
+console.log('\n=== GOLDEN Q&A: THE PRODUCTION ANSWER PATH, QUESTION BY QUESTION ===');
+const { answerQuestion } = await import(path.join(SITE, 'js/pipeline.js'));
+const GOLD = JSON.parse(fs.readFileSync(path.join(ROOT, 'tests/qa_gold.json'), 'utf8'));
+const pipeCtx = { index: idx, bm25, bm25Payload: idx.bm25, semantic, chunks: idx.chunks, filters: {}, qvec: null };
+
+check('every golden question lands on the expected curated answer, in the owner\'s words, with proofs', () => {
+  const misses = [];
+  for (const [q, id] of GOLD.canon) {
+    const r = answerQuestion(q, pipeCtx);
+    if (!r.canonMatch || r.canonMatch.id !== id) { misses.push(`"${q}" → ${r.canonMatch ? r.canonMatch.id : (r.noAnswer ? 'no-answer' : 'retrieval')}`); continue; }
+    if (!/In Prashobh's own words/.test(plain(r)) || r.citations.length < 1) misses.push(`"${q}" matched but not framed/cited`);
+  }
+  assert(misses.length === 0, `${misses.length}/${GOLD.canon.length} golden questions off target:\n          ` + misses.join('\n          '));
+});
+
+check('questions with no answer on record say so instead of showing a collage', () => {
+  for (const q of GOLD.no_answer) {
+    const r = answerQuestion(q, pipeCtx);
+    assert(r.noAnswer || r.canonMatch === null && !r.lowConfidence, `"${q}" was answered from retrieval with low confidence`);
+    if (r.noAnswer) assert(/do not have a direct answer/.test(plain(r)) && (r.summary.sentences || []).length === 0, `"${q}" fallback not honest`);
+  }
+});
+
+check('every deploy cache-busts the modules, so visitors never run a stale matcher', () => {
+  const wf = fs.readFileSync(path.join(ROOT, '.github/workflows/deploy.yml'), 'utf8');
+  assert(/Cache-bust/.test(wf) && /GITHUB_SHA/.test(wf), 'deploy does not stamp module versions');
+  const main = fs.readFileSync(path.join(SITE, 'js/main.js'), 'utf8');
+  assert(/from '\.\/pipeline\.js/.test(main) && !/matchCanon\(/.test(main), 'the page must use the shared pipeline');
+});
+
 console.log('\n' + '='.repeat(62));
 console.log(`  ${passed} passed, ${failed} failed`);
 console.log('='.repeat(62));
