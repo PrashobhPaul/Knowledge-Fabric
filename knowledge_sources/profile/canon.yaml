@@ -631,3 +631,52 @@ canon:
       - url: https://www.prashobhpaul.com/works.html
         source: website
         why: "IPLBuzz and Soccer.AI, the sports projects"
+
+  - id: family
+    topics: [personal, family]
+    questions:
+      - Tell me about your family.
+      - Are you married?
+      - Do you have children?
+      - Who are your parents?
+    answer: >-
+      I am married to Nima, and we have two children: our daughter Helen Elizabeth, born in
+      December 2022, and our son Hayden Paul, born in June 2025. My parents are both retired
+      teachers. My father Pauly taught Social Science at a Kendriya Vidyalaya, grades seven to
+      ten, and my mother Lilly taught English to the younger grades. Teaching runs in the
+      family: my maternal grandfather Devassy was a Stores Officer in South Central Railway
+      and a teacher too.
+    evidence:
+      - url: doc:Personal_and_Family
+        source: resume
+        why: "Personal and family notes written by Prashobh"
+
+  - id: birthday
+    topics: [personal]
+    questions:
+      - When were you born?
+      - What is Prashobh's date of birth?
+      - How old are you?
+    answer: >-
+      I was born on 2 July 1990, in Kerala.
+    evidence:
+      - url: doc:Personal_and_Family
+        source: resume
+        why: "Date of birth in the personal notes"
+
+  - id: art
+    topics: [personal, art]
+    questions:
+      - Do you make art?
+      - Who is Phoenix de Artist?
+      - What is your pen name?
+    answer: >-
+      Yes. I make conceptual art under the pen name Phoenix de Artist. Art and photography are
+      how I rest from building systems, and some of it ends up in my travel films.
+    evidence:
+      - url: doc:Personal_and_Family
+        source: resume
+        why: "Pen name and interest in conceptual art"
+      - url: profile:personal
+        source: resume
+        why: "Interests: art, photography, content creation"

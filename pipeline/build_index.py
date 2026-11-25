@@ -164,6 +164,10 @@ def build_canon(chunks: list[dict]) -> tuple[list[dict], list[str]]:
                         ids.append(j)
                         if rtype in ("role", "engagement", "education", "event", "career_project", "service", "skill_group"):
                             break
+            elif url.startswith("doc:"):
+                needle = url[len("doc:"):].lower().replace("_", " ")
+                ids = [j for j, ch in enumerate(chunks)
+                       if ch.get("source_type") == "document" and needle in (ch.get("document_name") or "").lower().replace("_", " ")][:3]
             else:
                 key = url.split("&t=")[0].rstrip("/")
                 ids = list(by_url.get(key, []))

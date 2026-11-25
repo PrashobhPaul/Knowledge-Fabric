@@ -168,7 +168,9 @@ function pickMarker(prev, curr, usedMarkers) {
   if (/^(however|separately|specifically|elsewhere|also|but|and|so)\b/i.test(curr.display)) return '';
   if (NEGATION_RE.test(curr.display) && !NEGATION_RE.test(prev.display)) pool = CONTRAST;
   else if (prev.chunk.source_type !== curr.chunk.source_type) {
-    const m = SOURCE_MARKER[curr.chunk.source_type];
+    // A document that is not the resume (personal notes, a write-up) is "the notes".
+    const m = curr.chunk.source_type === 'document' && !/resume/i.test(curr.chunk.document_name || '')
+      ? 'The notes add that' : SOURCE_MARKER[curr.chunk.source_type];
     pool = m ? [m, ...CROSS.filter(x => x !== m)] : CROSS;
   }
   else if (prev.chunk.document_id !== curr.chunk.document_id) pool = CORROBORATE;
