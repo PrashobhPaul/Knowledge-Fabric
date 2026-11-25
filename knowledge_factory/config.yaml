@@ -27,9 +27,11 @@ youtube:
   # Set full: true to use yt-dlp (if installed) for the whole upload list.
   full: false
   # Captions are fetched with youtube-transcript-api when installed (no API key),
-  # a few videos per sync, English only. Stored under youtube/transcripts/.
+  # a few videos per sync, in whichever of these languages the video has (first
+  # match wins; auto-generated captions count). Stored under youtube/transcripts/.
   transcripts: true
   transcript_limit: 15
+  transcript_languages: [en, en-IN, en-US, ml, te, hi]
 
 linkedin:
   profile_url: https://www.linkedin.com/in/prashobh-paul-00715578/

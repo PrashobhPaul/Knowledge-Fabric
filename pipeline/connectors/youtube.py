@@ -84,6 +84,18 @@ def _clean_desc(desc: str) -> tuple[str, list[str]]:
     return text, tags
 
 
+def _lang_of(text: str) -> str:
+    """Script-based language tag: ml / te / hi for Malayalam, Telugu, Devanagari; else en."""
+    t = text or ""
+    if re.search(r"[\u0D00-\u0D7F]", t):
+        return "ml"
+    if re.search(r"[\u0C00-\u0C7F]", t):
+        return "te"
+    if re.search(r"[\u0900-\u097F]", t):
+        return "hi"
+    return "en"
+
+
 class YouTubeConnector:
     name = "YouTube"
     source_type = "youtube"
@@ -168,7 +180,7 @@ class YouTubeConnector:
                           "format": fmt, "duration_seconds": dur_s, "views": v.get("viewCount"),
                           "place": places[0] if places else "", "places": places,
                           "topic": topics[0] if topics else "", "topics": topics, "event": events[0] if events else "",
-                          "thumbnail": v.get("thumbnail")},
+                          "thumbnail": v.get("thumbnail"), "lang": _lang_of(f"{title} {desc}")},
                 entities=ents)
 
     # ------------------------------------------------------------ chapters & transcripts
@@ -196,6 +208,7 @@ class YouTubeConnector:
                   "published": v.get("publishedAt", ""), "video_title": title, "thumbnail": v.get("thumbnail")}
         chapters = [(_secs(t), sanitize(name)) for t, name in CHAPTER_RE.findall(v.get("description") or "")]
         transcript = self._transcript(vid)
+        tlang = (transcript or {}).get("language", "")[:2] if transcript else ""
         segs = (transcript or {}).get("segments", [])
 
         def text_between(a: int, b: int | None) -> str:
@@ -232,7 +245,7 @@ class YouTubeConnector:
                         section_path=["YouTube", self.channel_title, title[:60], "Transcript"],
                         url=f"{base}&t={start}s",
                         metadata={**common, "record_type": "transcript", "t": start, "t_label": _stamp(start),
-                                  "place": "", "topic": ""},
+                                  "place": "", "topic": "", "lang": tlang or _lang_of(spoken)},
                         entities=[("Person", ontology.PERSON), ("Video", title[:80])]
                                  + ontology.detect(spoken, DETECT_KINDS))
                     window = []

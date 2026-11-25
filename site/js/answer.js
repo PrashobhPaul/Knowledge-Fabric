@@ -22,6 +22,7 @@
 
 import { analyseQuestion, rerankByIntent, anchorRecordTypes, termSatisfied } from './nlu.js?v=7';
 import { relatedItems } from './related.js?v=1';
+import { expandQuery } from './multilingual.js?v=1';
 import { summarise } from './summarize.js?v=7';
 import { computeConfidence } from './confidence.js?v=7';
 import { composeResponse, composeNoAnswer } from './compose.js?v=8';
@@ -34,6 +35,7 @@ import { composeResponse, composeNoAnswer } from './compose.js?v=8';
  * @param {Object} opts       { semantic, bm25, diagnostics }
  */
 export function buildAnswer(query, ranked, chunks, cohesion = {}, opts = {}) {
+  query = expandQuery(query).query;   // same expansion retrieval used
   const { semantic = null, bm25 = null, diagnostics = null } = opts;
 
   if (!ranked || !ranked.length) {

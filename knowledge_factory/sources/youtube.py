@@ -118,7 +118,8 @@ def merge(existing: list[dict], fresh: list[dict]) -> list[dict]:
     return out
 
 
-def fetch_transcripts(videos: list[dict], yt_dir: Path, limit: int = 15) -> tuple[int, str]:
+def fetch_transcripts(videos: list[dict], yt_dir: Path, limit: int = 15,
+                      languages: tuple[str, ...] = ("en", "en-IN", "en-US", "ml", "te", "hi")) -> tuple[int, str]:
     """Captions via youtube-transcript-api when it is installed; otherwise a note.
     Only videos without a stored transcript are tried, newest first, capped so a
     sync never spends more than a few seconds on it. Failures are per-video."""
@@ -137,7 +138,7 @@ def fetch_transcripts(videos: list[dict], yt_dir: Path, limit: int = 15) -> tupl
         if got >= limit:
             break
         try:
-            tr = api.fetch(vid, languages=["en", "en-IN", "en-US"])
+            tr = api.fetch(vid, languages=list(languages))
             segs = [{"t": int(s.start), "text": " ".join(s.text.split())} for s in tr if s.text.strip()]
             write_json(tdir / f"{vid}.json", {"videoId": vid, "language": tr.language_code, "source": "youtube-transcript-api",
                                               "segments": segs})
@@ -167,7 +168,8 @@ def sync(config: dict, out_dir: Path, repo_root: Path) -> SyncResult:
 
     videos = merge(existing, fresh)
     if cfg.get("transcripts", True):
-        n, note = fetch_transcripts(videos, yt_dir, int(cfg.get("transcript_limit", 15)))
+        n, note = fetch_transcripts(videos, yt_dir, int(cfg.get("transcript_limit", 15)),
+                                    tuple(cfg.get("transcript_languages") or ("en", "en-IN", "en-US", "ml", "te", "hi")))
         res.notes.append(note)
     channel_out = {**channel_prev, **{k: v for k, v in channel.items() if v},
                    "handle": cfg.get("handle", channel_prev.get("handle", "")),

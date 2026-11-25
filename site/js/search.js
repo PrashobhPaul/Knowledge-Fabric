@@ -2,7 +2,9 @@
 // BM25 client — queries the precomputed index in-memory.
 // =============================================================================
 
-const TOKEN_RE = /[A-Za-z0-9]+/g;
+// Letters, digits and combining marks in any script — Malayalam, Telugu and
+// Hindi vowel signs are marks, so an ASCII-only pattern would shred them.
+const TOKEN_RE = /[\p{L}\p{N}\p{M}]+/gu;
 
 export function tokenize(text) {
   const out = [];

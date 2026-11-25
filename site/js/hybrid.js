@@ -1,3 +1,4 @@
+import { expandQuery } from './multilingual.js?v=1';
 // ============================================================================
 // Hybrid retrieval — Reciprocal Rank Fusion over lexical + semantic
 // ============================================================================
@@ -97,6 +98,9 @@ export function applyFacets(results, chunks, filters) {
  * the UI can tell the truth about how an answer was found.
  */
 export function hybridSearch(query, { bm25, semantic, chunks, filters, topK = 20 } = {}) {
+  // Indic-script questions are searched as written plus the English forms of
+  // the names and question words they contain (see multilingual.js).
+  query = expandQuery(query).query;
   const t0 = (typeof performance !== 'undefined' ? performance.now() : Date.now());
 
   if (isDegenerateQuery(query)) {

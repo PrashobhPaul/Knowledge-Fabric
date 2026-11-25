@@ -576,6 +576,54 @@ check('the related strip renders openable cards and is wired into the page', () 
   assert(/\.related-card/.test(CSS), 'related cards unstyled');
 });
 
+// =============================================================================
+console.log('\n=== MULTILINGUAL & VOICE: ENGLISH DEFAULT, MALAYALAM / TELUGU / HINDI ===');
+const ml = await import(path.join(SITE, 'js/multilingual.js'));
+const voice = await import(path.join(SITE, 'js/voice.js'));
+
+check('tokenisers keep Malayalam, Telugu and Hindi words whole', () => {
+  const toks = tokenize('ജീവിതയാത്ര The Journey Of Life ప్రయాణం यात्रा');
+  assert(toks.includes('ജീവിതയാത്ര'), `Malayalam token shredded: ${toks}`);
+  assert(toks.includes('ప్రయాణం') && toks.includes('यात्रा'), `Telugu/Hindi tokens missing: ${toks}`);
+});
+
+check('a Malayalam question retrieves the Malayalam-titled video', () => {
+  const r = ask('ജീവിതയാത്ര വീഡിയോ');
+  assert(r.analysis.lang === 'ml', `lang detected as ${r.analysis.lang}`);
+  const hit = r.ranked.slice(0, 5).some(x => /ജീവിതയാത്ര/.test(idx.chunks[x.chunkIdx].text));
+  assert(hit, 'Malayalam title not in the top results');
+  assert(r.citations.some(c => (c.chunk.meta || {}).lang === 'ml'), 'Malayalam evidence not cited');
+});
+
+check('the lexicon carries Indic-script names onto English records', () => {
+  const ex = ml.expandQuery('പ്രശോഭ് ഇപ്പോൾ എവിടെ ജോലി ചെയ്യുന്നു?');
+  assert(ex.lang === 'ml' && ex.added.includes('prashobh') && ex.added.includes('where'), JSON.stringify(ex));
+  const r = ask('പ്രശോഭ് ഇപ്പോൾ എവിടെ ജോലി ചെയ്യുന്നു?');
+  assert(/Qualizeal/.test(plain(r)), 'Malayalam "where does he work now" did not reach Qualizeal');
+  const hi = ml.expandQuery('प्रशोभ कहाँ काम करता है?');
+  assert(hi.lang === 'hi' && hi.added.includes('prashobh'), JSON.stringify(hi));
+  assert(ml.expandQuery('Where does Prashobh work?').added.length === 0, 'English questions are never expanded');
+});
+
+check('English is the default language and the four languages carry BCP-47 codes', () => {
+  assert(ml.DEFAULT_LANG === 'en');
+  for (const [k, v] of Object.entries(ml.LANGS)) assert(new RegExp(`^${k}-IN$`).test(v.code), `${k} code ${v.code}`);
+  assert(Object.keys(ml.LANGS).join() === 'en,ml,te,hi');
+});
+
+check('voice controls and the listen button are wired into the page', () => {
+  const html = voice.renderVoiceControls('ml');
+  assert(/id="lang-select"/.test(html) && /id="mic-btn"/.test(html) && /value="ml" selected/.test(html), 'controls not rendered');
+  assert(/id="answer-speak"/.test(voice.renderSpeakButton()), 'listen button not rendered');
+  assert(/id="voice-controls"/.test(HTML) && /id="answer-voice"/.test(HTML), 'index.html lacks the voice containers');
+  assert(/\.voice-btn/.test(CSS), 'voice controls unstyled');
+});
+
+check('an Indic-script question answered from English evidence says so; same-language evidence needs no note', () => {
+  assert(/Malayalam/.test(ml.languageNote('ml', ['en'])), 'no note for English-only evidence');
+  assert(ml.languageNote('ml', ['ml', 'en']) === null && ml.languageNote('en', ['en']) === null, 'note shown when not needed');
+});
+
 console.log('\n' + '='.repeat(62));
 console.log(`  ${passed} passed, ${failed} failed`);
 console.log('='.repeat(62));

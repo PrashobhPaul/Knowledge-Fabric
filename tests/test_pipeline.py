@@ -342,3 +342,15 @@ def test_linkedin_source_reads_export_and_posts_md(tmp_path):
     ev = next(r for r in records if r.metadata["record_type"] == "event")
     assert ("Event", "Microsoft AI Tour Mumbai 2025") in ev.entities
     assert all(r.url for r in records)
+
+
+# =============================================================================
+# Multilingual — Indic scripts survive tokenisation and are language-tagged
+# =============================================================================
+def test_indic_scripts_tokenise_and_tag():
+    from pipeline.chunker import tokenize
+    from pipeline.connectors.youtube import _lang_of
+    toks = tokenize("ജീവിതയാത്ര The Journey ప్రయాణం यात्रा")
+    assert "ജീവിതയാത്ര" in toks and "ప్రయాణం" in toks and "यात्रा" in toks, toks
+    assert _lang_of("ജീവിതയാത്ര | The Journey Of Life") == "ml"
+    assert _lang_of("ప్రయాణం") == "te" and _lang_of("यात्रा") == "hi" and _lang_of("Spiti Trip") == "en"

@@ -1,0 +1,89 @@
+// ============================================================================
+// Multilingual — English by default; Malayalam, Telugu and Hindi first-class
+// ============================================================================
+//
+// The fabric is a static site with no translation service behind it, so the
+// honest contract is:
+//   1. A question is tokenised in its own script (search.js / nlu.js use
+//      Unicode-aware tokenisers), so Malayalam, Telugu or Hindi words match
+//      Malayalam, Telugu or Hindi evidence (video titles, transcripts).
+//   2. A small hand-maintained lexicon maps the names and question words a
+//      visitor is likely to use in those scripts onto their English forms, so
+//      "ക്വാളിസീൽ എവിടെ" still reaches the English Qualizeal records.
+//   3. Evidence in the question's language is preferred when it exists; when it
+//      does not, the English evidence is shown and the answer says so.
+// Nothing is machine-translated: every sentence stays verbatim from its source.
+
+export const LANGS = {
+  en: { code: 'en-IN', label: 'English',   native: 'English' },
+  ml: { code: 'ml-IN', label: 'Malayalam', native: 'മലയാളം' },
+  te: { code: 'te-IN', label: 'Telugu',    native: 'తెలుగు' },
+  hi: { code: 'hi-IN', label: 'Hindi',     native: 'हिन्दी' },
+};
+export const DEFAULT_LANG = 'en';
+
+const SCRIPTS = [
+  ['ml', /[ഀ-ൿ]/],
+  ['te', /[ఀ-౿]/],
+  ['hi', /[ऀ-ॿ]/],
+];
+
+/** Language of a text by its script; 'en' for Latin or empty. */
+export function detectScript(text) {
+  const t = String(text || '');
+  for (const [lang, re] of SCRIPTS) if (re.test(t)) return lang;
+  return 'en';
+}
+
+// Native-script surface forms → English query words. Edit freely; entries are
+// matched as substrings of the question so inflected forms still hit.
+export const LEXICON = {
+  ml: {
+    'പ്രശോഭ്': 'prashobh', 'ക്വാളിസീൽ': 'qualizeal', 'ക്വാളിസീല്‍': 'qualizeal', 'മൈക്രോസോഫ്റ്റ്': 'microsoft',
+    'സത്യ നാദെല്ല': 'satya nadella', 'ഹൈദരാബാദ്': 'hyderabad', 'കേരള': 'kerala', 'സ്പിതി': 'spiti',
+    'മണാലി': 'manali', 'കീ മൊണാസ്ട്രി': 'key monastery', 'ടാബോ': 'tabo', 'യൂട്യൂബ്': 'youtube',
+    'വീഡിയോ': 'video', 'ചാനൽ': 'channel', 'ജോലി': 'work role', 'കമ്പനി': 'company', 'പ്രോജക്ട്': 'project',
+    'പ്രോജക്റ്റ്': 'project', 'സ്കിൽ': 'skills', 'കഴിവ്': 'skills', 'പഠിച്ച': 'study education degree',
+    'വിദ്യാഭ്യാസം': 'education', 'എവിടെ': 'where', 'ആരാണ്': 'who is', 'എന്താണ്': 'what is',
+    'ഇപ്പോൾ': 'currently', 'യാത്ര': 'travel journey', 'ലിങ്ക്ഡ്ഇൻ': 'linkedin', 'ഗിറ്റ്ഹബ്': 'github',
+  },
+  te: {
+    'ప్రశోభ్': 'prashobh', 'క్వాలిజీల్': 'qualizeal', 'మైక్రోసాఫ్ట్': 'microsoft', 'సత్య నాదెళ్ల': 'satya nadella',
+    'హైదరాబాద్': 'hyderabad', 'స్పితి': 'spiti', 'మనాలి': 'manali', 'యూట్యూబ్': 'youtube', 'వీడియో': 'video',
+    'ఛానల్': 'channel', 'ఉద్యోగం': 'work job role', 'పని': 'work', 'కంపెనీ': 'company', 'ప్రాజెక్ట్': 'project',
+    'నైపుణ్యాలు': 'skills', 'చదువు': 'education degree', 'విద్య': 'education', 'ఎక్కడ': 'where',
+    'ఎవరు': 'who is', 'ఏమిటి': 'what is', 'ప్రస్తుతం': 'currently', 'ప్రయాణం': 'travel journey',
+  },
+  hi: {
+    'प्रशोभ': 'prashobh', 'क्वालिज़ील': 'qualizeal', 'क्वालिजील': 'qualizeal', 'माइक्रोसॉफ्ट': 'microsoft',
+    'सत्या नडेला': 'satya nadella', 'सत्य नडेला': 'satya nadella', 'हैदराबाद': 'hyderabad', 'स्पीति': 'spiti',
+    'मनाली': 'manali', 'यूट्यूब': 'youtube', 'वीडियो': 'video', 'चैनल': 'channel', 'काम': 'work',
+    'नौकरी': 'job role', 'कंपनी': 'company', 'प्रोजेक्ट': 'project', 'कौशल': 'skills', 'पढ़ाई': 'education degree',
+    'शिक्षा': 'education', 'कहाँ': 'where', 'कहां': 'where', 'कौन': 'who is', 'क्या': 'what is',
+    'अभी': 'currently', 'यात्रा': 'travel journey',
+  },
+};
+
+/**
+ * Expand a question for retrieval: the original text (so same-script evidence
+ * matches) plus the English forms of any lexicon entries it contains.
+ * @returns {{query:string, lang:string, added:string[]}}
+ */
+export function expandQuery(question) {
+  const q = String(question || '');
+  const lang = detectScript(q);
+  if (lang === 'en') return { query: q, lang, added: [] };
+  const added = [];
+  for (const [native, english] of Object.entries(LEXICON[lang] || {})) {
+    if (q.includes(native) && !added.includes(english)) added.push(english);
+  }
+  return { query: added.length ? `${q} ${added.join(' ')}` : q, lang, added };
+}
+
+/** Plain-language note when an Indic-script question is answered from English evidence. */
+export function languageNote(lang, evidenceLangs) {
+  if (lang === 'en') return null;
+  const name = LANGS[lang] ? LANGS[lang].label : lang;
+  if (evidenceLangs.includes(lang)) return null;
+  return `Asked in ${name}; the sources that answer are in English, quoted as they are. Malayalam, Telugu and Hindi evidence is used when a video or transcript has it.`;
+}

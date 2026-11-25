@@ -267,8 +267,13 @@ export function summarise(query, ranked, chunks, opts = {}) {
   for (const r of ranked.slice(0, 20)) {
     const chunk = chunks[r.chunkIdx];
     if (!chunk) continue;
-    const prior = evidencePrior(chunk, intent, scope);
+    let prior = evidencePrior(chunk, intent, scope);
     if (prior < 0.12) { rejected++; continue; }   // routed out by intent or scope
+    // Evidence in the question's own language (a Malayalam title, a Telugu
+    // transcript) answers a Malayalam or Telugu question better than a
+    // translation ever could — and the fabric never translates.
+    const qLang = analysis.lang || 'en';
+    if (qLang !== 'en' && (chunk.meta && chunk.meta.lang) === qLang) prior *= 1.6;
 
     const admitted = [];
     for (const sent of sentencesOf(chunk)) {
