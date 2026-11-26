@@ -1,0 +1,1717 @@
+# =============================================================================
+# Canon, interview set 1: the Senior / Enterprise AI Architect interview,
+# Session 1 (technical depth, sections A to E) and "five questions never to
+# skip" #1 and #3, answered the way Prashobh answers them.
+# =============================================================================
+#
+# Same schema and rules as canon.yaml: first person, no claim without evidence,
+# the first question is the interview question as asked, the rest are the ways an
+# interviewer rephrases it. Keywords are precise multi-word cues, so these answers
+# never take a question that belongs to an existing entry. Examples come only from
+# his own record: Primera, Brane, TCS, Yash, Tech Mahindra, Qualizeal, and his
+# public repositories. Client names stay confidential.
+#
+# Tested by tests/qa_interview_s1.json (each case lists the rubric points the
+# answer must cover).
+
+canon:
+# ----------------------------------------------------------------------------- A. Experience and ownership
+- id: iv1-complex-solution
+  topics: [interview, experience]
+  questions:
+  - Walk me through the most complex AI solution you have architected. What was the business problem, architecture, technology stack and outcome?
+  - What is the most complex AI solution you have architected?
+  - Describe the most complex AI system you designed, from the business problem to the outcome.
+  - Tell me about the most complex AI project you have architected end to end.
+  keywords:
+  - most complex ai solution
+  - most complex ai system
+  - most complex ai project
+  - complex ai solution you
+  - business problem architecture
+  - technology stack and outcome
+  answer: >-
+    The most complex one I have designed and built is the clinical NLP platform behind the physician's
+    note reader at Primera Medical Technologies. The business problem: a US hospital network needed every
+    inpatient's notes read in real time, across more than sixty hospitals of at least a hundred beds each,
+    so that diagnostics, clinical decision support and analytics could work from what clinicians actually
+    wrote, not only from coded fields. The constraints shaped everything: regulated patient data, so privacy
+    was non-negotiable; two EMR families, Epic and Meditech, with records arriving as HL7, FHIR and MAR
+    medication records; and clinicians who will not act on a number they cannot trace back to the note.
+    The architecture had six layers. Ingestion consumed the HL7 and FHIR streams and collated physician
+    notes, nursing notes and medication records into one view per patient. Clinical NLP handled the hard
+    language: abbreviations, negation, and the same drug or condition written many ways. Ontology mapping
+    resolved every mention to SNOMED, LOINC and ICD-10 concepts, and that was the backbone, because once
+    mentions are standard concepts, notes from different hospitals and formats can be joined. A per-patient
+    relationship graph linked conditions, medications, labs and events. Real-time analytics and predictive
+    models for patient outcomes sat on the graph. And the note reader surfaced each finding with the record
+    it came from. The stack: NLP and machine-learning pipelines in Python, HL7 and FHIR interfaces to Epic
+    and Meditech, the SNOMED, LOINC and ICD-10 terminologies, OCR tools for EOBs and diagnostic documents,
+    and predictive models on top. Many small, separately tested NLP and ML components, not one big model.
+    The outcome: the note reader ran in production across more than sixty US hospitals, clinical NLP on
+    that volume of data done for the first time. The lesson I carry into GenAI work is that the model was
+    never the hard part. Reliability across many small components, a shared vocabulary of concepts, and
+    traceability from every output back to its record were. The same shape shows up in my agentic work at
+    Qualizeal today, where the knowledge layer under the agents matters more than the agents themselves.
+  evidence:
+  - url: profile:career_projects/Medical Note Reader
+    source: resume
+    why: Real-time medical note reader deployed across 60+ US hospitals
+  - url: profile:roles/Primera Medical Technologies
+    source: resume
+    why: EMR pipelines for Epic and Meditech, HL7/FHIR at scale, predictive models for patient outcomes
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: The note reader in his words, SNOMED, LOINC, ICD-10 and relationship graphs
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Primera in depth
+
+- id: iv1-contributions
+  topics: [interview, experience]
+  questions:
+  - What were your personal contributions versus what your engineering team delivered?
+  - What did you personally build, and what did your team deliver?
+  - Which parts were your own contribution and which were the team's?
+  - How much of the delivery was yours versus your engineering team's?
+  keywords:
+  - personal contributions
+  - personal contribution
+  - personally build
+  - personally built
+  - your team deliver
+  - team delivered
+  - own contribution
+  - versus your engineering team
+  - do personally
+  - you do personally
+  answer: >-
+    I keep that line explicit, because an architect who cannot say what he personally built is a presenter.
+    On the clinical platform at Primera my own contribution was the NLP core: the pipeline that read the notes,
+    the handling of clinical abbreviations and negation, the normalisation of the many ways a drug or condition
+    gets written, the mapping of every mention to SNOMED, LOINC and ICD-10, and the per-patient relationship
+    graph the analytics ran on. I was the pillar of the NLP team for AI and advanced analytics there.
+    Integration with the hospitals' EMR systems and the rollout across them were team efforts that I contributed
+    to, not things I did alone. At Qualizeal the split is similar. I lead the architecture of our agentic
+    client solutions and work hands-on on our AI-testing platforms, ValidAIte and QMentisAI, and I write a
+    good part of the implementation myself: the orchestration design, the evaluation and guardrail approach, and the pieces
+    where a wrong call is expensive. The engineers, including the interns and freshers I mentor in the AI
+    Center of Excellence, build out features on the patterns I set, and I review what they ship. My public
+    repositories, Knowledge Fabric, CodeFabric, CogniFlow and the rest, are my own design and build end to
+    end, which is why I point interviewers to them: the code shows what I can do without a team behind me.
+    What I never do is present a number or an outcome the team produced as if it were mine alone, and I give
+    credit by name when I talk about a delivery.
+  evidence:
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: The pillar of the NLP team at Primera; the note reader work
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Leading and contributing hands-on across internal platforms and client solutions
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Designs and implements; mentors the interns and freshers of the AI CoE
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Public code he designed and built
+
+- id: iv1-architecture-decision
+  topics: [interview, experience]
+  questions:
+  - What was the biggest architectural decision you made, and what alternatives did you reject?
+  - What is the most important architecture decision you have made, and what did you reject?
+  - Tell me about a major architectural decision and the alternatives you rejected.
+  - Which design alternatives did you reject in your biggest architecture call?
+  keywords:
+  - biggest architectural decision
+  - architectural decision
+  - alternatives did you reject
+  - alternatives you rejected
+  - alternatives did you
+  - did you reject
+  - most important architecture decision
+  - biggest architecture call
+  answer: >-
+    The decision I would defend in any review is the one at the heart of Knowledge Fabric: no text is generated
+    at answer time. Every answer is either a curated answer in my own words, whose evidence links must resolve
+    to real records at build time or the build reports them, or verbatim sentences retrieved and cited from the
+    sources, with an honest no-answer when nothing on record covers the question. The alternatives I rejected
+    were the obvious ones. First, the standard RAG stack: a vector database, an LLM writing fluent answers, an
+    API key and a backend. For a system that speaks about a real person, one confident invented fact costs more
+    trust than a hundred good answers earn, and the running cost and key management never end. Second, a
+    transformer embedding model shipped to the browser at the start: a payload of more than 20 MB broke the
+    zero-cost static constraint, so semantic retrieval began as LSA over TF-IDF, 0.4 MB of int8 vectors, and
+    MiniLM sentence embeddings came later, precomputed in the build. Third, retrieval alone: early answers were
+    cited but read like collages, so I put the curated layer on top. What I gave up is real: no free-form
+    answers to questions nobody anticipated, and curation work for every new topic. What I gained is a
+    deterministic system, the same files in and the same index out, so the quality gates mean something: over
+    1,400 questions run on every deploy and the build fails when an answer regresses. In enterprise work the
+    equivalent call was at Primera, where mapping every mention to standard ontologies, SNOMED, LOINC and
+    ICD-10, rather than matching text hospital by hospital, is what let notes from sixty hospitals be joined
+    and reasoned over. The pattern is the same: choose the boring, verifiable foundation, then add intelligence
+    on top of it.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: 'Design decisions: deterministic build, LSA instead of an in-browser transformer, no backend or API keys'
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: BM25, LSA and MiniLM; fully static, no vector database
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: Ontology mapping at Primera
+
+- id: iv1-failure
+  topics: [interview, experience]
+  questions:
+  - Tell me about an AI implementation that failed or underperformed. What went wrong?
+  - Describe an AI project of yours that underperformed and what went wrong.
+  - Have you had an AI implementation fail? What went wrong?
+  - Tell me about a time an AI system of yours did not perform as expected.
+  - What was your biggest failure?
+  keywords:
+  - biggest failure
+  - your biggest failure
+  - failed or underperformed
+  - underperformed
+  - underperform
+  - that failed
+  - implementation fail
+  - what went wrong
+  - did not perform as expected
+  - not perform as expected
+  answer: >-
+    Two, and I learned more from them than from the successes. The first was at Brane Enterprises. An object
+    detection system's accuracy had dropped from 86 to 76 percent when the label set grew from 80 to 120
+    classes, and it was assigned to me. What went wrong is a classic: the class space was expanded without
+    re-validating the data and the model together. The off-the-shelf YOLO weights were weak on Indian scenes,
+    the new classes were visually close to existing ones, and I had never trained custom weights. Rather than
+    fight only at the bounding-box level, I brought my NLP side in: scene descriptions, text tagging of images
+    and a custom word2vec layer, so the model could use context, what usually appears together, to separate
+    similar classes. It reached 89.5 percent, above where it started. The lesson: when the label space
+    changes, re-baseline everything, and check that the data represents where the model will actually run.
+    The second is my own Knowledge Fabric. The first version answered by stitching retrieved sentences
+    together. Every sentence was cited, yet the answers read like collages, and a question about one employer
+    could pull in a sentence about another. Then I wrote two new rounds of questions and ran them untuned, as
+    held-out checks, and the matcher scored 81 and 78 percent, far below the perfect scores on the sets I had
+    tuned against. I had overfitted to my own test set. The fixes were a curated answer layer with evidence
+    resolved at build, guards so one employer's question is never answered from another employer's record, an
+    honest no-answer, and a habit I now insist on everywhere: keep a held-out set you have not tuned on. In
+    both cases the model was not the root cause; the evaluation was. That is why evaluation design is the first
+    thing I review on any AI program today.
+  evidence:
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: 'Object detection: 86 to 76 percent after 80 to 120 classes, recovered to 89.5 with a hybrid NLP approach'
+  - url: profile:roles/Brane Enterprises
+    source: resume
+    why: Real-time object detection systems at Brane
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: 'Held-out rounds first run untuned: 81 and 78 percent; employer guards in the integration test'
+
+- id: iv1-rebuild
+  topics: [interview, experience]
+  questions:
+  - If you had to rebuild your most successful AI solution today, what would you change?
+  - How would you rebuild your most successful AI system with today's technology?
+  - What would you do differently if you rebuilt your best AI solution now?
+  - If you rebuilt the physician's note reader today, what would you change?
+  keywords:
+  - rebuild your most successful
+  - most successful ai
+  - rebuild
+  - rebuilt
+  - do differently
+  - rebuild your most
+  answer: >-
+    My most successful AI solution by reach is the physician's note reader, in production across more than
+    sixty US hospitals. If I rebuilt it today I would keep the backbone and change most of what is around it.
+    What I would keep: mapping every mention to SNOMED, LOINC and ICD-10. Standard concepts are what let notes
+    from different hospitals be joined, and an LLM does not remove that need; it makes it more important,
+    because a free-text answer you cannot map is a free-text answer you cannot audit. What I would change.
+    First, extraction: many of the hand-built pieces for abbreviations, negation and spelling variants would
+    become a smaller set of models, a fine-tuned open model or an LLM with constrained, schema-validated output,
+    with the ontology step still deciding the final concept. Second, privacy by architecture: de-identification
+    before any model call, and for patient data, open models self-hosted inside the hospital's boundary rather
+    than notes sent to an external API. Third, evaluation first: a clinician-labelled golden set with precision
+    and recall per concept type, gating every model or prompt change, plus a held-out set nobody tunes on.
+    Fourth, FHIR-first ingestion driven by change events, so each patient's record updates incrementally.
+    Fifth, observability: a trace from each finding back to the sentence it came from, a confidence on every
+    extraction, and a human review queue for the low-confidence ones. Sixth, a retrieval layer so clinicians
+    can ask questions in plain language and get answers cited to the source note, the way Knowledge Fabric
+    answers about me. What I would not do is replace the whole pipeline with one large model. The small,
+    testable pieces were why it was reliable; the rebuild would make them fewer and smarter, not invisible.
+  evidence:
+  - url: profile:career_projects/Medical Note Reader
+    source: resume
+    why: Deployed across 60+ US hospitals
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: The note reader and its ontology mapping
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Cited answers with lineage, the pattern he would add
+
+- id: iv1-draw-complex
+  topics: [interview, experience]
+  questions:
+  - Draw the most complex AI solution you have personally architected; explain every component and why.
+  - Draw the architecture of your most complex project.
+  - Can you draw the architecture of your most complex AI solution?
+  - Walk me through the architecture of your most complex solution, component by component.
+  keywords:
+  - draw the architecture
+  - draw the most complex
+  - architecture of your most complex
+  - architecture of the most complex
+  - most complex project
+  - personally architected
+  - explain every component
+  - every component and why
+  - component by component
+  diagram: assets/diagrams/iv1-clinical-nlp-platform.svg
+  answer: >-
+    Here is the clinical NLP platform behind the physician's note reader at Primera, drawn as six layers, top
+    to bottom, with each component and the reason it exists. One, EMR sources: Epic and Meditech across more
+    than sixty hospitals, arriving as HL7 messages, FHIR resources and MAR medication records. Why: you design
+    for the formats you actually receive, so every format needed its own parser before anything downstream saw
+    it. Two, ingestion and per-patient collation: physician notes, nursing notes and medication records brought
+    together for each patient. Why: clinical meaning sits across documents; a medication in the MAR explains a
+    phrase in a nursing note. Three, clinical NLP: abbreviations, negation, and normalisation of the many ways
+    a drug or condition is written. Why: a phrase such as no evidence of pneumonia must never be read as
+    pneumonia. These were many small, separately tested components rather than one model, so a failure could
+    be found and fixed in isolation. Four, ontology mapping to SNOMED, LOINC and ICD-10. Why: this is the
+    backbone. Once every mention is a standard concept, notes from different hospitals, systems and formats can
+    be joined, counted and reasoned over. Five, the per-patient relationship graph linking conditions,
+    medications, labs and events. Why: real-time analytics and the predictive models for patient outcomes need
+    relationships, not isolated entities. Six, real-time analytics and the note reader itself, where each
+    finding traces back to its source. Why: a clinician will not act on a number they cannot verify. Around all
+    six sat privacy and access control for regulated patient data, which was non-negotiable. If you want the
+    GenAI-era system I personally architected end to end and can show in public code, it is Knowledge Fabric:
+    a factory that syncs the sources and masks confidential client names, a build that chunks and indexes BM25,
+    LSA and MiniLM vectors and a typed knowledge graph, curated answers whose evidence must resolve, hybrid
+    retrieval fused with reciprocal rank fusion, and test sets that gate every deploy. The principles are the
+    same in both: a standard vocabulary, traceability, and evaluation as a component, not an afterthought.
+  evidence:
+  - url: profile:career_projects/Medical Note Reader
+    source: resume
+    why: The note reader across 60+ US hospitals
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: Epic, Meditech, HL7, MAR, SNOMED, LOINC, ICD-10, relationship graphs, real-time analytics
+  - url: profile:career_projects/EHR Parser
+    source: resume
+    why: Structured extraction from HL7-encoded clinical streams
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: The architecture he built end to end, in public code
+
+# ----------------------------------------------------------------------------- B. Traditional AI and ML
+- id: iv1-ml-vs-llm
+  topics: [interview, ml]
+  questions:
+  - When would you choose traditional ML over an LLM-based solution?
+  - When is classical machine learning a better choice than an LLM?
+  - Why not just use an LLM for everything instead of traditional ML?
+  - How do you decide between traditional machine learning and a large language model?
+  keywords:
+  - traditional ml
+  - traditional machine learning
+  - classical machine learning
+  - classical ml
+  - llm based solution
+  - instead of traditional
+  answer: >-
+    Whenever the problem is structured, high-volume or regulated, and the output is a number or a label. That
+    covers most of what I built in BFSI at Yash Technologies: fraud detection, loan eligibility and credit
+    scoring run on tabular data, where gradient-boosted trees or logistic regression are usually more accurate
+    than an LLM, answer in milliseconds, cost almost nothing per prediction, and give reasons a risk team and a
+    regulator can follow. Forecasting, churn, anomaly detection on transactions or sensors, recommendations and
+    optimisation are the same story. I choose traditional ML when I have labelled data and a clear target
+    metric, when latency must be in milliseconds at scale, when every decision must be explainable and
+    reproducible, when the cost per prediction must be near zero, and when the data is numbers and categories
+    rather than language. An LLM earns its place when the input is unstructured language, the output has to be
+    generated, the task varies too much to label, or there is no training data and you need zero-shot ability.
+    The best designs often combine them: a language model turns text into features, and a classical model makes
+    the decision. My stock-analysis pipeline does exactly that. FinBERT classifies news headlines, that score
+    is one weighted input to rule-based and statistical scoring, and if the model fails to load the pipeline
+    falls back to keyword sentiment instead of crashing. At TCS, ticket classification for Ultimatix was a
+    supervised multi-class problem, not a generative one. Using an LLM where a classifier will do is the most
+    common cost mistake I see.
+  evidence:
+  - url: profile:roles/Yash Technologies
+    source: resume
+    why: Fraud detection, loan eligibility and credit scoring models for BFSI clients
+  - url: https://github.com/PrashobhPaul/StockAnalysis_IndianMarket
+    source: github
+    why: FinBERT for news only, a weighted sub-score, with a rule-based fallback
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: Multi-class classification for Ultimatix at TCS
+
+- id: iv1-ml-task-types
+  topics: [interview, ml]
+  questions:
+  - Explain the difference between classification, regression, clustering and anomaly detection, with enterprise use cases.
+  - What is the difference between classification and regression, and where do clustering and anomaly detection fit?
+  - Give enterprise use cases for classification, regression, clustering and anomaly detection.
+  - How do classification and regression differ from clustering and anomaly detection?
+  keywords:
+  - classification regression clustering
+  - classification and regression
+  - clustering and anomaly detection
+  - anomaly detection
+  - clustering
+  - regression
+  - enterprise use cases
+  answer: >-
+    Classification and regression are supervised: you learn from labelled examples. Classification predicts a
+    discrete class, regression a continuous number. Clustering, and most anomaly detection, is unsupervised:
+    there is no label, and you look for structure, or for the points that do not fit it. Classification answers
+    which bucket. From my own work: fraud or genuine, and approve or decline a loan, at Yash Technologies;
+    routing tickets into categories, the multi-class Ultimatix problem I worked on at TCS; sentiment of customer
+    interactions. I judge it with precision, recall, F1 and PR-AUC. Regression answers how much: credit limits,
+    expected loss, demand and revenue forecasts, delivery times, patient length of stay. Metrics are MAE, RMSE
+    and MAPE, and I prefer MAE when the business thinks in absolute units, because RMSE punishes outliers
+    heavily. Clustering answers which items naturally belong together, with no labels: customer segmentation,
+    grouping support tickets to discover new categories, and topic modelling over documents, which I built for
+    enterprise knowledge management at Yash. K-means, hierarchical clustering or HDBSCAN on embeddings, judged
+    by silhouette scores and, more honestly, by whether the business can act on the segments. Anomaly
+    detection answers what is unusual: new fraud patterns, network intrusions, sensor faults, unusual claims.
+    Isolation forests, autoencoders or statistical baselines, used where labels are rare or the pattern is new.
+    In practice they work together: a supervised fraud classifier catches the known patterns, an anomaly
+    detector catches the new ones, and clustering the flagged cases tells analysts which new pattern is
+    emerging.
+  evidence:
+  - url: profile:roles/Yash Technologies
+    source: resume
+    why: Fraud, credit and risk models; topic modelling and semantic search for knowledge management
+  - url: profile:roles/Tata Consultancy Services
+    source: resume
+    why: Sentiment analysis and text classification over millions of customer interactions
+  - url: profile:skills/Domain Knowledge
+    source: resume
+    why: Fraud detection, credit scoring, risk modelling
+
+- id: iv1-class-imbalance
+  topics: [interview, ml]
+  questions:
+  - How would you handle class imbalance in a production classification system?
+  - How do you deal with imbalanced classes in production?
+  - What techniques do you use for a highly imbalanced dataset like fraud?
+  - How do you train a classifier when the positive class is rare?
+  - Why is accuracy misleading on imbalanced data?
+  keywords:
+  - class imbalance
+  - imbalanced classes
+  - imbalanced dataset
+  - imbalanced
+  - imbalance
+  - positive class is rare
+  - minority class
+  - smote
+  answer: >-
+    First I make sure we measure the right thing. With fraud at well under one percent of transactions,
+    accuracy is meaningless, so I report precision, recall, PR-AUC and, above all, the business cost of each
+    type of error, with a confusion matrix at the operating threshold. Then I work at four levels. Data:
+    stratified splits, and time-based validation so the test set is the future rather than a shuffle of the
+    past. Resampling where it helps, undersampling the majority class, oversampling, or SMOTE, applied only to
+    the training folds, never to validation or test, or the metrics lie. Algorithm: class weights or a
+    cost-sensitive loss, scale_pos_weight in gradient boosting, focal loss for neural models. In my experience
+    reweighting is usually as good as resampling and simpler to keep correct. Decision: the threshold is a
+    business decision, not 0.5. I choose it on the precision-recall curve against the cost of a missed fraud
+    versus the cost of blocking a genuine customer, and I calibrate the probabilities, because resampling
+    distorts them. Often the answer is tiers: block, step-up verification, review queue. Production: the base
+    rate drifts, so I monitor the predicted-positive rate, the precision of the review queue, and recall on
+    labels as they mature, which in fraud means chargebacks weeks later, and analyst decisions flow back into
+    training. For very rare or new patterns I add an anomaly detector beside the classifier. This is the
+    trade-off I worked in BFSI at Yash Technologies: a fraud model has to balance catching fraud against
+    blocking genuine customers, and that balance is set with the risk team, not by the data scientist alone.
+  evidence:
+  - url: profile:roles/Yash Technologies
+    source: resume
+    why: Fraud detection and credit scoring for BFSI clients
+  - url: profile:skills/Domain Knowledge
+    source: resume
+    why: Fraud detection, credit scoring, risk modelling
+
+- id: iv1-drift
+  topics: [interview, ml]
+  questions:
+  - How do you identify and manage data drift and concept drift?
+  - What is the difference between data drift and concept drift, and how do you detect them?
+  - How do you monitor a production model for drift?
+  - How would you detect that the relationship between inputs and outcomes has changed?
+  keywords:
+  - data drift
+  - concept drift
+  - model drift
+  - drift
+  - covariate shift
+  - relationship between inputs and outcomes
+  answer: >-
+    Data drift is a change in the input distribution, P of X: new customer segments, a new product, an upstream
+    field that changed meaning. Concept drift is a change in the relationship between inputs and the target, P of
+    Y given X: a transaction pattern that used to be genuine is now fraud because fraudsters adapted. Data drift
+    can show on day one; concept drift usually shows only when labels arrive. To identify them I monitor three
+    layers. Inputs: per-feature tests against a reference window, the stability index PSI over binned
+    distributions, where I treat above 0.1 as a warning and above 0.25 as significant, Kolmogorov-Smirnov for continuous features and
+    chi-square for categorical ones, plus data-quality checks on nulls and schemas, because a lot of apparent
+    drift is a broken pipeline. Outputs: the distribution of predictions and confidence scores, which moves
+    before accuracy does. Outcomes: precision, recall or error on labelled data as it arrives, by segment, and
+    business KPIs such as approval rates or chargebacks. To manage them: alerts with owners and thresholds, a
+    root-cause step before any retraining, scheduled retraining on rolling windows where drift is expected,
+    triggered retraining when performance crosses an agreed tolerance, and champion-challenger or shadow
+    evaluation before promotion. For fast, adversarial concept drift, as in fraud, I add recency weighting and
+    faster feedback from analysts. LLM systems drift too, because the questions people ask change. In Knowledge
+    Fabric every answer leaves a trace, a weak answer can be flagged, and a curator job re-asks every flagged
+    question against the freshly synced sources each week, which is drift detection on the question mix.
+  evidence:
+  - url: profile:roles/Yash Technologies
+    source: resume
+    why: Production fraud, credit and risk models
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Traces, flags and the weekly curator that re-asks flagged questions
+
+- id: iv1-retraining
+  topics: [interview, ml]
+  questions:
+  - How would you determine whether a model needs retraining?
+  - How do you decide when to retrain a model?
+  - What signals tell you a production model should be retrained?
+  - When is retraining a model actually necessary?
+  keywords:
+  - needs retraining
+  - retraining
+  - retrain
+  - retrained
+  - when to retrain
+  answer: >-
+    Retraining is a decision with evidence, not a calendar habit. I look for four signals. One, performance
+    against an agreed tolerance: recall, precision or error on recent labelled data, by segment, compared with
+    the baseline the model was approved on. If the drop is beyond the tolerance we set with the business, it is
+    a candidate. Two, drift that matters: stability tests on the features with the highest importance, and a
+    shift in the prediction distribution. Drift on an unimportant feature is a note, not a retrain. Three,
+    business signals: approval rates, chargebacks, complaints or escalations moving while the model's own
+    metrics look fine, which usually means the labels or the objective have changed. Four, a change in the
+    world or the data contract: a new product, a new region, a new regulation, a new upstream system. Before
+    retraining I find the cause. A broken pipeline, a renamed field or a label delay looks exactly like drift,
+    and retraining on bad data makes the problem permanent. If it is real, I train a challenger on recent data,
+    evaluate it on a time-based holdout and on the same golden set as the champion, run it in shadow, and
+    promote it only if it wins on the business metric without regressing anywhere else. My stock-analysis
+    pipeline applies the same discipline to signals: a stock appears only if its signals cleared a 60 percent
+    hit rate in a three-year walk-forward backtest on its own history, with no look-ahead. A model, like a
+    signal, has to keep proving itself on data it has not seen.
+  evidence:
+  - url: https://github.com/PrashobhPaul/StockAnalysis_IndianMarket
+    source: github
+    why: 60 percent gate on a 3-year walk-forward backtest, no look-ahead
+  - url: profile:roles/Yash Technologies
+    source: resume
+    why: Production risk models in BFSI
+
+- id: iv1-metrics
+  topics: [interview, ml]
+  questions:
+  - Explain the difference between precision, recall, F1, ROC-AUC and PR-AUC. When would you prioritize each?
+  - When would you prioritize precision over recall?
+  - What is the difference between ROC-AUC and PR-AUC?
+  - Which classification metrics do you use, and when do you prefer precision, recall, F1 or AUC?
+  keywords:
+  - precision
+  - recall
+  - f1
+  - roc auc
+  - pr auc
+  - precision over recall
+  - recall over precision
+  - classification metrics
+  answer: >-
+    Precision is true positives over everything I flagged: of what I flagged, how much was right. Recall is
+    true positives over everything that was really positive: of what was there, how much I caught. F1 is their
+    harmonic mean, so it is high only when both are. All three depend on the threshold you choose. ROC-AUC is
+    threshold-free: the area under the curve of true-positive rate against false-positive rate across all
+    thresholds, which equals the probability that a random positive is ranked above a random negative. It
+    measures ranking quality, but under heavy imbalance it flatters, because the false-positive rate divides by
+    a huge number of negatives. PR-AUC, or average precision, plots precision against recall, ignores true
+    negatives, and its baseline is the positive rate itself, so it tells the truth about rare classes. When I
+    prioritise each: precision when a false positive is expensive or irritating, such as blocking a genuine
+    customer's card, auto-closing a ticket, or an alert that wakes an engineer at night. Recall when a miss is
+    expensive: fraud that gets through, a clinical finding missed in a note, a safety defect. F1 when both
+    errors cost about the same and I need one number to tune on, or F-beta when they do not, with beta above
+    one favouring recall. ROC-AUC to compare models on reasonably balanced data, or before the threshold is
+    decided. PR-AUC for imbalanced problems such as fraud, anomalies and rare conditions. In the end I take a
+    cost-weighted view: every cell of the confusion matrix gets a business cost, and the threshold sits where
+    the total cost is lowest, within a recall or precision floor the business signs off.
+  evidence:
+  - url: profile:roles/Yash Technologies
+    source: resume
+    why: Fraud detection, where recall and precision trade off against customer friction
+  - url: profile:roles/Primera Medical Technologies
+    source: resume
+    why: Clinical NLP, where a missed finding is expensive
+
+- id: iv1-fraud-accuracy
+  topics: [interview, ml]
+  questions:
+  - A fraud model has 99% accuracy but misses 40% of fraudulent transactions. Successful? How would you improve it?
+  - Is a fraud model with 99 percent accuracy successful if it misses 40 percent of fraud?
+  - Our fraud detection model is 99% accurate but catches only 60% of fraud. How would you fix it?
+  - Why is 99% accuracy misleading for a fraud model, and how would you improve it?
+  keywords:
+  - 99 accuracy
+  - 99 percent accuracy
+  - 99 accurate
+  - fraud model
+  - fraud detection model
+  - fraudulent transactions
+  - misses 40
+  - accuracy paradox
+  answer: >-
+    No, it is not successful, and the 99 percent is the warning sign, not the achievement. Fraud is usually well
+    under one percent of transactions, so a model that never flags anything also scores 99 percent accuracy.
+    That is the accuracy paradox of class imbalance. The number that matters here is recall, and a recall of 60
+    percent means four frauds in ten get through. I would restate success in money: fraud losses prevented,
+    minus the cost of friction for genuine customers and of analyst time, with precision and recall at the
+    operating threshold, and PR-AUC to compare models. Then I would improve it in this order. One, the
+    threshold. Models are often deployed at a default of 0.5, and moving along the precision-recall curve can
+    recover a lot of recall at once. I set it against the cost of a missed fraud versus the cost of a false
+    decline, and I use tiers: auto-block above a high score, step-up authentication such as an OTP in the middle
+    band, an analyst review queue below that. Tiers raise recall without blocking good customers outright. Two,
+    class imbalance in training: class weights or a cost-sensitive loss, undersampling or SMOTE on the training
+    folds only, and probability calibration afterwards. Three, features, which is usually where the missed 40
+    percent lives: velocity features such as transactions per card per hour, deviation from the customer's own
+    behaviour, device, IP and location mismatches, merchant risk, and graph features, because cards, devices
+    and accounts shared across many customers are a strong fraud signal. Four, the model's blind spots:
+    gradient boosting as the workhorse, plus an anomaly detector for patterns the labels have never seen, and an
+    analysis of the missed frauds by segment, because they are rarely random. Five, labels and validation:
+    chargebacks arrive weeks late, so handle label delay, validate on time-based splits, and feed analyst
+    decisions back. Six, production: recall monitored on matured labels, drift tracked as fraudsters adapt, and
+    explanations so analysts and regulators can see why a transaction was stopped. I built fraud detection,
+    loan eligibility and credit-scoring models in BFSI risk analytics at Yash Technologies, and the hardest
+    conversations were never about the algorithm. They were about the cost of a missed fraud against a blocked
+    genuine customer, a balance the risk team owns.
+  evidence:
+  - url: profile:roles/Yash Technologies
+    source: resume
+    why: Fraud detection, loan eligibility and credit scoring models for BFSI clients
+  - url: profile:skills/Domain Knowledge
+    source: resume
+    why: BFSI analytics, fraud detection, risk modelling
+
+# ----------------------------------------------------------------------------- C. LLM and GenAI
+- id: iv1-transformer
+  topics: [interview, genai]
+  questions:
+  - Explain the architecture of a Transformer. What are attention and self-attention?
+  - How does a transformer model work?
+  - What is self-attention and how is it different from attention?
+  - Explain the attention mechanism in transformers.
+  keywords:
+  - transformer architecture
+  - architecture of a transformer
+  - self attention
+  - attention mechanism
+  - multi head attention
+  - transformer model
+  - transformer
+  - attention
+  answer: >-
+    A Transformer turns a sequence of tokens into contextual representations using attention instead of
+    recurrence. Tokens become embeddings, positional information is added, sinusoidal or rotary, and the result
+    passes through a stack of identical blocks. Each block
+    has two sub-layers, multi-head attention and a position-wise feed-forward network, each wrapped in a residual
+    connection and layer normalisation. The 2017 design was an encoder-decoder for translation; BERT-style
+    models keep only the encoder, and GPT-style LLMs keep only the decoder, with a causal mask so each token sees
+    only the tokens before it. Attention is a learned, weighted lookup. Each token is projected into a query, a
+    key and a value. A token's query is compared with every key by a dot product, scaled by the square root of
+    the key dimension, turned into weights with a softmax, and the output is the weighted sum of the values.
+    Self-attention is attention where the queries, keys and values all come from the same sequence, so every
+    word can draw on every other word in its own sentence: that is how the word bank means one thing next to
+    river and another next to loan. Cross-attention takes queries from one sequence and keys and values from
+    another, as the decoder does over the encoder's output. Multi-head attention runs several of these in
+    parallel in smaller subspaces, so different heads can track syntax, coreference or position. Two
+    consequences matter to an architect. Attention is quadratic in sequence length, which is why long contexts
+    are expensive and inference relies on a KV cache. And because every position is computed in parallel,
+    training scales on GPUs in a way the RNNs and LSTMs I worked with before transformers never did. FinBERT in
+    my stock-analysis pipeline and the MiniLM embeddings in Knowledge Fabric are both encoder-only transformers.
+  evidence:
+  - url: profile:skills/NLP & Machine Learning
+    source: resume
+    why: Transformers and NLP
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: Evolved from basic NLP to transformers, LSTMs, LLMs and SLMs
+  - url: https://github.com/PrashobhPaul/StockAnalysis_IndianMarket
+    source: github
+    why: FinBERT, an encoder transformer, for news sentiment
+
+- id: iv1-training-vs-rag
+  topics: [interview, genai]
+  questions:
+  - What is the difference between pre-training, fine-tuning, instruction tuning and RAG?
+  - When should I fine-tune a model and when should I use RAG?
+  - How is instruction tuning different from fine-tuning and pre-training?
+  - Fine-tuning versus RAG, which would you choose for enterprise knowledge?
+  keywords:
+  - pre training
+  - pretraining
+  - fine tuning
+  - fine tune
+  - instruction tuning
+  - fine tuning versus rag
+  - fine tune or rag
+  - rag or fine tuning
+  answer: >-
+    They change different things. Pre-training builds the model: self-supervised next-token prediction over
+    trillions of tokens of text and code, on thousands of GPUs for weeks. It is where language, reasoning
+    patterns and broad world knowledge come from, and almost no enterprise should do it. Fine-tuning continues
+    training a pre-trained model on a smaller labelled dataset for a domain or a task, so it changes the weights:
+    style, format, domain vocabulary, a classification head, or a narrow skill. Full fine-tuning updates every
+    weight; parameter-efficient methods such as LoRA train a small adapter. Instruction tuning is a specific kind
+    of fine-tuning on instruction and response pairs across many tasks, usually followed by preference alignment
+    such as RLHF or DPO. It is what turns a raw next-token predictor into an assistant that follows instructions;
+    every chat model you call is instruction-tuned. RAG changes nothing in the model. At question time it
+    retrieves relevant passages from your own sources and puts them in the prompt, so the answer is grounded in
+    current, private, permissioned data and can cite it. My rule: fine-tune for behaviour, RAG for knowledge. If
+    the model does not know your facts, or the facts change weekly, or different users may see different
+    documents, use RAG; fine-tuning bakes knowledge in, cannot cite, cannot honour permissions, and goes stale.
+    If the problem is format, tone, latency or cost at high volume on a narrow task, fine-tune, often a smaller
+    model. Many production systems use both: a small fine-tuned model for routing or extraction, and RAG for the
+    facts. Knowledge Fabric is pure retrieval and curation with no fine-tuning at all, because knowledge,
+    freshness and citations were the whole point.
+  evidence:
+  - url: profile:skills/Generative AI & Agents
+    source: resume
+    why: RAG, LLM fine-tuning, prompt engineering
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Retrieval and curated answers, nothing generated
+
+- id: iv1-lora
+  topics: [interview, genai]
+  questions:
+  - When would you use LoRA or QLoRA instead of full fine-tuning?
+  - What is LoRA and how is QLoRA different?
+  - Why use parameter-efficient fine-tuning instead of full fine-tuning?
+  - LoRA versus full fine-tuning, how do you choose?
+  keywords:
+  - lora
+  - qlora
+  - parameter efficient
+  - full fine tuning
+  - low rank
+  - peft
+  - adapters
+  answer: >-
+    Most of the time. Full fine-tuning updates every weight, so a 7-billion-parameter model needs memory for the
+    weights, the gradients and the optimiser states, well over 100 GB in mixed precision, and every task
+    produces a full copy of the model. LoRA keeps the base model frozen and learns a low-rank update for selected
+    weight matrices, usually the attention projections: instead of changing a d-by-d matrix you learn two thin
+    matrices of rank r, typically 8 to 64. That trains well under one percent of the parameters, fits a mid-size
+    model on a single GPU, and each adapter is megabytes, not gigabytes. QLoRA goes further: the frozen base
+    model is quantised to 4-bit NF4, with double quantisation and paged optimisers, and the LoRA adapters train
+    on top in higher precision. The original paper fine-tuned a 65-billion-parameter model on a single 48 GB GPU
+    that way, at some cost in training speed. I choose LoRA when the data is modest; when I need many variants, one adapter per task, tenant or language over one shared
+    base; when I want rollback as simple as removing an adapter; and when the GPU budget is limited. QLoRA when
+    memory is the binding constraint. Full fine-tuning when the domain shift is large, the data is plentiful,
+    the last points of quality matter, or I am doing continued pre-training on a new language or domain, and
+    the budget exists. At serving time I merge the adapter into the weights when one variant serves all the
+    traffic, so there is no latency overhead, or serve many adapters on one base with a server such as vLLM.
+    And before any of this I check whether prompting or RAG already solves the problem; most enterprise problems
+    are knowledge problems, not fine-tuning problems.
+  evidence:
+  - url: profile:skills/Generative AI & Agents
+    source: resume
+    why: LLM fine-tuning
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: MLOps, SageMaker and Vertex AI for training and serving
+
+- id: iv1-sampling
+  topics: [interview, genai]
+  questions:
+  - How do temperature, top-p and token limits influence generation?
+  - What does temperature do in an LLM?
+  - What is the difference between temperature and top-p sampling?
+  - How should I set temperature and max tokens for an enterprise use case?
+  keywords:
+  - temperature
+  - top p
+  - nucleus sampling
+  - max tokens
+  - max output tokens
+  - token limits
+  - token limit
+  - sampling parameters
+  answer: >-
+    They control how the next token is chosen and how much gets generated. At every step the model produces a
+    probability for every token in its vocabulary. Temperature divides the logits before the softmax. Below 1 it
+    sharpens the distribution toward the most likely tokens, so the output is focused and repeatable, and at 0
+    it is effectively greedy decoding. Above 1 it flattens the distribution, so the output is more varied and,
+    eventually, incoherent. Top-p, or nucleus sampling, keeps only the smallest set of tokens whose cumulative
+    probability reaches p, say 0.9, and samples from that set. It cuts the long tail of unlikely tokens
+    adaptively: few candidates when the model is confident, more when it is not. Top-k is the cruder version, a
+    fixed number of candidates. I tune temperature or top-p, rarely both at once, because their effects
+    compound. Token limits work at two levels. The context window bounds input plus output. Max output tokens
+    caps the response, which controls cost and latency directly, since output tokens are slower and pricier than
+    input tokens, but set too tight it truncates mid-sentence or mid-JSON, so I pair it with stop sequences and
+    instructions on length. My defaults: temperature 0 to 0.2 for extraction, classification, structured output,
+    code and RAG answers, where faithfulness matters more than variety, and around 0.7 for drafting and
+    brainstorming. And I never assume that temperature 0 means deterministic: batching and floating-point
+    effects still vary outputs, which is why on ValidAIte and QMentisAI we test behaviour across repeated runs
+    instead of expecting identical strings.
+  evidence:
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Testing and validating GenAI systems
+  - url: profile:engagements/QMentisAI
+    source: resume
+    why: AI testing and quality engineering
+  - url: profile:skills/LLM Platforms
+    source: resume
+    why: OpenAI, Claude and Gemini
+
+- id: iv1-hallucination
+  topics: [interview, genai]
+  questions:
+  - What happens when an LLM hallucinates? How would you minimize it?
+  - Why do large language models hallucinate?
+  - How do you reduce hallucinations in an LLM application?
+  - What causes LLM hallucination and how do you prevent it?
+  keywords:
+  - hallucinates
+  - hallucinate
+  - minimize hallucination
+  - reduce hallucinations
+  - causes hallucination
+  - llm hallucination
+  - prevent hallucinations
+  - stop hallucinations
+  answer: >-
+    A hallucination is fluent, confident output that is not supported by the sources or by fact: an invented
+    citation, a wrong number, a policy that does not exist. It happens because an LLM is trained to predict
+    plausible next tokens, not to check truth, and nothing in plain decoding says I do not know. The usual
+    triggers are a question outside what the model learned, retrieval that returned the wrong context or none,
+    ambiguous prompts, long contexts where the relevant passage is buried in the middle, high temperature, and
+    prompts that pressure the model to always answer. I minimise it in layers. Ground it: RAG over the
+    authoritative sources, with retrieval tuned and measured, because most hallucinations in RAG systems begin as
+    retrieval failures. Constrain it: instructions to answer only from the supplied context, an explicit
+    permitted answer of not found, low temperature, and structured output validated against a schema. Make it
+    cite: every claim linked to a passage, and a check that the cited passage actually supports the claim, with
+    an entailment model or an LLM judge. Decompose it: smaller, verifiable steps instead of one long generation.
+    Verify it: self-consistency across samples or a second verification pass for high-stakes answers, and human
+    review where a mistake is expensive. Measure it: a groundedness metric in the evaluation set and on sampled
+    production traffic. The surest way to avoid it is not to generate at all where you do not need to. The twin you are
+    talking to answers only with curated answers or verbatim cited sentences, and says plainly when nothing on
+    record covers a question. In clinical NLP the same principle held for me: every output traced back to the
+    note it came from, because a clinician will not act on a number they cannot verify.
+  evidence:
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Verbatim, cited evidence; nothing generated
+  - url: profile:roles/Primera Medical Technologies
+    source: resume
+    why: Clinical NLP where every output must be traceable
+
+- id: iv1-open-vs-proprietary
+  topics: [interview, genai]
+  questions:
+  - How would you select between open-source and proprietary LLMs for an enterprise?
+  - Should an enterprise use open-source or proprietary language models?
+  - How do you choose between open-weight models and commercial model APIs for an enterprise?
+  - What factors decide open-source versus closed LLMs?
+  keywords:
+  - open source and proprietary
+  - open source or proprietary
+  - open source versus closed
+  - proprietary llms
+  - proprietary
+  - open weight
+  - closed llms
+  - commercial model apis
+  answer: >-
+    I decide on evidence from the enterprise's own task, not on leaderboards, across six criteria. Data and
+    compliance first. If prompts carry patient data, personal data or regulated financial data, and the contract
+    or the regulator does not allow it to leave, open-weight models self-hosted in the client's cloud account or
+    on premises win by default, or a proprietary model through a private deployment with no data retention,
+    such as Azure OpenAI or Amazon Bedrock. Quality on our task: I run a golden set of real cases through the
+    candidates. Frontier proprietary models still lead on hard reasoning, long context and tool use; for
+    classification, extraction, summarisation and routing, a well-chosen open model, sometimes fine-tuned, is
+    often good enough. Total cost of ownership: APIs are pay per token with no idle cost; self-hosting means
+    GPUs, MLOps engineers, patching, scaling and on-call, so I calculate the break-even with real traffic.
+    Latency and control: self-hosting gives predictable latency, quantisation, LoRA adapters and version
+    pinning, while APIs can change models under you. Licensing and risk: Apache 2.0 or MIT weights against
+    community licences with usage limits, vendor indemnities, and concentration risk on one provider. And the
+    roadmap: how fast the client can absorb better models as they arrive. The answer is usually a portfolio
+    behind a model gateway, not a single choice: a frontier API for complex reasoning, smaller open models for
+    high-volume or sensitive tasks, all behind one interface so a model can be swapped on evaluation results.
+    My AgentBasedSystem has a provider-agnostic LLM layer that targets
+    OpenAI, Azure OpenAI or Anthropic with the same code and falls back to rules when no model is configured,
+    and CodeFabric runs with Anthropic, OpenAI, a local Ollama model, or no model at all.
+  evidence:
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: Provider-agnostic LLM layer with a rule-based fallback
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Works with or without an LLM; any one provider; permissively licensed model weights
+  - url: profile:skills/LLM Platforms
+    source: resume
+    why: OpenAI, Claude and Gemini
+
+- id: iv1-latency-tokens
+  topics: [interview, genai]
+  questions:
+  - How would you optimize inference latency and token consumption?
+  - How do you reduce LLM latency in production?
+  - How can I cut token usage in an LLM application?
+  - What techniques reduce response time and token usage for LLM calls?
+  keywords:
+  - inference latency
+  - token consumption
+  - token usage
+  - reduce latency
+  - llm latency
+  - time to first token
+  - response time and token
+  answer: >-
+    I measure before I optimise: time to first token, tokens per second, end-to-end latency at p50 and p95, and
+    input and output tokens per request, broken down by prompt section and by feature. The breakdown usually
+    shows that a few things dominate. For latency: stream the response, so the user sees the first words in a
+    few hundred milliseconds. Route simple requests to smaller, faster models. Use provider prompt caching for
+    long, stable prefixes such as system prompts and tool definitions, which cuts both latency and input cost.
+    Cap output tokens, because generation is sequential and output dominates latency. Run independent calls in
+    parallel rather than in a chain, and remove model calls that deterministic code can do. Cache whole answers
+    for repeated questions. When self-hosting, use a serving engine such as vLLM with continuous batching, a
+    paged KV cache, quantisation and speculative decoding, and keep the models close to the users. For tokens:
+    trim and version the system prompt; keep only the few-shot examples that measurably help; retrieve fewer,
+    better chunks with reranking instead of stuffing twenty; summarise or window the conversation history
+    instead of resending all of it; ask for concise, structured output; and use batch APIs for anything not
+    interactive. Then I verify every change against the evaluation set, because a faster answer that is wrong
+    is not an optimisation. My own systems sit at the far end of this on purpose. Knowledge Fabric answers with
+    zero tokens at run time, from curated answers and in-browser retrieval, and CodeFabric has a fully
+    extractive mode with no LLM at all, calling a model only when one is configured. Not calling a model is the
+    biggest optimisation there is.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Static site, no backend, no API keys, no runtime model cost
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Extractive mode with zero setup and zero cost; LLM only if configured
+
+- id: iv1-cost-cut
+  topics: [interview, genai]
+  questions:
+  - 10,000 requests/day, GPT inference costs $5,000/month; cut cost 60% without hurting quality.
+  - We serve 10,000 requests a day and spend $5,000 a month on GPT. How would you cut the cost by 60 percent without hurting quality?
+  - How would you reduce LLM inference cost by 60% while keeping quality?
+  - Our GPT bill is too high. How do you cut LLM costs without losing quality?
+  keywords:
+  - cut cost
+  - cut the cost
+  - inference cost
+  - inference costs
+  - reduce llm inference cost
+  - without hurting quality
+  - without losing quality
+  - llm costs
+  - gpt bill
+  - 10 000 requests
+  answer: >-
+    First the arithmetic, because it frames the plan. 10,000 requests a day is about 300,000 a month, so we pay
+    roughly 1.7 cents a request, and the target is about 0.7 cents, or $2,000 a month. I would change nothing
+    until two things exist: a cost breakdown per request, input against output tokens, system prompt, retrieved
+    context and history, by feature; and an evaluation set of a few hundred real requests with expected answers
+    and rubrics, so that without hurting quality is a gate, not a hope. Every lever below ships only if it
+    passes that gate. The levers, cheapest first. Prompt optimization: trim the system prompt, drop few-shot
+    examples that do not measurably help, cap output tokens and ask for concise structured output; with
+    provider prompt caching on the static prefix this alone often saves 20 to 30 percent. Selective RAG:
+    retrieve only when a request needs knowledge, and send three reranked chunks instead of ten, because
+    retrieved context is often most of the input tokens. Semantic caching: embed each request and serve a cached
+    answer when an earlier one is close enough, with a similarity threshold, a time to live, and cache keys
+    scoped by the user's permissions. Support-style traffic repeats, so even a 20 percent hit rate removes those
+    calls entirely. Model routing to smaller models: rules or a light classifier send simple requests to a model
+    that costs a tenth as much, and escalate only the hard or low-confidence ones. If 70 percent of traffic can
+    go to the small model, cost falls to about 37 percent of today on that lever alone. Batching: anything not
+    interactive, nightly summaries or bulk classification, goes through batch APIs at roughly half price.
+    Distillation: for high-volume narrow tasks, fine-tune a small open model on the large model's validated
+    outputs. Quantization and self-hosting: at this volume self-hosting rarely pays, but for a stable, narrow
+    workload a quantized open model can, so I calculate the break-even rather than assume it. Evaluation-driven
+    model substitution ties it together: every quarter the candidate models run against the same evaluation set,
+    and the cheapest one that passes takes the traffic. Routing, caching and prompt and context trimming
+    together usually clear 60 percent with margin. I roll out behind a flag, shadow-test against the current
+    model, and track cost per request and quality scores on one dashboard. It is the same instinct as my
+    AgentBasedSystem, where rules handle the clear cases and a model is called only for fuzzy intent.
+  evidence:
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: Rule-based by default; an LLM only for fuzzy intent, with graceful fallback
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Every build gated by test sets; zero runtime model cost
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: LLM-based systems in production for global clients
+
+# ----------------------------------------------------------------------------- D. RAG and agentic AI
+- id: iv1-rag-architecture
+  topics: [interview, rag-agentic]
+  questions:
+  - Explain the complete RAG architecture, from document ingestion to response generation.
+  - How does a RAG pipeline work end to end?
+  - What are the components of a production RAG system?
+  - Explain retrieval-augmented generation from ingestion to the final answer.
+  - What is RAG?
+  keywords:
+  - rag architecture
+  - rag pipeline
+  - retrieval augmented generation
+  - document ingestion
+  - response generation
+  - production rag system
+  - components of a production rag
+  - rag system work
+  - codefabric
+  diagram: assets/diagrams/iv1-rag-pipeline.svg
+  answer: >-
+    I split it into an offline indexing path and an online query path, with evaluation and observability across
+    both. Ingestion and indexing. Connectors pull from the sources, SharePoint, Confluence, databases and file
+    shares, with change detection so only new or modified documents are processed. Parsing turns PDFs, Office
+    files and HTML into clean text that keeps its structure, headings, tables and page numbers, with OCR for
+    scans. Enrichment adds metadata: source, owner, department, date, document type, and the access-control list
+    copied from the source system. Chunking follows the document's structure; each chunk is embedded and written
+    to two indexes, a vector index for dense retrieval and a keyword index for BM25, with the metadata stored
+    alongside for filtering. Content hashes make re-indexing incremental, and deletions propagate. The query
+    path. The user is authenticated and their groups resolved. The query is understood: intent, rewriting or
+    expansion, and a decision on whether retrieval is needed at all. Hybrid retrieval runs BM25 and dense search
+    with permission and metadata filters applied inside the query, and fuses the lists with reciprocal rank
+    fusion. A cross-encoder reranks the top 50 or so down to a handful. Context assembly removes duplicates,
+    keeps diversity, orders by relevance and fits a token budget. The prompt carries the instructions, the
+    context with source identifiers, and the question. The LLM generates an answer with citations, and
+    post-processing checks that the citations exist and support the claims, applies guardrails and formats the
+    response. When nothing relevant comes back, the system says so instead of guessing. Across both paths:
+    traces of every stage, retrieval and generation metrics on a golden set in CI, user feedback flowing back
+    into that set, and cost and latency per request. I have built most of this myself. CodeFabric does
+    structure-aware chunking that never slices a function in half, field-boosted BM25 plus dense embeddings
+    fused with RRF, a code-graph boost and incremental re-indexing by content hash, and serves it to agents over
+    MCP. Knowledge Fabric adds a curated layer, MMR sentence selection, a derived confidence score and the
+    honest no-answer.
+  evidence:
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Structure-aware chunking, BM25 plus dense with RRF, graph boost, incremental indexing, MCP
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Hybrid retrieval with RRF, MMR sentence selection, derived confidence
+  - url: profile:skills/Generative AI & Agents
+    source: resume
+    why: RAG pipelines
+
+- id: iv1-chunking
+  topics: [interview, rag-agentic]
+  questions:
+  - How would you select chunk size and overlap?
+  - What chunk size do you use for RAG?
+  - How do you decide chunk overlap for embeddings?
+  - What is your chunking strategy for documents in RAG?
+  keywords:
+  - chunk size
+  - chunk overlap
+  - chunking strategy
+  - chunking
+  - chunk sizes
+  - size and overlap
+  answer: >-
+    By experiment, not by convention, but I start from sensible defaults and from the structure of the content.
+    Three things set the range. The embedding model: many sentence-embedding models were trained on short
+    passages and truncate their input, MiniLM at 256 word pieces for example, so a 2,000-token chunk is partly
+    invisible to them. The questions: factoid questions want small, precise chunks; questions about procedures
+    or reasoning want larger ones. The documents: policies, contracts, code and slide decks each have a different
+    natural unit. My starting point for prose is 300 to 500 tokens with 10 to 15 percent overlap, so a sentence
+    that straddles a boundary still lands whole in one chunk. Overlap beyond about 20 percent mostly buys
+    duplicate hits and a bigger index. Structure beats size. I split on headings, sections and paragraphs first
+    and only cut what is still too long, keep tables whole with their headers, and prefix each chunk with its
+    document title and section path so it carries its context. For code I chunk on the syntax tree: CodeFabric
+    uses structure-aware chunking so a function is never sliced in half, and Knowledge Fabric labels every chunk
+    by kind: prose, table, header or fragment. For long documents I often use
+    small-to-big retrieval: match on small chunks for precision, then pass the enclosing section, the parent, to
+    the model for context. Then I measure. On a set of real questions with known source passages I compare two
+    or three configurations on recall at five and MRR, plus answer faithfulness, and pick the winner. Chunking
+    is cheap to change before launch and expensive after it, because a change means re-embedding everything.
+  evidence:
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Structure-aware (cAST) chunking along the syntax tree
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Typed chunks and a retrieval gold set scored on recall and MRR
+
+- id: iv1-dense-sparse
+  topics: [interview, rag-agentic]
+  questions:
+  - What is the difference between dense retrieval, sparse retrieval and hybrid search?
+  - Dense versus sparse retrieval, when do you use which?
+  - Why use hybrid search instead of only vector search?
+  - How does BM25 compare with embedding-based retrieval?
+  keywords:
+  - dense retrieval
+  - sparse retrieval
+  - hybrid search
+  - vector search
+  - bm25
+  - dense versus sparse
+  - dense and sparse
+  - embedding based retrieval
+  answer: >-
+    Sparse retrieval represents text as weighted terms over the vocabulary, mostly zeros, and matches on shared
+    words: TF-IDF and BM25 over an inverted index, or learned sparse models such as SPLADE. It is fast, needs no
+    training, explains itself, and is excellent for exact terms: names, product codes, error messages, clause
+    numbers, acronyms. It fails on paraphrase: a search for car repair will not find automobile maintenance.
+    Dense retrieval encodes the query and the passages into embedding vectors with a bi-encoder and finds the
+    nearest neighbours by cosine similarity, using an approximate index such as HNSW. It understands meaning and
+    paraphrase, works across languages, and copes with vague questions. It is weaker on exact identifiers and
+    rare terms, can be confidently wrong out of domain, and needs an embedding model, a vector store, and
+    re-embedding whenever the model changes. Hybrid search runs both and fuses the result lists, usually with
+    reciprocal rank fusion, where each document scores the sum of one over sixty plus its rank in each list, or
+    with normalised, weighted scores. Because their failure modes are different, hybrid is more robust than
+    either alone, and in enterprise corpora full of codes and jargon I treat it as the default, not an option.
+    That is how my own systems retrieve. Knowledge Fabric fuses BM25, LSA and MiniLM sentence embeddings with
+    reciprocal rank fusion at k equal to 60, and its evaluation harness reports recall, MRR and nDCG per mode,
+    lexical, semantic and hybrid, so the uplift of hybrid over lexical is measured, not assumed. CodeFabric does
+    the same for code, with code-aware tokenisation so that getUserById matches get user by id.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: BM25 plus LSA, Reciprocal Rank Fusion with k = 60, metrics per retrieval mode
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Field-boosted BM25 and dense embeddings merged with RRF; code-aware tokenisation
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: BM25, LSA and MiniLM sentence embeddings
+
+- id: iv1-reranking
+  topics: [interview, rag-agentic]
+  questions:
+  - When would you use reranking?
+  - What is a cross-encoder reranker and when is it worth it?
+  - Why add a reranking step to a RAG pipeline?
+  - When is reranking not worth the latency?
+  keywords:
+  - reranking
+  - reranker
+  - rerank
+  - re ranking
+  - re ranker
+  - cross encoder
+  - reranking step
+  answer: >-
+    When precision at the top of the list matters more than the extra latency, which in RAG is most of the
+    time. The pattern is two-stage. First-stage retrieval, BM25 and a bi-encoder, is fast because the query and
+    the documents are encoded separately, so it is built for recall: get the right passage somewhere in the top
+    50 or 100. A reranker, usually a cross-encoder, reads the query and each candidate together, so it can judge
+    real relevance, and reorders them so that the best three to five go to the LLM. You get better answers,
+    fewer distracting passages and fewer context tokens. I add reranking when the corpus is large or noisy, when
+    hybrid fusion mixes candidates from different retrievers, when the answer depends on the top few passages,
+    when near-duplicates compete, such as versions of the same policy, and when I want to cut the context sent to
+    the model. I skip it when the corpus is small and first-stage recall at three is already high, when the
+    latency budget is tight, since a cross-encoder over 50 pairs adds tens to a few hundred milliseconds
+    depending on the model and the hardware, or when cost matters more than the last points of precision. An
+    LLM as a reranker is the most accurate and the most expensive option, so I keep it for low-volume,
+    high-value queries. The decision is made on numbers: MRR, nDCG and answer quality with and without the
+    reranker on the golden set. That is why reranking sits on the roadmap of both my retrieval projects,
+    CodeFabric and Knowledge Fabric, as a stage to be evaluated against the existing baseline rather than
+    switched on by default.
+  evidence:
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: 'Roadmap: a cross-encoder reranking stage'
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: 'Roadmap: a transformer re-ranker evaluated against the LSA baseline with the existing harness'
+
+- id: iv1-complex-documents
+  topics: [interview, rag-agentic]
+  questions:
+  - How would you handle documents containing tables, images, diagrams and unstructured content?
+  - How do you do RAG over PDFs with tables and images?
+  - How do you index scanned documents, charts and diagrams for retrieval?
+  - How do you handle multimodal documents in RAG?
+  keywords:
+  - tables images diagrams
+  - tables and images
+  - containing tables
+  - scanned documents
+  - multimodal documents
+  - multimodal rag
+  - pdfs with tables
+  - charts and diagrams
+  answer: >-
+    I treat a document as a set of typed elements, not a stream of text, and give each type its own path into
+    the index. First, layout-aware parsing: a parser that understands PDF and Office layout, reading order,
+    headings, tables and figures, with OCR for scanned pages. Each element gets a type and a location: page,
+    section and element ID. Tables: never split mid-table and never flatten into word soup. I keep each table
+    whole with its caption and headers as one chunk, serialised as markdown or HTML so the model sees rows and
+    columns, and for large tables I chunk by rows while repeating the header in every chunk. When people ask
+    numeric questions across many tables, the better design is to load them into a database and answer with
+    SQL, using retrieval to find the right table. Images, charts and diagrams: OCR for the text inside them, and
+    a vision-language model to write a description, what the chart shows or what connects to what in a diagram,
+    which is embedded as text and linked to the original image. At answer time a multimodal model can look at
+    the image itself. Multimodal embeddings help image search, but text descriptions are easier to filter,
+    evaluate and cite. Unstructured text: strip headers, footers and boilerplate, chunk along the structure, and
+    attach metadata so every chunk knows where it came from. I have done versions of all of this. At Primera I
+    worked on OCR tools for EOBs and diagnostic documents. At Brane the object detection fix was the same idea in
+    reverse: describing images and scenes in words so that language methods could add context. Knowledge Fabric
+    classifies chunks as prose, tables, headers and fragments. The rule is the same everywhere: retrieve the
+    element, and cite the page it came from.
+  evidence:
+  - url: profile:roles/Primera Medical Technologies
+    source: resume
+    why: OCR tools for EOB and diagnostic insights
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: Describing images and scenes with text tagging at Brane
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Typed records and chunks with provenance
+
+- id: iv1-agent-vs-assistant
+  topics: [interview, rag-agentic]
+  questions:
+  - Explain the difference between an AI agent, an AI assistant and a traditional workflow automation.
+  - What makes something an AI agent rather than an AI assistant?
+  - How is an AI agent different from workflow automation like RPA?
+  - Agent, assistant or workflow automation, how do you decide which to build?
+  - What separates an AI agent from an AI assistant and from workflow automation?
+  keywords:
+  - ai agent
+  - ai assistant
+  - workflow automation
+  - traditional workflow
+  - rpa
+  - agent rather than
+  - agent assistant or workflow
+  - agentbasedsystem
+  answer: >-
+    The difference is who decides the next step. Traditional workflow automation, rule engines, BPM and RPA,
+    follows steps a person designed in advance: if this, then that. It is predictable, cheap, fast and
+    auditable, and it breaks the moment the input does not match the rules. Use it whenever the process is
+    stable and the decisions are well defined, which is more often than the hype suggests. An AI assistant
+    responds to a person: it answers, drafts and summarises, and may call a tool when asked, but the human drives
+    each turn and owns every action. A copilot is an assistant. An AI agent is given a goal rather than a step.
+    It plans, chooses tools, acts, observes the result and loops until the goal is met or it hits a limit, with
+    state and memory along the way. That delegated autonomy is what makes it powerful and what makes it risky.
+    They are a spectrum, and I place a system on it with two questions: how variable is the input, and how
+    expensive is a wrong action. Low variability: workflow. High variability with a human owning every action:
+    assistant. High variability, bounded actions and measurable outcomes: agent, with guardrails, step limits and
+    a human checkpoint where mistakes are costly. In practice the best production agents are mostly workflow,
+    with intelligence at the decision points. My AgentBasedSystem is built that way: a LangGraph state machine
+    classifies the request and routes it to deterministic FAQ, recommender, calendar and registration agents,
+    and calls an LLM only for fuzzy intent, falling back to rules if the model fails. For a major US airline we
+    use Kiro for the same reason: it is spec-driven, so the agents work from an agreed specification and a team
+    reviews each step.
+  evidence:
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: LangGraph classify, route, node, end; deterministic agents with an optional LLM classifier
+  - url: profile:engagements/Agentic AI for the SDLC
+    source: resume
+    why: Agentic AI for the SDLC with Kiro for an airline client
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Production-grade multi-agent systems
+
+- id: iv1-mcp-tools
+  topics: [interview, rag-agentic]
+  questions:
+  - How do MCP, function calling and tool orchestration differ?
+  - What is the Model Context Protocol and how is it different from function calling?
+  - What is the difference between function calling and MCP?
+  - How do you orchestrate tools for an LLM agent?
+  keywords:
+  - model context protocol
+  - function calling
+  - tool calling
+  - tool orchestration
+  - orchestrate tools
+  - mcp server
+  - mcp
+  answer: >-
+    They sit at three different layers. Function calling is a model capability. You describe tools with a name,
+    a description and a JSON schema; the model decides a tool is needed and returns a structured call with
+    arguments instead of text. Your code executes it and sends the result back. The model never runs anything
+    itself, and each provider has its own format for it. MCP, the Model Context Protocol, is an open standard
+    for connecting AI applications to tools and data. An MCP server exposes tools, resources and prompts over
+    JSON-RPC, locally over standard input and output or remotely over HTTP, and any MCP-capable client can
+    discover and use them. It solves the integration problem: write a connector once and every compliant
+    assistant or agent can use it, instead of rebuilding it for every model and every app. Underneath, the client
+    still relies on the model's function calling. Tool orchestration is the application logic above both: which
+    tools to call, in what order or in parallel, with what state, retries, timeouts, budgets, permissions and
+    human approvals, and how results flow between steps or agents. That is what LangGraph or the Microsoft Agent
+    Framework provide, and where most of the engineering and most of the risk live. Put simply, function calling
+    is the model asking, MCP is the standard socket, and orchestration is the conductor. I use all three. I built
+    CogniFlow as an MCP server, so Claude hands it a description and CogniFlow compiles and renders the diagram,
+    and CodeFabric exposes code search, symbol lookup, callers and impact analysis to agents over MCP. The rule I
+    hold for every tool layer: least-privilege tools, authenticated servers, and nothing a model returns is
+    executed as code without validation.
+  evidence:
+  - url: https://github.com/PrashobhPaul/CogniFlow
+    source: github
+    why: CogniFlow attached to Claude as an MCP server
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: MCP server exposing search, symbols, callers and impact analysis
+  - url: profile:engagements/Agentic AI for the STLC
+    source: resume
+    why: Microsoft Agent Framework and .NET
+
+- id: iv1-agent-loops
+  topics: [interview, rag-agentic]
+  questions:
+  - How would you prevent an agent from entering an infinite execution loop?
+  - How do you stop an AI agent from looping forever?
+  - What safeguards keep agents from getting stuck in loops?
+  - How do you put limits on an autonomous agent's steps and cost?
+  keywords:
+  - infinite execution loop
+  - infinite loop
+  - looping forever
+  - stuck in loops
+  - stuck in a loop
+  - step budget
+  - recursion limit
+  - limits on an autonomous agent
+  answer: >-
+    With hard limits the agent cannot argue with, plus a design that makes loops unlikely in the first place.
+    Hard limits: a maximum number of steps or iterations per task, LangGraph's recursion limit being one form of
+    it; a token and cost budget per run; a wall-clock timeout per run and per tool call; and a cap on retries per
+    tool. When a limit is hit the agent stops and returns its best partial result, clearly marked as forced, or
+    escalates to a human. It never just keeps going. Loop detection: track the history of actions and
+    observations, and stop or re-plan when the same tool is called with the same arguments again and again, or
+    when the state has not changed for several steps. Design: prefer an explicit graph with defined edges and a
+    guaranteed path to the end over a free-form loop; give every task a clear completion condition and a
+    structured way to say done or cannot be done; make tool errors informative so the agent does not retry
+    blindly; and make tools idempotent so a retry is harmless. Observability: trace every step, and alert on
+    runs that come close to the limits, because those are the tasks your design does not understand yet. My own
+    agents follow this. In AgentBasedSystem the LangGraph state machine is classify, route, node, end, so every
+    path terminates, and the LLM layer falls back to rules on any error or low confidence. In my research
+    data-analyst agent, a planner and a coder investigate with SQL under a step budget, and the report records
+    whether the agent concluded on its own or the budget forced the conclusion, so forced endings are visible in
+    the evaluation instead of hidden.
+  evidence:
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: classify, route, node, end; graceful fallback to rules
+  - url: https://github.com/PrashobhPaul/JEV_Researchwork
+    source: github
+    why: 'Data-analyst agent: planner and coder under a step budget; concluded is false when the budget forced it'
+
+- id: iv1-multi-agent
+  topics: [interview, rag-agentic]
+  questions:
+  - When would you choose a multi-agent architecture over a single-agent architecture?
+  - Single agent or multiple agents, how do you decide?
+  - When does a multi-agent system make sense?
+  - What are the trade-offs of multi-agent systems?
+  keywords:
+  - multi agent architecture
+  - single agent architecture
+  - multi agent system
+  - multi agent systems
+  - single agent or multiple
+  - multiple agents
+  - single agent
+  answer: >-
+    I start with a single agent with good tools, and move to multiple agents only when a specific limit forces
+    it, because every extra agent adds tokens, latency, failure modes and testing effort. The reasons that
+    justify multiple agents: distinct roles that need different instructions, tools, permissions or even
+    models, such as a planner on a strong reasoning model and a coder on a cheaper one; a context window
+    overloaded by too many tools or too much state, where splitting by responsibility makes each agent reliable
+    again; work that can run in parallel; separation of duties, a maker and a checker, where one agent verifies
+    another independently; and ownership, where different teams own different agents and need clean interfaces
+    between them. The usual patterns are a supervisor routing to specialist workers, a fixed pipeline of agents
+    with handoffs, or a hierarchy for large tasks. I prefer explicit orchestration with typed state over free
+    conversation between agents, because it is easier to trace, test and bound. From my own work: the STLC
+    solution for a global professional-services firm is naturally multi-agent, because requirements analysis,
+    test design, test-case writing and automation are different roles with different inputs and checks, and it
+    is built on the Microsoft Agent Framework and .NET. At Tech Mahindra I designed multi-agent orchestration for
+    customer insights, digital reporting and automated decision-making. In my research data-analyst, a planner
+    and a coder split the reasoning from the SQL. And my AgentBasedSystem is the counterpoint: several agents
+    behind one router, yet most of them deterministic, because the problem did not need more intelligence than
+    that.
+  evidence:
+  - url: profile:engagements/Agentic AI for the STLC
+    source: resume
+    why: Agentic STLC with the Microsoft Agent Framework and .NET
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Multi-agent orchestration for customer insights, digital reporting and automated decisions
+  - url: https://github.com/PrashobhPaul/JEV_Researchwork
+    source: github
+    why: Planner and coder models in the data-analyst agent
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: Several agents behind one LangGraph router
+
+- id: iv1-secure-rag
+  topics: [interview, rag-agentic]
+  questions:
+  - 20,000 documents, multiple departments, different permissions, frequent updates — design RAG so users only retrieve what they are authorized to see.
+  - How would you design RAG for 20,000 documents across departments with different permissions and frequent updates?
+  - How would you design a permission-aware RAG system so users only retrieve documents they are authorized to see?
+  - How do you enforce document-level access control in RAG across departments?
+  keywords:
+  - authorized to see
+  - authorised to see
+  - permission aware
+  - document level access control
+  - document level permissions
+  - different permissions
+  - access control in rag
+  - 20 000 documents
+  - multiple departments
+  diagram: assets/diagrams/iv1-permission-aware-rag.svg
+  answer: >-
+    The principle: authorisation is enforced at retrieval, inside the query, before the LLM sees anything. A
+    model cannot leak a chunk it was never given, and prompt instructions are not access control. Ingestion with
+    permissions attached. Connectors to each source sync the content and its access-control list together:
+    which users and groups may read each document, from SharePoint or Confluence groups or a database's
+    row-level rules. Every chunk inherits its document's ACL plus metadata: department, classification, owner,
+    version and a content hash. These document-level permissions travel with the chunk into both the vector and
+    the keyword index. Identity-aware retrieval. Users sign in through SSO; at query time I resolve their
+    identity and group memberships from the identity provider, cached for a few minutes, and pass them as a
+    mandatory filter. Metadata filtering happens inside the search, as a pre-filter, not by post-filtering the
+    top results, which leaks through counts and starves recall. Deny by default: a chunk without a resolvable ACL
+    is invisible. Tenant isolation. Departments with hard boundaries, such as HR, legal or finance, get separate
+    indexes or namespaces and separate encryption keys, so a filter bug cannot cross them; shared content sits in
+    a common index with filters. Caches, semantic caches included, are keyed by the user's permission set and
+    never shared across it. Incremental indexing for frequent updates. Change feeds or webhooks drive the
+    pipeline, content hashes skip unchanged documents, and only changed chunks are re-embedded. Permission-only
+    changes update metadata without re-embedding and take priority, because a revoked permission must take
+    effect in minutes. Deletions apply immediately, with a nightly reconciliation against each source to catch
+    missed events. Auditability. Every request logs who asked, the groups used for filtering, the document and
+    chunk IDs retrieved, the model and the answer, so security can always answer who saw what, and why.
+    Retrieval evaluation. Beyond recall at five and MRR per department, I keep a leakage test set: users in each
+    role ask questions whose answers live only in documents they must not see. The pass mark is zero leaked
+    chunks, and it gates every deploy, together with a test that a revoked user stops seeing a document. I have
+    applied these ideas at small scale: Knowledge Fabric masks confidential client names at build time so they
+    never reach the index, and every deploy is gated on its test sets; CodeFabric re-indexes incrementally by
+    content hash. And as I have written, a company's knowledge layer needs access control and provenance as much
+    as it needs search.
+  evidence:
+  - url: profile:posts/ontology and knowledge layer
+    source: linkedin
+    why: The knowledge layer needs access control and provenance as much as search
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Incremental indexing by content hash
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Build-time masking of confidential names; deploys gated by test sets
+
+# ----------------------------------------------------------------------------- E. Testing and evaluation of AI
+- id: iv1-rag-evaluation
+  topics: [interview, evaluation]
+  questions:
+  - How do you evaluate the quality of a RAG system?
+  - What metrics do you use to measure RAG quality?
+  - How would you measure whether a RAG pipeline is working well?
+  - How do you test a retrieval-augmented generation system?
+  keywords:
+  - quality of a rag
+  - rag quality
+  - rag metrics
+  - evaluate a rag
+  - measure rag
+  - rag evaluation
+  - test a retrieval augmented
+  - rag pipeline is working
+  answer: >-
+    In three layers, offline and online, because a RAG system can fail at retrieval, at generation, or in the
+    experience around them. Retrieval quality: on a golden set of real questions with known source passages, I
+    measure recall at k, whether the right passage came back in the top five or ten; MRR and nDCG, how high it
+    ranked; and context precision, how much of what we sent was relevant. For permissioned systems, a leakage
+    test that must stay at zero. Generation quality: faithfulness or groundedness, whether every claim is
+    supported by the retrieved context; answer relevance, whether it addresses the question; correctness against
+    a reference answer or a rubric of must-have points; citation accuracy; and correct abstention when the
+    context does not contain the answer. I score with a mix of deterministic checks, frameworks such as RAGAS,
+    and an LLM judge whose verdicts I calibrate against human labels before I trust it. End to end and in
+    production: task success, user feedback, escalation and no-answer rates, latency and cost per answer, and
+    sampled human review, with production failures fed back into the golden set. Every change, a new chunking
+    scheme, embedding model, prompt or LLM, runs against the same sets in CI, and a regression blocks the
+    release. That is how I run my own system. Knowledge Fabric has a retrieval gold set scored on recall, MRR
+    and nDCG in lexical, semantic and hybrid modes, and CI fails the deploy if hybrid recall at five drops below
+    0.70 or MRR below 0.55. Above that, over 1,400 questions run through the real answer path on every deploy.
+    And on our AI-testing platforms at Qualizeal, ValidAIte and QMentisAI, this kind of layered evaluation is
+    what the platforms are built for.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Retrieval gold set with recall, MRR and nDCG per mode; CI fails on regression
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Platform for testing and validating AI and GenAI systems
+  - url: profile:engagements/QMentisAI
+    source: resume
+    why: AI testing and quality engineering
+
+- id: iv1-retrieval-vs-generation
+  topics: [interview, evaluation]
+  questions:
+  - What is the difference between retrieval quality and generation quality?
+  - How do you tell whether a bad RAG answer is a retrieval problem or a generation problem?
+  - Retrieval quality versus generation quality, how do you measure each?
+  - How do you separate retrieval failures from generation failures in RAG?
+  keywords:
+  - retrieval quality
+  - generation quality
+  - retrieval problem
+  - generation problem
+  - retrieval failures
+  - generation failures
+  answer: >-
+    Retrieval quality asks whether the system found the right evidence. Generation quality asks whether the
+    model used that evidence well. They fail for different reasons, so I measure them separately. Retrieval
+    quality is a search problem: given the question, are the right passages in the top k and ranked high, and is
+    the context free of noise. The metrics are recall at k, precision at k, MRR, nDCG, context precision and
+    context recall, and the fixes live in parsing, chunking, embeddings, hybrid search, filters and reranking.
+    Generation quality is a reasoning and instruction-following problem: given the context, is the answer
+    faithful to it, relevant to the question, complete, correctly cited and in the required format, and does it
+    abstain when the context does not hold the answer. The metrics are faithfulness or groundedness, answer
+    relevance, correctness against a reference and citation accuracy, and the fixes live in the prompt, the
+    choice of model, the ordering of the context and the output constraints. To diagnose a bad answer I look at
+    the retrieved context first. Right context, wrong answer: a generation problem. Wrong context: a retrieval
+    problem, and no prompt will fix it. A useful trick is to run the generator with oracle context, the gold
+    passages, which shows the ceiling generation can reach, and to score retrieval alone against the gold
+    passages, which shows the ceiling of the whole system. Knowledge Fabric keeps the two apart the same way: its
+    retrieval gold set measures recall, MRR and nDCG per retrieval mode, while the question sets check the
+    answer a visitor actually receives.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Retrieval metrics per mode, separate from the answer-path question sets
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Validating GenAI systems
+
+- id: iv1-hallucination-testing
+  topics: [interview, evaluation]
+  questions:
+  - How would you test an LLM application for hallucinations?
+  - How do you detect hallucinations in an LLM app before release?
+  - What tests catch hallucinations in a RAG assistant?
+  - How do you measure the hallucination rate of an LLM system?
+  keywords:
+  - test an llm application
+  - for hallucinations
+  - detect hallucinations
+  - catch hallucinations
+  - hallucination rate
+  - hallucination testing
+  - test for hallucinations
+  - testing for hallucinations
+  - test whether
+  - is hallucinating
+  answer: >-
+    I test for it deliberately, with question types designed to provoke it, and I measure it as a rate, not as an
+    anecdote. The test set has four kinds of cases. Answerable questions with known evidence, to check that every
+    claim is supported. Unanswerable questions, whose answer is not in the sources, where the only correct
+    behaviour is to say so. False-premise and leading questions, such as asking about a policy or a feature that
+    does not exist. And conflicting or outdated sources, to see whether the model picks the right one and says
+    when it is unsure. Scoring is claim-level. I split each answer into atomic claims and check each against the
+    retrieved context with an entailment model or a calibrated LLM judge: supported, contradicted, or not found.
+    That gives a groundedness score and a hallucination rate per category. I also check citations: does the
+    cited passage actually contain the claim. Because outputs vary, I run each case several times and compare;
+    claims that change between samples are a strong hallucination signal, which is the idea behind SelfCheckGPT.
+    A sample goes to human reviewers to keep the automatic judge honest. All of it runs in CI as a regression
+    gate, and the same checks run on sampled production traffic. The twin you are talking to is tested this way.
+    Alongside the answerable questions, every one of its test sets has questions that must be declined, things
+    not on record, private details, errands and off-topic trivia, and the build fails if any of them gets an
+    answer instead of an honest decline. Testing what a system must not say matters as much as testing what it
+    should.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Test sets with questions that must be declined honestly, run on every push
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Validating AI and GenAI systems
+
+- id: iv1-eval-dataset
+  topics: [interview, evaluation]
+  questions:
+  - How would you build an evaluation dataset?
+  - How do you create a golden dataset for testing?
+  - How many examples should an evaluation set have, and where do they come from?
+  - What goes into a good golden set for LLM evaluation?
+  keywords:
+  - evaluation dataset
+  - evaluation set
+  - golden dataset
+  - golden set
+  - build an evaluation
+  - ground truth
+  answer: >-
+    I build it like a product, with sources, coverage targets, labels and versions. Sources, in order of value:
+    real user questions from logs or pilots; questions from subject-matter experts and support teams about what
+    users actually ask and what goes wrong; past incidents and escalations; and synthetic questions generated by
+    an LLM from the documents, useful for coverage but always reviewed by a person before they count. Coverage:
+    I stratify by intent, user role, document type, difficulty and language, and I deliberately include the hard
+    tail: paraphrases, typos, multi-part questions, follow-ups, unanswerable questions, false premises,
+    prompt-injection attempts, and permission-boundary cases where the right answer is a refusal. Labels: for
+    each case the expected behaviour, the gold source passages for retrieval metrics, and a rubric of must-have
+    points rather than one exact reference answer, because a good answer can be phrased many ways. Size: 50 to
+    100 excellent cases beat a thousand noisy ones at the start, and the set grows to hundreds or thousands as
+    production teaches us. And I keep a held-out portion that nobody tunes on. Maintenance: versioned in the
+    repository, reviewed like code, refreshed from production failures, and run on every change. Knowledge
+    Fabric is built exactly this way: a golden set of 221 questions plus 9 that must be declined, then harder
+    rounds written afterwards for paraphrases, typos, Malayalam, Telugu and Hindi, comparisons, follow-ups,
+    privacy and errands. Two of those rounds were first run untuned, as held-out checks, and scored 81 and 78
+    percent, which is exactly why the held-out portion matters. Every flagged answer becomes a regression case,
+    and the rubric points of these interview answers are tested the same way.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: 'Golden set of 221 plus 9 to decline; harder rounds; held-out rounds at 81 and 78 percent'
+  - url: profile:engagements/QMentisAI
+    source: resume
+    why: AI testing and quality engineering
+
+- id: iv1-nondeterministic
+  topics: [interview, evaluation]
+  questions:
+  - How do you test non-deterministic AI applications?
+  - How do you test an LLM app when the output changes every run?
+  - How do you write tests for non-deterministic LLM outputs?
+  - How do you make testing of AI applications repeatable?
+  keywords:
+  - non deterministic
+  - nondeterministic
+  - output changes every run
+  - changes every run
+  - repeatable
+  - flaky
+  answer: >-
+    I separate what can be deterministic from what cannot, and test each the right way. The deterministic shell
+    around the model gets ordinary tests: parsing, tool calls, routing, permissions, retries, state transitions.
+    In those unit tests the model is replaced by a fake or by recorded responses, so they are fast, free and
+    repeatable. My research data-analyst agent, for example, is tested with scripted fake planner and coder
+    models, and AgentBasedSystem's 27 tests run on an isolated, seeded database with deterministic agents. For
+    the model's behaviour I control what I can: pinned model versions, low temperature, fixed seeds where the
+    provider supports them, versioned prompts. Then I stop asserting exact strings and assert properties
+    instead: the output parses and matches the schema; the required facts or rubric points are present; nothing
+    forbidden appears; the claims are grounded in the context; the right tool was chosen; and the answer is
+    semantically equivalent to a reference above a threshold. Because outputs vary, I evaluate statistically: run
+    each case several times, measure the pass rate and the variance, and set thresholds such as at least 95
+    percent of runs passing. Comparisons between prompts or models use enough cases to be significant, not three
+    demos, and LLM judges get explicit rubrics and are calibrated against human labels. Finally, production is
+    part of testing: canary releases, sampled evaluation of live traffic and drift alerts. That is the core idea
+    behind ValidAIte and QMentisAI at Qualizeal: test behaviour against criteria such as groundedness, task
+    completion, safety and consistency across runs, not exact matches.
+  evidence:
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Validating AI and GenAI systems
+  - url: https://github.com/PrashobhPaul/JEV_Researchwork
+    source: github
+    why: Scripted fake planner and coder models in the data-analyst tests
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: 27 tests on an isolated, per-test seeded database
+
+- id: iv1-prompt-injection
+  topics: [interview, evaluation]
+  questions:
+  - What is your approach to prompt injection and adversarial testing?
+  - How do you protect an LLM application from prompt injection?
+  - How do you red-team an AI agent?
+  - What is indirect prompt injection and how do you defend against it?
+  keywords:
+  - prompt injection
+  - adversarial testing
+  - red team
+  - red teaming
+  - jailbreak
+  - jailbreaks
+  - indirect prompt injection
+  answer: >-
+    I assume injection will happen, build so it cannot do much damage, and attack my own system first. Two
+    kinds matter. Direct injection is a user typing text meant to override the system's
+    rules or extract its configuration. Indirect injection is worse: hostile text hidden in a document, web page,
+    email or tool result that the model reads while doing its job, telling it to leak data or take an action. In
+    RAG and agents, every retrieved chunk and every tool output is untrusted input. Defence in depth. Keep the
+    trusted directions and the untrusted data in clearly separated, delimited channels, and treat retrieved
+    content as data, never as commands. Least privilege: an agent gets only the tools and data scopes its task
+    needs, with credentials held by the tools and never placed in the prompt. Human approval for consequential
+    actions such as sending, paying or deleting. Validate outputs: schemas, allow-listed actions and
+    destinations, and no rendering of arbitrary links or images that could carry data out. Input and output
+    classifiers to screen known attack patterns. Sandboxed execution, and nothing a model returns is executed as
+    code without validation, a rule I hold in CogniFlow. Adversarial
+    testing is continuous, not a launch event. I keep a red-team suite organised around the OWASP Top 10 for LLM
+    applications: direct and indirect injection, jailbreak corpora, data exfiltration, excessive agency and tool
+    misuse, and permission-boundary probes, with planted malicious documents for the indirect cases. Tools such
+    as garak or PyRIT generate variants at scale, people find the creative ones, and every successful attack
+    becomes a regression test in CI. The twin you are talking to is tested the same way: attempts to make it
+    reveal its configuration or step outside what is on record are in its test sets, and it must decline them.
+  evidence:
+  - url: https://github.com/PrashobhPaul/CogniFlow
+    source: github
+    why: Nothing an AI model returns is executed as code
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Test sets include off-topic and adversarial questions that must be declined
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Testing and validating AI systems
+
+# ----------------------------------------------------------------------------- Five questions never to skip: #3
+- id: iv1-poc-to-production
+  topics: [interview, delivery]
+  questions:
+  - An AI application you moved from POC to production; the biggest challenges.
+  - Tell me about an AI application you took from proof of concept to production. What were the biggest challenges?
+  - What were the biggest challenges in moving a GenAI POC into production?
+  - How did you get an AI pilot into production, and what got in the way?
+  keywords:
+  - poc to production
+  - proof of concept to production
+  - from poc
+  - poc into production
+  - pilot into production
+  - moved from poc
+  - genai poc
+  - into production
+  answer: >-
+    The one I would pick is the LLM-based conversational systems I led for global clients at Tech Mahindra, where
+    I also managed the production deployments. Most of my job there was turning a promising demo into something
+    that survives real traffic, and almost none of that work was about the model. The biggest challenges were
+    these. Grounding: a demo answers the questions its builders chose, while real users ask about things the
+    model does not know, and an ungrounded model answers anyway. We grounded the answers in the client's own data
+    with RAG, with citations and a way to say not found. Evaluation: a POC is judged on a handful of hand-picked
+    questions; production needs a golden set of real queries with rubrics, run on every prompt, model or data
+    change. That set is the most valuable artefact a program produces. Latency and cost: token usage that is
+    trivial in a demo becomes a real line item at production volume, and p95 latency matters more than the
+    average. Keeping both predictable meant trimming prompts and context, caching, streaming, and tracking cost
+    per conversation. Data and security: real customer data brings access control, personal-data handling,
+    logging rules and security reviews that a POC never faces. Operations: monitoring, alerting, rollback of a bad
+    prompt or model, and clear ownership after go-live. Trust: any decision an automated flow made needed
+    monitoring and human review around it, and users needed to see why an answer was given before they relied on
+    it. The lesson I took is that a POC proves possibility and production proves reliability, and the gap between
+    them is evaluation, observability, security and cost control. I plan for those from the first sketch now. You
+    can see the same discipline in my public work: Knowledge Fabric ships only when its test sets pass, and my
+    AgentBasedSystem began as a prototype that did not even run, before I rebuilt it into typed, tested layers
+    with a rule-based fallback.
+  evidence:
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Led LLM-based conversational systems for global clients and managed production deployments
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: A prototype that did not run, rewritten into tested, production-shaped layers
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Deploys gated by test sets
