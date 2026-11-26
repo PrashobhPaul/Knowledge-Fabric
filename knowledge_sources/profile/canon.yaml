@@ -463,6 +463,11 @@ canon:
   - nlp
   - generative ai
   - genai
+  # "Do you know Python?", "Which LLMs have you used?": his skills, not an interview design answer
+  - know python
+  - with llms
+  - which llms
+  - llms have you used
 - id: projects
   topics:
   - projects
@@ -2089,6 +2094,7 @@ canon:
   - customers
   - companies you work with
   - who do you work for
+  - as clients
   questions:
   - Who are your clients?
   - Which companies have you built solutions for?
