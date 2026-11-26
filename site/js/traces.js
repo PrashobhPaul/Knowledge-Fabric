@@ -93,7 +93,7 @@ export function renderTraces(list, { onAsk } = {}) {
   const host = document.getElementById('traces-body');
   if (!host) return;
   if (!list.length) {
-    host.innerHTML = `<p class="traces-empty">No traces yet in this browser. Every question you ask is recorded here — what was asked, what the fabric read, and how sure it was.</p>`;
+    host.innerHTML = `<p class="traces-empty">No traces yet in this browser. Every question you ask is recorded here — what was asked, what Eidolon read, and how sure it was.</p>`;
     return;
   }
   const weak = list.filter(t => t.low || t.confidence < LOW_BAND).length;

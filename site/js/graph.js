@@ -2,17 +2,20 @@
 // Knowledge graph — renders entities and relationships, highlights reasoning trace.
 // =============================================================================
 
-// Theme-aware color resolution (reads computed CSS variables)
+// Colours come from the stylesheet (--node-*, --edge-*), so the graph always
+// matches the page: graphite corpus, platinum neighbours, champagne for the
+// concepts an answer actually used.
+const FONT_FACE = 'Manrope, Inter, system-ui, sans-serif';
 function themeColors() {
   const cs = getComputedStyle(document.documentElement);
-  const isLight = document.documentElement.getAttribute('data-theme') === 'light';
+  const v = (name, fallback) => cs.getPropertyValue(name).trim() || fallback;
   return {
-    NODE_BASE: cs.getPropertyValue('--node-base').trim() || (isLight ? '#B8C5DE' : '#4A5694'),
-    NODE_RELATED: cs.getPropertyValue('--qz-blue').trim() || '#4D7CFF',
-    NODE_ACTIVE: cs.getPropertyValue('--qz-pink').trim() || '#EE1C5C',
-    EDGE_BASE: isLight ? 'rgba(77, 124, 255, 0.22)' : 'rgba(120, 140, 200, 0.35)',
-    EDGE_ACTIVE: cs.getPropertyValue('--qz-pink').trim() || '#EE1C5C',
-    LABEL: isLight ? '#4F5B7D' : '#C9D2EA',
+    NODE_BASE: v('--node-base', '#3A3F47'),
+    NODE_RELATED: v('--node-related', '#C9CED6'),
+    NODE_ACTIVE: v('--node-active', '#E2C894'),
+    EDGE_BASE: v('--edge-base', 'rgba(196, 200, 206, 0.22)'),
+    EDGE_ACTIVE: v('--edge-active', 'rgba(226, 200, 148, 0.9)'),
+    LABEL: v('--node-label', '#A9AFB8'),
   };
 }
 
@@ -48,7 +51,7 @@ export class KnowledgeGraph {
       title: `${e.name} · ${e.mention_count} mentions`,
       value: e.mention_count,
       color: { background: C.NODE_BASE, border: C.NODE_BASE, highlight: { background: C.NODE_ACTIVE, border: C.NODE_ACTIVE } },
-      font: { color: C.LABEL, size: 12, face: 'Inter' },
+      font: { color: C.LABEL, size: 12, face: FONT_FACE },
       borderWidth: 0,
       shape: 'dot',
     }));
@@ -91,7 +94,7 @@ export class KnowledgeGraph {
       },
       nodes: {
         scaling: { min: 8, max: 30, label: { enabled: true, min: 11, max: 16 } },
-        shadow: { enabled: true, color: 'rgba(238, 28, 92, 0.22)', size: 10, x: 0, y: 0 },
+        shadow: { enabled: true, color: 'rgba(226, 200, 148, 0.28)', size: 12, x: 0, y: 0 },
       },
       edges: {
         width: 0.5,
@@ -239,9 +242,9 @@ export class KnowledgeGraph {
 
     const C = themeColors();
     const isLight = document.documentElement.getAttribute('data-theme') === 'light';
-    const activeLabel = isLight ? '#FFFFFF' : '#FFE9F0';
-    const relatedLabel = isLight ? '#FFFFFF' : '#E6EEFF';
-    const baseLabel = isLight ? '#8893B5' : '#6E78A0';
+    const activeLabel = isLight ? '#111317' : '#F6EBD3';
+    const relatedLabel = isLight ? '#111317' : '#E9ECEF';
+    const baseLabel = isLight ? '#8F959E' : '#5E646D';
 
     const nodeUpdates = [];
     for (const entity of this.index.entities) {
@@ -273,7 +276,7 @@ export class KnowledgeGraph {
       nodeUpdates.push({
         id: entity.id,
         color: { background: color, border: color, opacity },
-        font: { color: fontColor, size: 12, face: 'Inter' },
+        font: { color: fontColor, size: 12, face: FONT_FACE, strokeWidth: 3, strokeColor: 'rgba(8,9,11,0.85)' },
         borderWidth,
         size,
         opacity,
@@ -321,7 +324,7 @@ export class KnowledgeGraph {
     const nodeUpdates = this.index.entities.map(e => ({
       id: e.id,
       color: { background: C.NODE_BASE, border: C.NODE_BASE, opacity: 1.0 },
-      font: { color: C.LABEL, size: 12, face: 'Inter' },
+      font: { color: C.LABEL, size: 12, face: FONT_FACE },
       borderWidth: 0,
       size: 14,
       opacity: 1.0,
