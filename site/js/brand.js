@@ -2,15 +2,17 @@
 // Brand & narrative copy — single source of truth
 // ============================================================================
 //
-// Every reader-facing string lives here. Re-pointing the product at a different
-// person is a change to ONE object, not a search across templates. Change
-// `subject` below and the whole narrative re-labels itself.
+// Every reader-facing string in the page shell lives here. Re-pointing the
+// product at a different person is a change to ONE object, not a search across
+// templates. The HTML carries the same text as a no-JS fallback and binds to
+// these keys through data-brand / data-copy attributes.
 //
 // The product is Eidolon (Greek: the living image of a person). It runs on two
 // of the owner's projects, the Knowledge Factory and the Knowledge Fabric; those
 // project names stay as they are wherever they describe the engine.
 //
-// Copy guidance: lead with what the reader gets, keep the method underneath it.
+// Voice: confident, plain, first-hand. Sentence case. Say what the reader gets,
+// then how. One idea per string; no string repeats another on the same screen.
 
 export const BRAND = {
   product: 'Eidolon',
@@ -22,9 +24,11 @@ export const BRAND = {
   subject: {
     name: 'Prashobh Paul',
     shortName: 'Prashobh',
-    role: 'AI Architect · Agentic AI · Enterprise AI',
+    role: 'AI Architect · Agentic and enterprise AI',
     url: 'https://www.prashobhpaul.com',
-    corpusDescription: 'resume, personal website, LinkedIn posts, YouTube channel and GitHub repositories',
+    github: 'https://github.com/PrashobhPaul',
+    youtube: 'https://www.youtube.com/channel/UCaJCnvHRXay79_R737hXFaQ',
+    corpusDescription: 'resume, website, LinkedIn, YouTube channel and GitHub',
   },
   builder: {
     name: 'Prashobh Paul',
@@ -35,30 +39,31 @@ export const BRAND = {
   stage: 'Live',
 
   // ---- assembled strings --------------------------------------------------
-  // The HTML binds to these keys via data-brand="…". Keys are kept generic
-  // (clientName / productName / demoBy) so the markup never changes when the
-  // narrative does.
+  // Keys are generic (clientName / productName / subjectRole) so the markup
+  // never changes when the narrative does.
   get clientName()   { return this.subject.name; },
   get productName()  { return this.product; },
-  get demoBy()       { return 'Built by ' + this.builder.name; },
-  get demoByUnit()   { return 'Runs on ' + this.factory + ' + ' + this.engine; },
   get productTagline() { return this.tagline; },
   get subjectRole()  { return this.subject.role; },
+  // The header once read "Prashobh Paul / Built by Prashobh Paul" — the same
+  // name twice. The builder credit now lives once, in the footer signature.
+  get demoBy()       { return 'Designed and built by ' + this.builder.name; },
+  get demoByUnit()   { return 'Runs on the ' + this.factory + ' and the ' + this.engine; },
+  get signature()    { return this.builder.name; },
 
   get footerBrand() {
-    return this.product + ', the living knowledge twin of ' + this.subject.name +
-           '. Everything public about him, assembled from his ' + this.subject.corpusDescription +
-           ' and answered with citations.';
+    return this.product + ' — the living knowledge twin of ' + this.subject.name +
+           '. Built from his ' + this.subject.corpusDescription + '; every answer cites its source.';
   },
   get footerNote() {
-    return '© ' + new Date().getFullYear() + ' ' + this.builder.name +
-           '. Open source. Runs on the ' + this.engine + '; sources are refreshed by the ' + this.factory +
-           ' and rebuilt by GitHub Actions.';
+    // The name is already in the signature beside this line; it is not repeated.
+    return '© ' + new Date().getFullYear() + '. Open source. The ' + this.factory +
+           ' syncs the sources; the ' + this.engine + ' answers from them, rebuilt on every change.';
   },
-  // Belongs beside the answer, where it is a claim the reader can check.
+  // Sits under the answer, where it is a claim the reader can check.
   get answerAssurance() {
-    return 'Every statement below is quoted from a source about ' + this.subject.shortName +
-           ' — the resume, the website, a LinkedIn post, a video or a repository — and linked to it. Nothing is generated or paraphrased.';
+    return 'Every statement above comes from ' + this.subject.shortName +
+           '’s own records — resume, website, LinkedIn, YouTube or GitHub — and links back to its source. No model invents a word of it.';
   },
 };
 
@@ -67,57 +72,68 @@ export const BRAND = {
 // ---------------------------------------------------------------------------
 export const COPY = {
   hero: {
-    title: ['Eidolon', 'The living knowledge twin of Prashobh Paul'],
-    sub: 'The resume, the website, the YouTube channel and the GitHub repositories already hold the ' +
-         'answers. Eidolon finds them, links them across sources, answers in his own voice, and shows exactly where each one came from.',
-    placeholder: 'Ask Eidolon about Prashobh’s work, projects, skills or travels…',
+    placeholder: 'Ask about his work, projects or travels…',
+    // The bar that follows the reader down the page: they have seen an answer by then.
+    followUp: 'Ask another question…',
   },
+
+  nav: { hero: 'Eidolon', answer: 'Answer', explain: 'Evidence', health: 'Health', insights: 'Corpus' },
 
   sections: {
     answer: {
-      eyebrow: 'The Answer',
+      eyebrow: 'The answer',
       title: 'Answers you can check.',
-      sub: 'Written as a reply, not a search result — with every statement carrying the source it came from.',
+      // Carries one inline element (a citation marker), so it is applied as HTML.
+      sub: 'Every sentence is quoted from a real record — his resume, his website, a video, a repository — ' +
+           'and linked back to it. Select any <span class="cite-inline-demo" aria-hidden="true">1</span> to open the source.',
     },
     explain: {
-      eyebrow: 'The Evidence',
+      eyebrow: 'The evidence',
       title: 'See exactly why it said that.',
-      sub: 'Every answer opens up: which records were consulted, which were set aside, and how confident the system is.',
+      sub: 'Open any answer down to the records it read, the graph links that joined them and the exact sentence it quoted.',
     },
     health: {
-      eyebrow: 'Knowledge Health',
+      eyebrow: 'Knowledge health',
       title: 'How complete is the picture?',
-      sub: 'Knowledge that sits in one source, that nobody can date, or that no other source corroborates is a gap. This is that gap, measured.',
+      sub: 'Knowledge that lives in one source, can’t be dated, or isn’t corroborated anywhere else is a blind spot. ' +
+           'Eidolon measures those blind spots straight from the sources and says which to close first.',
     },
     insights: {
-      eyebrow: 'The Corpus',
+      eyebrow: 'The corpus',
       title: 'What the sources actually cover.',
-      sub: 'Where knowledge concentrates, where it thins out, and which topics depend on a single source.',
+      sub: 'What the Knowledge Factory has synced and when, where the material runs deep, and the concepts it returns to most.',
     },
   },
 
+  // The four reasons to trust an answer (the "trust pillars" panel).
   value: {
     grounded: {
-      title: 'Nothing is invented',
-      body: 'Answers are assembled from sentences that exist in the sources. If no source says it, the system does not say it either.',
+      title: 'Quoted, not generated',
+      body: 'Answers are assembled from sentences that exist in the sources. If no source says it, Eidolon doesn’t either.',
     },
     traceable: {
-      title: 'Every claim is checkable',
-      body: 'Each statement links to the resume page, website section, video or repository it came from.',
-    },
-    honest: {
-      title: 'It tells you when it is unsure',
-      body: 'Confidence is measured from the evidence found, not displayed as decoration. A weak answer is labelled as one.',
+      title: 'Traceable to the sentence',
+      body: 'Each statement links to the resume page, site section, video or repository it came from.',
     },
     connected: {
-      title: 'It connects separate sources',
-      body: 'A project on the website and its repository on GitHub are linked automatically, so questions that span both can be answered.',
+      title: 'Joined across sources',
+      body: 'A project on the website and its repository on GitHub are one node in the graph, so one answer can draw on both.',
+    },
+    honest: {
+      title: 'Honest when unsure',
+      body: 'Confidence is measured from the evidence, not displayed as decoration. A weak answer says so, and can be flagged.',
     },
   },
 };
 
-/** Apply brand strings to any element carrying data-brand="key". Keeps the
- *  markup declarative and means re-branding never touches the HTML. */
+function pick(path) {
+  return path.split('.').reduce((o, k) => (o == null ? o : o[k]), COPY);
+}
+
+/** Apply brand strings to any element carrying data-brand="key", and narrative
+ *  copy to data-copy="path.in.COPY" (text) / data-copy-html (trusted markup) /
+ *  data-copy-placeholder. Keeps the markup declarative and means re-branding
+ *  never touches the HTML. */
 export function applyBrand(root = document) {
   const map = {
     product: BRAND.product,
@@ -127,18 +143,33 @@ export function applyBrand(root = document) {
     subjectRole: BRAND.subjectRole,
     demoBy: BRAND.demoBy,
     demoByUnit: BRAND.demoByUnit,
+    signature: BRAND.signature,
     footerBrand: BRAND.footerBrand,
     footerNote: BRAND.footerNote,
     answerAssurance: BRAND.answerAssurance,
     builderName: BRAND.builder.name,
     factory: BRAND.factory,
+    engine: BRAND.engine,
   };
   for (const el of root.querySelectorAll('[data-brand]')) {
     const v = map[el.dataset.brand];
     if (v) el.textContent = v;
   }
+  for (const el of root.querySelectorAll('[data-copy]')) {
+    const v = pick(el.dataset.copy);
+    if (typeof v === 'string') el.textContent = v;
+  }
+  for (const el of root.querySelectorAll('[data-copy-html]')) {
+    const v = pick(el.dataset.copyHtml);
+    if (typeof v === 'string') el.innerHTML = v;
+  }
+  for (const el of root.querySelectorAll('[data-copy-placeholder]')) {
+    const v = pick(el.dataset.copyPlaceholder);
+    if (typeof v === 'string') el.setAttribute('placeholder', v);
+  }
+  const HREF = { builder: BRAND.builder.url, client: BRAND.subject.url, github: BRAND.subject.github, youtube: BRAND.subject.youtube };
   for (const el of root.querySelectorAll('[data-brand-href]')) {
-    const target = el.dataset.brandHref === 'builder' ? BRAND.builder.url : BRAND.subject.url;
+    const target = HREF[el.dataset.brandHref];
     if (target) el.setAttribute('href', target);
   }
 }

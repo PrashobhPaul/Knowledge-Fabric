@@ -230,8 +230,8 @@ export function renderMiniGraph(contribution, index) {
   });
 
   const edges = nodes.map((nd, i) => `
-    <line class="mg-edge" x1="${cx}" y1="${cy}" x2="${nd.x.toFixed(1)}" y2="${nd.y.toFixed(1)}"
-          style="animation-delay:${i * 90}ms" />`).join('');
+    <line class="mg-edge js-draw" pathLength="1" x1="${cx}" y1="${cy}" x2="${nd.x.toFixed(1)}" y2="${nd.y.toFixed(1)}"
+          style="--d:${i * 110}ms" />`).join('');
 
   const docNodes = nodes.map((nd, i) => `
     <g class="mg-doc" style="animation-delay:${140 + i * 90}ms">
@@ -257,9 +257,9 @@ export function renderMiniGraph(contribution, index) {
         ${docNodes}
       </svg>
       <figcaption class="mg-caption">
-        <span class="mg-key"><i class="mg-swatch mg-swatch-hub"></i>shared concept</span>
-        <span class="mg-key"><i class="mg-swatch mg-swatch-doc"></i>resume · site · profile</span>
-        <span class="mg-key"><i class="mg-swatch mg-swatch-reg"></i>YouTube · GitHub · LinkedIn</span>
+        <span class="mg-key"><i class="mg-swatch mg-swatch-hub"></i>Shared concept</span>
+        <span class="mg-key"><i class="mg-swatch mg-swatch-doc"></i>Resume, site, profile</span>
+        <span class="mg-key"><i class="mg-swatch mg-swatch-reg"></i>YouTube, GitHub, LinkedIn</span>
       </figcaption>
     </figure>`;
 }
@@ -269,6 +269,7 @@ function stripExt(name) {
 }
 
 const SOURCE_LABEL = { document: 'the resume', website: 'the website', profile: 'the structured profile',
+                       canon: 'his own written answers',
                        youtube: 'the YouTube channel', github: 'GitHub', linkedin: 'LinkedIn' };
 function sourceLabel(type) {
   return SOURCE_LABEL[type] || type;
@@ -283,7 +284,7 @@ export function renderGraphContribution(contribution, index = null) {
 
   let lead;
   if (headline && headline.ratio < 0.22) {
-    lead = `This answer drew on <strong>${documentCount} documents</strong>. ` +
+    lead = `This answer drew on <strong>${documentCount} records</strong>. ` +
            `Two of them — <em>${escapeHtml(stripExt(headline.aName))}</em> and ` +
            `<em>${escapeHtml(stripExt(headline.bName))}</em> — share almost no wording ` +
            `(${Math.round(headline.ratio * 100)}% vocabulary in common). ` +
@@ -291,22 +292,22 @@ export function renderGraphContribution(contribution, index = null) {
            `They were connected because both describe ` +
            `<strong>${escapeHtml(top.name)}</strong>.`;
   } else {
-    lead = `This answer drew on <strong>${documentCount} documents</strong>, linked through ` +
-           `<strong>${escapeHtml(top.name)}</strong> — a concept that appears in ` +
-           `${top.reach} documents across the corpus.`;
+    lead = `This answer drew on <strong>${documentCount} records</strong>, linked through ` +
+           `<strong>${escapeHtml(top.name)}</strong>, a concept that appears in ` +
+           `${top.reach} records across the corpus.`;
   }
 
   const crossNote = spansSources
     ? `<p class="gv-cross">It combined ${contribution.classes.map(sourceLabel).join(', ').replace(/, ([^,]*)$/, ' and $1')}. ` +
-      `Those are written in different registers for different audiences and live in ` +
-      `different systems — the graph is what puts them in one answer.</p>`
+      `They are written for different audiences and live in different systems; ` +
+      `the graph is what puts them in one answer.</p>`
     : '';
 
   const chips = bridges.map(b => `
     <span class="gv-chip" data-kind="${escapeHtml(b.kind)}">
       <span class="gv-chip-kind">${escapeHtml(KIND_PHRASE[b.kind] || b.kind)}</span>
       <span class="gv-chip-name">${escapeHtml(b.name)}</span>
-      <span class="gv-chip-reach">${b.docs.length} docs here</span>
+      <span class="gv-chip-reach">${b.docs.length} records in this answer</span>
     </span>`).join('');
 
   const mini = index ? renderMiniGraph(contribution, index) : '';
@@ -322,13 +323,13 @@ export function renderGraphContribution(contribution, index = null) {
         <div class="gv-chips">${chips}</div>
         ${graphOnlyLinks > 0 ? `
           <p class="gv-metric">
-            <strong>${graphOnlyLinks}</strong> of the connections behind this answer
+            <strong data-count="${graphOnlyLinks}">${graphOnlyLinks}</strong> of the connections behind this answer
             could not have been made by keyword matching alone.
           </p>` : ''}
         <details class="tech-detail">
-          <summary>How this was determined</summary>
+          <summary>How it’s determined</summary>
           <div class="tech-detail-body">
-            <p class="gv-tech">For every pair of documents used in the answer we measure
+            <p class="gv-tech">For every pair of records used in the answer we measure
             how much distinctive vocabulary they share, then check whether the knowledge
             graph links them through a common subject. A pair with low shared vocabulary
             but a graph link is a connection keyword search could not have found.</p>

@@ -14,7 +14,7 @@ export function renderLineage(question, answerText, citations) {
   if (!citations || citations.length === 0) {
     body.innerHTML = `
       <div class="lineage-empty">
-        <p>No sources retrieved for this question.</p>
+        <p>No sources matched this question, so there is no lineage to show. Try naming a project, role or video.</p>
       </div>`;
     return;
   }
@@ -27,7 +27,8 @@ export function renderLineage(question, answerText, citations) {
     byDoc.get(docKey).push(c);
   }
 
-  const plainAnswer = answerText.replace(/<[^>]+>/g, '').trim();
+  // Tags become spaces, so "own words:</p><p>Koode" never fuses into one word.
+  const plainAnswer = answerText.replace(/<[^>]+>/g, ' ').replace(/\s+([,.;:!?])/g, '$1').replace(/\s+/g, ' ').trim();
   const truncatedAnswer = plainAnswer.length > 240 ? plainAnswer.slice(0, 240) + '…' : plainAnswer;
 
   const html = `
@@ -53,8 +54,10 @@ export function renderLineage(question, answerText, citations) {
   body.innerHTML = html;
 
   body.querySelectorAll('[data-cid]').forEach(el => {
-    el.addEventListener('click', () => {
-      _onChunkClick(parseInt(el.dataset.cid, 10));
+    const open = () => _onChunkClick(parseInt(el.dataset.cid, 10));
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(); }
     });
   });
 
@@ -65,25 +68,25 @@ export function renderLineage(question, answerText, citations) {
   }
 }
 
-const SOURCE_WORD = { document: 'resume', website: 'website', profile: 'profile', youtube: 'YouTube', github: 'GitHub', linkedin: 'LinkedIn' };
+const SOURCE_WORD = { document: 'Resume', website: 'Website', profile: 'Profile', canon: 'His own answer', youtube: 'YouTube', github: 'GitHub', linkedin: 'LinkedIn' };
 
 function renderPage(citation) {
   const c = citation.chunk;
-  const sectionPath = c.section_path?.length ? c.section_path.join(' › ') : '(no section)';
+  const sectionPath = c.section_path?.length ? c.section_path.join(' › ') : '';
   const m = c.meta || {};
   const where = c.source_type === 'document'
-    ? `page ${c.page} · ¶${c.paragraph_indices.join(', ¶')}`
-    : m.t_label ? `YouTube · ▶ ${escapeHtml(m.t_label)}`
-    : (SOURCE_WORD[c.source_type] || c.source_type) + ' record';
+    ? `Page ${c.page} · ¶${c.paragraph_indices.map(i => i + 1).join(', ¶')}`
+    : m.t_label ? `YouTube at ${escapeHtml(m.t_label)}`
+    : (SOURCE_WORD[c.source_type] || c.source_type);
   const link = c.url
-    ? ` · <a class="lineage-link" href="${escapeHtml(c.url)}" target="_blank" rel="noreferrer">open source ↗</a>`
+    ? ` · <a class="lineage-link" href="${escapeHtml(c.url)}" target="_blank" rel="noreferrer">Open source ↗</a>`
     : '';
   return `
     <div class="lineage-page">
       <div class="lineage-page-info">[${citation.num}] ${where}${link}</div>
-      <div class="lineage-section">${escapeHtml(sectionPath)}</div>
-      <div class="lineage-paragraph" data-cid="${c.id}">
-        <div class="lineage-para-num">excerpt</div>
+      ${sectionPath ? `<div class="lineage-section">${escapeHtml(sectionPath)}</div>` : ''}
+      <div class="lineage-paragraph" data-cid="${c.id}" role="button" tabindex="0" aria-label="Open the full passage">
+        <div class="lineage-para-num">Excerpt</div>
         <div class="lineage-para-text">${escapeHtml(c.paragraph_excerpt || c.text.slice(0, 200))}</div>
       </div>
     </div>`;
