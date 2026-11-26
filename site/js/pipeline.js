@@ -253,6 +253,17 @@ export function answerQuestion(asked, ctx) {
   const talk = smallTalk(asked);
   const focused = focus(asked);
   let question = selfContained(focused, index.canon) ? focused : resolveFollowUp(focused, ctx.prev || null, index.canon);
+  // A follow-up reading must make the question more answerable, not less: "On that
+  // project, what did you do personally?" after "What is Koode?" has a strong curated
+  // answer as asked and none once Koode is put in, so the visitor was not pointing back.
+  if (question !== focused) {
+    const opts = { timeline: index.timeline };
+    const asAsked = matchCanon(canonQuestion(focused), index.canon, opts);
+    if (asAsked && asAsked.score >= 0.9) {
+      const asResolved = matchCanon(canonQuestion(question), index.canon, opts);
+      if (!asResolved || asResolved.score < 0.6) question = focused;
+    }
+  }
   const bankMatch = matchQuestionBank(question, { vocab: bm25.termId });
   let retrievalQuery = (bankMatch && bankMatch.score >= BANK_STRONG) ? bankMatch.question : question;
   let result = retrieve(retrievalQuery, ctx);

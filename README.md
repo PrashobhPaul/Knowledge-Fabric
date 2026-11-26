@@ -186,6 +186,11 @@ which must be declined honestly. Rounds 6 and 7 were first run untuned, as
 held-out checks (81% and 78%), and fixed from there; every round passes in full now.
 `node tests/qa_eval.mjs tests/qa_round5.json` prints any miss with its top candidates.
 
+**One report proves it all.** `node tests/prove.mjs` (CI runs it on every pull request) writes
+[`tests/reports/PROOF.md`](tests/reports/PROOF.md): accuracy on every `tests/qa_*.json` set, the interview
+brief asked in full, determinism (three runs), context independence, paraphrase consistency, grounding and
+latency. Any failure fails the check; `--build` also rebuilds and times the index.
+
 ---
 
 # Using it from the GitHub website (no command line)
