@@ -12,7 +12,9 @@ const plain = (h) => String(h).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
 let ok = 0; const misses = [];
 for (const c of G.cases) {
   const r = answerQuestion(c.q, { ...ctx, prev: c.prev || null }); const got = r.canonMatch ? r.canonMatch.id : (r.noAnswer ? 'NO-ANSWER' : 'RETRIEVAL');
-  const factOk = !c.must || plain(r.answerHtml).includes(c.must);
+  const text = plain(r.answerHtml).toLowerCase();
+  const lacking = (c.must_all || []).filter(t => !text.includes(String(t).toLowerCase()));   // rubric points the answer must cover
+  const factOk = (!c.must || plain(r.answerHtml).includes(c.must)) && !lacking.length;
   if (c.cite) {   // the answer must cite (or offer) this exact source
     const urls = [...(r.citations || []).map(x => x.chunk.url || ''), ...(r.related || []).map(x => x.url || ''), r.answerHtml || ''].join(' ');
     if (!r.noAnswer && urls.includes(c.cite)) ok++;

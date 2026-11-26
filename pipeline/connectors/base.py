@@ -76,8 +76,10 @@ def registry_from(paths: dict[str, Path]) -> list:
         ks = Path(ks)
         if (ks / "profile" / "profile.yaml").exists():
             connectors.append(ProfileConnector(ks / "profile" / "profile.yaml"))
-        if (ks / "profile" / "canon.yaml").exists():
-            connectors.append(CanonConnector(ks / "profile" / "canon.yaml"))
+        # canon.yaml plus any canon_<topic>.yaml (e.g. the interview sets); translations excluded
+        for cf in sorted((ks / "profile").glob("canon*.yaml")):
+            if cf.name != "canon_i18n.yaml":
+                connectors.append(CanonConnector(cf))
         if (ks / "website").exists():
             connectors.append(WebsiteConnector(ks / "website"))
         if (ks / "youtube" / "videos.json").exists():

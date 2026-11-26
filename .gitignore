@@ -27,3 +27,6 @@ factory-dry-*/
 
 # transcript fetch markers (videos without captions)
 knowledge_sources/youtube/transcripts/*.none
+
+# local agent worktrees
+.claude/worktrees/

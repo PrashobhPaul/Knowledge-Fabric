@@ -778,7 +778,7 @@ check('questions with no answer on record say so instead of showing a collage', 
 // Rounds 2–7: unseen, harder questions written after the golden set — paraphrases,
 // typos and shorthand, Indic scripts, several questions in one, comparisons,
 // career before/after, follow-ups that say "it", small talk, privacy and errands.
-const ROUNDS = ['qa_round2.json', 'qa_round3.json', 'qa_round4.json', 'qa_round5.json', 'qa_round6.json', 'qa_round7.json', 'qa_round8.json', 'qa_lang.json']
+const ROUNDS = ['qa_round2.json', 'qa_round3.json', 'qa_round4.json', 'qa_round5.json', 'qa_round6.json', 'qa_round7.json', 'qa_round8.json', 'qa_interview_s2.json', 'qa_lang.json']
   .map(f => [f, JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8'))]);
 check('every harder round (multi-part, comparisons, follow-ups, Indic, typos) answers as the owner would', () => {
   const misses = [];
@@ -790,6 +790,8 @@ check('every harder round (multi-part, comparisons, follow-ups, Indic, typos) an
     const want = Array.isArray(c.id) ? c.id : [c.id];
     if (!want.includes(got)) misses.push(`${f}: "${c.q}" → ${got} (want ${want.join('|')})`);
     else if (c.must && !plain(r).includes(c.must)) misses.push(`${f}: "${c.q}" lacks "${c.must}"`);
+    else if ((c.must_all || []).some(t => !plain(r).toLowerCase().includes(String(t).toLowerCase())))
+      misses.push(`${f}: "${c.q}" misses rubric points ${(c.must_all || []).filter(t => !plain(r).toLowerCase().includes(String(t).toLowerCase())).join(', ')}`);
   }
   assert(n >= 240, `the harder rounds shrank to ${n} questions`);
   assert(misses.length === 0, `${misses.length}/${n} off target:\n          ` + misses.join('\n          '));
