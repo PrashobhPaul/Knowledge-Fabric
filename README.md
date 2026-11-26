@@ -186,6 +186,11 @@ which must be declined honestly. Rounds 6 and 7 were first run untuned, as
 held-out checks (81% and 78%), and fixed from there; every round passes in full now.
 `node tests/qa_eval.mjs tests/qa_round5.json` prints any miss with its top candidates.
 
+**One report proves it all.** `node tests/prove.mjs` (CI runs it on every pull request) writes
+[`tests/reports/PROOF.md`](tests/reports/PROOF.md): accuracy on every `tests/qa_*.json` set, the interview
+brief asked in full, determinism (three runs), context independence, paraphrase consistency, grounding and
+latency. Any failure fails the check; `--build` also rebuilds and times the index.
+
 ---
 
 # Using it from the GitHub website (no command line)
@@ -223,6 +228,25 @@ It also runs by itself every Monday.
 - **Point the whole thing at another person**: edit `knowledge_factory/config.yaml`,
   `knowledge_sources/profile/profile.yaml`, `pipeline/ontology.py` and
   `site/js/brand.js`. Nothing else references the subject.
+
+### Add new knowledge (GitHub website, no command line)
+
+1. **Write it down where the fabric reads it.** For something new in your life or work, add a
+   note in `docs_source/notes/` (**Add file → Create new file**, e.g. `docs_source/notes/My_New_Topic.md`),
+   in your own words. For a question you want answered your way, add an entry to a
+   `knowledge_sources/profile/canon_*.yaml` file (same fields as `canon.yaml`) whose evidence points
+   at that note: `url: doc:My_New_Topic`.
+2. **Propose it as a pull request.** Choose **Create a new branch … and start a pull request**
+   when you commit. CI rebuilds the fabric and runs the proof (`node tests/prove.mjs`): every
+   question set, determinism, context, paraphrases, grounding (an evidence link that resolves to
+   nothing fails it) and latency. The report is attached to the run as `proof-report`.
+3. **Merge when the check is green.** The merge to `main` triggers the deploy; the site answers
+   the new question within minutes.
+
+The proof blocks anything that lowers accuracy: if a new note or answer pulls an existing
+question onto the wrong answer, the check fails and names the question. Add your new questions
+to a `tests/qa_*.json` set so they are proven on every change after. `tests/reports/GROWTH.md`
+shows this done end to end for the PhD at Anurag University.
 
 ### Add your LinkedIn profile, posts and events
 

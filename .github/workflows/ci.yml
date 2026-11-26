@@ -69,3 +69,19 @@ jobs:
 
       - name: Retrieval evaluation (report only on PRs)
         run: python -m eval.evaluate
+
+      # Accuracy on every question set, determinism, context independence,
+      # paraphrase consistency, grounding and latency, in one report. Fails the
+      # check if any question regresses, so new knowledge cannot lower accuracy.
+      - name: Proof of accuracy and consistency
+        run: node tests/prove.mjs
+
+      - name: Upload the proof report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: proof-report
+          path: |
+            tests/reports/PROOF.md
+            tests/reports/proof.json
+          if-no-files-found: ignore

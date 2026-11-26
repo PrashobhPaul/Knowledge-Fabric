@@ -467,15 +467,55 @@ function subjectOf(prev, m) {
  */
 export function resolveFollowUp(question, prev, canon) {
   if (!prev || !PRONOUN.test(question) || !Array.isArray(canon) || !canon.length) return question;
+  const at = pointingBack(question);
+  if (at < 0) return question;
   const m = model(canon);
   if (entitiesOf(question, m).length || namedEntries(question, m).length) return question;
   const subj = subjectOf(prev, m);
   if (!subj) return question;
-  return question.replace(PRONOUN, (w) => /^its$/i.test(w) ? `${subj}'s` : /^there$/i.test(w) ? `at ${subj}` : subj);
+  const w = question.slice(at).match(PRONOUN)[0];
+  const rep = /^its$/i.test(w) ? `${subj}'s` : /^there$/i.test(w) ? `at ${subj}` : subj;
+  return question.slice(0, at) + rep + question.slice(at + w.length);
+}
+
+// Pronouns that do not point at the previous question: "tell that an engineer is
+// ready" (a clause follows), "it is time to retrain" and "is it worth" (nothing is
+// meant by "it"), "is there a video" (existence), and "If you had to build a team,
+// how would you do it?" (the question names its own antecedent before the comma).
+const COPULA_BEFORE = /\b(is|was|are|were|'s)\s+$/i;
+const CLAUSE_AFTER = /^that\s+(a|an|the|you|your|we|our|they|their|he|his|she|her|i|my|it|its|this|these|those|there|someone|everyone|people|users?|nobody)\b/i;
+// "it is time to retrain", "is it worth building", "it is hard to hire for": an adjective
+// or "time" with its own clause after it. "Is it hard to use?" keeps "it" (the thing).
+const EXPL_TAIL = '(?:time\\b|(?:worth|possible|impossible|hard|easy|difficult|better|best|important|necessary|ok|okay|fine|wise|safe|right|wrong|fair|enough|likely|unlikely|common|normal|useful|sensible)\\s+(?:to\\s+\\w+\\s+\\w+|\\w+ing\\s+\\w+|that\\b|if\\b|when\\b|whether\\b))';
+const EXPLETIVE_IT = new RegExp(`^it\\s+(?:is|was|'s|would be|will be|might be|may be|becomes?)\\s+(?:\\w+\\s+){0,2}?${EXPL_TAIL}`, 'i');
+const EXPLETIVE_IT_ASKED = new RegExp(`^it\\s+(?:be\\s+)?(?:\\w+\\s+){0,2}?${EXPL_TAIL}`, 'i');   // after "is / would / will"
+const AUX_BEFORE = /\b(is|was|would|will)\s+$/i;
+const EXISTENTIAL = /^there\s+(is|are|was|were|'s|will be|would be|must be|should be|might be|has been|have been)\b/i;
+const EXISTENTIAL_ASKED = /\b(is|are|was|were|will|would|could|can|has|have|should|might)\s+$/i;   // "is there", "are there"
+const OWN_ANTECEDENT = /\b(?:a|an)\s+[A-Za-z][\w-]*|\s[A-Z][\w.-]*/;   // "an AI", "a model", a name mid-question
+const LEAD_CLAUSE =/^(if|when|whenever|suppose|supposing|say|imagine|given|once|assuming|after|before|while|since|because|as soon as)\b[^,]{8,},/i;
+/** Index of the first pronoun that refers to an earlier question, or -1. */
+export function pointingBack(question) {
+  const q = String(question);
+  const lead = (q.match(LEAD_CLAUSE) || [''])[0].length;
+  for (const mm of q.matchAll(new RegExp(PRONOUN.source, 'gi'))) {
+    const w = mm[0].toLowerCase(), rest = q.slice(mm.index), before = q.slice(0, mm.index);
+    if (lead && mm.index >= lead) continue;                                          // antecedent in its own leading clause
+    if (w === 'that' && CLAUSE_AFTER.test(rest) && !COPULA_BEFORE.test(before)) continue;   // "tell that an engineer is…"
+    if (w === 'it' && (EXPLETIVE_IT.test(rest) || (AUX_BEFORE.test(before) && EXPLETIVE_IT_ASKED.test(rest)))) continue;
+    if (w === 'it' && /\bwhen\s+$/i.test(before) && /^it\s+comes\s+to\b/i.test(rest)) continue;   // "when it comes to"
+    if (w === 'there' && (EXISTENTIAL.test(rest) || EXISTENTIAL_ASKED.test(before))) continue;
+    return mm.index;
+  }
+  return -1;
 }
 /** A pronoun with nothing to point at ("Who built it?" as a first question). */
 export function danglingPronoun(question, canon) {
   if (!PRONOUN.test(question) || ABOUT_HIM.test(question) || !Array.isArray(canon) || !canon.length) return false;
+  const at = pointingBack(question);
+  // "How should an AI decide which of its sources…", "Can AI trust every source it reads?":
+  // the question names what its pronoun means before using it.
+  if (at < 0 || OWN_ANTECEDENT.test(question.slice(0, at))) return false;
   const m = model(canon);
   return !entitiesOf(question, m).length && !namedEntries(question, m).length && /\b(it|its|they|them)\b/i.test(question);
 }

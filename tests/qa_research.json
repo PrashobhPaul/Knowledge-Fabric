@@ -1,0 +1,346 @@
+{
+ "note": "New knowledge, added the way the owner adds it: docs_source/notes/PhD_Anurag_University.md and knowledge_sources/profile/canon_research.yaml. Each curated question as written plus paraphrases, each with the facts it must state; the education answer must now mention the PhD and keep every earlier fact.",
+ "cases": [
+  {
+   "q": "Are you doing a PhD?",
+   "id": "research-phd",
+   "must_all": [
+    "anurag university",
+    "amarajothi",
+    "trust"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "Are you pursuing a doctorate right now?",
+   "id": "research-phd",
+   "must_all": [
+    "anurag university",
+    "amarajothi",
+    "trust"
+   ]
+  },
+  {
+   "q": "Have you enrolled in a PhD programme?",
+   "id": "research-phd",
+   "must_all": [
+    "anurag university",
+    "amarajothi",
+    "trust"
+   ]
+  },
+  {
+   "q": "Where are you doing your PhD?",
+   "id": "research-where",
+   "must_all": [
+    "anurag university",
+    "hyderabad",
+    "amarajothi"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "At which university are you pursuing your doctorate?",
+   "id": "research-where",
+   "must_all": [
+    "anurag university",
+    "hyderabad",
+    "amarajothi"
+   ]
+  },
+  {
+   "q": "Which university is your PhD with?",
+   "id": "research-where",
+   "must_all": [
+    "anurag university",
+    "hyderabad",
+    "amarajothi"
+   ]
+  },
+  {
+   "q": "Who is your PhD guide?",
+   "id": "research-supervisor",
+   "must_all": [
+    "amarajothi",
+    "anurag university",
+    "cannot be fully trusted"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "Who supervises your PhD?",
+   "id": "research-supervisor",
+   "must_all": [
+    "amarajothi",
+    "anurag university",
+    "cannot be fully trusted"
+   ]
+  },
+  {
+   "q": "Who is guiding you in your PhD?",
+   "id": "research-supervisor",
+   "must_all": [
+    "amarajothi",
+    "anurag university",
+    "cannot be fully trusted"
+   ]
+  },
+  {
+   "q": "What is your PhD research about?",
+   "id": "research-topic",
+   "must_all": [
+    "trust",
+    "provenance",
+    "eidolon",
+    "not finished results"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "What is the topic of your PhD?",
+   "id": "research-topic",
+   "must_all": [
+    "trust",
+    "provenance",
+    "eidolon",
+    "not finished results"
+   ]
+  },
+  {
+   "q": "What are you researching for your doctorate?",
+   "id": "research-topic",
+   "must_all": [
+    "trust",
+    "provenance",
+    "eidolon",
+    "not finished results"
+   ]
+  },
+  {
+   "q": "Which knowledge sources can an AI system trust?",
+   "id": "research-trust-sources",
+   "must_all": [
+    "provenance",
+    "corroboration",
+    "recency",
+    "authority",
+    "not on record"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "How should an AI decide which of its knowledge sources are reliable?",
+   "id": "research-trust-sources",
+   "must_all": [
+    "provenance",
+    "corroboration",
+    "recency",
+    "authority",
+    "not on record"
+   ]
+  },
+  {
+   "q": "Can AI trust every source it reads?",
+   "id": "research-trust-sources",
+   "must_all": [
+    "provenance",
+    "corroboration",
+    "recency",
+    "authority",
+    "not on record"
+   ]
+  },
+  {
+   "q": "How does this system decide which sources to trust?",
+   "id": "research-eidolon-trust",
+   "must_all": [
+    "provenance",
+    "evidence link",
+    "client names",
+    "curator",
+    "trust score"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "When your sources disagree, which one does Eidolon believe?",
+   "id": "research-eidolon-trust",
+   "must_all": [
+    "provenance",
+    "evidence link",
+    "client names",
+    "curator",
+    "trust score"
+   ]
+  },
+  {
+   "q": "How does Eidolon choose which of its sources to trust?",
+   "id": "research-eidolon-trust",
+   "must_all": [
+    "provenance",
+    "evidence link",
+    "client names",
+    "curator",
+    "trust score"
+   ]
+  },
+  {
+   "q": "Which papers is your PhD research based on?",
+   "id": "research-papers",
+   "must_all": [
+    "enemos-p",
+    "expert systems with applications",
+    "knowledge and information systems",
+    "iiwas",
+    "2021",
+    "2023",
+    "2025"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "What are your base papers?",
+   "id": "research-papers",
+   "must_all": [
+    "enemos-p",
+    "expert systems with applications",
+    "knowledge and information systems",
+    "iiwas",
+    "2021",
+    "2023",
+    "2025"
+   ]
+  },
+  {
+   "q": "What has your supervisor published that you build on?",
+   "id": "research-papers",
+   "must_all": [
+    "enemos-p",
+    "expert systems with applications",
+    "knowledge and information systems",
+    "iiwas",
+    "2021",
+    "2023",
+    "2025"
+   ]
+  },
+  {
+   "q": "Which research papers does your PhD start from?",
+   "id": "research-papers",
+   "must_all": [
+    "enemos-p",
+    "expert systems with applications",
+    "knowledge and information systems",
+    "iiwas",
+    "2021",
+    "2023",
+    "2025"
+   ]
+  },
+  {
+   "q": "What publications are you building your PhD on?",
+   "id": "research-papers",
+   "must_all": [
+    "enemos-p",
+    "expert systems with applications",
+    "knowledge and information systems",
+    "iiwas",
+    "2021",
+    "2023",
+    "2025"
+   ]
+  },
+  {
+   "q": "What is a discrepant user?",
+   "id": "research-discrepant-user",
+   "must_all": [
+    "rating",
+    "review",
+    "emotion",
+    "discrepant source"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "What does the term discrepant users mean in recommender systems?",
+   "id": "research-discrepant-user",
+   "must_all": [
+    "rating",
+    "review",
+    "emotion",
+    "discrepant source"
+   ]
+  },
+  {
+   "q": "Who counts as a discrepant user?",
+   "id": "research-discrepant-user",
+   "must_all": [
+    "rating",
+    "review",
+    "emotion",
+    "discrepant source"
+   ]
+  },
+  {
+   "q": "When will you finish your PhD?",
+   "id": "research-dates",
+   "must_all": [
+    "not on record",
+    "will not guess",
+    "anurag university"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "When are you expected to complete your PhD?",
+   "id": "research-dates",
+   "must_all": [
+    "not on record",
+    "will not guess",
+    "anurag university"
+   ]
+  },
+  {
+   "q": "When did you join Anurag University?",
+   "id": "research-dates",
+   "must_all": [
+    "not on record",
+    "will not guess",
+    "anurag university"
+   ]
+  },
+  {
+   "q": "What is your educational background?",
+   "id": "education",
+   "must_all": [
+    "m.tech",
+    "srm",
+    "jntu",
+    "anurag university"
+   ]
+  },
+  {
+   "q": "Do you have a PhD?",
+   "id": "education",
+   "must_all": [
+    "m.tech",
+    "knowledge engineering",
+    "anurag university"
+   ]
+  },
+  {
+   "q": "What is Eidolon?",
+   "id": "knowledge-fabric",
+   "must_all": [
+    "eidolon",
+    "knowledge fabric"
+   ]
+  }
+ ],
+ "no_answer": [
+  "What is Dr. Amarajothi's phone number?",
+  "How old is Dr. Amarajothi?",
+  "Where did Dr. Amarajothi study?",
+  "Is Dr. Amarajothi married?"
+ ]
+}
