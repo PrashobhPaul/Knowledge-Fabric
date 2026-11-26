@@ -778,7 +778,7 @@ check('questions with no answer on record say so instead of showing a collage', 
 // Rounds 2–7: unseen, harder questions written after the golden set — paraphrases,
 // typos and shorthand, Indic scripts, several questions in one, comparisons,
 // career before/after, follow-ups that say "it", small talk, privacy and errands.
-const ROUNDS = ['qa_round2.json', 'qa_round3.json', 'qa_round4.json', 'qa_round5.json', 'qa_round6.json', 'qa_round7.json', 'qa_round8.json', 'qa_interview_s1.json', 'qa_interview_s2.json', 'qa_interview_s3.json', 'qa_interview_heldout.json', 'qa_lang.json']
+const ROUNDS = ['qa_round2.json', 'qa_round3.json', 'qa_round4.json', 'qa_round5.json', 'qa_round6.json', 'qa_round7.json', 'qa_round8.json', 'qa_interview_s1.json', 'qa_interview_s2.json', 'qa_interview_s3.json', 'qa_interview_l2.json', 'qa_interview_heldout.json', 'qa_lang.json']
   .map(f => [f, JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8'))]);
 check('every harder round (multi-part, comparisons, follow-ups, Indic, typos) answers as the owner would', () => {
   const misses = [];
@@ -837,6 +837,16 @@ check('off-topic questions, errands and private details in the harder rounds are
   assert(misses.length === 0, misses.join('\n          '));
 });
 
+check('a pronoun whose subject the question names in an earlier clause is answered; a bare one is still declined', () => {
+  for (const q of ['What is self-attention and how is it different from attention?', 'What is self-attention, and how does it differ from attention?']) {
+    const r = answerQuestion(q, pipeCtx);
+    assert(r.canonMatch && r.canonMatch.id === 'iv1-transformer', `"${q}" → ${r.canonMatch ? r.canonMatch.id : (r.noAnswer ? 'NO-ANSWER' : 'retrieval')}`);
+  }
+  for (const q of ['Who built it?', 'Who designed and built it?', 'What time is it?', 'Is it open source?']) {
+    assert(answerQuestion(q, pipeCtx).noAnswer, `"${q}" was answered, but "it" points at nothing`);
+  }
+});
+
 check('client names stay confidential in every curated answer, note and indexed record', () => {
   const CLIENT = /Southwest|PwC|Pricewaterhouse|American Express|\bAmex\b/i;
   const canonText = JSON.stringify(idx.canon);
@@ -854,6 +864,10 @@ check('client names stay confidential in every curated answer, note and indexed 
 check('every deploy cache-busts the modules, so visitors never run a stale matcher', () => {
   const wf = fs.readFileSync(path.join(ROOT, '.github/workflows/deploy.yml'), 'utf8');
   assert(/Cache-bust/.test(wf) && /GITHUB_SHA/.test(wf), 'deploy does not stamp module versions');
+  const at = (s) => wf.indexOf(s);
+  assert(at('run: node tests/prove.mjs') > at('node tests/integration.test.mjs') && at('run: node tests/prove.mjs') > at('python -m eval.evaluate --gate')
+    && at('run: node tests/prove.mjs') < at('upload-pages-artifact') && at('node tests/integration.test.mjs') > 0,
+    'deploy must run the proof after the integration and eval gates and before the Pages upload');
   const main = fs.readFileSync(path.join(SITE, 'js/main.js'), 'utf8');
   assert(/from '\.\/pipeline\.js/.test(main) && !/matchCanon\(/.test(main), 'the page must use the shared pipeline');
 });

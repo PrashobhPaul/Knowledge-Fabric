@@ -1,0 +1,2866 @@
+{
+ "cases": [
+  {
+   "q": "State your PhD research problem in one precise sentence. What is the central hypothesis, and what would falsify it?",
+   "id": "iv4-phd-hypothesis",
+   "must_all": [
+    "central hypothesis",
+    "falsifiable",
+    "fault",
+    "baseline",
+    "not a finding"
+   ]
+  },
+  {
+   "q": "Which outcome would disprove the central hypothesis of your PhD?",
+   "id": "iv4-phd-hypothesis",
+   "must_all": [
+    "central hypothesis",
+    "falsifiable",
+    "fault",
+    "baseline",
+    "not a finding"
+   ]
+  },
+  {
+   "q": "What is the strongest prior work related to your research? Where does it fall short?",
+   "id": "iv4-prior-work",
+   "must_all": [
+    "truth discovery",
+    "knowledge-based trust",
+    "self-rag",
+    "corrective rag",
+    "gap"
+   ]
+  },
+  {
+   "q": "Which prior work is closest to your PhD research?",
+   "id": "iv4-prior-work",
+   "must_all": [
+    "truth discovery",
+    "knowledge-based trust",
+    "self-rag",
+    "corrective rag",
+    "gap"
+   ]
+  },
+  {
+   "q": "What is genuinely novel in your contribution: the problem formulation, method, dataset, evaluation, theory, or application?",
+   "id": "iv4-novelty",
+   "must_all": [
+    "problem formulation",
+    "evaluation",
+    "date provenance",
+    "not novel",
+    "not results"
+   ]
+  },
+  {
+   "q": "What would you claim as the new contribution of your PhD?",
+   "id": "iv4-novelty",
+   "must_all": [
+    "problem formulation",
+    "evaluation",
+    "date provenance",
+    "not novel",
+    "not results"
+   ]
+  },
+  {
+   "q": "Which baselines have you compared against, and why are they fair and sufficiently strong?",
+   "id": "iv4-baselines",
+   "must_all": [
+    "none yet",
+    "uniform trust",
+    "recency only",
+    "truthfinder",
+    "tuning budget"
+   ]
+  },
+  {
+   "q": "What baselines would you compare your PhD method against?",
+   "id": "iv4-baselines",
+   "must_all": [
+    "none yet",
+    "uniform trust",
+    "recency only",
+    "truthfinder",
+    "tuning budget"
+   ]
+  },
+  {
+   "q": "Describe your experimental design. How do you control confounders, data leakage, benchmark contamination and cherry-picking?",
+   "id": "iv4-experimental-design",
+   "must_all": [
+    "fault injection",
+    "confounders",
+    "leakage",
+    "contamination",
+    "cherry-picking"
+   ]
+  },
+  {
+   "q": "How will you avoid data leakage and confounders in your PhD experiments?",
+   "id": "iv4-experimental-design",
+   "must_all": [
+    "fault injection",
+    "confounders",
+    "leakage",
+    "contamination",
+    "cherry-picking"
+   ]
+  },
+  {
+   "q": "What evidence would convince a skeptical reviewer that your method generalizes beyond the dataset or benchmark on which it was developed?",
+   "id": "iv4-generalization",
+   "must_all": [
+    "corpora i did not build",
+    "frozen settings",
+    "held out",
+    "questions written by other people",
+    "case study"
+   ]
+  },
+  {
+   "q": "How would you convince a skeptical reviewer that your method works beyond your own twin?",
+   "id": "iv4-generalization",
+   "must_all": [
+    "corpora i did not build",
+    "frozen settings",
+    "held out",
+    "questions written by other people",
+    "case study"
+   ]
+  },
+  {
+   "q": "Which research result has changed your architectural opinion? Give a concrete example.",
+   "id": "iv4-research-changed-opinion",
+   "must_all": [
+    "rating systems",
+    "inconsistency as a signal",
+    "reciprocal rank fusion",
+    "cormack",
+    "rrf"
+   ]
+  },
+  {
+   "q": "Which piece of research changed an architecture opinion of yours?",
+   "id": "iv4-research-changed-opinion",
+   "must_all": [
+    "rating systems",
+    "inconsistency as a signal",
+    "reciprocal rank fusion",
+    "cormack",
+    "rrf"
+   ]
+  },
+  {
+   "q": "What part of your research is transferable to production, and what part is currently impractical?",
+   "id": "iv4-research-transferable",
+   "must_all": [
+    "transferable",
+    "provenance",
+    "date-confidence",
+    "impractical",
+    "ground truth"
+   ]
+  },
+  {
+   "q": "What in your research is transferable to production today?",
+   "id": "iv4-research-transferable",
+   "must_all": [
+    "transferable",
+    "provenance",
+    "date-confidence",
+    "impractical",
+    "ground truth"
+   ]
+  },
+  {
+   "q": "Explain the assumptions under which your method works.",
+   "id": "iv4-method-assumptions",
+   "must_all": [
+    "independence of sources",
+    "mostly right",
+    "extracted and aligned",
+    "dates are recoverable",
+    "changes slowly"
+   ]
+  },
+  {
+   "q": "Under which assumptions does your PhD method hold?",
+   "id": "iv4-method-assumptions",
+   "must_all": [
+    "independence of sources",
+    "mostly right",
+    "extracted and aligned",
+    "dates are recoverable",
+    "changes slowly"
+   ]
+  },
+  {
+   "q": "What is the ablation that most clearly demonstrates which component creates value?",
+   "id": "iv4-ablation",
+   "must_all": [
+    "one trust signal at a time",
+    "point of action",
+    "shuffled-trust control",
+    "abstention rule",
+    "none of it has been run"
+   ]
+  },
+  {
+   "q": "Which ablation would you run to show what part of your method adds value?",
+   "id": "iv4-ablation",
+   "must_all": [
+    "one trust signal at a time",
+    "point of action",
+    "shuffled-trust control",
+    "abstention rule",
+    "none of it has been run"
+   ]
+  },
+  {
+   "q": "How do you report uncertainty, statistical significance and reproducibility?",
+   "id": "iv4-uncertainty-reporting",
+   "must_all": [
+    "paired bootstrap",
+    "mcnemar",
+    "holm",
+    "effect sizes",
+    "deterministic"
+   ]
+  },
+  {
+   "q": "How would you report significance and reproducibility for your PhD results?",
+   "id": "iv4-uncertainty-reporting",
+   "must_all": [
+    "paired bootstrap",
+    "mcnemar",
+    "holm",
+    "effect sizes",
+    "deterministic"
+   ]
+  },
+  {
+   "q": "If your result cannot be reproduced by another team, what would you investigate first?",
+   "id": "iv4-reproduce-failure",
+   "must_all": [
+    "same thing",
+    "intermediate artefacts",
+    "leakage",
+    "metric implementation",
+    "swap halves"
+   ]
+  },
+  {
+   "q": "What would you check first if a team failed to reproduce your PhD result?",
+   "id": "iv4-reproduce-failure",
+   "must_all": [
+    "same thing",
+    "intermediate artefacts",
+    "leakage",
+    "metric implementation",
+    "swap halves"
+   ]
+  },
+  {
+   "q": "What is the publication and implementation status of your research?",
+   "id": "iv4-research-status",
+   "must_all": [
+    "no publications",
+    "not implemented",
+    "implemented and running",
+    "not yet implemented",
+    "base papers"
+   ]
+  },
+  {
+   "q": "Is any of your PhD research published or implemented yet?",
+   "id": "iv4-research-status",
+   "must_all": [
+    "no publications",
+    "not implemented",
+    "implemented and running",
+    "not yet implemented",
+    "base papers"
+   ]
+  },
+  {
+   "q": "Explain the architectural implications of transformer attention, context length, KV caching and decoding strategy for production inference.",
+   "id": "iv4-attention-kv-cache",
+   "must_all": [
+    "prefill",
+    "decode",
+    "memory bandwidth",
+    "320 kb per token",
+    "constrained decoding"
+   ]
+  },
+  {
+   "q": "Why do attention cost and the KV cache shape your production inference design?",
+   "id": "iv4-attention-kv-cache",
+   "must_all": [
+    "prefill",
+    "decode",
+    "memory bandwidth",
+    "320 kb per token",
+    "constrained decoding"
+   ]
+  },
+  {
+   "q": "How would you choose between dense, mixture-of-experts, encoder-decoder and smaller task-specific models for different enterprise workloads?",
+   "id": "iv4-model-families",
+   "must_all": [
+    "dense",
+    "mixture-of-experts",
+    "active per token",
+    "encoder",
+    "cheapest model"
+   ]
+  },
+  {
+   "q": "How would you pick a mixture-of-experts model versus a dense model for an enterprise workload?",
+   "id": "iv4-model-families",
+   "must_all": [
+    "dense",
+    "mixture-of-experts",
+    "active per token",
+    "encoder",
+    "cheapest model"
+   ]
+  },
+  {
+   "q": "Compare full fine-tuning, instruction tuning, PEFT/LoRA, distillation, continued pre-training and retrieval augmentation. What problem does each solve, and what does it not solve?",
+   "id": "iv4-adaptation-methods",
+   "must_all": [
+    "full fine-tuning",
+    "instruction tuning",
+    "lora",
+    "distillation",
+    "continued pre-training",
+    "retrieval augmentation"
+   ]
+  },
+  {
+   "q": "What does continued pre-training solve compared with distillation and PEFT?",
+   "id": "iv4-adaptation-methods",
+   "must_all": [
+    "full fine-tuning",
+    "instruction tuning",
+    "lora",
+    "distillation",
+    "continued pre-training",
+    "retrieval augmentation"
+   ]
+  },
+  {
+   "q": "How would you evaluate quantization trade-offs across quality, memory, throughput and hardware?",
+   "id": "iv4-quantization",
+   "must_all": [
+    "task evaluation",
+    "70 gb in fp8",
+    "kv-cache quantization",
+    "awq",
+    "a100"
+   ]
+  },
+  {
+   "q": "How do you judge the trade-offs of quantizing an LLM for your hardware?",
+   "id": "iv4-quantization",
+   "must_all": [
+    "task evaluation",
+    "70 gb in fp8",
+    "kv-cache quantization",
+    "awq",
+    "a100"
+   ]
+  },
+  {
+   "q": "How would you design model routing across frontier APIs, self-hosted open-weight models and specialist models?",
+   "id": "iv4-model-routing",
+   "must_all": [
+    "data classification",
+    "task class",
+    "cascade",
+    "fallback chain",
+    "evaluation-gated"
+   ]
+  },
+  {
+   "q": "How do you route your requests across frontier APIs and open-weight models?",
+   "id": "iv4-model-routing",
+   "must_all": [
+    "data classification",
+    "task class",
+    "cascade",
+    "fallback chain",
+    "evaluation-gated"
+   ]
+  },
+  {
+   "q": "What are the operational implications of speculative decoding, continuous batching, prefix caching and tensor parallelism?",
+   "id": "iv4-serving-optimizations",
+   "must_all": [
+    "continuous batching",
+    "speculative decoding",
+    "acceptance rate",
+    "prefix caching",
+    "tensor parallelism"
+   ]
+  },
+  {
+   "q": "What operational issues do speculative decoding and prefix caching bring for you?",
+   "id": "iv4-serving-optimizations",
+   "must_all": [
+    "continuous batching",
+    "speculative decoding",
+    "acceptance rate",
+    "prefix caching",
+    "tensor parallelism"
+   ]
+  },
+  {
+   "q": "How would you determine whether a quality problem is caused by the model, prompt, retrieval, tools, data or task decomposition?",
+   "id": "iv4-quality-root-cause",
+   "must_all": [
+    "traces",
+    "recall at k",
+    "pinned into the context",
+    "task decomposition",
+    "one variable"
+   ]
+  },
+  {
+   "q": "How would you root-cause a GenAI quality problem layer by layer in your system?",
+   "id": "iv4-quality-root-cause",
+   "must_all": [
+    "traces",
+    "recall at k",
+    "pinned into the context",
+    "task decomposition",
+    "one variable"
+   ]
+  },
+  {
+   "q": "Estimate the serving capacity needed for a stated request rate and output-token profile. State assumptions.",
+   "id": "iv4-serving-capacity",
+   "must_all": [
+    "20 requests per second",
+    "requests in flight",
+    "260 sequences",
+    "five replicas",
+    "assumptions"
+   ]
+  },
+  {
+   "q": "How would you estimate the number of GPUs you need for a given request rate?",
+   "id": "iv4-serving-capacity",
+   "must_all": [
+    "20 requests per second",
+    "requests in flight",
+    "260 sequences",
+    "five replicas",
+    "assumptions"
+   ]
+  },
+  {
+   "q": "Explain the impact of long context on latency, memory and answer quality.",
+   "id": "iv4-long-context",
+   "must_all": [
+    "time to first token",
+    "kv cache grows linearly",
+    "lost-in-the-middle",
+    "needle-in-a-haystack",
+    "retrieve a few"
+   ]
+  },
+  {
+   "q": "What does a very long context do to your latency, memory and answer quality?",
+   "id": "iv4-long-context",
+   "must_all": [
+    "time to first token",
+    "kv cache grows linearly",
+    "lost-in-the-middle",
+    "needle-in-a-haystack",
+    "retrieve a few"
+   ]
+  },
+  {
+   "q": "How would you benchmark models fairly across providers with different tokenization, rate limits and hidden infrastructure?",
+   "id": "iv4-fair-benchmarking",
+   "must_all": [
+    "cost per successful task",
+    "private",
+    "pin exact model version",
+    "p95",
+    "different family"
+   ]
+  },
+  {
+   "q": "How would you compare LLM providers fairly despite different tokenizers?",
+   "id": "iv4-fair-benchmarking",
+   "must_all": [
+    "cost per successful task",
+    "private",
+    "pin exact model version",
+    "p95",
+    "different family"
+   ]
+  },
+  {
+   "q": "When does conventional RAG stop being the right abstraction? Compare RAG with long-context approaches, fine-tuning, knowledge graphs and database/query-based retrieval.",
+   "id": "iv4-beyond-rag",
+   "must_all": [
+    "governed query",
+    "knowledge graph",
+    "long context",
+    "fine-tuning",
+    "graphrag"
+   ]
+  },
+  {
+   "q": "When would you stop using conventional RAG?",
+   "id": "iv4-beyond-rag",
+   "must_all": [
+    "governed query",
+    "knowledge graph",
+    "long context",
+    "fine-tuning",
+    "graphrag"
+   ]
+  },
+  {
+   "q": "Design a retrieval strategy for mixed content: tables, scanned PDFs, diagrams, code, audio transcripts and frequently changing records.",
+   "id": "iv4-mixed-content-retrieval",
+   "must_all": [
+    "tables",
+    "ocr",
+    "syntax-aware chunking",
+    "timestamps",
+    "system of record live"
+   ]
+  },
+  {
+   "q": "How would you design your retrieval for mixed content like code and audio transcripts?",
+   "id": "iv4-mixed-content-retrieval",
+   "must_all": [
+    "tables",
+    "ocr",
+    "syntax-aware chunking",
+    "timestamps",
+    "system of record live"
+   ]
+  },
+  {
+   "q": "How would you evaluate retrieval independently from answer generation?",
+   "id": "iv4-retrieval-eval-independent",
+   "must_all": [
+    "gold set",
+    "recall at k",
+    "precision at k",
+    "mrr",
+    "0.70"
+   ]
+  },
+  {
+   "q": "How do you evaluate your retriever separately from the generator?",
+   "id": "iv4-retrieval-eval-independent",
+   "must_all": [
+    "gold set",
+    "recall at k",
+    "precision at k",
+    "mrr",
+    "0.70"
+   ]
+  },
+  {
+   "q": "Explain how you would choose between dense, sparse, hybrid, graph-based and learned retrieval.",
+   "id": "iv4-retrieval-choice",
+   "must_all": [
+    "sparse retrieval",
+    "dense retrieval",
+    "hybrid",
+    "graph-based retrieval",
+    "learned retrieval"
+   ]
+  },
+  {
+   "q": "How would you choose between graph-based and learned sparse retrieval for your corpus?",
+   "id": "iv4-retrieval-choice",
+   "must_all": [
+    "sparse retrieval",
+    "dense retrieval",
+    "hybrid",
+    "graph-based retrieval",
+    "learned retrieval"
+   ]
+  },
+  {
+   "q": "What are the failure modes of chunking, embedding similarity and semantic search? How would you detect them?",
+   "id": "iv4-retrieval-failure-modes",
+   "must_all": [
+    "chunking",
+    "similar is not relevant",
+    "negation",
+    "no-answer questions",
+    "maximal marginal relevance"
+   ]
+  },
+  {
+   "q": "How does embedding similarity fail in your semantic search?",
+   "id": "iv4-retrieval-failure-modes",
+   "must_all": [
+    "chunking",
+    "similar is not relevant",
+    "negation",
+    "no-answer questions",
+    "maximal marginal relevance"
+   ]
+  },
+  {
+   "q": "How do you preserve provenance, temporal validity, document versioning and access permissions throughout ingestion and retrieval?",
+   "id": "iv4-provenance-permissions",
+   "must_all": [
+    "provenance",
+    "temporal validity",
+    "versioning",
+    "tombstone",
+    "inside the index query"
+   ]
+  },
+  {
+   "q": "How do you carry temporal validity and access permissions through your ingestion?",
+   "id": "iv4-provenance-permissions",
+   "must_all": [
+    "provenance",
+    "temporal validity",
+    "versioning",
+    "tombstone",
+    "inside the index query"
+   ]
+  },
+  {
+   "q": "How would you handle contradictory sources, stale content and questions with insufficient evidence?",
+   "id": "iv4-contradictory-sources",
+   "must_all": [
+    "contradictions",
+    "authority",
+    "stale content",
+    "no-answer path",
+    "trust score"
+   ]
+  },
+  {
+   "q": "What should your RAG system do with contradictory sources and stale content?",
+   "id": "iv4-contradictory-sources",
+   "must_all": [
+    "contradictions",
+    "authority",
+    "stale content",
+    "no-answer path",
+    "trust score"
+   ]
+  },
+  {
+   "q": "How would you design retrieval for multi-hop questions that require joining facts across documents or systems?",
+   "id": "iv4-multi-hop",
+   "must_all": [
+    "entity graph",
+    "iterative retrieval",
+    "federated query",
+    "hop limit",
+    "each hop"
+   ]
+  },
+  {
+   "q": "How would you design your retrieval for multi-hop questions across systems?",
+   "id": "iv4-multi-hop",
+   "must_all": [
+    "entity graph",
+    "iterative retrieval",
+    "federated query",
+    "hop limit",
+    "each hop"
+   ]
+  },
+  {
+   "q": "Define a retrieval evaluation protocol including recall@k, precision@k, MRR/nDCG and task-level success.",
+   "id": "iv4-retrieval-eval-protocol",
+   "must_all": [
+    "recall at k",
+    "precision at k",
+    "mrr",
+    "ndcg",
+    "task-level success"
+   ]
+  },
+  {
+   "q": "What retrieval evaluation protocol would you define with MRR and nDCG?",
+   "id": "iv4-retrieval-eval-protocol",
+   "must_all": [
+    "recall at k",
+    "precision at k",
+    "mrr",
+    "ndcg",
+    "task-level success"
+   ]
+  },
+  {
+   "q": "How do you prevent permission leakage through cached results, rerankers, summaries and generated answers?",
+   "id": "iv4-permission-leakage",
+   "must_all": [
+    "permission set",
+    "rerankers",
+    "summaries",
+    "generated answers",
+    "forbidden-document tests"
+   ]
+  },
+  {
+   "q": "How do you avoid permission leakage through your reranker and cached answers?",
+   "id": "iv4-permission-leakage",
+   "must_all": [
+    "permission set",
+    "rerankers",
+    "summaries",
+    "generated answers",
+    "forbidden-document tests"
+   ]
+  },
+  {
+   "q": "When would a knowledge graph materially outperform a vector index? What evidence would you require?",
+   "id": "iv4-kg-vs-vector",
+   "must_all": [
+    "relationship",
+    "multi-hop",
+    "graphrag",
+    "extraction quality",
+    "snomed"
+   ]
+  },
+  {
+   "q": "When would your knowledge graph beat a vector index?",
+   "id": "iv4-kg-vs-vector",
+   "must_all": [
+    "relationship",
+    "multi-hop",
+    "graphrag",
+    "extraction quality",
+    "snomed"
+   ]
+  },
+  {
+   "q": "Define the boundary between deterministic workflow orchestration, tool-using agents and autonomous multi-agent systems.",
+   "id": "iv4-agent-boundary",
+   "must_all": [
+    "deterministic workflow orchestration",
+    "tool-using agent",
+    "multi-agent",
+    "hybrids",
+    "langgraph"
+   ]
+  },
+  {
+   "q": "Where do you draw the boundary between deterministic workflow orchestration and autonomous agents?",
+   "id": "iv4-agent-boundary",
+   "must_all": [
+    "deterministic workflow orchestration",
+    "tool-using agent",
+    "multi-agent",
+    "hybrids",
+    "langgraph"
+   ]
+  },
+  {
+   "q": "What evidence justifies adding an agent rather than implementing a deterministic service?",
+   "id": "iv4-agent-justification",
+   "must_all": [
+    "burden of proof",
+    "path variability",
+    "baseline comparison",
+    "cost per successful task",
+    "controllability"
+   ]
+  },
+  {
+   "q": "What evidence would you need before building an agent instead of deterministic code?",
+   "id": "iv4-agent-justification",
+   "must_all": [
+    "burden of proof",
+    "path variability",
+    "baseline comparison",
+    "cost per successful task",
+    "controllability"
+   ]
+  },
+  {
+   "q": "How do you reason about planning, state, memory, tool selection, retries and termination?",
+   "id": "iv4-agent-state-termination",
+   "must_all": [
+    "plan-then-execute",
+    "checkpointed",
+    "memory",
+    "tool selection",
+    "termination"
+   ]
+  },
+  {
+   "q": "How do you design state, memory and termination for your agents?",
+   "id": "iv4-agent-state-termination",
+   "must_all": [
+    "plan-then-execute",
+    "checkpointed",
+    "memory",
+    "tool selection",
+    "termination"
+   ]
+  },
+  {
+   "q": "How would you design an agent that performs consequential actions in enterprise systems?",
+   "id": "iv4-consequential-actions",
+   "must_all": [
+    "model proposes",
+    "on-behalf-of",
+    "policy engine",
+    "idempotency keys",
+    "shadow mode"
+   ]
+  },
+  {
+   "q": "How would you design an agent that takes consequential actions on your business systems?",
+   "id": "iv4-consequential-actions",
+   "must_all": [
+    "model proposes",
+    "on-behalf-of",
+    "policy engine",
+    "idempotency keys",
+    "shadow mode"
+   ]
+  },
+  {
+   "q": "How do you contain prompt injection from retrieved content, tool outputs and external websites?",
+   "id": "iv4-injection-containment",
+   "must_all": [
+    "owasp",
+    "private data",
+    "privilege separation",
+    "egress",
+    "regression test"
+   ]
+  },
+  {
+   "q": "How do you contain injection from tool outputs and external websites in your agents?",
+   "id": "iv4-injection-containment",
+   "must_all": [
+    "owasp",
+    "private data",
+    "privilege separation",
+    "egress",
+    "regression test"
+   ]
+  },
+  {
+   "q": "What are the failure modes of multi-agent collaboration, shared memory and delegated subtasks?",
+   "id": "iv4-multi-agent-failures",
+   "must_all": [
+    "specification",
+    "misalignment",
+    "77 percent",
+    "shared memory",
+    "delegated subtask"
+   ]
+  },
+  {
+   "q": "What failure modes do you see in multi-agent collaboration and shared memory?",
+   "id": "iv4-multi-agent-failures",
+   "must_all": [
+    "specification",
+    "misalignment",
+    "77 percent",
+    "shared memory",
+    "delegated subtask"
+   ]
+  },
+  {
+   "q": "How would you test an agent when multiple valid execution paths exist?",
+   "id": "iv4-agent-testing-paths",
+   "must_all": [
+    "outcome",
+    "invariants",
+    "sandboxed",
+    "pass-to-the-k",
+    "tau-bench"
+   ]
+  },
+  {
+   "q": "How do you test your agent when several valid execution paths exist?",
+   "id": "iv4-agent-testing-paths",
+   "must_all": [
+    "outcome",
+    "invariants",
+    "sandboxed",
+    "pass-to-the-k",
+    "tau-bench"
+   ]
+  },
+  {
+   "q": "How would you implement human approval, reversibility, idempotency and auditability?",
+   "id": "iv4-approval-reversibility",
+   "must_all": [
+    "human approval",
+    "before-state",
+    "compensating action",
+    "idempotency key",
+    "append-only"
+   ]
+  },
+  {
+   "q": "How do you build human approval and reversibility into your agent actions?",
+   "id": "iv4-approval-reversibility",
+   "must_all": [
+    "human approval",
+    "before-state",
+    "compensating action",
+    "idempotency key",
+    "append-only"
+   ]
+  },
+  {
+   "q": "Define measurable criteria for agent autonomy and escalation.",
+   "id": "iv4-autonomy-criteria",
+   "must_all": [
+    "autonomy levels",
+    "precision",
+    "reversal rate",
+    "override rate",
+    "escalation"
+   ]
+  },
+  {
+   "q": "What measurable criteria would you use for agent autonomy and escalation?",
+   "id": "iv4-autonomy-criteria",
+   "must_all": [
+    "autonomy levels",
+    "precision",
+    "reversal rate",
+    "override rate",
+    "escalation"
+   ]
+  },
+  {
+   "q": "How would you prove that a multi-agent design is better than a single agent or workflow?",
+   "id": "iv4-prove-multi-agent",
+   "must_all": [
+    "three contenders",
+    "same evaluation set",
+    "planted errors",
+    "ablations",
+    "decision rule"
+   ]
+  },
+  {
+   "q": "How would you prove your multi-agent design beats a single agent baseline?",
+   "id": "iv4-prove-multi-agent",
+   "must_all": [
+    "three contenders",
+    "same evaluation set",
+    "planted errors",
+    "ablations",
+    "decision rule"
+   ]
+  },
+  {
+   "q": "What is your strategy for sandboxing tools and limiting blast radius?",
+   "id": "iv4-sandboxing",
+   "must_all": [
+    "ephemeral",
+    "allow-list",
+    "narrow",
+    "circuit breakers",
+    "kill switch"
+   ]
+  },
+  {
+   "q": "How do you sandbox your agent tools and limit blast radius?",
+   "id": "iv4-sandboxing",
+   "must_all": [
+    "ephemeral",
+    "allow-list",
+    "narrow",
+    "circuit breakers",
+    "kill switch"
+   ]
+  },
+  {
+   "q": "Describe a research idea you chose not to productionize. Why?",
+   "id": "iv4-not-productionized",
+   "must_all": [
+    "20 mb",
+    "lsa",
+    "minilm",
+    "trust score",
+    "re-ranker"
+   ]
+  },
+  {
+   "q": "Which research idea did you decide not to productionize?",
+   "id": "iv4-not-productionized",
+   "must_all": [
+    "20 mb",
+    "lsa",
+    "minilm",
+    "trust score",
+    "re-ranker"
+   ]
+  },
+  {
+   "q": "How do you turn a paper into a reproducible internal experiment and then a production decision?",
+   "id": "iv4-paper-to-production",
+   "must_all": [
+    "claim",
+    "reproduce",
+    "internal experiment",
+    "production decision",
+    "cormack"
+   ]
+  },
+  {
+   "q": "How do you go from a research paper to a production decision in your team?",
+   "id": "iv4-paper-to-production",
+   "must_all": [
+    "claim",
+    "reproduce",
+    "internal experiment",
+    "production decision",
+    "cormack"
+   ]
+  },
+  {
+   "q": "What is your framework for deciding whether a new model or agent technique is mature enough for enterprise use?",
+   "id": "iv4-technique-maturity",
+   "must_all": [
+    "evidence",
+    "reliability",
+    "operability",
+    "adoption ring",
+    "mcp"
+   ]
+  },
+  {
+   "q": "How do you decide a new agent technique is mature enough for your enterprise?",
+   "id": "iv4-technique-maturity",
+   "must_all": [
+    "evidence",
+    "reliability",
+    "operability",
+    "adoption ring",
+    "mcp"
+   ]
+  },
+  {
+   "q": "What would you publish, patent, open-source or retain as proprietary capability, and how would you make that decision?",
+   "id": "iv4-publish-patent",
+   "must_all": [
+    "publish",
+    "open-source",
+    "apache-2.0",
+    "patent",
+    "proprietary"
+   ]
+  },
+  {
+   "q": "How do you decide what AI capability to open-source or patent?",
+   "id": "iv4-publish-patent",
+   "must_all": [
+    "publish",
+    "open-source",
+    "apache-2.0",
+    "patent",
+    "proprietary"
+   ]
+  },
+  {
+   "q": "How would you define a 2--3 year enterprise GenAI architecture roadmap?",
+   "id": "iv4-roadmap-2-3-year",
+   "must_all": [
+    "three horizons",
+    "ai gateway",
+    "lighthouse",
+    "showback",
+    "exit criteria"
+   ]
+  },
+  {
+   "q": "What would your two to three year GenAI architecture roadmap contain?",
+   "id": "iv4-roadmap-2-3-year",
+   "must_all": [
+    "three horizons",
+    "ai gateway",
+    "lighthouse",
+    "showback",
+    "exit criteria"
+   ]
+  },
+  {
+   "q": "Which capabilities should be centralized as a platform and which should remain owned by product/domain teams?",
+   "id": "iv4-centralize-vs-domain",
+   "must_all": [
+    "ai gateway",
+    "evaluation service",
+    "golden sets",
+    "domain teams",
+    "three teams"
+   ]
+  },
+  {
+   "q": "What would you put in the central AI platform, and what stays with domain teams?",
+   "id": "iv4-centralize-vs-domain",
+   "must_all": [
+    "ai gateway",
+    "evaluation service",
+    "golden sets",
+    "domain teams",
+    "three teams"
+   ]
+  },
+  {
+   "q": "How would you create a paved road for teams without forcing every use case into the same architecture?",
+   "id": "iv4-paved-road",
+   "must_all": [
+    "paved road",
+    "reference patterns",
+    "template",
+    "decision record",
+    "quarterly"
+   ]
+  },
+  {
+   "q": "How do you build a paved road that does not force one architecture on every team?",
+   "id": "iv4-paved-road",
+   "must_all": [
+    "paved road",
+    "reference patterns",
+    "template",
+    "decision record",
+    "quarterly"
+   ]
+  },
+  {
+   "q": "Define your reference architecture boundaries: AI gateway, model serving, orchestration, knowledge services, evaluation, identity, policy and observability.",
+   "id": "iv4-reference-boundaries",
+   "must_all": [
+    "ai gateway owns",
+    "model serving",
+    "orchestration",
+    "knowledge services",
+    "policy"
+   ]
+  },
+  {
+   "q": "How would you set the reference architecture boundaries for your GenAI platform?",
+   "id": "iv4-reference-boundaries",
+   "must_all": [
+    "ai gateway owns",
+    "model serving",
+    "orchestration",
+    "knowledge services",
+    "policy"
+   ]
+  },
+  {
+   "q": "How would you govern model, prompt, agent, tool, dataset and knowledge-base versions?",
+   "id": "iv4-version-governance",
+   "must_all": [
+    "registry",
+    "prompts",
+    "agent definition",
+    "embedding model",
+    "release manifest"
+   ]
+  },
+  {
+   "q": "How would you govern your agent, tool and knowledge-base versions?",
+   "id": "iv4-version-governance",
+   "must_all": [
+    "registry",
+    "prompts",
+    "agent definition",
+    "embedding model",
+    "release manifest"
+   ]
+  },
+  {
+   "q": "What architectural standards would you mandate, recommend or leave to team discretion?",
+   "id": "iv4-mandate-recommend",
+   "must_all": [
+    "mandated",
+    "recommended",
+    "team discretion",
+    "decision record",
+    "interfaces"
+   ]
+  },
+  {
+   "q": "Which architecture standards would you make mandatory and which only recommended?",
+   "id": "iv4-mandate-recommend",
+   "must_all": [
+    "mandated",
+    "recommended",
+    "team discretion",
+    "decision record",
+    "interfaces"
+   ]
+  },
+  {
+   "q": "How would you avoid creating a centralized platform bottleneck?",
+   "id": "iv4-platform-bottleneck",
+   "must_all": [
+    "self-service",
+    "thinnest viable platform",
+    "governance as code",
+    "inner-source",
+    "shadow platforms"
+   ]
+  },
+  {
+   "q": "How would you keep your central GenAI platform from becoming a bottleneck?",
+   "id": "iv4-platform-bottleneck",
+   "must_all": [
+    "self-service",
+    "thinnest viable platform",
+    "governance as code",
+    "inner-source",
+    "shadow platforms"
+   ]
+  },
+  {
+   "q": "What are the platform's internal product interfaces and service-level objectives?",
+   "id": "iv4-platform-slos",
+   "must_all": [
+    "interfaces",
+    "99.9 percent",
+    "50 milliseconds",
+    "freshness",
+    "error budget"
+   ]
+  },
+  {
+   "q": "What service-level objectives would your internal AI platform commit to?",
+   "id": "iv4-platform-slos",
+   "must_all": [
+    "interfaces",
+    "99.9 percent",
+    "50 milliseconds",
+    "freshness",
+    "error budget"
+   ]
+  },
+  {
+   "q": "How would you measure platform adoption and developer productivity?",
+   "id": "iv4-platform-adoption",
+   "must_all": [
+    "reach",
+    "flow",
+    "dora",
+    "space",
+    "cost per successful task"
+   ]
+  },
+  {
+   "q": "How would you track adoption of your GenAI platform and developer productivity?",
+   "id": "iv4-platform-adoption",
+   "must_all": [
+    "reach",
+    "flow",
+    "dora",
+    "space",
+    "cost per successful task"
+   ]
+  },
+  {
+   "q": "What is your deprecation strategy when a shared model or framework changes?",
+   "id": "iv4-deprecation",
+   "must_all": [
+    "alias",
+    "golden set",
+    "sunset",
+    "canary",
+    "adapters"
+   ]
+  },
+  {
+   "q": "How would you handle deprecation when a provider retires a model your apps use?",
+   "id": "iv4-deprecation",
+   "must_all": [
+    "alias",
+    "golden set",
+    "sunset",
+    "canary",
+    "adapters"
+   ]
+  },
+  {
+   "q": "A global enterprise wants a secure GenAI platform supporting 30,000 employees across multiple business units and regions. Design the enterprise target architecture and the first 90-day delivery slice.",
+   "id": "iv4-genai-platform",
+   "must_all": [
+    "discovery before drawing",
+    "trust boundaries",
+    "regional data planes",
+    "fallback chain",
+    "tool registry",
+    "first 90-day slice",
+    "cost per successful task"
+   ]
+  },
+  {
+   "q": "A global enterprise wants a secure GenAI platform supporting 30,000 employees across multiple business units and regions.",
+   "id": "iv4-genai-platform",
+   "must_all": [
+    "discovery before drawing",
+    "trust boundaries",
+    "regional data planes",
+    "fallback chain",
+    "tool registry",
+    "first 90-day slice",
+    "cost per successful task"
+   ]
+  },
+  {
+   "q": "Design the enterprise target architecture and the first 90-day delivery slice.",
+   "id": "iv4-genai-platform",
+   "must_all": [
+    "discovery before drawing",
+    "trust boundaries",
+    "regional data planes",
+    "fallback chain",
+    "tool registry",
+    "first 90-day slice",
+    "cost per successful task"
+   ]
+  },
+  {
+   "q": "How would you design a secure multi-region GenAI platform for 30,000 employees?",
+   "id": "iv4-genai-platform",
+   "must_all": [
+    "discovery before drawing",
+    "trust boundaries",
+    "regional data planes",
+    "fallback chain",
+    "tool registry",
+    "first 90-day slice",
+    "cost per successful task"
+   ]
+  },
+  {
+   "q": "What missing requirements would you identify before drawing the GenAI platform design?",
+   "id": "iv4-gp-discovery",
+   "must_all": [
+    "three of the hundred use cases",
+    "data residency",
+    "consequential",
+    "budget",
+    "assumption"
+   ]
+  },
+  {
+   "q": "Which missing requirements would you clarify before drawing your GenAI platform?",
+   "id": "iv4-gp-discovery",
+   "must_all": [
+    "three of the hundred use cases",
+    "data residency",
+    "consequential",
+    "budget",
+    "assumption"
+   ]
+  },
+  {
+   "q": "What is the first 90-day delivery slice for the enterprise GenAI platform?",
+   "id": "iv4-gp-90-day-slice",
+   "must_all": [
+    "one region",
+    "two read-only use cases",
+    "out of scope",
+    "acceptance criteria",
+    "adoption plan"
+   ]
+  },
+  {
+   "q": "What would be in scope for your initial 90-day production release of the platform?",
+   "id": "iv4-gp-90-day-slice",
+   "must_all": [
+    "one region",
+    "two read-only use cases",
+    "out of scope",
+    "acceptance criteria",
+    "adoption plan"
+   ]
+  },
+  {
+   "q": "Logical architecture and trust boundaries.",
+   "id": "iv4-gp-trust-boundaries",
+   "must_all": [
+    "five zones",
+    "control plane",
+    "regional data planes",
+    "tool gateway",
+    "untrusted input"
+   ]
+  },
+  {
+   "q": "Where are the trust zones in your GenAI platform's logical architecture?",
+   "id": "iv4-gp-trust-boundaries",
+   "must_all": [
+    "five zones",
+    "control plane",
+    "regional data planes",
+    "tool gateway",
+    "untrusted input"
+   ]
+  },
+  {
+   "q": "Identity, authorization, data classification and regional isolation.",
+   "id": "iv4-gp-identity-residency",
+   "must_all": [
+    "identity provider",
+    "on-behalf-of",
+    "policy decision point",
+    "classification",
+    "fails closed"
+   ]
+  },
+  {
+   "q": "How does your GenAI platform handle authorization and regional isolation?",
+   "id": "iv4-gp-identity-residency",
+   "must_all": [
+    "identity provider",
+    "on-behalf-of",
+    "policy decision point",
+    "classification",
+    "fails closed"
+   ]
+  },
+  {
+   "q": "Model access, routing, fallback, evaluation and provider abstraction.",
+   "id": "iv4-gp-model-access",
+   "must_all": [
+    "ai gateway",
+    "routing",
+    "fallback",
+    "evaluated",
+    "false abstraction"
+   ]
+  },
+  {
+   "q": "How would you design provider abstraction and fallback in your GenAI platform?",
+   "id": "iv4-gp-model-access",
+   "must_all": [
+    "ai gateway",
+    "routing",
+    "fallback",
+    "evaluated",
+    "false abstraction"
+   ]
+  },
+  {
+   "q": "Knowledge ingestion, indexing, retrieval and source-of-truth strategy.",
+   "id": "iv4-gp-knowledge",
+   "must_all": [
+    "single source of truth",
+    "change events",
+    "hybrid indexes",
+    "acl filter",
+    "authoritative"
+   ]
+  },
+  {
+   "q": "What is your source-of-truth strategy for knowledge in the GenAI platform?",
+   "id": "iv4-gp-knowledge",
+   "must_all": [
+    "single source of truth",
+    "change events",
+    "hybrid indexes",
+    "acl filter",
+    "authoritative"
+   ]
+  },
+  {
+   "q": "Agent/workflow execution, tool registry, approvals and action controls.",
+   "id": "iv4-gp-agent-execution",
+   "must_all": [
+    "runtime",
+    "tool registry",
+    "risk class",
+    "approval queue",
+    "kill switch"
+   ]
+  },
+  {
+   "q": "How would your GenAI platform control agent actions through a tool registry?",
+   "id": "iv4-gp-agent-execution",
+   "must_all": [
+    "runtime",
+    "tool registry",
+    "risk class",
+    "approval queue",
+    "kill switch"
+   ]
+  },
+  {
+   "q": "Runtime isolation, secrets, network egress and data-loss prevention.",
+   "id": "iv4-gp-runtime-isolation",
+   "must_all": [
+    "namespaces",
+    "sandboxes",
+    "vault",
+    "egress gateways",
+    "dlp"
+   ]
+  },
+  {
+   "q": "How would your GenAI platform handle data loss prevention and runtime isolation?",
+   "id": "iv4-gp-runtime-isolation",
+   "must_all": [
+    "namespaces",
+    "sandboxes",
+    "vault",
+    "egress gateways",
+    "dlp"
+   ]
+  },
+  {
+   "q": "Observability, audit, evaluation, incident response and model lifecycle.",
+   "id": "iv4-gp-observability",
+   "must_all": [
+    "opentelemetry",
+    "append-only",
+    "golden sets",
+    "incident taxonomy",
+    "model lifecycle"
+   ]
+  },
+  {
+   "q": "How would your GenAI platform handle audit, incident response and model lifecycle?",
+   "id": "iv4-gp-observability",
+   "must_all": [
+    "opentelemetry",
+    "append-only",
+    "golden sets",
+    "incident taxonomy",
+    "model lifecycle"
+   ]
+  },
+  {
+   "q": "Capacity, availability, disaster recovery and cost management.",
+   "id": "iv4-gp-capacity-dr-cost",
+   "must_all": [
+    "20 requests per second",
+    "18 billion tokens",
+    "43 minutes",
+    "recovery point",
+    "quotas"
+   ]
+  },
+  {
+   "q": "How would you plan disaster recovery and cost for your GenAI platform?",
+   "id": "iv4-gp-capacity-dr-cost",
+   "must_all": [
+    "20 requests per second",
+    "18 billion tokens",
+    "43 minutes",
+    "recovery point",
+    "quotas"
+   ]
+  },
+  {
+   "q": "Build-versus-buy decisions and integration with existing enterprise platforms.",
+   "id": "iv4-gp-build-buy",
+   "must_all": [
+    "reuse",
+    "identity provider",
+    "siem",
+    "buy",
+    "build"
+   ]
+  },
+  {
+   "q": "What would your GenAI platform reuse from existing enterprise platforms?",
+   "id": "iv4-gp-build-buy",
+   "must_all": [
+    "reuse",
+    "identity provider",
+    "siem",
+    "buy",
+    "build"
+   ]
+  },
+  {
+   "q": "Migration, adoption, ownership and operating model.",
+   "id": "iv4-gp-operating-model",
+   "must_all": [
+    "platform team",
+    "domain teams",
+    "risk council",
+    "waves",
+    "adoption"
+   ]
+  },
+  {
+   "q": "What operating model and ownership would you use for your GenAI platform?",
+   "id": "iv4-gp-operating-model",
+   "must_all": [
+    "platform team",
+    "domain teams",
+    "risk council",
+    "waves",
+    "adoption"
+   ]
+  },
+  {
+   "q": "The primary model provider is unavailable during a critical business period. What degrades, what fails over, and what quality guarantees remain?",
+   "id": "iv4-inject-provider-outage",
+   "must_all": [
+    "circuit breaker",
+    "evaluated",
+    "embeddings",
+    "degrades",
+    "quality guarantees"
+   ]
+  },
+  {
+   "q": "What fails over in your platform when the main LLM provider is down at a critical time?",
+   "id": "iv4-inject-provider-outage",
+   "must_all": [
+    "circuit breaker",
+    "evaluated",
+    "embeddings",
+    "degrades",
+    "quality guarantees"
+   ]
+  },
+  {
+   "q": "A business unit's data cannot leave its country. How do you enforce this end-to-end, including telemetry and support access?",
+   "id": "iv4-inject-regional-restriction",
+   "must_all": [
+    "in-country",
+    "fails closed",
+    "telemetry",
+    "support access",
+    "residency tests"
+   ]
+  },
+  {
+   "q": "How do you keep a business unit's data in its country across telemetry and support access in your platform?",
+   "id": "iv4-inject-regional-restriction",
+   "must_all": [
+    "in-country",
+    "fails closed",
+    "telemetry",
+    "support access",
+    "residency tests"
+   ]
+  },
+  {
+   "q": "A user loses access to a source document. How quickly does that restriction take effect in indexes, caches, summaries and agent memory?",
+   "id": "iv4-inject-permission-revocation",
+   "must_all": [
+    "immediate",
+    "five minutes",
+    "late-binding",
+    "agent memory",
+    "unsee"
+   ]
+  },
+  {
+   "q": "How quickly does a lost document permission reach your caches and agent memory?",
+   "id": "iv4-inject-permission-revocation",
+   "must_all": [
+    "immediate",
+    "five minutes",
+    "late-binding",
+    "agent memory",
+    "unsee"
+   ]
+  },
+  {
+   "q": "A retrieved document instructs the agent to exfiltrate data or invoke a privileged tool. What controls prevent the action?",
+   "id": "iv4-inject-prompt-injection",
+   "must_all": [
+    "not reachable",
+    "on-behalf-of",
+    "control flow",
+    "egress",
+    "human approval"
+   ]
+  },
+  {
+   "q": "Which of your controls stop a planted instruction from triggering a privileged tool?",
+   "id": "iv4-inject-prompt-injection",
+   "must_all": [
+    "not reachable",
+    "on-behalf-of",
+    "control flow",
+    "egress",
+    "human approval"
+   ]
+  },
+  {
+   "q": "Usage triples and monthly spend exceeds budget by 40%. What controls act automatically, and who owns exceptions?",
+   "id": "iv4-inject-cost-shock",
+   "must_all": [
+    "80 and 100 percent",
+    "routing",
+    "throttling",
+    "budget owner",
+    "runaway"
+   ]
+  },
+  {
+   "q": "What happens automatically in your platform when usage triples and spend goes 40 percent over budget?",
+   "id": "iv4-inject-cost-shock",
+   "must_all": [
+    "80 and 100 percent",
+    "routing",
+    "throttling",
+    "budget owner",
+    "runaway"
+   ]
+  },
+  {
+   "q": "A new model version improves benchmark scores but causes a material decline in one business workflow. How do you detect, isolate and roll back?",
+   "id": "iv4-inject-quality-regression",
+   "must_all": [
+    "per workflow",
+    "golden set",
+    "canary",
+    "roll back only",
+    "prompt variant"
+   ]
+  },
+  {
+   "q": "How do you catch a model upgrade in your platform that breaks one business workflow?",
+   "id": "iv4-inject-quality-regression",
+   "must_all": [
+    "per workflow",
+    "golden set",
+    "canary",
+    "roll back only",
+    "prompt variant"
+   ]
+  },
+  {
+   "q": "How would you define SLOs for an LLM-backed service when response quality is probabilistic?",
+   "id": "iv4-llm-slos",
+   "must_all": [
+    "availability",
+    "time to first token",
+    "groundedness",
+    "abstention",
+    "confidence interval"
+   ]
+  },
+  {
+   "q": "How would you set SLOs for your LLM service when quality is probabilistic?",
+   "id": "iv4-llm-slos",
+   "must_all": [
+    "availability",
+    "time to first token",
+    "groundedness",
+    "abstention",
+    "confidence interval"
+   ]
+  },
+  {
+   "q": "Which metrics belong at model, retrieval, agent, application and business-process levels?",
+   "id": "iv4-metrics-levels",
+   "must_all": [
+    "model level",
+    "retrieval level",
+    "agent level",
+    "application level",
+    "business-process level"
+   ]
+  },
+  {
+   "q": "Which metrics would you track per layer from model to business process in your GenAI stack?",
+   "id": "iv4-metrics-levels",
+   "must_all": [
+    "model level",
+    "retrieval level",
+    "agent level",
+    "application level",
+    "business-process level"
+   ]
+  },
+  {
+   "q": "How do you distinguish availability from usefulness and correctness?",
+   "id": "iv4-availability-vs-usefulness",
+   "must_all": [
+    "availability",
+    "correctness",
+    "usefulness",
+    "owner",
+    "correct refusal"
+   ]
+  },
+  {
+   "q": "How do you separate availability from usefulness and correctness in your AI service?",
+   "id": "iv4-availability-vs-usefulness",
+   "must_all": [
+    "availability",
+    "correctness",
+    "usefulness",
+    "owner",
+    "correct refusal"
+   ]
+  },
+  {
+   "q": "Design a failure strategy for model API errors, rate limits, malformed outputs, tool timeouts and vector-store degradation.",
+   "id": "iv4-failure-strategy",
+   "must_all": [
+    "backoff",
+    "circuit breaker",
+    "retry-after",
+    "schema",
+    "keyword search"
+   ]
+  },
+  {
+   "q": "What is your failure strategy for rate limits and malformed outputs?",
+   "id": "iv4-failure-strategy",
+   "must_all": [
+    "backoff",
+    "circuit breaker",
+    "retry-after",
+    "schema",
+    "keyword search"
+   ]
+  },
+  {
+   "q": "How would you test disaster recovery for a platform whose state spans databases, vector indexes, object stores, prompts and model configurations?",
+   "id": "iv4-dr-testing",
+   "must_all": [
+    "recovery point",
+    "snapshots",
+    "rebuild",
+    "drills",
+    "golden sets"
+   ]
+  },
+  {
+   "q": "How would you run a disaster recovery test for your AI platform with vector indexes and prompts?",
+   "id": "iv4-dr-testing",
+   "must_all": [
+    "recovery point",
+    "snapshots",
+    "rebuild",
+    "drills",
+    "golden sets"
+   ]
+  },
+  {
+   "q": "How do you secure model-serving infrastructure and isolate workloads in a shared GPU environment?",
+   "id": "iv4-gpu-isolation",
+   "must_all": [
+    "dedicated nodes",
+    "multi-instance gpu",
+    "time-slicing",
+    "confidential computing",
+    "safetensors"
+   ]
+  },
+  {
+   "q": "How do you isolate your workloads on shared GPUs?",
+   "id": "iv4-gpu-isolation",
+   "must_all": [
+    "dedicated nodes",
+    "multi-instance gpu",
+    "time-slicing",
+    "confidential computing",
+    "safetensors"
+   ]
+  },
+  {
+   "q": "How would you manage secrets, tool permissions, network egress and sensitive data in prompts and traces?",
+   "id": "iv4-secrets-egress",
+   "must_all": [
+    "vault",
+    "tool gateway",
+    "on-behalf-of",
+    "egress gateways",
+    "opt-in"
+   ]
+  },
+  {
+   "q": "How do you keep secrets and sensitive data out of your prompts and traces?",
+   "id": "iv4-secrets-egress",
+   "must_all": [
+    "vault",
+    "tool gateway",
+    "on-behalf-of",
+    "egress gateways",
+    "opt-in"
+   ]
+  },
+  {
+   "q": "How do you prevent sensitive information from leaking through logs, feedback systems, evaluation datasets or observability vendors?",
+   "id": "iv4-telemetry-leakage",
+   "must_all": [
+    "logs",
+    "feedback",
+    "evaluation datasets",
+    "observability vendors",
+    "scanners"
+   ]
+  },
+  {
+   "q": "How would you keep personal data out of your logs and evaluation datasets?",
+   "id": "iv4-telemetry-leakage",
+   "must_all": [
+    "logs",
+    "feedback",
+    "evaluation datasets",
+    "observability vendors",
+    "scanners"
+   ]
+  },
+  {
+   "q": "How do you calculate cost per successful task rather than cost per token?",
+   "id": "iv4-cost-per-task",
+   "must_all": [
+    "numerator",
+    "denominator",
+    "31 cents",
+    "human review",
+    "value of the task"
+   ]
+  },
+  {
+   "q": "How would you work out the cost per successful task of your GenAI use case?",
+   "id": "iv4-cost-per-task",
+   "must_all": [
+    "numerator",
+    "denominator",
+    "31 cents",
+    "human review",
+    "value of the task"
+   ]
+  },
+  {
+   "q": "How would you build a FinOps model for shared GenAI infrastructure?",
+   "id": "iv4-finops",
+   "must_all": [
+    "inform",
+    "optimise",
+    "operate",
+    "showback",
+    "chargeback"
+   ]
+  },
+  {
+   "q": "How would you set up FinOps and chargeback for your shared GenAI platform?",
+   "id": "iv4-finops",
+   "must_all": [
+    "inform",
+    "optimise",
+    "operate",
+    "showback",
+    "chargeback"
+   ]
+  },
+  {
+   "q": "Which use cases should be rejected even if technically feasible?",
+   "id": "iv4-reject-use-cases",
+   "must_all": [
+    "no owner",
+    "deterministic",
+    "error cost",
+    "prohibited",
+    "cannot evaluate"
+   ]
+  },
+  {
+   "q": "Which technically feasible AI use cases would you reject?",
+   "id": "iv4-reject-use-cases",
+   "must_all": [
+    "no owner",
+    "deterministic",
+    "error cost",
+    "prohibited",
+    "cannot evaluate"
+   ]
+  },
+  {
+   "q": "How do you compare API inference, self-hosting and hybrid serving on total cost of ownership?",
+   "id": "iv4-tco-api-vs-self-host",
+   "must_all": [
+    "utilisation",
+    "18 billion tokens",
+    "36,000 dollars",
+    "44,000 dollars",
+    "hybrid"
+   ]
+  },
+  {
+   "q": "When does self-hosting an LLM become cheaper than the API in your view?",
+   "id": "iv4-tco-api-vs-self-host",
+   "must_all": [
+    "utilisation",
+    "18 billion tokens",
+    "36,000 dollars",
+    "44,000 dollars",
+    "hybrid"
+   ]
+  },
+  {
+   "q": "How would you prioritize 100 proposed use cases across value, feasibility, risk, reuse and time-to-value?",
+   "id": "iv4-prioritize-100",
+   "must_all": [
+    "gates",
+    "value",
+    "feasibility",
+    "reuse",
+    "time to value"
+   ]
+  },
+  {
+   "q": "How would you rank a hundred proposed use cases by time to value?",
+   "id": "iv4-prioritize-100",
+   "must_all": [
+    "gates",
+    "value",
+    "feasibility",
+    "reuse",
+    "time to value"
+   ]
+  },
+  {
+   "q": "The CIO asks, \"What should our enterprise GenAI strategy be?\" Give a concise answer suitable for a five-minute executive discussion.",
+   "id": "iv4-cio-strategy",
+   "must_all": [
+    "business outcomes",
+    "one governed platform",
+    "buy what is commodity",
+    "risk",
+    "foundation model"
+   ]
+  },
+  {
+   "q": "What would you tell your CIO in five minutes about enterprise GenAI strategy?",
+   "id": "iv4-cio-strategy",
+   "must_all": [
+    "business outcomes",
+    "one governed platform",
+    "buy what is commodity",
+    "risk",
+    "foundation model"
+   ]
+  },
+  {
+   "q": "How do you translate AI strategy into measurable business outcomes and an investment roadmap?",
+   "id": "iv4-strategy-to-outcomes",
+   "must_all": [
+    "outcome tree",
+    "baselines",
+    "stage",
+    "benefits",
+    "cost per successful task"
+   ]
+  },
+  {
+   "q": "How do you connect your AI investment roadmap to measurable outcomes?",
+   "id": "iv4-strategy-to-outcomes",
+   "must_all": [
+    "outcome tree",
+    "baselines",
+    "stage",
+    "benefits",
+    "cost per successful task"
+   ]
+  },
+  {
+   "q": "How would you explain to a board why an apparently successful GenAI demo is not yet production-ready?",
+   "id": "iv4-demo-not-production",
+   "must_all": [
+    "one good drive",
+    "91 percent",
+    "security",
+    "cost",
+    "eight to twelve weeks"
+   ]
+  },
+  {
+   "q": "How do you explain to your board that a working GenAI demo is not production-ready?",
+   "id": "iv4-demo-not-production",
+   "must_all": [
+    "one good drive",
+    "91 percent",
+    "security",
+    "cost",
+    "eight to twelve weeks"
+   ]
+  },
+  {
+   "q": "How do you handle an executive sponsor who has committed publicly to an agentic solution before feasibility has been established?",
+   "id": "iv4-sponsor-committed",
+   "must_all": [
+    "private conversation",
+    "feasibility sprint",
+    "staged path",
+    "risks",
+    "credibility"
+   ]
+  },
+  {
+   "q": "What would you do if your executive sponsor publicly promised an agentic solution too early?",
+   "id": "iv4-sponsor-committed",
+   "must_all": [
+    "private conversation",
+    "feasibility sprint",
+    "staged path",
+    "risks",
+    "credibility"
+   ]
+  },
+  {
+   "q": "How would you communicate uncertainty, risk and limitations without blocking innovation?",
+   "id": "iv4-communicate-uncertainty",
+   "must_all": [
+    "ranges",
+    "register",
+    "boundaries",
+    "tiers",
+    "pre-mortems"
+   ]
+  },
+  {
+   "q": "How do you communicate the limitations of your AI system without blocking innovation?",
+   "id": "iv4-communicate-uncertainty",
+   "must_all": [
+    "ranges",
+    "register",
+    "boundaries",
+    "tiers",
+    "pre-mortems"
+   ]
+  },
+  {
+   "q": "Describe a time you changed a senior stakeholder's decision using technical and business evidence.",
+   "id": "iv4-changed-decision",
+   "must_all": [
+    "sixteen",
+    "manoj madhavan",
+    "89.5 percent",
+    "word2vec",
+    "evidence they can verify"
+   ]
+  },
+  {
+   "q": "When did your evidence change a senior stakeholder's decision?",
+   "id": "iv4-changed-decision",
+   "must_all": [
+    "sixteen",
+    "manoj madhavan",
+    "89.5 percent",
+    "word2vec",
+    "evidence they can verify"
+   ]
+  },
+  {
+   "q": "Design a risk-tiering framework for enterprise GenAI use cases.",
+   "id": "iv4-risk-tiering",
+   "must_all": [
+    "worst dimension",
+    "article 5",
+    "annex iii",
+    "transparency",
+    "nist ai rmf"
+   ]
+  },
+  {
+   "q": "How would you define risk tiers for your enterprise GenAI use cases?",
+   "id": "iv4-risk-tiering",
+   "must_all": [
+    "worst dimension",
+    "article 5",
+    "annex iii",
+    "transparency",
+    "nist ai rmf"
+   ]
+  },
+  {
+   "q": "How would you operationalize responsible AI principles rather than leave them as policy statements?",
+   "id": "iv4-operationalize-rai",
+   "must_all": [
+    "control library",
+    "tests",
+    "policy as code",
+    "review board",
+    "iso/iec 42001"
+   ]
+  },
+  {
+   "q": "How would you put responsible AI principles into practice in your organization?",
+   "id": "iv4-operationalize-rai",
+   "must_all": [
+    "control library",
+    "tests",
+    "policy as code",
+    "review board",
+    "iso/iec 42001"
+   ]
+  },
+  {
+   "q": "How would you map a use case to applicable regulatory and contractual obligations across jurisdictions?",
+   "id": "iv4-regulatory-mapping",
+   "must_all": [
+    "attributes",
+    "ai act",
+    "gdpr",
+    "digital personal data protection act",
+    "sr 11-7",
+    "contracts"
+   ]
+  },
+  {
+   "q": "How would you map your AI use case to its obligations across several jurisdictions?",
+   "id": "iv4-regulatory-mapping",
+   "must_all": [
+    "attributes",
+    "ai act",
+    "gdpr",
+    "digital personal data protection act",
+    "sr 11-7",
+    "contracts"
+   ]
+  },
+  {
+   "q": "How would you use the EU AI Act, NIST AI RMF and ISO/IEC 42001 together in an enterprise AI governance programme?",
+   "id": "iv4-ai-act-nist-iso",
+   "must_all": [
+    "law",
+    "govern, map, measure and manage",
+    "600-1",
+    "management-system",
+    "certification does not"
+   ]
+  },
+  {
+   "q": "How would you combine the EU AI Act with NIST AI RMF and ISO 42001 in your governance?",
+   "id": "iv4-ai-act-nist-iso",
+   "must_all": [
+    "law",
+    "govern, map, measure and manage",
+    "600-1",
+    "management-system",
+    "certification does not"
+   ]
+  },
+  {
+   "q": "What controls are needed for privacy, data retention, copyright, explainability and auditability?",
+   "id": "iv4-privacy-controls",
+   "must_all": [
+    "privacy",
+    "retention",
+    "copyright",
+    "explainability",
+    "auditability"
+   ]
+  },
+  {
+   "q": "What controls would you put on copyright and explainability in your GenAI system?",
+   "id": "iv4-privacy-controls",
+   "must_all": [
+    "privacy",
+    "retention",
+    "copyright",
+    "explainability",
+    "auditability"
+   ]
+  },
+  {
+   "q": "How would you assess third-party models and vendors for security, resilience, data use and contractual risk?",
+   "id": "iv4-vendor-assessment",
+   "must_all": [
+    "security",
+    "resilience",
+    "data use",
+    "contractual",
+    "golden sets"
+   ]
+  },
+  {
+   "q": "What due diligence would you run on your third-party AI vendors?",
+   "id": "iv4-vendor-assessment",
+   "must_all": [
+    "security",
+    "resilience",
+    "data use",
+    "contractual",
+    "golden sets"
+   ]
+  },
+  {
+   "q": "How would you govern synthetic data, generated content and AI-assisted decisions?",
+   "id": "iv4-synthetic-generated-content",
+   "must_all": [
+    "synthetic data",
+    "generated content",
+    "disclosure",
+    "ai-assisted decisions",
+    "override"
+   ]
+  },
+  {
+   "q": "How would you govern synthetic data and AI-generated content in your company?",
+   "id": "iv4-synthetic-generated-content",
+   "must_all": [
+    "synthetic data",
+    "generated content",
+    "disclosure",
+    "ai-assisted decisions",
+    "override"
+   ]
+  },
+  {
+   "q": "How do you establish red-teaming, incident classification, escalation and post-incident learning?",
+   "id": "iv4-red-teaming-incidents",
+   "must_all": [
+    "owasp",
+    "mitre atlas",
+    "severity",
+    "escalation",
+    "regression test"
+   ]
+  },
+  {
+   "q": "How would you set up incident classification and post-incident learning for your AI systems?",
+   "id": "iv4-red-teaming-incidents",
+   "must_all": [
+    "owasp",
+    "mitre atlas",
+    "severity",
+    "escalation",
+    "regression test"
+   ]
+  },
+  {
+   "q": "Where should human oversight be mandatory, and how do you avoid approval becoming a rubber stamp?",
+   "id": "iv4-human-oversight",
+   "must_all": [
+    "mandatory",
+    "rubber stamp",
+    "evidence",
+    "measure the reviewers",
+    "calibrated reliance"
+   ]
+  },
+  {
+   "q": "Where would you make human oversight mandatory in your AI systems?",
+   "id": "iv4-human-oversight",
+   "must_all": [
+    "mandatory",
+    "rubber stamp",
+    "evidence",
+    "measure the reviewers",
+    "calibrated reliance"
+   ]
+  },
+  {
+   "q": "Who is accountable when an agent takes an unauthorized action?",
+   "id": "iv4-accountability-unauthorized",
+   "must_all": [
+    "never the agent",
+    "business owner",
+    "deployer",
+    "controls",
+    "named"
+   ]
+  },
+  {
+   "q": "Who is accountable in your organization when an AI agent acts without authorization?",
+   "id": "iv4-accountability-unauthorized",
+   "must_all": [
+    "never the agent",
+    "business owner",
+    "deployer",
+    "controls",
+    "named"
+   ]
+  },
+  {
+   "q": "What evidence would you retain to reconstruct a disputed AI-assisted decision?",
+   "id": "iv4-decision-evidence",
+   "must_all": [
+    "request",
+    "context",
+    "system configuration",
+    "human step",
+    "tamper-evident"
+   ]
+  },
+  {
+   "q": "What evidence would you keep to reconstruct a disputed AI-assisted decision in your system?",
+   "id": "iv4-decision-evidence",
+   "must_all": [
+    "request",
+    "context",
+    "system configuration",
+    "human step",
+    "tamper-evident"
+   ]
+  },
+  {
+   "q": "How do you test whether a policy is actually enforced at runtime?",
+   "id": "iv4-policy-runtime-test",
+   "must_all": [
+    "policy as code",
+    "synthetic transactions",
+    "bypass",
+    "adversarial",
+    "control dashboard"
+   ]
+  },
+  {
+   "q": "How would you prove that your AI policies are really enforced in production?",
+   "id": "iv4-policy-runtime-test",
+   "must_all": [
+    "policy as code",
+    "synthetic transactions",
+    "bypass",
+    "adversarial",
+    "control dashboard"
+   ]
+  },
+  {
+   "q": "How would you organize an enterprise AI architecture function and its relationship with platform engineering, security, data, product and business teams?",
+   "id": "iv4-architecture-function",
+   "must_all": [
+    "principal architects",
+    "domain ai architects",
+    "platform engineering",
+    "security",
+    "forums"
+   ]
+  },
+  {
+   "q": "How would you structure your enterprise AI architecture function?",
+   "id": "iv4-architecture-function",
+   "must_all": [
+    "principal architects",
+    "domain ai architects",
+    "platform engineering",
+    "security",
+    "forums"
+   ]
+  },
+  {
+   "q": "What roles and skills are needed to operate a mature GenAI platform?",
+   "id": "iv4-platform-roles",
+   "must_all": [
+    "platform product manager",
+    "llmops",
+    "site reliability",
+    "evaluation engineers",
+    "red-teamers"
+   ]
+  },
+  {
+   "q": "Which roles would your team need to operate a mature GenAI platform?",
+   "id": "iv4-platform-roles",
+   "must_all": [
+    "platform product manager",
+    "llmops",
+    "site reliability",
+    "evaluation engineers",
+    "red-teamers"
+   ]
+  },
+  {
+   "q": "How do you build architecture capability in teams without making the architecture group a gatekeeping function?",
+   "id": "iv4-no-gatekeeping",
+   "must_all": [
+    "advice process",
+    "paved-road",
+    "katas",
+    "growth path",
+    "enablement"
+   ]
+  },
+  {
+   "q": "How do you grow architecture skills in your teams without gatekeeping?",
+   "id": "iv4-no-gatekeeping",
+   "must_all": [
+    "advice process",
+    "paved-road",
+    "katas",
+    "growth path",
+    "enablement"
+   ]
+  },
+  {
+   "q": "Describe a major disagreement with engineering, security or business leadership. How did you resolve it?",
+   "id": "iv4-major-disagreement",
+   "must_all": [
+    "tcs",
+    "sixteen",
+    "differential package",
+    "evidence",
+    "decision record"
+   ]
+  },
+  {
+   "q": "Tell me about a major disagreement you had with senior leadership.",
+   "id": "iv4-major-disagreement",
+   "must_all": [
+    "tcs",
+    "sixteen",
+    "differential package",
+    "evidence",
+    "decision record"
+   ]
+  },
+  {
+   "q": "How do you coach senior engineers to think in terms of systems, economics and business outcomes?",
+   "id": "iv4-coach-seniors",
+   "must_all": [
+    "cost per successful task",
+    "business metric",
+    "stakeholder",
+    "decision records",
+    "pre-mortems"
+   ]
+  },
+  {
+   "q": "How do you coach your senior engineers to think about economics and business outcomes?",
+   "id": "iv4-coach-seniors",
+   "must_all": [
+    "cost per successful task",
+    "business metric",
+    "stakeholder",
+    "decision records",
+    "pre-mortems"
+   ]
+  },
+  {
+   "q": "How would you assess architecture quality across a portfolio of independently delivered AI products?",
+   "id": "iv4-portfolio-quality",
+   "must_all": [
+    "scorecard",
+    "fitness functions",
+    "dora",
+    "deep review",
+    "heat map"
+   ]
+  },
+  {
+   "q": "How would you assess architecture quality across your portfolio of AI applications?",
+   "id": "iv4-portfolio-quality",
+   "must_all": [
+    "scorecard",
+    "fitness functions",
+    "dora",
+    "deep review",
+    "heat map"
+   ]
+  },
+  {
+   "q": "A business leader has promised 99.9% answer accuracy for an open-domain enterprise assistant. The available evaluation set shows 91% task success. What do you do in the next 48 hours? What do you communicate, measure, constrain and renegotiate?",
+   "id": "iv4-scenario-accuracy-promise",
+   "must_all": [
+    "error analysis",
+    "abstention",
+    "privately",
+    "constrain",
+    "one-page memo"
+   ]
+  },
+  {
+   "q": "A business leader has promised 99.9% answer accuracy for an open-domain enterprise assistant. The available evaluation set shows 91% task success.",
+   "id": "iv4-scenario-accuracy-promise",
+   "must_all": [
+    "error analysis",
+    "abstention",
+    "privately",
+    "constrain",
+    "one-page memo"
+   ]
+  },
+  {
+   "q": "Your leader promised 99.9 percent accuracy and your evaluation shows 91 percent task success. What do you do?",
+   "id": "iv4-scenario-accuracy-promise",
+   "must_all": [
+    "error analysis",
+    "abstention",
+    "privately",
+    "constrain",
+    "one-page memo"
+   ]
+  },
+  {
+   "q": "An agent used a valid tool with excessive permissions and modified thousands of business records. What is your immediate response? How do you contain the incident, preserve evidence, restore state, determine root cause and redesign controls?",
+   "id": "iv4-scenario-agent-incident",
+   "must_all": [
+    "kill switch",
+    "preserve evidence",
+    "before-states",
+    "root cause",
+    "redesign"
+   ]
+  },
+  {
+   "q": "An agent used a valid tool with excessive permissions and modified thousands of business records.",
+   "id": "iv4-scenario-agent-incident",
+   "must_all": [
+    "kill switch",
+    "preserve evidence",
+    "before-states",
+    "root cause",
+    "redesign"
+   ]
+  },
+  {
+   "q": "What do you do when your AI agent changes thousands of records through an over-permissioned tool?",
+   "id": "iv4-scenario-agent-incident",
+   "must_all": [
+    "kill switch",
+    "preserve evidence",
+    "before-states",
+    "root cause",
+    "redesign"
+   ]
+  },
+  {
+   "q": "Your PhD research suggests a new retrieval or reasoning approach that outperforms the existing solution in a controlled benchmark but increases operational complexity. What evidence and gates are required before adoption? How do you design a fair pilot and decide whether to scale?",
+   "id": "iv4-scenario-research-breakthrough",
+   "must_all": [
+    "replicate",
+    "relevance",
+    "total cost",
+    "shadow mode",
+    "randomised"
+   ]
+  },
+  {
+   "q": "Your PhD research suggests a new retrieval or reasoning approach that outperforms the existing solution in a controlled benchmark but increases operational complexity.",
+   "id": "iv4-scenario-research-breakthrough",
+   "must_all": [
+    "replicate",
+    "relevance",
+    "total cost",
+    "shadow mode",
+    "randomised"
+   ]
+  },
+  {
+   "q": "How would you decide whether your research approach that wins a controlled benchmark should go to production?",
+   "id": "iv4-scenario-research-breakthrough",
+   "must_all": [
+    "replicate",
+    "relevance",
+    "total cost",
+    "shadow mode",
+    "randomised"
+   ]
+  },
+  {
+   "q": "A vendor offers a fast, polished GenAI platform. Your engineering team argues for building internally to retain control and reduce long-term cost. How do you structure the decision? What should be evaluated, and how do you avoid ideological bias?",
+   "id": "iv4-scenario-build-vs-buy",
+   "must_all": [
+    "criteria",
+    "total cost of ownership",
+    "bake-off",
+    "de-bias",
+    "decision record"
+   ]
+  },
+  {
+   "q": "A vendor offers a fast, polished GenAI platform. Your engineering team argues for building internally to retain control and reduce long-term cost.",
+   "id": "iv4-scenario-build-vs-buy",
+   "must_all": [
+    "criteria",
+    "total cost of ownership",
+    "bake-off",
+    "de-bias",
+    "decision record"
+   ]
+  },
+  {
+   "q": "How would you settle a build-versus-buy conflict between your engineers and a polished vendor platform?",
+   "id": "iv4-scenario-build-vs-buy",
+   "must_all": [
+    "criteria",
+    "total cost of ownership",
+    "bake-off",
+    "de-bias",
+    "decision record"
+   ]
+  },
+  {
+   "q": "You are appointed Enterprise GenAI Architect. Leadership expects visible outcomes in 90 days, but the organization has fragmented data, duplicated tools, no evaluation standards and unclear ownership. Present your 30/60/90-day plan, including deliverables, decision forums, dependencies, risks and measurable outcomes.",
+   "id": "iv4-scenario-90-day-mandate",
+   "must_all": [
+    "inventory",
+    "decision forums",
+    "ai gateway",
+    "evaluation standard",
+    "lighthouse"
+   ]
+  },
+  {
+   "q": "You are appointed Enterprise GenAI Architect. Leadership expects visible outcomes in 90 days, but the organization has fragmented data, duplicated tools, no evaluation standards and unclear ownership.",
+   "id": "iv4-scenario-90-day-mandate",
+   "must_all": [
+    "inventory",
+    "decision forums",
+    "ai gateway",
+    "evaluation standard",
+    "lighthouse"
+   ]
+  },
+  {
+   "q": "What would you deliver in 90 days facing fragmented data, duplicated tools and unclear ownership?",
+   "id": "iv4-scenario-90-day-mandate",
+   "must_all": [
+    "inventory",
+    "decision forums",
+    "ai gateway",
+    "evaluation standard",
+    "lighthouse"
+   ]
+  },
+  {
+   "q": "What questions would you ask us?",
+   "id": "iv4-questions-for-panel",
+   "must_all": [
+    "business strategy",
+    "technical debt",
+    "decision rights",
+    "data",
+    "publication"
+   ]
+  },
+  {
+   "q": "What would you ask our interview panel?",
+   "id": "iv4-questions-for-panel",
+   "must_all": [
+    "business strategy",
+    "technical debt",
+    "decision rights",
+    "data",
+    "publication"
+   ]
+  },
+  {
+   "q": "How would you close this interview?",
+   "id": "iv4-close",
+   "must_all": [
+    "range and ownership",
+    "hands-on",
+    "evidence before opinion",
+    "anurag university",
+    "conditions"
+   ]
+  },
+  {
+   "q": "Is there anything you would like to say to close the interview?",
+   "id": "iv4-close",
+   "must_all": [
+    "range and ownership",
+    "hands-on",
+    "evidence before opinion",
+    "anurag university",
+    "conditions"
+   ]
+  },
+  {
+   "q": "What outcome would you personally commit to, and what conditions would you need to deliver it?",
+   "id": "iv4-commitment",
+   "must_all": [
+    "90 days",
+    "twelve months",
+    "will not commit",
+    "executive sponsor",
+    "flag it early"
+   ]
+  },
+  {
+   "q": "What outcome would you commit to in this role, and on what conditions?",
+   "id": "iv4-commitment",
+   "must_all": [
+    "90 days",
+    "twelve months",
+    "will not commit",
+    "executive sponsor",
+    "flag it early"
+   ]
+  },
+  {
+   "q": "Imagine you are accountable for the enterprise's GenAI direction for the next three years. What capabilities would you build, what would you deliberately avoid building, what would you standardize, what would you leave to individual teams, and what evidence would tell you that the strategy is working?",
+   "id": "iv4-defining-question",
+   "must_all": [
+    "build",
+    "deliberately avoid building",
+    "standardise",
+    "leave to teams",
+    "evidence that it is working"
+   ]
+  },
+  {
+   "q": "If you owned our GenAI direction for three years what would you standardize?",
+   "id": "iv4-defining-question",
+   "must_all": [
+    "build",
+    "deliberately avoid building",
+    "standardise",
+    "leave to teams",
+    "evidence that it is working"
+   ]
+  },
+  {
+   "q": "What did you personally decide, build, measure, operate and learn?",
+   "id": "iv4-ownership",
+   "must_all": [
+    "decided",
+    "built",
+    "measured",
+    "operated",
+    "learned"
+   ]
+  },
+  {
+   "q": "Which systems have you operated in production yourself?",
+   "id": "iv4-ownership",
+   "must_all": [
+    "decided",
+    "built",
+    "measured",
+    "operated",
+    "learned"
+   ]
+  },
+  {
+   "q": "Walk me through a project deep-dive: business problem, your role and decision authority, scale, quality, latency, cost, security, incidents, outcome and what you would redesign.",
+   "id": "iv4-project-deep-dive",
+   "must_all": [
+    "business problem",
+    "role and authority",
+    "scale",
+    "cost",
+    "redesign"
+   ]
+  },
+  {
+   "q": "Can you give me a project deep-dive with your role, scale, cost and incidents?",
+   "id": "iv4-project-deep-dive",
+   "must_all": [
+    "business problem",
+    "role and authority",
+    "scale",
+    "cost",
+    "redesign"
+   ]
+  }
+ ],
+ "no_answer": []
+}

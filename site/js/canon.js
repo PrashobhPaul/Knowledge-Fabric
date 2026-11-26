@@ -492,7 +492,7 @@ const EXPLETIVE_IT_ASKED = new RegExp(`^it\\s+(?:be\\s+)?(?:\\w+\\s+){0,2}?${EXP
 const AUX_BEFORE = /\b(is|was|would|will)\s+$/i;
 const EXISTENTIAL = /^there\s+(is|are|was|were|'s|will be|would be|must be|should be|might be|has been|have been)\b/i;
 const EXISTENTIAL_ASKED = /\b(is|are|was|were|will|would|could|can|has|have|should|might)\s+$/i;   // "is there", "are there"
-const OWN_ANTECEDENT = /\b(?:a|an)\s+[A-Za-z][\w-]*|\s[A-Z][\w.-]*/;   // "an AI", "a model", a name mid-question
+const OWN_ANTECEDENT = /\b(?:a|an|the)\s+[A-Za-z][\w-]*|\s[A-Z][\w.-]*/;   // "an AI", "the ai platform", a name mid-question
 const LEAD_CLAUSE =/^(if|when|whenever|suppose|supposing|say|imagine|given|once|assuming|after|before|while|since|because|as soon as)\b[^,]{8,},/i;
 /** Index of the first pronoun that refers to an earlier question, or -1. */
 export function pointingBack(question) {
@@ -509,6 +509,20 @@ export function pointingBack(question) {
   }
   return -1;
 }
+/**
+ * "What is self-attention and how is it different from attention?": the question
+ * names its own subject, a topic word, in an earlier clause. A pronoun never means
+ * a noun of its own clause ("What time is it?"), and a verb joined by "and" is not
+ * a new clause ("Who designed and built it?"), so only words before the last clause
+ * break count: punctuation, or "and / or / but" opening a new question.
+ */
+const CLAUSE_BREAK = /[,;:.?!]|\b(?:and|or|but|so)\s+(?=(?:how|why|what|when|where|which|who|is|are|was|were|does|do|did|can|could|would|should|will|has|have)\b)/gi;
+function namesOwnSubject(before, m) {
+  const breaks = [...String(before).matchAll(CLAUSE_BREAK)];
+  if (!breaks.length) return false;
+  const earlier = String(before).slice(0, breaks[breaks.length - 1].index);
+  return tokenize(pre(casual(earlier)).toLowerCase()).some(t => !STOP.has(t) && t.length > 2 && m.dfQ.has(stem(norm(t))));
+}
 /** A pronoun with nothing to point at ("Who built it?" as a first question). */
 export function danglingPronoun(question, canon) {
   if (!PRONOUN.test(question) || ABOUT_HIM.test(question) || !Array.isArray(canon) || !canon.length) return false;
@@ -517,6 +531,7 @@ export function danglingPronoun(question, canon) {
   // the question names what its pronoun means before using it.
   if (at < 0 || OWN_ANTECEDENT.test(question.slice(0, at))) return false;
   const m = model(canon);
+  if (namesOwnSubject(question.slice(0, at), m)) return false;
   return !entitiesOf(question, m).length && !namedEntries(question, m).length && /\b(it|its|they|them)\b/i.test(question);
 }
 

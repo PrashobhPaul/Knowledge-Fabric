@@ -69,6 +69,12 @@ jobs:
       - name: Retrieval quality gate
         run: python -m eval.evaluate --gate --json site/data/eval_report.json
 
+      # The proof: every question set, the interview brief, determinism, context
+      # independence, paraphrase consistency, grounding and latency. It runs before
+      # the upload, so no deploy can reach visitors without passing it.
+      - name: Proof of accuracy and consistency (deploy gate)
+        run: node tests/prove.mjs
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
