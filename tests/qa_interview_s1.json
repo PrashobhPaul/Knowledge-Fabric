@@ -1,0 +1,811 @@
+{
+ "cases": [
+  {
+   "q": "Walk me through the most complex AI solution you have architected. What was the business problem, architecture, technology stack and outcome?",
+   "id": "iv1-complex-solution",
+   "must_all": [
+    "business problem",
+    "snomed",
+    "the stack",
+    "the outcome"
+   ]
+  },
+  {
+   "q": "Describe the most complex AI solution you have built: the problem, the architecture, the stack and the result.",
+   "id": "iv1-complex-solution",
+   "must_all": [
+    "business problem",
+    "snomed",
+    "the stack",
+    "the outcome"
+   ]
+  },
+  {
+   "q": "What were your personal contributions versus what your engineering team delivered?",
+   "id": "iv1-contributions",
+   "must_all": [
+    "own contribution",
+    "pillar of the nlp team",
+    "review"
+   ]
+  },
+  {
+   "q": "On that project, what did you do personally and what did the engineering team build?",
+   "id": "iv1-contributions",
+   "must_all": [
+    "own contribution",
+    "pillar of the nlp team",
+    "review"
+   ]
+  },
+  {
+   "q": "What was the biggest architectural decision you made, and what alternatives did you reject?",
+   "id": "iv1-architecture-decision",
+   "must_all": [
+    "alternatives i rejected",
+    "deterministic",
+    "what i gave up"
+   ]
+  },
+  {
+   "q": "What is the single most important architectural decision you have taken, and what options did you rule out?",
+   "id": "iv1-architecture-decision",
+   "must_all": [
+    "alternatives i rejected",
+    "deterministic",
+    "what i gave up"
+   ]
+  },
+  {
+   "q": "Tell me about an AI implementation that failed or underperformed. What went wrong?",
+   "id": "iv1-failure",
+   "must_all": [
+    "what went wrong",
+    "76",
+    "89.5",
+    "held-out"
+   ]
+  },
+  {
+   "q": "Which of your AI implementations failed, and what went wrong?",
+   "id": "iv1-failure",
+   "must_all": [
+    "what went wrong",
+    "76",
+    "89.5",
+    "held-out"
+   ]
+  },
+  {
+   "q": "If you had to rebuild your most successful AI solution today, what would you change?",
+   "id": "iv1-rebuild",
+   "must_all": [
+    "what i would keep",
+    "what i would change",
+    "de-identification",
+    "golden set"
+   ]
+  },
+  {
+   "q": "Knowing what you know now, how would you rebuild your most successful AI project?",
+   "id": "iv1-rebuild",
+   "must_all": [
+    "what i would keep",
+    "what i would change",
+    "de-identification",
+    "golden set"
+   ]
+  },
+  {
+   "q": "Draw the most complex AI solution you have personally architected; explain every component and why.",
+   "id": "iv1-draw-complex",
+   "must_all": [
+    "epic",
+    "snomed",
+    "ontology mapping",
+    "why"
+   ]
+  },
+  {
+   "q": "Draw the architecture of your most complex project.",
+   "id": "iv1-draw-complex",
+   "must_all": [
+    "epic",
+    "snomed",
+    "ontology mapping",
+    "why"
+   ]
+  },
+  {
+   "q": "Please draw the architecture of the most complex system you have designed and explain each component.",
+   "id": "iv1-draw-complex",
+   "must_all": [
+    "epic",
+    "snomed",
+    "ontology mapping",
+    "why"
+   ]
+  },
+  {
+   "q": "When would you choose traditional ML over an LLM-based solution?",
+   "id": "iv1-ml-vs-llm",
+   "must_all": [
+    "tabular",
+    "explainable",
+    "latency",
+    "finbert"
+   ]
+  },
+  {
+   "q": "In which situations is traditional machine learning better than using an LLM?",
+   "id": "iv1-ml-vs-llm",
+   "must_all": [
+    "tabular",
+    "explainable",
+    "latency",
+    "finbert"
+   ]
+  },
+  {
+   "q": "Explain the difference between classification, regression, clustering and anomaly detection, with enterprise use cases.",
+   "id": "iv1-ml-task-types",
+   "must_all": [
+    "classification",
+    "regression",
+    "clustering",
+    "anomaly detection",
+    "supervised"
+   ]
+  },
+  {
+   "q": "Can you explain classification versus regression versus clustering versus anomaly detection with business examples?",
+   "id": "iv1-ml-task-types",
+   "must_all": [
+    "classification",
+    "regression",
+    "clustering",
+    "anomaly detection",
+    "supervised"
+   ]
+  },
+  {
+   "q": "How would you handle class imbalance in a production classification system?",
+   "id": "iv1-class-imbalance",
+   "must_all": [
+    "smote",
+    "class weights",
+    "threshold",
+    "pr-auc"
+   ]
+  },
+  {
+   "q": "What would you do about severe class imbalance in a live classifier?",
+   "id": "iv1-class-imbalance",
+   "must_all": [
+    "smote",
+    "class weights",
+    "threshold",
+    "pr-auc"
+   ]
+  },
+  {
+   "q": "How do you identify and manage data drift and concept drift?",
+   "id": "iv1-drift",
+   "must_all": [
+    "data drift",
+    "concept drift",
+    "psi",
+    "champion-challenger"
+   ]
+  },
+  {
+   "q": "How would you detect and handle concept drift and data drift in production models?",
+   "id": "iv1-drift",
+   "must_all": [
+    "data drift",
+    "concept drift",
+    "psi",
+    "champion-challenger"
+   ]
+  },
+  {
+   "q": "How would you determine whether a model needs retraining?",
+   "id": "iv1-retraining",
+   "must_all": [
+    "tolerance",
+    "drift",
+    "challenger",
+    "shadow"
+   ]
+  },
+  {
+   "q": "What tells you it is time to retrain a production model?",
+   "id": "iv1-retraining",
+   "must_all": [
+    "tolerance",
+    "drift",
+    "challenger",
+    "shadow"
+   ]
+  },
+  {
+   "q": "Explain the difference between precision, recall, F1, ROC-AUC and PR-AUC. When would you prioritize each?",
+   "id": "iv1-metrics",
+   "must_all": [
+    "precision",
+    "recall",
+    "f1",
+    "roc-auc",
+    "pr-auc"
+   ]
+  },
+  {
+   "q": "When would you favour recall over precision, and why is PR-AUC better than ROC-AUC for rare classes?",
+   "id": "iv1-metrics",
+   "must_all": [
+    "precision",
+    "recall",
+    "f1",
+    "roc-auc",
+    "pr-auc"
+   ]
+  },
+  {
+   "q": "A fraud model has 99% accuracy but misses 40% of fraudulent transactions. Successful? How would you improve it?",
+   "id": "iv1-fraud-accuracy",
+   "must_all": [
+    "class imbalance",
+    "recall",
+    "precision",
+    "pr-auc",
+    "threshold",
+    "cost of a missed fraud",
+    "accuracy paradox"
+   ]
+  },
+  {
+   "q": "Our fraud model shows 99 percent accuracy but lets 40 percent of fraud through. Is it successful, and how would you improve it?",
+   "id": "iv1-fraud-accuracy",
+   "must_all": [
+    "class imbalance",
+    "recall",
+    "precision",
+    "pr-auc",
+    "threshold",
+    "cost of a missed fraud",
+    "accuracy paradox"
+   ]
+  },
+  {
+   "q": "Explain the architecture of a Transformer. What are attention and self-attention?",
+   "id": "iv1-transformer",
+   "must_all": [
+    "query",
+    "key",
+    "value",
+    "self-attention",
+    "softmax",
+    "positional"
+   ]
+  },
+  {
+   "q": "Explain how attention and self-attention work in the transformer architecture.",
+   "id": "iv1-transformer",
+   "must_all": [
+    "query",
+    "key",
+    "value",
+    "self-attention",
+    "softmax",
+    "positional"
+   ]
+  },
+  {
+   "q": "What is the difference between pre-training, fine-tuning, instruction tuning and RAG?",
+   "id": "iv1-training-vs-rag",
+   "must_all": [
+    "pre-training",
+    "fine-tuning",
+    "instruction tuning",
+    "rag",
+    "behaviour"
+   ]
+  },
+  {
+   "q": "Can you compare pre-training, fine-tuning, instruction tuning and RAG for me?",
+   "id": "iv1-training-vs-rag",
+   "must_all": [
+    "pre-training",
+    "fine-tuning",
+    "instruction tuning",
+    "rag",
+    "behaviour"
+   ]
+  },
+  {
+   "q": "When would you use LoRA or QLoRA instead of full fine-tuning?",
+   "id": "iv1-lora",
+   "must_all": [
+    "low-rank",
+    "frozen",
+    "4-bit",
+    "full fine-tuning"
+   ]
+  },
+  {
+   "q": "Why would you pick QLoRA or LoRA over fine-tuning the whole model?",
+   "id": "iv1-lora",
+   "must_all": [
+    "low-rank",
+    "frozen",
+    "4-bit",
+    "full fine-tuning"
+   ]
+  },
+  {
+   "q": "How do temperature, top-p and token limits influence generation?",
+   "id": "iv1-sampling",
+   "must_all": [
+    "temperature",
+    "top-p",
+    "softmax",
+    "max output tokens"
+   ]
+  },
+  {
+   "q": "How do you tune temperature and top-p for a production LLM?",
+   "id": "iv1-sampling",
+   "must_all": [
+    "temperature",
+    "top-p",
+    "softmax",
+    "max output tokens"
+   ]
+  },
+  {
+   "q": "What happens when an LLM hallucinates? How would you minimize it?",
+   "id": "iv1-hallucination",
+   "must_all": [
+    "retrieval",
+    "cite",
+    "low temperature",
+    "groundedness"
+   ]
+  },
+  {
+   "q": "How would you reduce hallucinations in a production LLM system?",
+   "id": "iv1-hallucination",
+   "must_all": [
+    "retrieval",
+    "cite",
+    "low temperature",
+    "groundedness"
+   ]
+  },
+  {
+   "q": "How would you select between open-source and proprietary LLMs for an enterprise?",
+   "id": "iv1-open-vs-proprietary",
+   "must_all": [
+    "total cost of ownership",
+    "licensing",
+    "golden set",
+    "gateway"
+   ]
+  },
+  {
+   "q": "For an enterprise, how do you decide between proprietary LLM APIs and self-hosted open-weight models?",
+   "id": "iv1-open-vs-proprietary",
+   "must_all": [
+    "total cost of ownership",
+    "licensing",
+    "golden set",
+    "gateway"
+   ]
+  },
+  {
+   "q": "How would you optimize inference latency and token consumption?",
+   "id": "iv1-latency-tokens",
+   "must_all": [
+    "time to first token",
+    "prompt caching",
+    "kv cache",
+    "stream"
+   ]
+  },
+  {
+   "q": "How would you bring down LLM latency and the number of tokens per request?",
+   "id": "iv1-latency-tokens",
+   "must_all": [
+    "time to first token",
+    "prompt caching",
+    "kv cache",
+    "stream"
+   ]
+  },
+  {
+   "q": "10,000 requests/day, GPT inference costs $5,000/month; cut cost 60% without hurting quality.",
+   "id": "iv1-cost-cut",
+   "must_all": [
+    "model routing",
+    "smaller models",
+    "quantization",
+    "prompt optimization",
+    "semantic caching",
+    "batching",
+    "distillation",
+    "selective rag",
+    "evaluation-driven model substitution"
+   ]
+  },
+  {
+   "q": "We get 10,000 requests a day and pay $5,000 a month for GPT inference. How do you cut that cost by 60% without hurting quality?",
+   "id": "iv1-cost-cut",
+   "must_all": [
+    "model routing",
+    "smaller models",
+    "quantization",
+    "prompt optimization",
+    "semantic caching",
+    "batching",
+    "distillation",
+    "selective rag",
+    "evaluation-driven model substitution"
+   ]
+  },
+  {
+   "q": "Explain the complete RAG architecture, from document ingestion to response generation.",
+   "id": "iv1-rag-architecture",
+   "must_all": [
+    "chunking",
+    "embedded",
+    "hybrid retrieval",
+    "rerank",
+    "citations"
+   ]
+  },
+  {
+   "q": "Walk me through a production RAG architecture end to end, from ingestion to the generated answer.",
+   "id": "iv1-rag-architecture",
+   "must_all": [
+    "chunking",
+    "embedded",
+    "hybrid retrieval",
+    "rerank",
+    "citations"
+   ]
+  },
+  {
+   "q": "How would you select chunk size and overlap?",
+   "id": "iv1-chunking",
+   "must_all": [
+    "overlap",
+    "structure",
+    "recall",
+    "embedding model"
+   ]
+  },
+  {
+   "q": "How do you pick the right chunk size and chunk overlap for a RAG index?",
+   "id": "iv1-chunking",
+   "must_all": [
+    "overlap",
+    "structure",
+    "recall",
+    "embedding model"
+   ]
+  },
+  {
+   "q": "What is the difference between dense retrieval, sparse retrieval and hybrid search?",
+   "id": "iv1-dense-sparse",
+   "must_all": [
+    "sparse",
+    "dense",
+    "bm25",
+    "reciprocal rank fusion",
+    "embedding"
+   ]
+  },
+  {
+   "q": "When would you use sparse keyword retrieval instead of dense vector retrieval, and why combine them in hybrid search?",
+   "id": "iv1-dense-sparse",
+   "must_all": [
+    "sparse",
+    "dense",
+    "bm25",
+    "reciprocal rank fusion",
+    "embedding"
+   ]
+  },
+  {
+   "q": "When would you use reranking?",
+   "id": "iv1-reranking",
+   "must_all": [
+    "cross-encoder",
+    "two-stage",
+    "latency",
+    "precision"
+   ]
+  },
+  {
+   "q": "Is a cross-encoder reranker worth adding to a retrieval pipeline?",
+   "id": "iv1-reranking",
+   "must_all": [
+    "cross-encoder",
+    "two-stage",
+    "latency",
+    "precision"
+   ]
+  },
+  {
+   "q": "How would you handle documents containing tables, images, diagrams and unstructured content?",
+   "id": "iv1-complex-documents",
+   "must_all": [
+    "tables",
+    "ocr",
+    "vision-language",
+    "metadata"
+   ]
+  },
+  {
+   "q": "How would you build retrieval over PDFs full of tables, scanned pages and diagrams?",
+   "id": "iv1-complex-documents",
+   "must_all": [
+    "tables",
+    "ocr",
+    "vision-language",
+    "metadata"
+   ]
+  },
+  {
+   "q": "Explain the difference between an AI agent, an AI assistant and a traditional workflow automation.",
+   "id": "iv1-agent-vs-assistant",
+   "must_all": [
+    "workflow automation",
+    "assistant",
+    "autonomy",
+    "goal"
+   ]
+  },
+  {
+   "q": "How would you explain what separates an AI agent from an AI assistant and from classic workflow automation?",
+   "id": "iv1-agent-vs-assistant",
+   "must_all": [
+    "workflow automation",
+    "assistant",
+    "autonomy",
+    "goal"
+   ]
+  },
+  {
+   "q": "How do MCP, function calling and tool orchestration differ?",
+   "id": "iv1-mcp-tools",
+   "must_all": [
+    "function calling",
+    "json schema",
+    "model context protocol",
+    "orchestration"
+   ]
+  },
+  {
+   "q": "Can you compare MCP with plain function calling and with tool orchestration frameworks?",
+   "id": "iv1-mcp-tools",
+   "must_all": [
+    "function calling",
+    "json schema",
+    "model context protocol",
+    "orchestration"
+   ]
+  },
+  {
+   "q": "How would you prevent an agent from entering an infinite execution loop?",
+   "id": "iv1-agent-loops",
+   "must_all": [
+    "maximum number of steps",
+    "budget",
+    "timeout",
+    "loop detection"
+   ]
+  },
+  {
+   "q": "How do you make sure your agents never get stuck in an infinite loop?",
+   "id": "iv1-agent-loops",
+   "must_all": [
+    "maximum number of steps",
+    "budget",
+    "timeout",
+    "loop detection"
+   ]
+  },
+  {
+   "q": "When would you choose a multi-agent architecture over a single-agent architecture?",
+   "id": "iv1-multi-agent",
+   "must_all": [
+    "single agent",
+    "multi-agent",
+    "parallel",
+    "latency"
+   ]
+  },
+  {
+   "q": "How do you decide whether a problem needs multiple agents or just one agent?",
+   "id": "iv1-multi-agent",
+   "must_all": [
+    "single agent",
+    "multi-agent",
+    "parallel",
+    "latency"
+   ]
+  },
+  {
+   "q": "20,000 documents, multiple departments, different permissions, frequent updates — design RAG so users only retrieve what they are authorized to see.",
+   "id": "iv1-secure-rag",
+   "must_all": [
+    "metadata filtering",
+    "identity-aware retrieval",
+    "document-level permissions",
+    "tenant isolation",
+    "incremental indexing",
+    "auditability",
+    "retrieval evaluation"
+   ]
+  },
+  {
+   "q": "How would you build RAG over 20,000 documents from several departments so that each user only retrieves documents they are authorized to see?",
+   "id": "iv1-secure-rag",
+   "must_all": [
+    "metadata filtering",
+    "identity-aware retrieval",
+    "document-level permissions",
+    "tenant isolation",
+    "incremental indexing",
+    "auditability",
+    "retrieval evaluation"
+   ]
+  },
+  {
+   "q": "How do you evaluate the quality of a RAG system?",
+   "id": "iv1-rag-evaluation",
+   "must_all": [
+    "recall",
+    "faithfulness",
+    "golden set",
+    "mrr"
+   ]
+  },
+  {
+   "q": "Which metrics would you use to judge a RAG system in production?",
+   "id": "iv1-rag-evaluation",
+   "must_all": [
+    "recall",
+    "faithfulness",
+    "golden set",
+    "mrr"
+   ]
+  },
+  {
+   "q": "What is the difference between retrieval quality and generation quality?",
+   "id": "iv1-retrieval-vs-generation",
+   "must_all": [
+    "retrieval quality",
+    "generation quality",
+    "faithful",
+    "oracle context"
+   ]
+  },
+  {
+   "q": "How do you know whether a wrong RAG answer comes from retrieval or from generation?",
+   "id": "iv1-retrieval-vs-generation",
+   "must_all": [
+    "retrieval quality",
+    "generation quality",
+    "faithful",
+    "oracle context"
+   ]
+  },
+  {
+   "q": "How would you test an LLM application for hallucinations?",
+   "id": "iv1-hallucination-testing",
+   "must_all": [
+    "unanswerable",
+    "claim",
+    "groundedness",
+    "decline"
+   ]
+  },
+  {
+   "q": "How would you test whether an LLM application is hallucinating?",
+   "id": "iv1-hallucination-testing",
+   "must_all": [
+    "unanswerable",
+    "claim",
+    "groundedness",
+    "decline"
+   ]
+  },
+  {
+   "q": "How would you build an evaluation dataset?",
+   "id": "iv1-eval-dataset",
+   "must_all": [
+    "real user questions",
+    "rubric",
+    "held-out",
+    "unanswerable"
+   ]
+  },
+  {
+   "q": "How do you put together a good evaluation dataset for an LLM product?",
+   "id": "iv1-eval-dataset",
+   "must_all": [
+    "real user questions",
+    "rubric",
+    "held-out",
+    "unanswerable"
+   ]
+  },
+  {
+   "q": "How do you test non-deterministic AI applications?",
+   "id": "iv1-nondeterministic",
+   "must_all": [
+    "deterministic",
+    "properties",
+    "pass rate",
+    "temperature"
+   ]
+  },
+  {
+   "q": "How do you write reliable tests for non-deterministic LLM behaviour?",
+   "id": "iv1-nondeterministic",
+   "must_all": [
+    "deterministic",
+    "properties",
+    "pass rate",
+    "temperature"
+   ]
+  },
+  {
+   "q": "What is your approach to prompt injection and adversarial testing?",
+   "id": "iv1-prompt-injection",
+   "must_all": [
+    "indirect",
+    "least privilege",
+    "human approval",
+    "red-team",
+    "regression"
+   ]
+  },
+  {
+   "q": "How do you defend an LLM agent against prompt injection, and how do you red-team it?",
+   "id": "iv1-prompt-injection",
+   "must_all": [
+    "indirect",
+    "least privilege",
+    "human approval",
+    "red-team",
+    "regression"
+   ]
+  },
+  {
+   "q": "An AI application you moved from POC to production; the biggest challenges.",
+   "id": "iv1-poc-to-production",
+   "must_all": [
+    "grounding",
+    "evaluation",
+    "latency",
+    "security",
+    "monitoring"
+   ]
+  },
+  {
+   "q": "Tell me about an AI application you took from POC into production and the biggest challenges you faced.",
+   "id": "iv1-poc-to-production",
+   "must_all": [
+    "grounding",
+    "evaluation",
+    "latency",
+    "security",
+    "monitoring"
+   ]
+  }
+ ],
+ "no_answer": []
+}
