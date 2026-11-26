@@ -593,7 +593,7 @@ export function applyCanon(result, match, chunks, showcase = {}) {
   const html =
     `<p class="answer-opener">${match.compare ? 'Side by side, in Prashobh\'s own words:' : 'In Prashobh\'s own words:'}</p>` +
     body + missed + showcaseHtml(parts, showcase) +
-    `<p class="answer-closing">Curated answer. Each proof below is a record from the website, resume, GitHub, YouTube or LinkedIn; the fabric's own retrieval is listed after them.</p>`;
+    `<p class="answer-closing">Curated answer. Each proof below is a record from the website, resume, GitHub, YouTube or LinkedIn; Eidolon's own retrieval is listed after them.</p>`;
   return {
     ...result,
     answerHtml: html,

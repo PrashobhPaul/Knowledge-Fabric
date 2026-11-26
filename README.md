@@ -1,9 +1,11 @@
 <h2 align="center">Prashobh Paul</h2>
 
-<h1 align="center">Knowledge Fabric + Knowledge Factory</h1>
+<h1 align="center">Eidolon</h1>
+
+<p align="center"><em>The living knowledge twin of Prashobh Paul</em></p>
 
 <p align="center">
-Everything public about one person — resume, website, YouTube channel, GitHub — turned into a single, explainable, citation-grounded answer surface.
+Eidolon (Greek: the living image of a person) is the site this repository publishes. Ask it anything about Prashobh and his 3D twin answers in his voice, in the first person, with every sentence quoted from his resume, website, YouTube channel or GitHub and linked to its source, beside a live knowledge graph, source lineage and knowledge health. It runs on two of his projects, described below: the <strong>Knowledge Factory</strong>, which gathers the sources, and the <strong>Knowledge Fabric</strong>, which links, retrieves and cites them.
 </p>
 
 <p align="center">

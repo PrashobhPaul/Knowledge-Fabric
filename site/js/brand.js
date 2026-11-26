@@ -2,16 +2,23 @@
 // Brand & narrative copy — single source of truth
 // ============================================================================
 //
-// Every reader-facing string lives here. Re-pointing this fabric at a different
+// Every reader-facing string lives here. Re-pointing the product at a different
 // person is a change to ONE object, not a search across templates. Change
 // `subject` below and the whole narrative re-labels itself.
+//
+// The product is Eidolon (Greek: the living image of a person). It runs on two
+// of the owner's projects, the Knowledge Factory and the Knowledge Fabric; those
+// project names stay as they are wherever they describe the engine.
 //
 // Copy guidance: lead with what the reader gets, keep the method underneath it.
 
 export const BRAND = {
-  product: 'Knowledge Fabric',
+  product: 'Eidolon',
+  tagline: 'The living knowledge twin of Prashobh Paul',
+  // The engine underneath: his own projects, named as projects.
+  engine: 'Knowledge Fabric',
   factory: 'Knowledge Factory',
-  // The person this fabric is about — and who built it.
+  // The person Eidolon is about — and who built it.
   subject: {
     name: 'Prashobh Paul',
     shortName: 'Prashobh',
@@ -34,16 +41,19 @@ export const BRAND = {
   get clientName()   { return this.subject.name; },
   get productName()  { return this.product; },
   get demoBy()       { return 'Built by ' + this.builder.name; },
-  get demoByUnit()   { return 'Knowledge Factory + Knowledge Fabric'; },
+  get demoByUnit()   { return 'Runs on ' + this.factory + ' + ' + this.engine; },
+  get productTagline() { return this.tagline; },
   get subjectRole()  { return this.subject.role; },
 
   get footerBrand() {
-    return this.product + ' — everything public about ' + this.subject.name +
-           ', assembled from his ' + this.subject.corpusDescription + ' and answered with citations.';
+    return this.product + ', the living knowledge twin of ' + this.subject.name +
+           '. Everything public about him, assembled from his ' + this.subject.corpusDescription +
+           ' and answered with citations.';
   },
   get footerNote() {
     return '© ' + new Date().getFullYear() + ' ' + this.builder.name +
-           '. Open source. Sources are refreshed by the ' + this.factory + ' and rebuilt by GitHub Actions.';
+           '. Open source. Runs on the ' + this.engine + '; sources are refreshed by the ' + this.factory +
+           ' and rebuilt by GitHub Actions.';
   },
   // Belongs beside the answer, where it is a claim the reader can check.
   get answerAssurance() {
@@ -57,10 +67,10 @@ export const BRAND = {
 // ---------------------------------------------------------------------------
 export const COPY = {
   hero: {
-    title: ['Everything about Prashobh,', 'traced to its source.'],
+    title: ['Eidolon', 'The living knowledge twin of Prashobh Paul'],
     sub: 'The resume, the website, the YouTube channel and the GitHub repositories already hold the ' +
-         'answers. Knowledge Fabric finds them, links them across sources, and shows exactly where each one came from.',
-    placeholder: 'Ask about Prashobh’s work, projects, skills, or travels…',
+         'answers. Eidolon finds them, links them across sources, answers in his own voice, and shows exactly where each one came from.',
+    placeholder: 'Ask Eidolon about Prashobh’s work, projects, skills or travels…',
   },
 
   sections: {
@@ -112,6 +122,7 @@ export function applyBrand(root = document) {
   const map = {
     product: BRAND.product,
     productName: BRAND.productName,
+    productTagline: BRAND.productTagline,
     clientName: BRAND.clientName,
     subjectRole: BRAND.subjectRole,
     demoBy: BRAND.demoBy,
