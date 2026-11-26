@@ -1,6 +1,6 @@
 {
- "generated_at": "2026-11-26T09:14:22.336Z",
- "commit": "b4b02ae + uncommitted changes",
+ "generated_at": "2026-11-26T10:18:16.667Z",
+ "commit": "dfaa6b6 + uncommitted changes",
  "node": "v22.23.5",
  "passed": true,
  "summary": {
@@ -43,9 +43,9 @@
    "issues": 0
   },
   "performance": {
-   "p50_ms": 19.25,
-   "p95_ms": 41.3,
-   "max_ms": 149.45,
+   "p50_ms": 18.22,
+   "p95_ms": 35.54,
+   "max_ms": 164.61,
    "ok": true
   }
  },
@@ -2444,22 +2444,22 @@
  },
  "performance": {
   "questions": 1756,
-  "p50_ms": 19.25,
-  "p95_ms": 41.3,
-  "max_ms": 149.45,
-  "mean_ms": 21.2,
-  "first_call_ms": 138.78,
+  "p50_ms": 18.22,
+  "p95_ms": 35.54,
+  "max_ms": 164.61,
+  "mean_ms": 19.68,
+  "first_call_ms": 164.61,
   "p95_limit_ms": 250,
   "index": {
    "chunks": 811,
    "canon_entries": 163,
    "documents": 361,
-   "vocab": 8837,
-   "index_json_bytes": 3783948,
+   "vocab": 8840,
+   "index_json_bytes": 3787293,
    "semantic_json_bytes": 1425540
   },
   "build": {
-   "seconds": 5.1,
+   "seconds": 5.62,
    "command": "python -m pipeline.build_index",
    "unresolved_reported": 0
   }
@@ -3561,7 +3561,7 @@
   ],
   "qa_interview_heldout.json": [
    "iv1-ml-vs-llm#15d27c3a7bfc",
-   "iv1-transformer#a634af182341",
+   "iv1-transformer#b42e3a9d5115",
    "iv1-fraud-accuracy#27e7d360c47e",
    "iv1-cost-cut#01020cf774e6",
    "iv1-secure-rag#c00a2f9a53f8",
@@ -3577,8 +3577,8 @@
    "iv1-prompt-injection#4ccbeb5c612b"
   ],
   "qa_interview_s1.json": [
-   "iv1-complex-solution#9b436e7ffc96",
-   "iv1-complex-solution#9b436e7ffc96",
+   "iv1-complex-solution#5871248eac14",
+   "iv1-complex-solution#5871248eac14",
    "iv1-contributions#06f2f2a83718",
    "iv1-contributions#06f2f2a83718",
    "iv1-architecture-decision#97999b997cef",
@@ -3604,8 +3604,8 @@
    "iv1-metrics#f30633b5f7d0",
    "iv1-fraud-accuracy#27e7d360c47e",
    "iv1-fraud-accuracy#27e7d360c47e",
-   "iv1-transformer#a634af182341",
-   "iv1-transformer#a634af182341",
+   "iv1-transformer#b42e3a9d5115",
+   "iv1-transformer#b42e3a9d5115",
    "iv1-training-vs-rag#1a9de6e8e363",
    "iv1-training-vs-rag#1a9de6e8e363",
    "iv1-lora#6e997ccb99aa",
@@ -3644,16 +3644,16 @@
    "iv1-rag-evaluation#b11d2d792fc6",
    "iv1-retrieval-vs-generation#727e1e062944",
    "iv1-retrieval-vs-generation#727e1e062944",
-   "iv1-hallucination-testing#c25e8787402e",
-   "iv1-hallucination-testing#c25e8787402e",
+   "iv1-hallucination-testing#01a2345c5f76",
+   "iv1-hallucination-testing#01a2345c5f76",
    "iv1-eval-dataset#3b8b89935863",
    "iv1-eval-dataset#3b8b89935863",
    "iv1-nondeterministic#1902dabfbe4c",
    "iv1-nondeterministic#1902dabfbe4c",
    "iv1-prompt-injection#4ccbeb5c612b",
    "iv1-prompt-injection#4ccbeb5c612b",
-   "iv1-poc-to-production#0ccdd1027c68",
-   "iv1-poc-to-production#0ccdd1027c68"
+   "iv1-poc-to-production#65857e4d7d09",
+   "iv1-poc-to-production#65857e4d7d09"
   ],
   "qa_interview_s2.json": [
    "iv2-requirement-to-architecture#50909c8b841f",
@@ -3778,9 +3778,9 @@
    "iv3-six-weeks#25f4955b0b58",
    "iv3-six-weeks#25f4955b0b58",
    "iv3-six-weeks#25f4955b0b58",
-   "iv3-estimation#45bf8a9287c2",
-   "iv3-estimation#45bf8a9287c2",
-   "iv3-estimation#45bf8a9287c2",
+   "iv3-estimation#2068d295a487",
+   "iv3-estimation#2068d295a487",
+   "iv3-estimation#2068d295a487",
    "iv3-accuracy-expectations#187ac7f8f8a3",
    "iv3-accuracy-expectations#187ac7f8f8a3",
    "iv3-accuracy-expectations#187ac7f8f8a3",
@@ -3824,9 +3824,9 @@
    "iv3-first-90-days#1f01d84d88a9",
    "iv3-first-90-days#1f01d84d88a9",
    "iv3-first-90-days#1f01d84d88a9",
-   "iv3-rejected-attractive#b2b0df0a2756",
-   "iv3-rejected-attractive#b2b0df0a2756",
-   "iv3-rejected-attractive#b2b0df0a2756",
+   "iv3-rejected-attractive#bca3d4f26cb8",
+   "iv3-rejected-attractive#bca3d4f26cb8",
+   "iv3-rejected-attractive#bca3d4f26cb8",
    "iv3-architect-vs-developer#ee116caa5523",
    "iv3-architect-vs-developer#ee116caa5523",
    "iv3-architect-vs-developer#ee116caa5523"

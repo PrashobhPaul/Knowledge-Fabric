@@ -32,8 +32,11 @@ canon:
   - complex ai solution you
   - business problem architecture
   - technology stack and outcome
-  answer: 'The most complex one I have designed and built is the clinical NLP platform behind the physician''s
-    note reader at Primera Medical Technologies. The business problem: a US hospital network needed every
+  answer: 'The most complex one is the clinical NLP platform behind the physician''s note reader at Primera
+    Medical Technologies, and I will be precise about my part. I designed and built its NLP core, from
+    the language handling to the ontology mapping and the patient graph, as the pillar of the NLP team;
+    the EMR integration and the rollout to the hospitals were team work I contributed to. The business
+    problem: a US hospital network needed every
     inpatient''s notes read in real time, across more than sixty hospitals of at least a hundred beds
     each, so that diagnostics, clinical decision support and analytics could work from what clinicians
     actually wrote, not only from coded fields. The constraints shaped everything: regulated patient data,
@@ -41,19 +44,19 @@ canon:
     FHIR and MAR medication records; and clinicians who will not act on a number they cannot trace back
     to the note. The architecture had six layers. Ingestion consumed the HL7 and FHIR streams and collated
     physician notes, nursing notes and medication records into one view per patient. Clinical NLP handled
-    the hard language: abbreviations, negation, and the same drug or condition written many ways. Ontology
-    mapping resolved every mention to SNOMED, LOINC and ICD-10 concepts, and that was the backbone, because
-    once mentions are standard concepts, notes from different hospitals and formats can be joined. A per-patient
-    relationship graph linked conditions, medications, labs and events. Real-time analytics and predictive
-    models for patient outcomes sat on the graph. And the note reader surfaced each finding with the record
-    it came from. The stack: NLP and machine-learning pipelines in Python, HL7 and FHIR interfaces to
-    Epic and Meditech, the SNOMED, LOINC and ICD-10 terminologies, OCR tools for EOBs and diagnostic documents,
-    and predictive models on top. Many small, separately tested NLP and ML components, not one big model.
-    The outcome: the note reader ran in production across more than sixty US hospitals, clinical NLP on
-    that volume of data done for the first time. The lesson I carry into GenAI work is that the model
-    was never the hard part. Reliability across many small components, a shared vocabulary of concepts,
-    and traceability from every output back to its record were. The same shape shows up in my agentic
-    work at Qualizeal today, where the knowledge layer under the agents matters more than the agents themselves.'
+    abbreviations, negation, and the same drug or condition written many ways. Ontology mapping resolved
+    every mention to SNOMED, LOINC and ICD-10 concepts; that was the backbone, because once mentions are
+    standard concepts, notes from different hospitals and formats can be joined. A per-patient relationship
+    graph linked conditions, medications, labs and events. Real-time analytics and predictive models for
+    patient outcomes sat on the graph. And the note reader surfaced each finding with the record it came
+    from. The stack: Python NLP and machine-learning pipelines, HL7 and FHIR interfaces to Epic and Meditech,
+    the SNOMED, LOINC and ICD-10 terminologies, and OCR tools for EOBs and diagnostic documents: many
+    small, separately tested components, not one big model. The outcome: the note reader ran in production
+    across more than sixty US hospitals, clinical NLP on that volume of data done for the first time.
+    The lesson I carry into GenAI work is that the model was never the hard part; reliability across many
+    small components, a shared vocabulary of concepts, and traceability from every output back to its
+    record were. For the GenAI-era system I architected end to end, and can show you in public code,
+    ask me about Knowledge Fabric.'
   evidence:
   - url: profile:career_projects/Medical Note Reader
     source: resume
@@ -644,8 +647,9 @@ canon:
   - transformer
   - attention
   answer: 'A Transformer turns a sequence of tokens into contextual representations using attention instead
-    of recurrence. Tokens become embeddings, positional information is added, sinusoidal or rotary, and
-    the result passes through a stack of identical blocks. Each block has two sub-layers, multi-head attention
+    of recurrence. Tokens become embeddings carrying positional information, added as sinusoidal or learned
+    vectors in the original design, or applied to the queries and keys as rotary embeddings in most current
+    LLMs, and the result passes through a stack of identical blocks. Each block has two sub-layers, multi-head attention
     and a position-wise feed-forward network, each wrapped in a residual connection and layer normalisation.
     The 2017 design was an encoder-decoder for translation; BERT-style models keep only the encoder, and
     GPT-style LLMs keep only the decoder, with a causal mask so each token sees only the tokens before
@@ -1590,11 +1594,11 @@ canon:
     the claim. Because outputs vary, I run each case several times and compare; claims that change between
     samples are a strong hallucination signal, which is the idea behind SelfCheckGPT. A sample goes to
     human reviewers to keep the automatic judge honest. All of it runs in CI as a regression gate, and
-    the same checks run on sampled production traffic. The twin you are talking to is tested this way.
-    Alongside the answerable questions, every one of its test sets has questions that must be declined,
-    things not on record, private details, errands and off-topic trivia, and the build fails if any of
-    them gets an answer instead of an honest decline. Testing what a system must not say matters as much
-    as testing what it should.'
+    the same checks run on sampled production traffic. The twin you are talking to generates no text,
+    so its tests target the other half of the problem: alongside the answerable questions, its test sets
+    carry more than seventy questions it must decline, things not on record, private details, errands
+    and off-topic trivia, and CI fails if any of them gets an answer instead of an honest decline. Testing
+    what a system must not say matters as much as testing what it should.'
   evidence:
   - url: https://github.com/PrashobhPaul/Knowledge-Fabric
     source: github
@@ -1751,26 +1755,27 @@ canon:
   - moved from poc
   - genai poc
   - into production
-  answer: 'The one I would pick is the LLM-based conversational systems I led for global clients at Tech
-    Mahindra, where I also managed the production deployments. Most of my job there was turning a promising
-    demo into something that survives real traffic, and almost none of that work was about the model.
-    The biggest challenges were these. Grounding: a demo answers the questions its builders chose, while
-    real users ask about things the model does not know, and an ungrounded model answers anyway. We grounded
-    the answers in the client''s own data with RAG, with citations and a way to say not found. Evaluation:
-    a POC is judged on a handful of hand-picked questions; production needs a golden set of real queries
-    with rubrics, run on every prompt, model or data change. That set is the most valuable artefact a
-    program produces. Latency and cost: token usage that is trivial in a demo becomes a real line item
-    at production volume, and p95 latency matters more than the average. Keeping both predictable meant
-    trimming prompts and context, caching, streaming, and tracking cost per conversation. Data and security:
-    real customer data brings access control, personal-data handling, logging rules and security reviews
-    that a POC never faces. Operations: monitoring, alerting, rollback of a bad prompt or model, and clear
-    ownership after go-live. Trust: any decision an automated flow made needed monitoring and human review
-    around it, and users needed to see why an answer was given before they relied on it. The lesson I
-    took is that a POC proves possibility and production proves reliability, and the gap between them
-    is evaluation, observability, security and cost control. I plan for those from the first sketch now.
-    You can see the same discipline in my public work: Knowledge Fabric ships only when its test sets
-    pass, and my AgentBasedSystem began as a prototype that did not even run, before I rebuilt it into
-    typed, tested layers with a rule-based fallback.'
+  answer: 'The one I would pick is the LLM-based conversational work I led for global clients at Tech
+    Mahindra, where I also managed the production deployments. The clients stay confidential, so I will
+    be concrete about the challenges instead. My part was the architecture and the path to production;
+    the build was team work. The single biggest challenge was grounding. A demo answers the questions
+    its builders chose; real users ask about things the model does not know, and an ungrounded model
+    answers anyway, fluently. That is where users decide whether to trust it, and it cannot be patched after launch.
+    We grounded the answers in the client''s own data with RAG, with citations and an explicit not-found
+    path, so a missing document produced an honest gap instead of an invented answer. Second, evaluation:
+    a handful of hand-picked demo questions cannot tell you whether grounding works. A golden set of real
+    user queries with rubrics, run on every prompt, model or data change, is what turns a judgement call
+    into a release gate. Third, latency and token cost: trivial in a demo, a real line item and a p95
+    problem at production volume. Keeping both predictable meant trimming prompts and retrieved context,
+    streaming, caching and tracking cost per conversation. Fourth, security: real customer data brings
+    access control, personal-data handling, logging rules and security reviews that a POC never faces,
+    and they take calendar time, so they start in week one, not after the demo. Fifth, monitoring and
+    human review around any decision an automated flow made, with rollback of a bad prompt or model and
+    a named owner after go-live. What I do differently now is plan all five from the first sketch: a
+    POC proves possibility, production proves reliability, and the gap is evaluation, observability, security
+    and cost control. The same lesson is in my public code: AgentBasedSystem began as a prototype that
+    did not even run, and I rebuilt it into typed, tested layers with a rule-based fallback before calling
+    it done.'
   evidence:
   - url: profile:roles/Tech Mahindra
     source: resume
