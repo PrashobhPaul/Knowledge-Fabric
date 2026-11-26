@@ -32,6 +32,14 @@ youtube:
   transcripts: true
   transcript_limit: 60
   transcript_languages: [en, en-IN, en-US, ml, te, ta, hi]
+  # Older uploads that are not on the channel above, synced the same keyless way
+  # into youtube/extra_videos.json: channels by @handle (resolved to their channel
+  # id, then read through RSS) and single videos by id (read through oEmbed).
+  # @Phoenix007Super is the old channel made for the 2012 smart plane robot work;
+  # VomUVZ0IKeM is the smart plane demonstration, uploaded by someone at the college.
+  # If YouTube refuses, the sync carries on and leaves a note.
+  extra_channels: ["@Phoenix007Super"]
+  extra_videos: ["VomUVZ0IKeM"]
 
 linkedin:
   profile_url: https://www.linkedin.com/in/prashobh-paul-00715578/

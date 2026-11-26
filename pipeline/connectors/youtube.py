@@ -34,6 +34,8 @@ def _stamp(sec: int) -> str:
 
 URL_RE = re.compile(r"https?://\S+")
 DETECT_KINDS = ("Place", "Topic", "Event", "Person", "Organization", "Domain", "Technology")
+# An older upload whose title or channel says it is about the 2012 college project.
+SMART_PLANE_RE = re.compile(r"smart\s*plane|climate\s*analy[sz]er|robot\s*plane|\buav\b|\bdrone\b|\bplane\b|phoenix007super", re.I)
 
 
 def _date(iso: str) -> tuple[str, str]:
@@ -107,6 +109,11 @@ class YouTubeConnector:
         self.channel = json.loads(cp.read_text(encoding="utf-8")) if cp.exists() else {}
         self.channel_title = sanitize(self.channel.get("title")) or "YouTube channel"
         self.name = f"YouTube · {self.channel_title}"
+        ep = root / "extra_videos.json"
+        try:
+            self.extras = json.loads(ep.read_text(encoding="utf-8")) if ep.exists() else {}
+        except json.JSONDecodeError:
+            self.extras = {}
 
     def _channel(self) -> Iterator[KnowledgeRecord]:
         c = self.channel
@@ -254,6 +261,76 @@ class YouTubeConnector:
                 if s is not None:
                     window.append(s)
 
+    # ------------------------------------------------------------ older uploads
+    def _extras(self) -> Iterator[KnowledgeRecord]:
+        """extra_videos.json: older channels and single videos that are not on the
+        main channel (the 2012 smart plane work). A channel is a channel record; each
+        video is a video record attributed to the channel it is really on, with the
+        owner's own words about it. Placeholders stay marked pending_sync."""
+        own_ids = {v.get("id") for v in self.videos}
+        channels = {sanitize(c.get("handle")).lower(): c for c in self.extras.get("channels") or [] if c.get("handle")}
+
+        def topic_of(entry: dict, *texts: str) -> str:
+            if entry.get("topic"):
+                return sanitize(entry["topic"])
+            return "smart plane" if SMART_PLANE_RE.search(" ".join(t or "" for t in texts)) else ""
+
+        for c in channels.values():
+            title = sanitize(c.get("title")) or sanitize(c.get("handle"))
+            handle = sanitize(c.get("handle"))
+            created, cyear = _date(c.get("published", ""))
+            topic = topic_of(c, title, handle)
+            text = sanitize(f"{title} ({handle}) is an older YouTube channel of {ontology.PERSON}"
+                            f"{', created in ' + created.split(' ', 1)[1] if created else ''}. {sanitize(c.get('about'))}")
+            yield KnowledgeRecord(
+                source_type=self.source_type, source_system=f"YouTube · {title}", source_id=f"channel:{handle}",
+                title=title, text=text, section_path=["YouTube", title, "Channel"],
+                url=c.get("url") or f"https://www.youtube.com/{handle}",
+                metadata={"record_type": "channel", "document_name": f"YouTube · {title}", "domain": "YouTube",
+                          "year": cyear, "published": c.get("published", ""), "topic": topic,
+                          "handle": handle, "channel_id": c.get("channelId") or "", "extra": True,
+                          "pending_sync": bool(c.get("pending_sync"))},
+                entities=[("Person", ontology.PERSON), ("Channel", title), ("Platform", "YouTube")]
+                         + ([("Topic", topic.capitalize())] if topic else []))
+
+        for v in self.extras.get("videos") or []:
+            vid = v.get("id")
+            title = sanitize(HASHTAG_RE.sub("", v.get("title") or "").rstrip(" |-"))
+            if not vid or not title or vid in own_ids:
+                continue
+            ch = channels.get(sanitize(v.get("channelHandle")).lower(), {})
+            channel = sanitize(ch.get("title")) or sanitize(v.get("channel"))
+            when, year = _date(v.get("publishedAt", ""))
+            dur_text, dur_s = _duration(v.get("duration"))
+            fmt = v.get("format") if v.get("format") in ("short", "long") else "video"
+            desc, tags = _clean_desc(v.get("description", ""))
+            topic = topic_of(v, title, channel, desc) or topic_of(ch, channel)
+            about = sanitize(v.get("about")) or (
+                f"It is on {channel}, an older YouTube channel of {ontology.PERSON}." if ch else "")
+            text = (f"'{title}' is a YouTube video{' on the channel ' + channel if channel else ''}"
+                    f"{', uploaded on ' + when if when else ''}"
+                    f"{' with a duration of ' + dur_text if dur_text else ''}. {about} ")
+            if desc:
+                text += desc + (" " if desc.endswith(".") else ". ")
+            text = sanitize(text)
+            where = sanitize(v.get("catalogue_where")) or sanitize(ch.get("catalogue_where")) or "on YouTube"
+            ents = [("Person", ontology.PERSON), ("Video", title[:80])] + ([("Channel", channel)] if channel else []) \
+                + ([("Topic", topic.capitalize())] if topic else [])
+            ents += [e for e in ontology.detect(f"{title} {desc} {' '.join(tags)}", DETECT_KINDS) if e not in ents]
+            yield KnowledgeRecord(
+                source_type=self.source_type, source_system=f"YouTube · {channel or 'other uploads'}",
+                source_id=f"video:{vid}", title=title, text=text,
+                section_path=["YouTube", channel or "Other uploads", year or "Undated", "Video"],
+                url=v.get("url") or f"https://www.youtube.com/watch?v={vid}",
+                metadata={"record_type": "video", "document_name": title[:90], "domain": "YouTube",
+                          "video_id": vid, "published": v.get("publishedAt", ""), "year": year,
+                          "format": fmt, "duration_seconds": dur_s, "views": v.get("viewCount"),
+                          "place": "", "places": [], "topic": topic, "topics": [topic] if topic else [], "event": "",
+                          "thumbnail": v.get("thumbnail") or f"https://i.ytimg.com/vi/{vid}/hqdefault.jpg",
+                          "lang": _lang_of(f"{title} {desc}"), "channel": channel, "extra": True,
+                          "catalogue_where": where, "pending_sync": bool(v.get("pending_sync"))},
+                entities=ents)
+
     def fetch(self) -> Iterator[KnowledgeRecord]:
         yield from self._channel()
         for v in self.videos:
@@ -261,3 +338,4 @@ class YouTubeConnector:
                 continue
             yield from self._video_depth(v)
         yield from self._videos()
+        yield from self._extras()

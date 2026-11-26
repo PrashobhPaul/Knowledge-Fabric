@@ -40,8 +40,8 @@ export class KnowledgeGraph {
     if (typeof vis === 'undefined') {
       this.disabled = true;
       this.container.innerHTML =
-        '<div class="galaxy-offline">The interactive graph library could not be loaded. ' +
-        'Answers, lineage, health and insights work without it.</div>';
+        '<div class="galaxy-offline">The graph couldn’t load on this connection. ' +
+        'Answers, evidence, health and the corpus views still work.</div>';
       return;
     }
     const C = themeColors();

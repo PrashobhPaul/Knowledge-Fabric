@@ -1,0 +1,35 @@
+{
+  "source": "factory",
+  "description": "Older YouTube uploads that are not on The Canvas of Earth, synced by the Knowledge Factory (knowledge_factory/sources/youtube.py, config youtube.extra_channels and youtube.extra_videos). Seeded by hand from what Prashobh Paul said about them in November 2026, before the first sync could reach YouTube; the sync fills in YouTube's titles, dates and uploader and keeps the owner's 'about', 'topic' and 'catalogue_where'.",
+  "last_attempt": null,
+  "notes": [
+    "Seeded by hand: YouTube was not reachable when these were added. Titles are placeholders until the first sync (pending_sync: true)."
+  ],
+  "channels": [
+    {
+      "handle": "@Phoenix007Super",
+      "url": "https://www.youtube.com/@Phoenix007Super",
+      "title": "Phoenix007Super channel",
+      "channelId": null,
+      "pending_sync": true,
+      "topic": "smart plane",
+      "about": "It is Prashobh Paul's old YouTube channel, which he made for the smart plane robot work in college, his 2012 B.Tech project at Christu Jyothi Institute of Technology and Science.",
+      "catalogue_where": "on my old channel, Phoenix007Super"
+    }
+  ],
+  "videos": [
+    {
+      "id": "VomUVZ0IKeM",
+      "url": "https://www.youtube.com/watch?v=VomUVZ0IKeM",
+      "title": "Smart plane demonstration (college upload)",
+      "channel": "",
+      "publishedAt": "",
+      "thumbnail": "https://i.ytimg.com/vi/VomUVZ0IKeM/hqdefault.jpg",
+      "format": "unknown",
+      "pending_sync": true,
+      "topic": "smart plane",
+      "about": "It is Prashobh Paul's demonstration of the smart plane, his 2012 B.Tech project at Christu Jyothi Institute of Technology and Science, uploaded by someone at the college at the time.",
+      "catalogue_where": "on YouTube, uploaded by someone at my college at the time"
+    }
+  ]
+}

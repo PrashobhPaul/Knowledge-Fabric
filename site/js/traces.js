@@ -76,14 +76,14 @@ export function renderFlagBox(trace) {
   const weak = trace.low || trace.confidence < LOW_BAND;
   const lead = weak
     ? `This looks like a gap: confidence ${trace.confidence.toFixed(1)}%. Flag it and the curator will check it on the next run.`
-    : `Wrong or out of date? Flag it — the curator re-checks every flag against the freshly synced sources.`;
+    : `Wrong or out of date? Flag it, and the curator re-checks it against freshly synced sources.`;
   return `
     <div class="flag-box${weak ? ' flag-box-weak' : ''}" data-weak="${weak}">
       <span class="flag-lead">${escapeHtml(lead)}</span>
       <span class="flag-actions">
         <a class="flag-btn" target="_blank" rel="noreferrer" href="${escapeHtml(flagUrl(trace, 'missing'))}">Flag as missing</a>
-        <a class="flag-btn flag-btn-ghost" target="_blank" rel="noreferrer" href="${escapeHtml(flagUrl(trace, 'wrong'))}">wrong</a>
-        <a class="flag-btn flag-btn-ghost" target="_blank" rel="noreferrer" href="${escapeHtml(flagUrl(trace, 'outdated'))}">outdated</a>
+        <a class="flag-btn flag-btn-ghost" target="_blank" rel="noreferrer" href="${escapeHtml(flagUrl(trace, 'wrong'))}">Wrong</a>
+        <a class="flag-btn flag-btn-ghost" target="_blank" rel="noreferrer" href="${escapeHtml(flagUrl(trace, 'outdated'))}">Out of date</a>
       </span>
     </div>`;
 }
@@ -93,30 +93,30 @@ export function renderTraces(list, { onAsk } = {}) {
   const host = document.getElementById('traces-body');
   if (!host) return;
   if (!list.length) {
-    host.innerHTML = `<p class="traces-empty">No traces yet in this browser. Every question you ask is recorded here — what was asked, what Eidolon read, and how sure it was.</p>`;
+    host.innerHTML = `<p class="traces-empty">Nothing asked yet. Each question you ask is logged here, privately in this browser, with what Eidolon read and how sure it was.</p>`;
     return;
   }
   const weak = list.filter(t => t.low || t.confidence < LOW_BAND).length;
   const rows = [...list].reverse().map((t, i) => `
     <div class="trace-row" data-band="${escapeHtml(t.band)}">
       <div class="trace-head">
-        <button class="trace-q" data-q="${escapeHtml(t.q)}" title="Ask again">${escapeHtml(t.q)}</button>
-        <span class="trace-conf">${t.confidence.toFixed ? t.confidence.toFixed(1) : t.confidence}%</span>
+        <button class="trace-q" data-q="${escapeHtml(t.q)}" data-tip="Ask again">${escapeHtml(t.q)}</button>
+        <span class="trace-conf" data-count="${Number(t.confidence).toFixed(1)}" data-decimals="1" data-suffix="%">${t.confidence.toFixed ? t.confidence.toFixed(1) : t.confidence}%</span>
       </div>
       <div class="trace-meta">
-        <span class="trace-tag">${escapeHtml(t.intent.toLowerCase().replace(/_/g, ' '))}</span>
-        <span class="trace-tag">${escapeHtml(t.mode)}</span>
-        ${t.sources.map(s => `<span class="trace-tag trace-src">${escapeHtml(s)}</span>`).join('')}
+        <span class="trace-tag">${escapeHtml(sentenceCase(t.intent.toLowerCase().replace(/_/g, ' ')))}</span>
+        <span class="trace-tag">${t.mode === 'hybrid' ? 'Hybrid search' : 'Keyword search'}</span>
+        ${t.sources.map(s => `<span class="trace-tag trace-src">${escapeHtml(SOURCE_WORD[s] || s)}</span>`).join('')}
         <span class="trace-when">${new Date(t.t).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
         ${(t.low || t.confidence < LOW_BAND)
-          ? `<a class="trace-flag" target="_blank" rel="noreferrer" href="${escapeHtml(flagUrl(t))}">flag ↗</a>` : ''}
+          ? `<a class="trace-flag" target="_blank" rel="noreferrer" href="${escapeHtml(flagUrl(t))}">Flag ↗</a>` : ''}
       </div>
     </div>`).join('');
   host.innerHTML = `
     <div class="traces-summary">
-      <span><b>${list.length}</b> question${list.length === 1 ? '' : 's'} this browser</span>
-      <span><b>${weak}</b> weak answer${weak === 1 ? '' : 's'} worth flagging</span>
-      <button class="traces-clear" id="traces-clear" type="button">clear</button>
+      <span><b data-count="${list.length}">${list.length}</b> asked here</span>
+      <span><b data-count="${weak}">${weak}</b> worth flagging</span>
+      <button class="traces-clear" id="traces-clear" type="button">Clear</button>
     </div>
     ${rows}`;
   host.querySelectorAll('.trace-q').forEach(b => b.addEventListener('click', () => onAsk && onAsk(b.dataset.q)));
@@ -129,17 +129,17 @@ export function renderGapBoard(flags) {
   const host = document.getElementById('gaps-body');
   if (!host) return;
   if (!flags || !flags.summary) {
-    host.innerHTML = `<p class="traces-empty">The curator has not run yet. Flags you open on GitHub appear here after its next run.</p>`;
+    host.innerHTML = `<p class="traces-empty">The curator hasn’t run yet. Flags opened on GitHub appear here after its next run.</p>`;
     return;
   }
   const s = flags.summary;
   const items = (flags.items || []).slice(0, 8);
   host.innerHTML = `
     <div class="traces-summary">
-      <span><b>${s.open}</b> open gap${s.open === 1 ? '' : 's'}</span>
-      <span><b>${s.resolved}</b> resolved by sync</span>
+      <span><b data-count="${s.open}">${s.open}</b> open gap${s.open === 1 ? '' : 's'}</span>
+      <span><b data-count="${s.resolved}">${s.resolved}</b> resolved by sync</span>
       ${s.regressed ? `<span class="gap-regressed"><b>${s.regressed}</b> regressed</span>` : ''}
-      ${flags.generated_at ? `<span class="trace-when">curated ${new Date(flags.generated_at).toLocaleDateString()}</span>` : ''}
+      ${flags.generated_at ? `<span class="trace-when">Checked ${new Date(flags.generated_at).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' })}</span>` : ''}
     </div>
     ${items.length ? items.map(f => `
       <div class="trace-row" data-status="${escapeHtml(f.status)}">
@@ -148,13 +148,17 @@ export function renderGapBoard(flags) {
           <span class="gap-status gap-${escapeHtml(f.status)}">${escapeHtml(f.status)}</span>
         </div>
         <div class="trace-meta">
-          <span class="trace-tag">${escapeHtml(f.kind || 'missing')}</span>
-          <span class="trace-tag">answerability ${(f.score * 100).toFixed(0)}%</span>
-          ${f.nearest ? `<span class="trace-when">nearest: ${escapeHtml(f.nearest)}</span>` : ''}
+          <span class="trace-tag">${escapeHtml(sentenceCase(f.kind || 'missing'))}</span>
+          <span class="trace-tag">Answerable ${(f.score * 100).toFixed(0)}%</span>
+          ${f.nearest ? `<span class="trace-when">Nearest: ${escapeHtml(f.nearest)}</span>` : ''}
         </div>
       </div>`).join('')
-    : `<p class="traces-empty">No open gaps. Every flagged question is now answerable.</p>`}`;
+    : `<p class="traces-empty traces-clean">No open gaps. Every flagged question is now answerable.</p>`}`;
 }
+
+const SOURCE_WORD = { document: 'Resume', profile: 'Profile', canon: 'Own words', website: 'Website',
+                      youtube: 'YouTube', github: 'GitHub', linkedin: 'LinkedIn' };
+function sentenceCase(s) { s = String(s); return s.charAt(0).toUpperCase() + s.slice(1); }
 
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, c =>

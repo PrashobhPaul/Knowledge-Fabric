@@ -5,20 +5,20 @@
 import { BM25, cohereByDocument, tokenize } from './search.js?v=5';
 import { buildAnswer } from './answer.js?v=5';
 import { KnowledgeGraph } from './graph.js?v=6';
-import { initInsights } from './insights.js?v=5';
-import { initLineage, renderLineage } from './lineage.js?v=5';
-import { initExplain, openExplain } from './explain.js?v=5';
+import { initInsights } from './insights.js?v=6';
+import { initLineage, renderLineage } from './lineage.js?v=6';
+import { initExplain, openExplain } from './explain.js?v=6';
 import { matchQuestionBank, QUESTION_BANK } from './questionbank.js?v=5';
 import { Typeahead } from './typeahead.js?v=12';
 import { loadSemanticIndex } from './semantic.js?v=6';
 import { hybridSearch, explainRanking } from './hybrid.js?v=6';
-import { renderConfidenceBreakdown } from './confidence.js?v=7';
-import { computeHealth, renderHealthDerivation, healthNarrative } from './health.js?v=9';
-import { renderMaturityRings } from './rings.js?v=12';
-import { BRAND, COPY, applyBrand } from './brand.js?v=10';
+import { renderConfidenceBreakdown } from './confidence.js?v=8';
+import { computeHealth, renderHealthDerivation, healthNarrative } from './health.js?v=10';
+import { renderMaturityRings, bindMaturityRings } from './rings.js?v=13';
+import { BRAND, applyBrand } from './brand.js?v=11';
 import { explainGraphContribution, renderGraphContribution, graphPurposeCopy }
-  from './graphvalue.js?v=9';
-import { recordTrace, allTraces, renderTraces, renderFlagBox, renderGapBoard } from './traces.js?v=2';
+  from './graphvalue.js?v=10';
+import { recordTrace, allTraces, renderTraces, renderFlagBox, renderGapBoard } from './traces.js?v=3';
 import { renderRelated } from './related.js?v=1';
 import { languageNote, LANGS } from './multilingual.js?v=1';
 import { TWIN_CONFIG } from './twinconfig.js?v=1';
@@ -29,7 +29,9 @@ import { answerQuestion } from './pipeline.js?v=2';
 import * as semNLU from './nlu_semantic.js?v=1';
 import { currentLang, setLang, listen, speak, recognitionSupported, synthesisSupported, renderVoiceControls, renderSpeakButton } from './voice.js?v=2';
 import { startAmbient } from './ambient.js?v=1';
-import { initMotion, observeReveals, countUp } from './motion.js?v=1';
+import { initMotion, observeReveals, countUp, initMetrics, initTips, replay } from './motion.js?v=2';
+import { flipCard, breakdown, initFlips } from './flip.js?v=1';
+import { credibilityFacts } from './cred.js?v=1';
 
 const INDEX_URL = 'data/index.json';
 
@@ -55,6 +57,10 @@ async function boot() {
   // they need nothing from the index, so the page is alive while it loads.
   state.ambient = startAmbient(document.getElementById('ambient-canvas'));
   initMotion();
+  initMetrics();   // numbers, bars and arcs play when they come into view
+  initTips();
+  initFlips();
+  applyBrand(document);
 
   // The twin: avatar on the stage, baked voice manifest, stage controls.
   const stageHost = document.getElementById('twin-stage');
@@ -98,7 +104,7 @@ async function boot() {
     updateRetrievalBadge();
   });
 
-  applyBrand(document);
+  renderCredibility();
   renderCommandTiles();
   renderHealthExplainer();
   renderMaturityScore();
@@ -115,7 +121,12 @@ async function boot() {
   renderTraces(allTraces(), { onAsk: q => ask(q) });
   renderGapBoard(state.index.flags || null);
   initExplain(state.index);
-  initInsights(state.index, { onEntityClick: showEntityDetail });
+  // A concept chosen in the corpus view is shown where it lives: in the graph.
+  initInsights(state.index, { onEntityClick: (id) => {
+    showEntityDetail(id);
+    const frame = document.querySelector('.galaxy-frame');
+    if (frame) frame.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } });
 
   // Seed Section 2 + Section 3 with a real demo answer so a director scrolling
   // past the hero immediately sees the product working, not an empty stage.
@@ -162,85 +173,175 @@ function seedDemoAnswer() {
 }
 
 function showFatalError(message) {
-  document.getElementById('messages').innerHTML = `
-    <div class="copilot-empty">
-      <p style="color:var(--danger);font-weight:500">Couldn't load the knowledge index.</p>
-      <p style="margin-top:6px;color:var(--text-mute);font-size:12px">${escapeHtml(message)}</p>
-      <p style="margin-top:8px;color:var(--text-mute);font-size:11px">Build the index first: <code>python -m pipeline.build_index</code></p>
+  const html = `
+    <div class="stage-error" role="alert">
+      <p class="stage-error-title">The knowledge index didn’t load.</p>
+      <p class="stage-error-body">Refresh the page to try again. If you are running Eidolon locally, build the index first with <code>python -m pipeline.build_index</code>.</p>
+      <p class="stage-error-detail">${escapeHtml(message)}</p>
     </div>`;
+  const empty = document.getElementById('answer-stage-empty');
+  if (empty) { empty.innerHTML = html; empty.removeAttribute('aria-busy'); }
+  const status = document.getElementById('galaxy-status');
+  if (status) status.textContent = 'Graph unavailable until the index loads.';
+  document.getElementById('messages').innerHTML = html;
 }
 
 // ============================================================================
-// Command Center tiles
+// Corpus tiles — five headline counts, each one a flip card with its working
 // ============================================================================
+const SOURCE_LABEL = { document: 'Resume', profile: 'Profile', canon: 'Own words', website: 'Website',
+                       youtube: 'YouTube', github: 'GitHub', linkedin: 'LinkedIn' };
+const SOURCE_SYSTEM = { canon: 'Written by Prashobh', document: 'Resume and notes', profile: 'Structured profile',
+                        website: 'prashobhpaul.com', youtube: 'The Canvas of Earth', github: 'github.com/PrashobhPaul',
+                        linkedin: 'Posts and events' };
+const SOURCE_ORDER = ['document', 'profile', 'canon', 'website', 'youtube', 'github', 'linkedin'];
+
+// One consistent line-icon set (1.6 stroke, 24 grid) for the source systems.
+const SOURCE_ICON = {
+  document: '<path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/>',
+  profile:  '<rect x="3.5" y="5" width="17" height="14" rx="2"/><circle cx="9" cy="11" r="2.2"/><path d="M5.8 16.2c.6-1.6 1.8-2.4 3.2-2.4s2.6.8 3.2 2.4M14 10h4M14 13.5h3"/>',
+  canon:    '<path d="M7 7h4v4c0 3-1.5 5-4 6M14 7h4v4c0 3-1.5 5-4 6"/>',
+  website:  '<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17M12 3.5c2.5 2.6 3.6 5.4 3.6 8.5s-1.1 5.9-3.6 8.5c-2.5-2.6-3.6-5.4-3.6-8.5s1.1-5.9 3.6-8.5z"/>',
+  youtube:  '<rect x="3" y="6" width="18" height="12" rx="3.5"/><path d="M10.5 9.5v5l4.3-2.5z"/>',
+  github:   '<circle cx="6.5" cy="6" r="2"/><circle cx="6.5" cy="18" r="2"/><circle cx="17.5" cy="9" r="2"/><path d="M6.5 8v8M17.5 11c0 3.5-4.5 3-9.5 5.5"/>',
+  linkedin: '<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.5V16M8 7.6v.1M11.5 16v-3.2c0-1.5.9-2.4 2.1-2.4s2 .9 2 2.4V16M11.5 10.5V16"/>',
+};
+function sourceIcon(type) {
+  const p = SOURCE_ICON[type] || '<circle cx="12" cy="12" r="3"/>';
+  return `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+}
+
+// The index lists one row per connector run, so the curated answers arrive as
+// five "Canon" rows and GitHub as two. A reader thinks in source systems: merge
+// rows of the same type, add their records, keep the latest sync.
+function mergedSources() {
+  const by = new Map();
+  for (const s of state.index.sources || []) {
+    const t = s.source_type;
+    if (!by.has(t)) by.set(t, { ...s, records: 0, systems: new Set() });
+    const m = by.get(t);
+    m.records += s.records || 0;
+    m.chunks = Math.max(m.chunks || 0, s.chunks || 0);
+    m.systems.add(s.system);
+    if ((s.last_synced || '') > (m.last_synced || '')) m.last_synced = s.last_synced;
+    if (s.status === 'error') m.status = 'error';
+    if (s.synced_by === 'knowledge_factory') m.synced_by = 'knowledge_factory';
+  }
+  return [...by.values()].sort((a, b) => SOURCE_ORDER.indexOf(a.source_type) - SOURCE_ORDER.indexOf(b.source_type));
+}
+
+function countBy(list, key) {
+  const m = new Map();
+  for (const x of list) { const k = key(x); m.set(k, (m.get(k) || 0) + 1); }
+  return [...m.entries()].sort((a, b) => b[1] - a[1]);
+}
+
 function renderCommandTiles() {
-  const s = state.index.stats;
-  setTile('documents', s.document_count);
-  setTile('entities', s.entity_count);
-  setTile('relationships', s.relationship_count);
-  setTile('chunks', s.chunk_count);
-  setTile('domains', (state.index.sources || []).length || estimateDomains());
-  renderSourceStrip();
+  const host = document.getElementById('cmd-tiles');
+  if (!host) return;
+  const idx = state.index;
+  const s = idx.stats;
+  const sources = mergedSources();
+  const top = (pairs, n, labelOf = k => k) => {
+    const head = pairs.slice(0, n).map(([k, v]) => ({ label: labelOf(k), value: v }));
+    const rest = pairs.slice(n).reduce((a, [, v]) => a + v, 0);
+    if (rest) head.push({ label: 'Other', value: rest });
+    return head;
+  };
+  const docsByType = countBy(idx.documents, d => d.source_type);
+  const entsByKind = countBy(idx.entities, e => e.kind);
+  const relsByKind = countBy(idx.relationships, r => r.kind);
+  const cooc = (relsByKind.find(([k]) => k === 'CO_OCCURS') || [, 0])[1];
+  const chunksByType = countBy(state.chunks, c => c.source_type);
+  const typed = relsByKind.filter(([k]) => k !== 'CO_OCCURS');
+  const KIND_WORD = { ABOUT: 'About', FILMED_AT: 'Filmed at', DOCUMENTED_IN: 'Documented in', USES: 'Uses', SKILLED_IN: 'Skilled in' };
+
+  const tiles = [
+    { key: 'documents', label: 'Records', value: s.document_count, delta: 'resume sections, videos, repositories…',
+      method: 'One per item a source produced: a resume section, a video, a repository file.',
+      rows: top(docsByType, 3, t => SOURCE_LABEL[t] || t) },
+    { key: 'entities', label: 'Concepts', value: s.entity_count, delta: 'people, projects, skills, places',
+      method: 'Named in the passages and typed at build time. Each one is a node in the graph.',
+      rows: top(entsByKind, 3) },
+    { key: 'relationships', label: 'Links', value: s.relationship_count, delta: 'between concepts',
+      method: `${(s.relationship_count - cooc).toLocaleString()} typed links, plus ${cooc.toLocaleString()} pairs seen together in two or more passages.`,
+      rows: [...typed.slice(0, 2).map(([k, v]) => ({ label: KIND_WORD[k] || k.toLowerCase().replace(/_/g, ' '), value: v })),
+             { label: 'Other typed', value: typed.slice(2).reduce((a, [, v]) => a + v, 0) },
+             { label: 'Co-occur', value: cooc }] },
+    { key: 'chunks', label: 'Passages', value: s.chunk_count, delta: 'each one citable',
+      method: 'Records split small enough to quote. Every citation points at one.',
+      rows: top(chunksByType, 3, t => SOURCE_LABEL[t] || t) },
+    { key: 'domains', label: 'Sources', value: sources.length, delta: 'systems feeding the index',
+      method: 'Synced by the Knowledge Factory or kept in the repository. Records per source:',
+      rows: top(sources.map(x => [SOURCE_LABEL[x.source_type] || x.source_type, x.records]).sort((a, b) => b[1] - a[1]), 3) },
+  ];
+
+  host.innerHTML = tiles.map(t => flipCard({
+    cls: 'tile',
+    attrs: { 'data-key': t.key },
+    front: `
+      <span class="tile-label">${t.label}</span>
+      <span class="tile-value" id="tile-${t.key}" data-count="${t.value}" data-group="1">${Number(t.value).toLocaleString()}</span>
+      <span class="tile-delta">${escapeHtml(t.delta)}</span>
+      ${mixBar(t.rows)}`,
+    back: `
+      <span class="flip-method">${escapeHtml(t.method)}</span>
+      ${breakdown(t.rows)}`,
+  })).join('');
+  renderSourceStrip(sources);
+}
+
+// A thin stacked bar: what a count is made of, in four champagne-to-platinum
+// steps. It grows in from the left when the tile is seen.
+function mixBar(rows) {
+  const total = rows.reduce((a, r) => a + r.value, 0) || 1;
+  const segs = rows.slice(0, 5).map((r, i) =>
+    `<span class="mix-seg" style="flex:${r.value};--k:${i}"></span>`).join('');
+  const top = rows[0];
+  return `<span class="tile-mix" aria-hidden="true"><span class="tile-mix-bar js-grow">${segs}</span></span>
+    <span class="tile-mix-k">${escapeHtml(top.label)} ${Math.round((top.value / total) * 100)}%</span>`;
 }
 
 // The Factory ↔ Fabric handshake, made visible: which source systems feed this
 // fabric, how many records each contributed, and when the Factory last synced it.
-function renderSourceStrip() {
+function renderSourceStrip(sources = mergedSources()) {
   const host = document.getElementById('source-strip');
   if (!host || !state.index.sources) return;
-  const ICON = { document: '📄', profile: '🧾', website: '🌐', youtube: '▶', github: '⌥', linkedin: 'in' };
-  const LABEL = { document: 'Resume', profile: 'Profile', website: 'Website', youtube: 'YouTube', github: 'GitHub', linkedin: 'LinkedIn' };
-  host.innerHTML = state.index.sources.map(s => {
-    const when = s.last_synced ? new Date(s.last_synced).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+  const fmt = (iso) => new Date(iso).toLocaleDateString(undefined, { day: 'numeric', month: 'short', year: 'numeric' });
+  host.innerHTML = sources.map(s => {
     let sync;
     if (s.synced_by !== 'knowledge_factory') {
-      sync = `<span class="src-sync" data-status="committed">in repository</span>`;
+      sync = `<span class="src-sync" data-status="committed">Kept in the repository</span>`;
     } else if (!s.last_synced) {
-      sync = `<span class="src-sync" data-status="committed">factory · awaiting first sync</span>`;
+      sync = `<span class="src-sync" data-status="committed">Synced at build</span>`;
     } else {
-      sync = `<span class="src-sync" data-status="${escapeHtml(s.status)}">factory sync · ${escapeHtml(when)}</span>`;
+      sync = `<span class="src-sync" data-status="${escapeHtml(s.status)}">Synced ${escapeHtml(fmt(s.last_synced))}</span>`;
     }
-    return `<div class="src-card" data-source="${escapeHtml(s.source_type)}">
-      <span class="src-icon" aria-hidden="true">${ICON[s.source_type] || '•'}</span>
-      <span class="src-label">${escapeHtml(LABEL[s.source_type] || s.source_type)}</span>
-      <span class="src-system" title="${escapeHtml(s.system)}">${escapeHtml(s.system)}</span>
-      <span class="src-count"><b>${s.records}</b> records · <b>${s.chunks}</b> units</span>
+    const system = SOURCE_SYSTEM[s.source_type] || [...s.systems].join(', ');
+    return `<div class="src-card" data-source="${escapeHtml(s.source_type)}" data-tip="${escapeHtml(system)}: ${s.records.toLocaleString()} records, ${Number(s.chunks).toLocaleString()} passages">
+      <span class="src-icon" aria-hidden="true">${sourceIcon(s.source_type)}</span>
+      <span class="src-label">${escapeHtml(SOURCE_LABEL[s.source_type] || s.source_type)}</span>
+      <span class="src-system">${escapeHtml(system)}</span>
+      <span class="src-count"><span><b data-count="${s.records}" data-group="1">${s.records.toLocaleString()}</b> records</span><span><b data-count="${s.chunks}" data-group="1">${Number(s.chunks).toLocaleString()}</b> passages</span></span>
       ${sync}
     </div>`;
   }).join('');
 }
 
-function setTile(key, value) {
-  const el = document.getElementById(`tile-${key}`);
-  if (!el) return;
-  animateNumber(el, value);
-}
-
-function animateNumber(el, target) {
-  const duration = 700;
-  const start = performance.now();
-  function step(t) {
-    const p = Math.min(1, (t - start) / duration);
-    const eased = 1 - Math.pow(1 - p, 3);
-    el.textContent = formatNumber(Math.round(target * eased));
-    if (p < 1) requestAnimationFrame(step);
+// The signature band under the hero: who he is, in six facts from the index.
+function renderCredibility() {
+  const host = document.getElementById('cred-facts');
+  if (!host) return;
+  const { current, facts } = credibilityFacts(state.index);
+  const roleEl = document.getElementById('cred-role');
+  if (roleEl && current) {
+    roleEl.textContent = `${current.role} at ${current.organization}` + (current.location ? `, ${current.location.replace(/, India$/, '')}` : '');
   }
-  requestAnimationFrame(step);
-}
-
-function formatNumber(n) {
-  if (n >= 1_000_000) return (n / 1_000_000).toFixed(1) + 'M';
-  if (n >= 10_000) return (n / 1_000).toFixed(1) + 'K';
-  return n.toLocaleString();
-}
-
-// Heuristic: domains = clusters of high-mention entities + top-level document themes
-function estimateDomains() {
-  const docTopSections = new Set();
-  for (const c of state.chunks) {
-    if (c.section_path?.length) docTopSections.add(c.section_path[0]);
-  }
-  return Math.max(state.index.documents.length, docTopSections.size);
+  host.innerHTML = facts.map((f, i) => `
+    <li class="cred-fact" tabindex="0" data-tip="${escapeHtml(f.tip)}" style="--i:${i}">
+      <span class="cred-num"><span data-count="${f.value}">${f.value}</span>${f.suffix ? `<span class="cred-suffix">${f.suffix}</span>` : ''}</span>
+      <span class="cred-label">${escapeHtml(f.label)}</span>
+    </li>`).join('');
 }
 
 // ============================================================================
@@ -290,63 +391,11 @@ function populateSuggestions() {
   }
 }
 
-// ============================================================================
-// Maturity Score — five components computed from observable corpus properties.
-// Numbers are intentionally generic so the same logic works for any corpus.
-// ============================================================================
+// Section headings that mark reference lists and link pages rather than
+// substance. Used only to pick a representative passage for the lineage preview.
 const BOILER_RE = /\b(evidence|references|channels|sources|press|recognitions?|insights|blogs?|whitepapers?|reports?|videos?|youtube|linkedin|twitter|official|version|tone)\b/i;
 function isBoilerplate(section_path) {
   return (section_path || []).some(s => BOILER_RE.test(s));
-}
-
-function computeMaturity() {
-  const chunks = state.chunks;
-  const docs = new Set(chunks.map(c => c.document_id));
-  const entities = state.index.entities || [];
-  const rels = state.index.relationships || [];
-
-  // Coverage: chunks per doc, scaled against an ideal of 15
-  const avgPerDoc = chunks.length / Math.max(docs.size, 1);
-  const coverage = clamp(Math.round(35 + (avgPerDoc / 15) * 60), 20, 95);
-
-  // Relationships: graph density (edges per entity)
-  const relDensity = rels.length / Math.max(entities.length, 1);
-  const relationships = clamp(Math.round(35 + (relDensity / 8) * 60), 20, 95);
-
-  // Ownership: % of section paths with a name-like leaf (proper-noun pattern)
-  const nameRe = /^([A-Z][a-zA-Z'.-]+ ){1,3}[A-Z][a-zA-Z'.-]+$/;
-  let nameLeaves = 0, totalLeaves = 0;
-  const seenSection = new Set();
-  for (const c of chunks) {
-    const leaf = (c.section_path || []).slice(-1)[0];
-    if (!leaf) continue;
-    if (seenSection.has(leaf)) continue;
-    seenSection.add(leaf);
-    totalLeaves++;
-    if (nameRe.test(leaf.trim())) nameLeaves++;
-  }
-  const ownership = clamp(Math.round(45 + (nameLeaves / Math.max(totalLeaves, 1)) * 120), 25, 95);
-
-  // Documentation depth: % chunks NOT in boilerplate sections
-  const nonBoiler = chunks.filter(c => !isBoilerplate(c.section_path)).length;
-  const documentation = Math.round((nonBoiler / Math.max(chunks.length, 1)) * 100);
-
-  // Freshness: % chunks mentioning a recent year (sliding window of last 3 years)
-  const now = new Date().getFullYear();
-  const yearRe = new RegExp(`\\b(${now}|${now-1}|${now-2})\\b`);
-  const recent = chunks.filter(c => yearRe.test(c.text || '')).length;
-  const freshness = clamp(Math.round(35 + (recent / Math.max(chunks.length, 1)) * 100), 20, 95);
-
-  const overall = Math.round((coverage + relationships + ownership + documentation + freshness) / 5);
-  return { overall, coverage, relationships, ownership, documentation, freshness };
-}
-
-function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
-
-function maturityTone(score) {
-  if (score >= 80) return { tone: '', stroke: 'var(--sem-green)' };
-  if (score >= 60) return { tone: 'warn', stroke: 'var(--sem-amber)' };
-  return { tone: 'risk', stroke: 'var(--sem-pink)' };
 }
 
 // What the graph contributed to the answer just produced.
@@ -387,9 +436,9 @@ function renderHealthExplainer() {
 }
 
 function renderMaturityScore() {
-  // One concentric ring chart replaces the old single ring + five flat bars.
-  // Built from health.metrics directly, so it can never drift from the model
-  // the way the hard-coded label list did.
+  // One concentric ring chart, built from health.metrics directly, so it can
+  // never drift from the model. It plays (arcs sweep, score counts) when it is
+  // scrolled into view — motion.js watches its [data-play] root.
   const host = document.getElementById('health-rings');
   if (!host || !state.index) return;
   try {
@@ -397,62 +446,61 @@ function renderMaturityScore() {
     state.health = health;
     state.maturity = { overall: health.overall };
     host.innerHTML = renderMaturityRings(health);
-
-    // Arcs animate via CSS custom properties; flipping the class on the next
-    // frame guarantees the transition fires on every render, not just the first.
-    requestAnimationFrame(() => host.classList.add('is-drawn'));
+    host.removeAttribute('aria-busy');
+    bindMaturityRings(host);
   } catch (err) {
     console.warn('[fabric] maturity rings unavailable:', err.message);
   }
 }
 
 // ============================================================================
-// Knowledge Risk — surface gaps that matter to the business. Each card is
-// computed from real index data so the numbers tell the truth.
+// Knowledge risk — four counts that matter, each a flip card whose back shows
+// the method and the real inputs. Where health.js already computes a risk, the
+// card reads it from there, so the card and the "show the working" panel can
+// never disagree.
 // ============================================================================
+const SENT_KIND = { fragment: 'Fragments', equation: 'Code and equations', header: 'Headers', table: 'Table rows', legal: 'Legal text' };
+
 function computeRisk() {
   const chunks = state.chunks;
   const entities = state.index.entities || [];
-  const docCount = new Set(chunks.map(c => c.document_id)).size;
+  const docs = state.index.documents || [];
 
-  // 1. Boilerplate dominance: % of corpus that's URLs/citations/metadata
-  const boilerChunks = chunks.filter(c => isBoilerplate(c.section_path)).length;
-  const boilerPct = Math.round((boilerChunks / Math.max(chunks.length, 1)) * 100);
+  // 1. Boilerplate: sentences the build-time classifier (pipeline/textnorm.py)
+  //    rejected as answer material. The previous card matched section headings
+  //    against words like "videos" and "sources", which counted 112 YouTube
+  //    records and a PhD section as boilerplate — a number that did not survive
+  //    its own explanation.
+  const kinds = new Map();
+  let sents = 0;
+  for (const c of chunks) for (const x of (c.sents || [])) { sents++; if (x.k !== 'prose') kinds.set(x.k, (kinds.get(x.k) || 0) + 1); }
+  const debris = [...kinds.values()].reduce((a, v) => a + v, 0);
+  const boilerPct = Math.round((debris / Math.max(sents, 1)) * 100);
 
-  // 2. Lone-source domains: top-level sections appearing in only one doc
+  // 2. Lone-source topics: top-level section headings found in one record only.
   const topByDoc = new Map();
   for (const c of chunks) {
-    const top = (c.section_path || [])[0];
-    if (!top) continue;
-    if (!topByDoc.has(top)) topByDoc.set(top, new Set());
-    topByDoc.get(top).add(c.document_id);
+    const t = (c.section_path || [])[0];
+    if (!t) continue;
+    if (!topByDoc.has(t)) topByDoc.set(t, new Set());
+    topByDoc.get(t).add(c.document_id);
   }
-  const loneTopics = [...topByDoc.values()].filter(s => s.size === 1).length;
+  const loneTopics = [...topByDoc.values()].filter(x => x.size === 1).length;
 
-  // 3. Singleton entities: entities mentioned only once — fragile concepts
-  // mention_count is already on each entity record.
-  const singletons = entities.filter(e => (e.mention_count || 0) <= 1).length;
+  // 3. Singleton concepts: mentioned in one passage only.
+  const single = entities.filter(e => (e.mention_count || 0) <= 1);
 
-  // 4. Isolated documents: documents that share NO entity with any other doc.
-  // Build doc → set of docs it's linked to via shared entities.
-  const docLinks = new Map();
-  for (let i = 0; i < docCount; i++) docLinks.set(i, new Set());
-  for (const e of entities) {
-    const ds = e.document_ids || [];
-    if (ds.length < 2) continue;
-    for (const a of ds) {
-      for (const b of ds) {
-        if (a === b) continue;
-        if (docLinks.has(a)) docLinks.get(a).add(b);
-      }
-    }
-  }
-  let isolatedDocs = 0;
-  for (const links of docLinks.values()) {
-    if (links.size === 0) isolatedDocs++;
-  }
+  // 4. Isolated records: share no concept with any other record.
+  const linked = new Set();
+  for (const e of entities) { const ds = e.document_ids || []; if (ds.length >= 2) for (const d of ds) linked.add(d); }
+  const isolated = docs.filter(d => !linked.has(d.id));
 
-  return { boilerPct, loneTopics, singletons, isolatedDocs, totalEntities: entities.length };
+  return {
+    boilerPct, debris, sents, kinds: [...kinds.entries()].sort((a, b) => b[1] - a[1]),
+    loneTopics, topSections: topByDoc.size,
+    singletons: single.length, totalEntities: entities.length, singleKinds: countBy(single, e => e.kind),
+    isolatedDocs: isolated.length, totalDocs: docs.length, isolatedTypes: countBy(isolated, d => d.source_type),
+  };
 }
 
 function renderKnowledgeRisk() {
@@ -460,27 +508,67 @@ function renderKnowledgeRisk() {
   state.risk = r;
   const body = document.getElementById('risk-body');
   if (!body) return;
+  const n = (v) => Number(v).toLocaleString();
+  const top = (pairs, k, labelOf = x => x) => {
+    const rows = pairs.slice(0, k).map(([key, v]) => ({ label: labelOf(key), value: v }));
+    const rest = pairs.slice(k).reduce((a, [, v]) => a + v, 0);
+    if (rest) rows.push({ label: 'Other', value: rest });
+    return rows;
+  };
+  const TONE_WORD = { low: 'Healthy', medium: 'Watch', high: 'Priority' };
 
-  const card = (value, label, sub, tone) =>
-    `<div class="risk-card" data-tone="${tone}">
-       <span class="risk-card-value">${value}</span>
-       <span class="risk-card-label">${label}</span>
-       <span class="risk-card-sub">${sub}</span>
-     </div>`;
+  const card = ({ key, value, suffix = '', label, sub, tone, method, rows, rule, part, whole, of }) => flipCard({
+    cls: 'risk-card',
+    attrs: { 'data-tone': tone, 'data-key': key },
+    front: `
+      <span class="risk-card-top">
+        <span class="risk-card-value" data-count="${value}"${suffix ? ` data-suffix="${suffix}"` : ''} data-group="1">${n(value)}${suffix}</span>
+        <span class="risk-tone">${TONE_WORD[tone]}</span>
+      </span>
+      <span class="risk-card-label">${label}</span>
+      <span class="risk-card-sub">${sub}</span>
+      <span class="risk-meter" aria-hidden="true"><span class="js-grow" style="--v:${Math.max(0.01, Math.min(1, part / Math.max(whole, 1))).toFixed(3)}"></span></span>
+      <span class="risk-meter-k">${n(part)} of ${n(whole)} ${of}</span>`,
+    back: `
+      <span class="flip-method">${method}</span>
+      ${breakdown(rows)}
+      <span class="flip-rule">${rule}</span>`,
+  });
+
+  const boilerTone = r.boilerPct > 40 ? 'high' : r.boilerPct > 20 ? 'medium' : 'low';
+  const loneTone = r.loneTopics > 10 ? 'medium' : 'low';
+  const singleTone = r.singletons > r.totalEntities * 0.3 ? 'medium' : 'low';
+  const isoTone = r.isolatedDocs > 5 ? 'high' : r.isolatedDocs > 0 ? 'medium' : 'low';
 
   body.innerHTML = [
-    card(r.boilerPct + '%', 'of corpus is boilerplate',
-         'URL lists, version stamps, footers',
-         r.boilerPct > 40 ? 'high' : r.boilerPct > 20 ? 'medium' : 'low'),
-    card(r.loneTopics, 'lone-source domains',
-         'top-level topics present in only one document',
-         r.loneTopics > 10 ? 'medium' : 'low'),
-    card(r.singletons, 'singleton entities',
-         'concepts mentioned in just one passage',
-         r.singletons > r.totalEntities * 0.3 ? 'medium' : 'low'),
-    card(r.isolatedDocs, 'isolated documents',
-         'no cross-document entity links — knowledge silos',
-         r.isolatedDocs > 5 ? 'high' : r.isolatedDocs > 0 ? 'medium' : 'low'),
+    card({ key: 'boilerplate', value: r.boilerPct, suffix: '%', tone: boilerTone,
+      label: 'of sentences are boilerplate',
+      sub: 'Fragments, code, tables and headers: indexed for search, never quoted.',
+      method: `Every sentence is classified when the index is built. <b>${n(r.debris)}</b> of <b>${n(r.sents)}</b> failed the prose test.`,
+      rows: r.kinds.map(([k, v]) => ({ label: SENT_KIND[k] || k, value: v })),
+      part: r.debris, whole: r.sents, of: 'sentences',
+      rule: 'Green under 20%, amber to 40%, red above.' }),
+    card({ key: 'lone', value: r.loneTopics, tone: loneTone,
+      label: 'single-source topics',
+      sub: 'Top-level sections that appear in only one record.',
+      method: `Each passage’s top-level section heading, grouped by the records it appears in. <b>${n(r.loneTopics)}</b> of <b>${n(r.topSections)}</b> headings have exactly one.`,
+      rows: [{ label: 'One record', value: r.loneTopics }, { label: 'Two or more', value: r.topSections - r.loneTopics }],
+      part: r.loneTopics, whole: r.topSections, of: 'top-level topics',
+      rule: 'Amber above 10: one edit to that record and the topic is gone.' }),
+    card({ key: 'singletons', value: r.singletons, tone: singleTone,
+      label: 'concepts mentioned once',
+      sub: 'Named in a single passage, so one revision could erase them.',
+      method: `Concepts whose mention count is one. <b>${n(r.singletons)}</b> of <b>${n(r.totalEntities)}</b> graph concepts, by type:`,
+      rows: top(r.singleKinds, 3),
+      part: r.singletons, whole: r.totalEntities, of: 'concepts',
+      rule: 'Amber when more than 30% of all concepts.' }),
+    card({ key: 'isolated', value: r.isolatedDocs, tone: isoTone,
+      label: 'records linked to nothing',
+      sub: 'They share no concept with any other record, so no answer can combine them.',
+      method: `Records missing from every concept that spans two or more records. <b>${n(r.isolatedDocs)}</b> of <b>${n(r.totalDocs)}</b>, by source:`,
+      rows: top(r.isolatedTypes, 3, t => SOURCE_LABEL[t] || t),
+      part: r.isolatedDocs, whole: r.totalDocs, of: 'records',
+      rule: 'Red above 5: these can only answer questions that name them.' }),
   ].join('');
 }
 
@@ -500,18 +588,19 @@ function renderLineageDemo() {
 
   const statsEl = document.getElementById('lineage-demo-stats');
   if (statsEl) {
+    const st = state.index.stats;
     statsEl.innerHTML = `
       <div class="lineage-demo-stat">
-        <span class="lineage-demo-stat-val">${state.index.stats.document_count}</span>
-        <span class="lineage-demo-stat-label">Documents</span>
+        <span class="lineage-demo-stat-val" data-count="${st.document_count}" data-group="1">${st.document_count.toLocaleString()}</span>
+        <span class="lineage-demo-stat-label">Records</span>
       </div>
       <div class="lineage-demo-stat">
-        <span class="lineage-demo-stat-val">${state.index.stats.chunk_count}</span>
-        <span class="lineage-demo-stat-label">Cite-able Passages</span>
+        <span class="lineage-demo-stat-val" data-count="${st.chunk_count}" data-group="1">${st.chunk_count.toLocaleString()}</span>
+        <span class="lineage-demo-stat-label">Citable passages</span>
       </div>
       <div class="lineage-demo-stat">
-        <span class="lineage-demo-stat-val">100%</span>
-        <span class="lineage-demo-stat-label">Verbatim Citation</span>
+        <span class="lineage-demo-stat-val" data-count="100" data-suffix="%">100%</span>
+        <span class="lineage-demo-stat-label">Quoted verbatim</span>
       </div>
     `;
   }
@@ -524,7 +613,7 @@ function renderLineageDemo() {
       `<span class="crumb-cite">[1]</span>`,
       `<span class="crumb-doc">${escapeHtml(docShort)}</span>`,
       `<span class="crumb-sep">›</span>`,
-      `<span>page ${candidate.page || 1}</span>`,
+      `<span>${escapeHtml(whereLabel(candidate))}</span>`,
     ];
     for (const s of sectionTrail) {
       parts.push(`<span class="crumb-sep">›</span><span>${escapeHtml(s)}</span>`);
@@ -572,7 +661,7 @@ function setupCopilot() {
     const sel = vc.querySelector('#lang-select');
     const mic = vc.querySelector('#mic-btn');
     sel.addEventListener('change', () => setLang(sel.value));
-    if (!recognitionSupported()) { mic.disabled = true; mic.title = 'Voice input is not supported in this browser'; }
+    if (!recognitionSupported()) { mic.disabled = true; mic.title = 'This browser doesn’t support voice input'; }
     mic.addEventListener('click', async () => {
       if (mic.dataset.listening === 'true') return;
       mic.dataset.listening = 'true';
@@ -583,7 +672,7 @@ function setupCopilot() {
         const heard = await listen(currentLang());
         if (heard) { input.value = heard; state.spokenQuestion = true; form.dispatchEvent(new Event('submit')); }
       } catch (err) {
-        input.placeholder = err.message === 'not-allowed' ? 'Microphone access was blocked' : 'Did not catch that — try again';
+        input.placeholder = err.message === 'not-allowed' ? 'Microphone access is blocked. Allow it in the address bar.' : 'Didn’t catch that. Try again.';
         setTimeout(() => { input.placeholder = placeholder; }, 2500);
         if (state.stage) state.stage.setMood('idle');
         return;
@@ -618,8 +707,10 @@ function setupDerivationToggles() {
       const open = !panel.hidden;
       panel.hidden = open;
       btn.setAttribute('aria-expanded', String(!open));
-      btn.textContent = open ? btn.dataset.closed || btn.textContent
-                             : btn.dataset.open || btn.textContent;
+      const label = btn.querySelector('.why-label') || btn;
+      label.textContent = open ? btn.dataset.closed || label.textContent
+                               : btn.dataset.open || label.textContent;
+      if (!open) panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
   }
 }
@@ -733,15 +824,16 @@ function updateRetrievalBadge() {
   const el = document.getElementById('retrieval-mode-badge');
   if (!el) return;
   const sem = state.semantic;
+  el.removeAttribute('title');
   if (sem && sem.enabled) {
-    el.textContent = `hybrid · bm25 + lsa ${sem.dims}d`;
+    el.textContent = 'Hybrid search';
     el.dataset.mode = 'hybrid';
-    el.title = `Reciprocal rank fusion over BM25 and ${sem.method}. ` +
-               `${(sem.explainedVariance * 100).toFixed(1)}% variance retained.`;
+    el.dataset.tip = `Keyword (BM25) and meaning (${sem.method}, ${sem.dims} dimensions) ranked together by reciprocal rank fusion. ` +
+                     `${(sem.explainedVariance * 100).toFixed(1)}% of variance retained.`;
   } else {
-    el.textContent = 'lexical · bm25';
+    el.textContent = 'Keyword search';
     el.dataset.mode = 'lexical';
-    el.title = sem ? `Semantic layer unavailable: ${sem.reason}` : 'Semantic layer loading…';
+    el.dataset.tip = sem ? `Ranking by BM25 keywords only. The semantic layer is unavailable: ${sem.reason}` : 'Ranking by BM25 keywords while the semantic layer loads.';
   }
 }
 
@@ -781,6 +873,8 @@ async function ask(question, opts = {}) {
                        confidence: result.confidence, analysis: result.analysis,
                        summary: result.summary };
 
+  // The page opens on a sample answer; it is labelled as one until the visitor asks.
+  state.seeded = silent;
   populateAnswerStage(question, answerHtml, citations, ranked, trace, cohesion);
   const rel = document.getElementById('answer-related');
   if (rel) {
@@ -801,8 +895,8 @@ async function ask(question, opts = {}) {
     const voiceEl = document.getElementById('answer-voice');
     if (voiceEl) {
       const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-      voiceEl.innerHTML = `<button type="button" class="voice-btn voice-speak" id="answer-speak">▶ Hear it in my words</button>`
-        + `<span class="answer-voice-status">${esc(lines.join(' '))}</span>`;
+      voiceEl.innerHTML = renderSpeakButton()
+        + `<span class="answer-voice-status"><span class="answer-voice-k">In his voice</span>“${esc(lines.join(' '))}”</span>`;
       voiceEl.hidden = false;
       voiceEl.querySelector('#answer-speak').addEventListener('click', () => sayLines(lines, result.answerLang || currentLang()));
     }
@@ -821,6 +915,7 @@ async function ask(question, opts = {}) {
     if (fb) { fb.innerHTML = renderFlagBox(t); fb.hidden = false; }
   }
   if (!silent) appendAssistantMessage(question, answerHtml, citations, ranked, trace);
+  wireExplainButton(question, answerHtml, citations, ranked, trace);
   renderLineage(question, answerHtml, citations);
   updateCopilotMetrics(citations, trace, ranked, cohesion);
   updateGalaxyStatus(trace);
@@ -868,6 +963,8 @@ function populateAnswerStage(question, answerHtml, citations, ranked, trace, coh
   liveEl.classList.add('is-refreshing');
   setTimeout(() => liveEl.classList.remove('is-refreshing'), 600);
 
+  const qEyebrow = document.querySelector('.answer-q-eyebrow');
+  if (qEyebrow) qEyebrow.textContent = state.seeded ? 'A question to start with' : 'Your question';
   const qEl = document.getElementById('answer-stage-question');
   const aEl = document.getElementById('answer-stage-text');
   if (qEl) qEl.textContent = question;
@@ -901,18 +998,22 @@ function populateAnswerStage(question, answerHtml, citations, ranked, trace, coh
   const srcEl = document.getElementById('answer-stage-sources');
   const pathsEl = document.getElementById('answer-stage-paths');
   if (confFillEl) {
-    confFillEl.style.width = '0%';
-    requestAnimationFrame(() => { confFillEl.style.width = `${conf}%`; });
+    // Scale, not width: the bar grows on the compositor and re-grows per answer.
+    confFillEl.style.setProperty('--v', '0');
+    requestAnimationFrame(() => requestAnimationFrame(() => confFillEl.style.setProperty('--v', String(Math.max(0, Math.min(1, conf / 100))))));
   }
   if (confValEl) {
     if (typeof conf === 'number') countUp(confValEl, conf, { decimals: 2, suffix: '%', duration: 1300, from: 0 });
     else confValEl.textContent = `${conf}%`;
     confValEl.dataset.band = confObj ? confObj.band : '';
   }
+  // The breakdown follows its toggle: re-rendered for every answer, but only
+  // shown when the reader has asked to see the scoring.
   const confWhy = document.getElementById('confidence-why');
+  const confToggle = document.getElementById('confidence-why-toggle');
   if (confWhy && confObj) {
     confWhy.innerHTML = renderConfidenceBreakdown(confObj);
-    confWhy.hidden = false;
+    confWhy.hidden = !(confToggle && confToggle.getAttribute('aria-expanded') === 'true');
   }
   if (srcEl) countUp(srcEl, citations.length, { duration: 900 });
   if (pathsEl) countUp(pathsEl, Math.max(1, trace.edgeCount), { duration: 1200 });
@@ -944,11 +1045,10 @@ function setIdleGalaxyStatus() {
   try {
     const p = graphPurposeCopy(state.index);
     el.innerHTML =
-      `<span class="gs-tag">Graph</span>` +
-      `<span class="gs-pair"><b>${p.stat}</b> concepts linking two or more records</span>` +
-      `<span class="gs-pair"><b>${p.stat2}</b> concepts joining resume · site · YouTube · GitHub</span>`;
+      `<span class="gs-tag">Knowledge graph</span>` +
+      `<span class="gs-pair" tabindex="0" data-tip="Concepts that appear in two or more records. Search finds shared words; these find a shared subject."><b data-count="${p.stat}">${p.stat}</b> shared concepts</span>` +
+      `<span class="gs-pair" tabindex="0" data-tip="Concepts found in two or more source systems: resume, website, YouTube, GitHub. They are what let one answer draw on all of them."><b data-count="${p.stat2}">${p.stat2}</b> join separate sources</span>`;
     if (wrap) wrap.dataset.state = 'idle';
-    el.title = p.body;
   } catch (_) {
     el.textContent = `${state.index.stats.entity_count} entities · ` +
                      `${state.index.stats.relationship_count} relationships`;
@@ -960,17 +1060,16 @@ function updateGalaxyStatus(trace) {
   const el = document.getElementById('galaxy-status');
   const wrap = document.getElementById('galaxy-status-wrap');
   if (trace.activeEntities.length === 0) {
-    el.textContent = 'No entities activated — try a more specific question.';
+    el.textContent = 'No concepts matched. Try naming a project, skill or place.';
     if (wrap) wrap.dataset.state = 'empty';
     return;
   }
   el.innerHTML =
-    `<span class="gs-tag gs-tag-live">Traversed</span>` +
-    `<span class="gs-pair"><b>${trace.activeEntities.length}</b> activated</span>` +
-    `<span class="gs-pair"><b>${trace.neighborCount}</b> neighbors</span>` +
-    `<span class="gs-pair"><b>${trace.edgeCount}</b> relationships</span>`;
+    `<span class="gs-tag gs-tag-live">${state.seeded ? 'Sample answer' : 'This answer'}</span>` +
+    `<span class="gs-pair" data-tip="Concepts named in the cited passages, lit gold in the graph."><b data-count="${trace.activeEntities.length}">${trace.activeEntities.length}</b> concepts lit</span>` +
+    `<span class="gs-pair" data-tip="Concepts one link away from those, shown in platinum."><b data-count="${trace.neighborCount}">${trace.neighborCount}</b> neighbours</span>` +
+    `<span class="gs-pair" data-tip="Links the graph walked to connect them."><b data-count="${trace.edgeCount}">${trace.edgeCount}</b> links</span>`;
   if (wrap) wrap.dataset.state = 'live';
-  el.title = 'Concepts the graph walked through to assemble this answer.';
 }
 
 // ============================================================================
@@ -1023,8 +1122,13 @@ function appendAssistantMessage(question, answerHtml, citations, ranked, trace) 
   document.getElementById('messages').appendChild(tpl);
   scrollMessages();
 
-  // Also expose the global "Explain Answer" button in the lineage pane header
+}
+
+// The lineage pane's "Step through it" opens the reasoning trace for whatever
+// answer is on screen, the seeded first answer included.
+function wireExplainButton(question, answerHtml, citations, ranked, trace) {
   const explainBtn = document.getElementById('explain-btn');
+  if (!explainBtn) return;
   explainBtn.hidden = false;
   explainBtn.onclick = () => openExplain({
     question, ranked, citations,
@@ -1048,22 +1152,22 @@ function showChunkDetail(chunk) {
   const entities = (chunk.entities || []).map(id => state.entitiesById.get(id)).filter(Boolean);
 
   const html = `
-    <div class="entity-card-eyebrow">Retrieved Knowledge Unit</div>
+    <div class="entity-card-eyebrow">Source passage</div>
     <div class="entity-card-title">${escapeHtml(stripExt(chunk.document_name))}</div>
     <div class="entity-card-meta">
-      <div class="kv"><span class="k">Page</span><span class="v">${chunk.page}</span></div>
-      <div class="kv"><span class="k">Paragraphs</span><span class="v">¶${chunk.paragraph_indices.join(', ¶')}</span></div>
-      <div class="kv" style="flex:1;min-width:140px"><span class="k">Section Path</span><span class="v" style="font-size:11.5px;font-family:var(--font-sans);font-style:italic;color:var(--text-dim)">${escapeHtml(sectionPath)}</span></div>
+      <div class="kv"><span class="k">Where</span><span class="v v-small">${escapeHtml(whereLabel(chunk))}</span></div>
+      <div class="kv kv-wide"><span class="k">Section</span><span class="v v-path">${escapeHtml(sectionPath)}</span></div>
+      ${chunk.url ? `<div class="kv"><span class="k">Source</span><a class="v v-small entity-card-link" href="${escapeHtml(chunk.url)}" target="_blank" rel="noreferrer">Open ↗</a></div>` : ''}
     </div>
     <div class="entity-card-section">
       <h4>Full passage</h4>
-      <div class="evidence" style="cursor:default">
-        <div class="evidence-text" style="-webkit-line-clamp:unset;color:var(--text)">${escapeHtml(chunk.text)}</div>
+      <div class="evidence evidence-full">
+        <div class="evidence-text">${escapeHtml(chunk.text)}</div>
       </div>
     </div>
     ${entities.length ? `
     <div class="entity-card-section">
-      <h4>Entities in this passage</h4>
+      <h4>Concepts in this passage</h4>
       <div class="entity-card-pills">
         ${entities.map(e => `<button class="pill pill-accent" data-eid="${e.id}">${escapeHtml(e.name)}</button>`).join('')}
       </div>
@@ -1099,24 +1203,24 @@ function showEntityDetail(entityId) {
   const purpose = purposeChunk?.paragraph_excerpt || purposeChunk?.text?.slice(0, 200) || '';
 
   const html = `
-    <div class="entity-card-eyebrow">Entity · ${escapeHtml(e.kind)}</div>
+    <div class="entity-card-eyebrow">${escapeHtml(e.kind)}</div>
     <div class="entity-card-title">${escapeHtml(e.name)}</div>
     <div class="entity-card-meta">
-      <div class="kv"><span class="k">Mentions</span><span class="v">${e.mention_count}</span></div>
-      <div class="kv"><span class="k">Documents</span><span class="v">${docs.size}</span></div>
-      <div class="kv"><span class="k">Knowledge Units</span><span class="v">${e.chunk_ids.length}</span></div>
-      <div class="kv"><span class="k">Connections</span><span class="v">${related.length}</span></div>
+      <div class="kv"><span class="k">Mentions</span><span class="v" data-count="${e.mention_count}">${e.mention_count}</span></div>
+      <div class="kv"><span class="k">Records</span><span class="v" data-count="${new Set(e.document_ids || []).size}">${new Set(e.document_ids || []).size}</span></div>
+      <div class="kv"><span class="k">Passages</span><span class="v" data-count="${e.chunk_ids.length}">${e.chunk_ids.length}</span></div>
+      <div class="kv"><span class="k">Links</span><span class="v" data-count="${related.length}">${related.length}</span></div>
     </div>
 
     ${purpose ? `
     <div class="entity-card-section">
-      <h4>Purpose</h4>
-      <p style="font-size:12.5px;color:var(--text-dim);line-height:1.55">${escapeHtml(purpose)}</p>
+      <h4>First mention</h4>
+      <p class="entity-card-quote">${escapeHtml(purpose)}</p>
     </div>` : ''}
 
     ${relatedTop.length ? `
     <div class="entity-card-section">
-      <h4>Dependencies & related concepts</h4>
+      <h4>Related concepts</h4>
       <div class="entity-card-pills">
         ${relatedTop.map(r => `<button class="pill" data-eid="${r.id}">${escapeHtml(r.name)}</button>`).join('')}
       </div>
@@ -1126,7 +1230,7 @@ function showEntityDetail(entityId) {
     <div class="entity-card-section">
       <h4>Appears in</h4>
       <div class="entity-card-pills">
-        ${[...docs].map(d => `<span class="pill pill-accent" style="cursor:default">${escapeHtml(stripExt(d))}</span>`).join('')}
+        ${[...docs].map(d => `<span class="pill pill-accent pill-static">${escapeHtml(stripExt(d))}</span>`).join('')}
       </div>
     </div>` : ''}
 
@@ -1139,8 +1243,8 @@ function showEntityDetail(entityId) {
             <div class="evidence-meta">
               <span class="doc">${escapeHtml(stripExt(c.document_name))}</span>
               <span class="sep">·</span>
-              <span>page ${c.page}</span>
-              ${section ? `<span class="sep">·</span><span style="font-style:italic">${escapeHtml(section)}</span>` : ''}
+              <span>${escapeHtml(whereLabel(c))}</span>
+              ${section ? `<span class="sep">·</span><span class="evidence-section">${escapeHtml(section)}</span>` : ''}
             </div>
             <div class="evidence-text">${escapeHtml(c.text)}</div>
           </div>`;
@@ -1170,6 +1274,17 @@ function openGalaxyDetail(html) {
 // ============================================================================
 function stripExt(name) {
   return name.replace(/\.(pdf|docx?|md|markdown|txt)$/i, '').replace(/_/g, ' ');
+}
+
+// Where a passage sits, in the terms of its own source: a page and paragraph
+// for the resume, a timestamp for a video, the record type for everything else.
+const WHERE_WORD = { profile: 'Profile record', canon: 'His own answer', website: 'Website section',
+                     youtube: 'YouTube video', github: 'GitHub repository', linkedin: 'LinkedIn post' };
+function whereLabel(c) {
+  const m = c.meta || {};
+  if (c.source_type === 'document') return `Page ${c.page || 1}` + (c.paragraph_indices && c.paragraph_indices.length ? `, ¶${c.paragraph_indices.map(i => i + 1).join(', ¶')}` : '');
+  if (m.t_label) return `YouTube at ${m.t_label}`;
+  return WHERE_WORD[c.source_type] || 'Record';
 }
 
 function escapeHtml(s) {
@@ -1204,11 +1319,13 @@ function setTwinStatus() {
   const el = document.getElementById('twin-status');
   if (!el) return;
   const parts = [];
-  if (state.stage && state.stage.mode !== '3d') parts.push('avatar model not loaded — portrait fallback');
-  if (semNLU.modelReady()) parts.push('semantic NLU ready');
+  if (state.stage && state.stage.mode !== '3d') parts.push(['muted', 'Portrait view', 'The 3D avatar could not load here, so a portrait stands in.']);
+  if (semNLU.modelReady()) parts.push(['live', 'Understands paraphrase', 'A small language model on this page matches your wording to his answers by meaning.']);
   const n = speaker.bakedCount();
-  parts.push(n ? `${n} lines in my own voice` : 'browser voice until the voice bake runs');
-  el.textContent = parts.join(' · ');
+  parts.push(n ? ['live', 'His recorded voice', `${n} lines recorded in Prashobh’s own voice.`]
+               : ['muted', 'Browser voice', 'Replies are read by your browser’s voice until his recorded voice is available.']);
+  el.innerHTML = parts.map(([tone, text, tip]) =>
+    `<span class="stage-light" data-tone="${tone}" tabindex="0" data-tip="${escapeHtml(tip)}">${escapeHtml(text)}</span>`).join('');
 }
 
 function wireStageActions() {
@@ -1217,7 +1334,12 @@ function wireStageActions() {
   let muted = false;
   try { muted = localStorage.getItem('kf.mute') === '1'; } catch { /* private mode */ }
   speaker.setMuted(muted);
-  const paint = () => { mute.setAttribute('aria-pressed', String(muted)); mute.textContent = muted ? 'Sound off' : 'Sound on'; };
+  // A toggle keeps one label; its pressed state and icon say which way it is.
+  const paint = () => {
+    mute.setAttribute('aria-pressed', String(muted));
+    mute.classList.toggle('is-muted', muted);
+    mute.dataset.tip = muted ? 'Answers are not read aloud.' : 'Answers are read aloud as they arrive.';
+  };
   paint();
   mute.addEventListener('click', () => { muted = !muted; speaker.setMuted(muted); try { localStorage.setItem('kf.mute', muted ? '1' : '0'); } catch { /* noop */ } paint(); });
   greet.addEventListener('click', () => sayLines([TWIN_CONFIG.greeting]));

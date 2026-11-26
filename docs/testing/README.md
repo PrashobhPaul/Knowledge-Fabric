@@ -57,7 +57,7 @@ The latency differed only by noise.
 - [01-question-sets.md](01-question-sets.md): every `tests/qa_*.json` set, its size, its rules for a pass, its result
 - [02-proof.md](02-proof.md): what `tests/prove.mjs` proves, the latest numbers, how to read the report
 - [03-interview-readiness.md](03-interview-readiness.md): the Senior AI Architect brief and how it was covered
-- [04-knowledge-growth.md](04-knowledge-growth.md): how to add knowledge safely; the PhD before/after evidence
+- [04-knowledge-growth.md](04-knowledge-growth.md): how to add knowledge safely; the PhD and smart plane before/after evidence
 - [05-findings-and-fixes.md](05-findings-and-fixes.md): dated log of real defects found by testing and their guards
 - [06-open-items-next.md](06-open-items-next.md): what is not yet proven and what to prove next
 - [interview-panel-review.md](interview-panel-review.md): independent panel grading of every brief answer (`d9000b7`)

@@ -1,0 +1,431 @@
+{
+ "note": "New knowledge, the smart plane (2012 B.Tech project), added the way the owner adds it: docs_source/notes/press/Smart_Plane_Press_2012.md (the Eenadu and Namasthe Telangana clippings, transcribed from the Telugu), docs_source/notes/press/Smart_Plane_Videos.md and knowledge_sources/youtube/extra_videos.json (the old channel @Phoenix007Super and the demonstration video VomUVZ0IKeM), answered in knowledge_sources/profile/canon_smartplane.yaml. Each curated question as written plus two paraphrases, each with the facts it must state; voice-uav must now point to the press and the video and keep every earlier fact. Details the clippings do not give (speed, cost, range) must be declined.",
+ "cases": [
+  {
+   "q": "Was your smart plane in the newspapers?",
+   "id": "smartplane-press",
+   "must_all": [
+    "Eenadu",
+    "Namasthe Telangana"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "Did any newspaper report on your smart plane?",
+   "id": "smartplane-press",
+   "must_all": [
+    "Eenadu",
+    "Namasthe Telangana"
+   ]
+  },
+  {
+   "q": "Was the smart plane featured in any Telugu newspaper?",
+   "id": "smartplane-press",
+   "must_all": [
+    "Eenadu",
+    "Namasthe Telangana"
+   ]
+  },
+  {
+   "q": "What did the newspapers say about your college project?",
+   "id": "smartplane-press",
+   "must_all": [
+    "Eenadu",
+    "The little plane flew",
+    "Namasthe Telangana",
+    "24 September 2012"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "What did Eenadu write about your smart plane?",
+   "id": "smartplane-press",
+   "must_all": [
+    "Eenadu",
+    "The little plane flew",
+    "Namasthe Telangana",
+    "24 September 2012"
+   ]
+  },
+  {
+   "q": "Tell me about the newspaper coverage of your B.Tech project.",
+   "id": "smartplane-press",
+   "must_all": [
+    "Eenadu",
+    "The little plane flew",
+    "Namasthe Telangana",
+    "24 September 2012"
+   ]
+  },
+  {
+   "q": "What were the specifications of your smart plane?",
+   "id": "smartplane-specs",
+   "must_all": [
+    "4-stroke",
+    "0.6 cc",
+    "20 percent nitro",
+    "6.2 ft",
+    "6.5 ft",
+    "8 kg",
+    "balsa",
+    "plywood"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "What were the smart plane's specs?",
+   "id": "smartplane-specs",
+   "must_all": [
+    "4-stroke",
+    "0.6 cc",
+    "20 percent nitro",
+    "6.2 ft",
+    "6.5 ft",
+    "8 kg",
+    "balsa",
+    "plywood"
+   ]
+  },
+  {
+   "q": "Can you share the technical details of the smart plane?",
+   "id": "smartplane-specs",
+   "must_all": [
+    "4-stroke",
+    "0.6 cc",
+    "20 percent nitro",
+    "6.2 ft",
+    "6.5 ft",
+    "8 kg",
+    "balsa",
+    "plywood"
+   ]
+  },
+  {
+   "q": "How much did the smart plane weigh?",
+   "id": "smartplane-weight",
+   "must_all": [
+    "8 kg",
+    "Eenadu"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "What was the weight of the smart plane?",
+   "id": "smartplane-weight",
+   "must_all": [
+    "8 kg",
+    "Eenadu"
+   ]
+  },
+  {
+   "q": "How heavy was your plane?",
+   "id": "smartplane-weight",
+   "must_all": [
+    "8 kg",
+    "Eenadu"
+   ]
+  },
+  {
+   "q": "What engine did the plane use?",
+   "id": "smartplane-engine",
+   "must_all": [
+    "4-stroke",
+    "0.6 cc",
+    "20 percent nitro"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "Which engine powered your smart plane?",
+   "id": "smartplane-engine",
+   "must_all": [
+    "4-stroke",
+    "0.6 cc",
+    "20 percent nitro"
+   ]
+  },
+  {
+   "q": "What kind of fuel did the smart plane use?",
+   "id": "smartplane-engine",
+   "must_all": [
+    "4-stroke",
+    "0.6 cc",
+    "20 percent nitro"
+   ]
+  },
+  {
+   "q": "Who unveiled your smart plane?",
+   "id": "smartplane-unveiled-by",
+   "must_all": [
+    "Mallareddy",
+    "Kakatiya University",
+    "Narayana Reddy",
+    "Warangal Diocese"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "Who was the chief guest at the smart plane launch?",
+   "id": "smartplane-unveiled-by",
+   "must_all": [
+    "Mallareddy",
+    "Kakatiya University",
+    "Narayana Reddy",
+    "Warangal Diocese"
+   ]
+  },
+  {
+   "q": "Who unveiled the smart plane on Engineers' Day?",
+   "id": "smartplane-unveiled-by",
+   "must_all": [
+    "Mallareddy",
+    "Kakatiya University",
+    "Narayana Reddy",
+    "Warangal Diocese"
+   ]
+  },
+  {
+   "q": "Did a minister appreciate your project?",
+   "id": "smartplane-minister",
+   "must_all": [
+    "Ponnala",
+    "by phone"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "Which minister praised the smart plane?",
+   "id": "smartplane-minister",
+   "must_all": [
+    "Ponnala",
+    "by phone"
+   ]
+  },
+  {
+   "q": "Did Minister Ponnala congratulate you?",
+   "id": "smartplane-minister",
+   "must_all": [
+    "Ponnala",
+    "by phone"
+   ]
+  },
+  {
+   "q": "When was the smart plane unveiled?",
+   "id": "smartplane-when",
+   "must_all": [
+    "Engineers",
+    "Saturday",
+    "15 September",
+    "2012",
+    "24 September 2012"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "When did you first fly the smart plane?",
+   "id": "smartplane-when",
+   "must_all": [
+    "Engineers",
+    "Saturday",
+    "15 September",
+    "2012",
+    "24 September 2012"
+   ]
+  },
+  {
+   "q": "What was the date of the smart plane's unveiling?",
+   "id": "smartplane-when",
+   "must_all": [
+    "Engineers",
+    "Saturday",
+    "15 September",
+    "2012",
+    "24 September 2012"
+   ]
+  },
+  {
+   "q": "Is there a video of your smart plane?",
+   "id": "smartplane-video",
+   "must_all": [
+    "VomUVZ0IKeM",
+    "uploaded it",
+    "Phoenix007Super"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "Can I watch the smart plane demonstration on YouTube?",
+   "id": "smartplane-video",
+   "must_all": [
+    "VomUVZ0IKeM",
+    "uploaded it",
+    "Phoenix007Super"
+   ]
+  },
+  {
+   "q": "Do you have any footage of the smart plane flying?",
+   "id": "smartplane-video",
+   "must_all": [
+    "VomUVZ0IKeM",
+    "uploaded it",
+    "Phoenix007Super"
+   ]
+  },
+  {
+   "q": "What was your old YouTube channel?",
+   "id": "smartplane-channel",
+   "must_all": [
+    "Phoenix007Super",
+    "smart plane robot work"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "What was your old YouTube channel called?",
+   "id": "smartplane-channel",
+   "must_all": [
+    "Phoenix007Super",
+    "smart plane robot work"
+   ]
+  },
+  {
+   "q": "Which other YouTube channel did you run for the smart plane?",
+   "id": "smartplane-channel",
+   "must_all": [
+    "Phoenix007Super",
+    "smart plane robot work"
+   ]
+  },
+  {
+   "q": "What is Phoenix007Super?",
+   "id": "smartplane-channel",
+   "must_all": [
+    "Phoenix007Super",
+    "old YouTube channel",
+    "VomUVZ0IKeM"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "Tell me about the Phoenix007Super channel.",
+   "id": "smartplane-channel",
+   "must_all": [
+    "Phoenix007Super",
+    "old YouTube channel",
+    "VomUVZ0IKeM"
+   ]
+  },
+  {
+   "q": "Whose channel is Phoenix007Super?",
+   "id": "smartplane-channel",
+   "must_all": [
+    "Phoenix007Super",
+    "old YouTube channel",
+    "VomUVZ0IKeM"
+   ]
+  },
+  {
+   "q": "Where was the smart plane built?",
+   "id": "smartplane-where",
+   "must_all": [
+    "Christu Jyothi",
+    "Yeshwanthapur",
+    "Jangaon",
+    "department"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "At which college did you build the smart plane?",
+   "id": "smartplane-where",
+   "must_all": [
+    "Christu Jyothi",
+    "Yeshwanthapur",
+    "Jangaon",
+    "department"
+   ]
+  },
+  {
+   "q": "Which institute developed the smart plane?",
+   "id": "smartplane-where",
+   "must_all": [
+    "Christu Jyothi",
+    "Yeshwanthapur",
+    "Jangaon",
+    "department"
+   ]
+  },
+  {
+   "q": "Tell me about your voice-controlled UAV.",
+   "id": "voice-uav",
+   "must_all": [
+    "UAV",
+    "Engineer",
+    "Hidden Markov Models",
+    "Telugu newspapers",
+    "Eenadu",
+    "Namasthe Telangana",
+    "YouTube"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "What was your college project?",
+   "id": "voice-uav",
+   "must_all": [
+    "UAV",
+    "Dulhera",
+    "Knowledge Engineering",
+    "Eenadu"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "Tell me about your smart plane.",
+   "id": "voice-uav",
+   "must_all": [
+    "UAV",
+    "Hidden Markov Models",
+    "Eenadu",
+    "YouTube"
+   ],
+   "kind": "exact"
+  },
+  {
+   "q": "What was the Smart Plane Climate Analyser Robot?",
+   "id": "voice-uav",
+   "must_all": [
+    "voice-controlled UAV",
+    "climate-analyser smart plane",
+    "Eenadu"
+   ]
+  },
+  {
+   "q": "Do you have a video about Smart plane demonstration (college upload)?",
+   "id": "catalogue",
+   "must_all": [
+    "Smart plane demonstration",
+    "on YouTube, uploaded by someone at my college"
+   ]
+  },
+  {
+   "q": "How fast is Eidolon?",
+   "id": "knowledge-fabric",
+   "must": "50 ms"
+  },
+  {
+   "q": "How quickly does Eidolon answer a question?",
+   "id": "knowledge-fabric",
+   "must": "milliseconds"
+  }
+ ],
+ "no_answer": [
+  "What was the top speed of the smart plane?",
+  "How much did the plane cost?",
+  "What was the range of the smart plane?",
+  "How much did your smart plane cost?",
+  "What did your smart plane cost?",
+  "How fast could your smart plane fly?",
+  "How high could your smart plane fly?"
+ ]
+}
