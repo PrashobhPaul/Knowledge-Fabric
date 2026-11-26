@@ -837,6 +837,16 @@ check('off-topic questions, errands and private details in the harder rounds are
   assert(misses.length === 0, misses.join('\n          '));
 });
 
+check('a pronoun whose subject the question names in an earlier clause is answered; a bare one is still declined', () => {
+  for (const q of ['What is self-attention and how is it different from attention?', 'What is self-attention, and how does it differ from attention?']) {
+    const r = answerQuestion(q, pipeCtx);
+    assert(r.canonMatch && r.canonMatch.id === 'iv1-transformer', `"${q}" → ${r.canonMatch ? r.canonMatch.id : (r.noAnswer ? 'NO-ANSWER' : 'retrieval')}`);
+  }
+  for (const q of ['Who built it?', 'Who designed and built it?', 'What time is it?', 'Is it open source?']) {
+    assert(answerQuestion(q, pipeCtx).noAnswer, `"${q}" was answered, but "it" points at nothing`);
+  }
+});
+
 check('client names stay confidential in every curated answer, note and indexed record', () => {
   const CLIENT = /Southwest|PwC|Pricewaterhouse|American Express|\bAmex\b/i;
   const canonText = JSON.stringify(idx.canon);
