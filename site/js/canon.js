@@ -493,6 +493,12 @@ export function canonDecline(question, canon) {
   return null;
 }
 
+/** Same word, allowing plurals, -ing/-ed and one typo ("Padma" ~ "Padme"). */
+export function sameWord(a, b) {
+  const x = stem(norm(String(a).toLowerCase())), y = stem(norm(String(b).toLowerCase()));
+  return x === y || close(x, y);
+}
+
 /** Content words of a question (no function words), as typed. */
 export function contentWords(question) { return tokenize(String(question)).filter(t => !STOP.has(t)); }
 
