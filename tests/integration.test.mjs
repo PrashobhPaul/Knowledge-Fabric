@@ -864,6 +864,10 @@ check('client names stay confidential in every curated answer, note and indexed 
 check('every deploy cache-busts the modules, so visitors never run a stale matcher', () => {
   const wf = fs.readFileSync(path.join(ROOT, '.github/workflows/deploy.yml'), 'utf8');
   assert(/Cache-bust/.test(wf) && /GITHUB_SHA/.test(wf), 'deploy does not stamp module versions');
+  const at = (s) => wf.indexOf(s);
+  assert(at('run: node tests/prove.mjs') > at('node tests/integration.test.mjs') && at('run: node tests/prove.mjs') > at('python -m eval.evaluate --gate')
+    && at('run: node tests/prove.mjs') < at('upload-pages-artifact') && at('node tests/integration.test.mjs') > 0,
+    'deploy must run the proof after the integration and eval gates and before the Pages upload');
   const main = fs.readFileSync(path.join(SITE, 'js/main.js'), 'utf8');
   assert(/from '\.\/pipeline\.js/.test(main) && !/matchCanon\(/.test(main), 'the page must use the shared pipeline');
 });
