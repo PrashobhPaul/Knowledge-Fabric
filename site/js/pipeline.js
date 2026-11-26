@@ -11,7 +11,7 @@ import { cohereByDocument, tokenize } from './search.js?v=5';
 import { hybridSearch } from './hybrid.js?v=3';
 import { buildAnswer } from './answer.js?v=8';
 import { matchQuestionBank } from './questionbank.js?v=3';
-import { matchCanon, applyCanon, suggestCanon, contentWords, isImperativeTask, focus, smallTalk, resolveFollowUp, canonDecline, codeCardHtml, sameWord } from './canon.js?v=2';
+import { matchCanon, applyCanon, suggestCanon, contentWords, isImperativeTask, focus, smallTalk, resolveFollowUp, canonDecline, codeCardHtml, sameWord, unknownAttribute } from './canon.js?v=2';
 import { expandQuery } from './multilingual.js?v=1';
 import { relatedItems } from './related.js?v=1';
 import { matchCanonByVector, chunkRun } from './nlu_semantic.js?v=1';
@@ -295,12 +295,15 @@ export function answerQuestion(asked, ctx) {
   const lexical = decline ? null : matchCanon(canonQuestion(question), index.canon, { timeline: index.timeline });
   const byVector = (!decline && !lexical && ctx.qvec) ? matchCanonByVector(ctx.qvec, ctx.vectors || undefined, { threshold: 0.6, margin: 0.04 }) : null;
   const vEntry = byVector ? index.canon.find(e => e.id === byVector.id) : null;
-  const canonMatch = lexical || (vEntry ? { entry: vEntry, score: byVector.score, via: 'embedding' } : null);
+  const matched = lexical || (vEntry ? { entry: vEntry, score: byVector.score, via: 'embedding' } : null);
+  // Asked for a detail (cost, speed, range, altitude) the curated answer never states: not on record.
+  const missing = !!(matched && !matched.parts && unknownAttribute(question, matched.entry, index.canon));
+  const canonMatch = missing ? null : matched;
   const code = pickCode(question, chunks, canonMatch ? (canonMatch.entry.project || '') : '');
   // A named item wins when the visitor asks for the video or the repo itself; a
   // project with a curated answer keeps it otherwise.
   const explicit = /\b(videos?|vlogs?|shorts?|clips?|watch|github|repos?|repository)\b/i.test(question);
-  const item = decline || (canonMatch && !explicit) ? null : lookupTitle(question, chunks);
+  const item = decline || missing || (canonMatch && !explicit) ? null : lookupTitle(question, chunks);
   if (item) {
     const idxOf = chunks.indexOf(item.chunk);
     const cite = { num: 1, chunkIdx: idxOf, chunk: item.chunk, score: 1, confidence: 1, why: item.chunk.document_name };
@@ -320,7 +323,7 @@ export function answerQuestion(asked, ctx) {
   const scriptLang = expandQuery(asked).lang;
   const answerLang = scriptLang !== 'en' ? scriptLang : (ctx.answerLang || 'en');
   // A video moment leads when it covers the question better than the curated answer does.
-  const moment = decline ? null : findMoment(question, chunks);
+  const moment = decline || missing ? null : findMoment(question, chunks);
   const canonCov = canonMatch && moment ? covered(moment.words, canonMatch.entry.answer) / moment.words.length : 0;
   // Lead with the moment only when its chapter title names what was asked; a strong
   // curated answer keeps the lead otherwise, with the moment beneath it.
@@ -345,13 +348,13 @@ export function answerQuestion(asked, ctx) {
       result.answerHtml = result.answerHtml.replace('<p class="answer-closing">Curated answer.', momentCard(moment, 0) + '<p class="answer-closing">Curated answer.');
     if (code && !(result.answerHtml || '').includes(code.url)) result.answerHtml = result.answerHtml.replace('<p class="answer-closing">Curated answer.', codeCardHtml(code, true) + '<p class="answer-closing">Curated answer.');
     result.related = relatedItems({ citations: result.citations, ranked: [], analysis: result.analysis, index: { chunks }, weak: false });
-  } else if (code) {
+  } else if (code && !missing) {
     // A developer question with no curated answer: the code itself is the answer.
     result = { ...result, answerHtml: `<p class="answer-opener">Here is how I wrote it, straight from my GitHub:</p>` + codeCardHtml(code, true),
       citations: [{ num: 1, chunkIdx: chunks.indexOf(code.chunk), chunk: code.chunk, score: 1, confidence: 1, why: `${code.repo}/${code.path}` }],
       summary: { ...(result.summary || {}), sentences: [{ text: `Here is how I wrote it, in ${code.repo}.`, display: `Here is how I wrote it, in ${code.repo}.`, chunkIdx: chunks.indexOf(code.chunk), chunk: code.chunk, final: 1, position: 0, tokens: new Set(), signals: {} }] },
       lowConfidence: false, verdict: null, codeAnswer: true };
-  } else if (result.lowConfidence || decline === 'dangling' || weakRetrieval(question, result, bm25, chunks)) {
+  } else if (result.lowConfidence || decline === 'dangling' || missing || weakRetrieval(question, result, bm25, chunks)) {
     const near = suggestCanon(question, index.canon, 3);
     result = { ...result,
       answerHtml: `<p class="answer-opener">I do not have a direct answer to that on record.</p>`

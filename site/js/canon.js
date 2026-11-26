@@ -550,6 +550,25 @@ export function canonDecline(question, canon) {
   return null;
 }
 
+// A measurable detail asked for: its price, speed, range or altitude. A curated
+// answer that never states it does not answer it, however well the rest matches
+// ("How much did your smart plane cost?" is not answered by its specifications).
+const ATTRIBUTES = [
+  [/\bhow much (?:did|does|do|would|will|was|is|were)\b.*\bcost\b|\bwhat (?:did|does|do|was|is|were)\b.*\bcost\b|\bprice of\b|\bhow expensive\b/i,
+    ['cost', 'price', 'budget', 'spend', 'spent', 'rupee', 'lakh', 'crore', 'dollar', 'expensive', 'cheap']],
+  [/\bhow fast\b|\b(?:top|maximum|max|cruising|flight|flying) speed\b|\bspeed of (?:the|your|his|its|that)\b|\bwhat speed\b/i,
+    ['speed', 'fast', 'kmph', 'mph', 'latency', 'velocity', 'millisecond']],
+  [/\bhow far\b|\b(?:flight|flying|maximum|max|top) range\b|\bwhat (?:was|is) (?:the|its|your|his) range\b|\brange of (?:the|your|his|its|that) (?:smart )?(?:plane|drone|uav|aircraft|robot)\b/i,
+    ['range', 'distance', 'far', 'kilometre', 'kilometer', 'km', 'mile']],
+  [/\baltitude\b|\bhow high (?:did|does|could|can|would|will)\b.*\b(?:fly|go|climb)\b/i,
+    ['altitude', 'height', 'feet', 'metre', 'meter']],
+];
+export function unknownAttribute(question, entry, canon) {
+  if (!entry || !Array.isArray(canon)) return false;
+  const m = model(canon);
+  return ATTRIBUTES.some(([re, words]) => re.test(question) && !words.some(w => knowsWord(m, entry, stem(norm(w)))));
+}
+
 /** Same word, allowing plurals, -ing/-ed and one typo ("Padma" ~ "Padme"). */
 export function sameWord(a, b) {
   const x = stem(norm(String(a).toLowerCase())), y = stem(norm(String(b).toLowerCase()));

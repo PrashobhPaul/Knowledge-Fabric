@@ -407,11 +407,25 @@
     "Smart plane demonstration",
     "on YouTube, uploaded by someone at my college"
    ]
+  },
+  {
+   "q": "How fast is Eidolon?",
+   "id": "knowledge-fabric",
+   "must": "50 ms"
+  },
+  {
+   "q": "How quickly does Eidolon answer a question?",
+   "id": "knowledge-fabric",
+   "must": "milliseconds"
   }
  ],
  "no_answer": [
   "What was the top speed of the smart plane?",
   "How much did the plane cost?",
-  "What was the range of the smart plane?"
+  "What was the range of the smart plane?",
+  "How much did your smart plane cost?",
+  "What did your smart plane cost?",
+  "How fast could your smart plane fly?",
+  "How high could your smart plane fly?"
  ]
 }

@@ -541,14 +541,16 @@ canon:
   - Tell me about the Knowledge Fabric project and its code.
   - What is a knowledge fabric?
   - What is Eidolon?
+  - How fast is Eidolon?
   answer: 'Knowledge Fabric is my demonstration of explainable, citation-grounded AI, and the project
     I am most attached to right now. A Knowledge Factory syncs everything public about me, my website,
     resume, GitHub, YouTube and LinkedIn, and the Fabric links it into one typed knowledge graph and answers
     questions with verbatim, cited evidence, a derived confidence score and the lineage of every sentence;
     curated answers in my own words sit on top, each with its proofs. Under the hood it is BM25, LSA and
     MiniLM sentence embeddings over the graph, built in Python and served as a fully static JavaScript
-    site: no backend, no vector database and no API keys, so it is cheap to run and reproducible. Nothing
-    is generated; every sentence is traced to its source. Quality is measured, not asserted: every build
+    site: no backend, no vector database and no API keys, so it is cheap to run and reproducible. Answers
+    come back in milliseconds, in your browser: the deploy fails if the 95th percentile goes over 250 ms,
+    and it measures about 50 ms. Nothing is generated; every sentence is traced to its source. Quality is measured, not asserted: every build
     runs gold question sets and fails the deploy when answers regress, and the feedback loop turns flagged
     answers into curator work. It is the pattern I want for the AI-driven development life cycle at my
     company: a knowledge layer that agents and people can trust because every answer shows where it came
