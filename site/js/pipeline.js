@@ -65,10 +65,26 @@ function corpusNames(chunks) {
   return n;
 }
 
+// A question that carries its own subject is not a follow-up: a curated question as
+// asked ("an architecture that you believe is technically incorrect", "...in 30
+// days. How do you handle it?"), or one long enough to name what "it" means.
+// "Who built it?" and "What did you do there?" still lean on the previous question.
+const plainQ = (q) => String(q).toLowerCase().replace(/[’']/g, '').replace(/[^\p{L}\p{N}\s]/gu, ' ').replace(/\s+/g, ' ').trim();
+function selfContained(question, canon) {
+  if (contentWords(question).length >= 6) return true;
+  const q = plainQ(question);
+  return (canon || []).some(e => (e.questions || []).some(v => plainQ(v) === q));
+}
+
+const PREFERENCE = /^\s*(do|does|did)\s+(you|u|he|prashobh(\s+paul)?)\s+(like|love|enjoy|prefer)\b/i;
 function weakRetrieval(question, result, bm25, chunks) {
   if (isImperativeTask(question)) return true;
   const pct = result.confidence ? result.confidence.percent : 0;
   if (pct < 50) return true;
+  // "Do you like biryani?": a personal preference is answered only by a sentence
+  // that states it. The dish in one record and "like" in another (a "partial"
+  // verdict) is not an answer, however confident retrieval is about each half.
+  if (PREFERENCE.test(question) && !(result.verdict && result.verdict.kind === 'yes')) return true;
   // A question that is not about him ("Who won the 2022 World Cup?") needs evidence
   // that covers most of what it asks, or it is about someone else.
   const aboutHim = /\b(you|your|yours|yourself|u|ur|prashobh|paul|he|his|him|himself)\b/i.test(question);
@@ -231,7 +247,8 @@ export function answerQuestion(asked, ctx) {
   // Conversation first: greetings and introductions are not the question, small
   // talk gets a reply, and "it" means the previous question's subject.
   const talk = smallTalk(asked);
-  let question = resolveFollowUp(focus(asked), ctx.prev || null, index.canon);
+  const focused = focus(asked);
+  let question = selfContained(focused, index.canon) ? focused : resolveFollowUp(focused, ctx.prev || null, index.canon);
   const bankMatch = matchQuestionBank(question, { vocab: bm25.termId });
   let retrievalQuery = (bankMatch && bankMatch.score >= BANK_STRONG) ? bankMatch.question : question;
   let result = retrieve(retrievalQuery, ctx);

@@ -1,0 +1,857 @@
+{
+ "cases": [
+  {
+   "q": "How do you establish an enterprise AI architecture strategy?",
+   "id": "iv3-ai-strategy",
+   "must_all": [
+    "business strategy",
+    "value and feasibility",
+    "reference architecture",
+    "ai gateway",
+    "roadmap"
+   ]
+  },
+  {
+   "q": "How would you define an AI architecture strategy for an enterprise?",
+   "id": "iv3-ai-strategy",
+   "must_all": [
+    "business strategy",
+    "value and feasibility",
+    "reference architecture",
+    "ai gateway",
+    "roadmap"
+   ]
+  },
+  {
+   "q": "How would you set the AI architecture strategy for a large enterprise?",
+   "id": "iv3-ai-strategy",
+   "must_all": [
+    "business strategy",
+    "value and feasibility",
+    "reference architecture",
+    "ai gateway",
+    "roadmap"
+   ]
+  },
+  {
+   "q": "How do you identify opportunities where AI can deliver measurable business value?",
+   "id": "iv3-value-opportunities",
+   "must_all": [
+    "baseline",
+    "value and feasibility",
+    "success criteria",
+    "business owner",
+    "deterministic workflow"
+   ]
+  },
+  {
+   "q": "How do you find the right AI use cases for a business?",
+   "id": "iv3-value-opportunities",
+   "must_all": [
+    "baseline",
+    "value and feasibility",
+    "success criteria",
+    "business owner",
+    "deterministic workflow"
+   ]
+  },
+  {
+   "q": "How do you spot AI use cases that will actually deliver business value?",
+   "id": "iv3-value-opportunities",
+   "must_all": [
+    "baseline",
+    "value and feasibility",
+    "success criteria",
+    "business owner",
+    "deterministic workflow"
+   ]
+  },
+  {
+   "q": "How do you decide whether an organization should build an AI solution internally or purchase an existing product?",
+   "id": "iv3-build-vs-buy",
+   "must_all": [
+    "differentiator",
+    "total cost of ownership",
+    "lock-in",
+    "golden set",
+    "architecture decision record"
+   ]
+  },
+  {
+   "q": "When should a company build an AI solution instead of buying one?",
+   "id": "iv3-build-vs-buy",
+   "must_all": [
+    "differentiator",
+    "total cost of ownership",
+    "lock-in",
+    "golden set",
+    "architecture decision record"
+   ]
+  },
+  {
+   "q": "How would you decide between building an AI solution in-house and buying a product?",
+   "id": "iv3-build-vs-buy",
+   "must_all": [
+    "differentiator",
+    "total cost of ownership",
+    "lock-in",
+    "golden set",
+    "architecture decision record"
+   ]
+  },
+  {
+   "q": "How do you handle conflicting architectural opinions between engineering teams?",
+   "id": "iv3-conflicting-opinions",
+   "must_all": [
+    "decision drivers",
+    "architecture decision record",
+    "time-boxed spike",
+    "same golden set",
+    "make the call"
+   ]
+  },
+  {
+   "q": "What do you do when two engineering teams disagree on the architecture?",
+   "id": "iv3-conflicting-opinions",
+   "must_all": [
+    "decision drivers",
+    "architecture decision record",
+    "time-boxed spike",
+    "same golden set",
+    "make the call"
+   ]
+  },
+  {
+   "q": "Two of your engineering teams have conflicting opinions on the architecture. What do you do?",
+   "id": "iv3-conflicting-opinions",
+   "must_all": [
+    "decision drivers",
+    "architecture decision record",
+    "time-boxed spike",
+    "same golden set",
+    "make the call"
+   ]
+  },
+  {
+   "q": "How do you establish reusable AI frameworks and accelerators?",
+   "id": "iv3-accelerators",
+   "must_all": [
+    "harvest",
+    "reference architecture",
+    "evaluation harness",
+    "date tagger",
+    "inner-source"
+   ]
+  },
+  {
+   "q": "How do you build reusable AI accelerators?",
+   "id": "iv3-accelerators",
+   "must_all": [
+    "harvest",
+    "reference architecture",
+    "evaluation harness",
+    "date tagger",
+    "inner-source"
+   ]
+  },
+  {
+   "q": "How do you create reusable accelerators for AI delivery?",
+   "id": "iv3-accelerators",
+   "must_all": [
+    "harvest",
+    "reference architecture",
+    "evaluation harness",
+    "date tagger",
+    "inner-source"
+   ]
+  },
+  {
+   "q": "How do you ensure architectural consistency across multiple AI projects?",
+   "id": "iv3-consistency",
+   "must_all": [
+    "paved road",
+    "ai gateway",
+    "architecture review board",
+    "golden-set evaluation gate",
+    "fitness functions"
+   ]
+  },
+  {
+   "q": "How do you keep the architecture consistent across many AI projects?",
+   "id": "iv3-consistency",
+   "must_all": [
+    "paved road",
+    "ai gateway",
+    "architecture review board",
+    "golden-set evaluation gate",
+    "fitness functions"
+   ]
+  },
+  {
+   "q": "How do you maintain architectural consistency when many teams build AI applications?",
+   "id": "iv3-consistency",
+   "must_all": [
+    "paved road",
+    "ai gateway",
+    "architecture review board",
+    "golden-set evaluation gate",
+    "fitness functions"
+   ]
+  },
+  {
+   "q": "How do you balance innovation with enterprise governance?",
+   "id": "iv3-innovation-governance",
+   "must_all": [
+    "tier the governance by risk",
+    "sandbox",
+    "pilot lane",
+    "production lane",
+    "shadow ai"
+   ]
+  },
+  {
+   "q": "How do you balance speed of innovation with governance and compliance?",
+   "id": "iv3-innovation-governance",
+   "must_all": [
+    "tier the governance by risk",
+    "sandbox",
+    "pilot lane",
+    "production lane",
+    "shadow ai"
+   ]
+  },
+  {
+   "q": "How do you balance innovation and governance in your AI programmes?",
+   "id": "iv3-innovation-governance",
+   "must_all": [
+    "tier the governance by risk",
+    "sandbox",
+    "pilot lane",
+    "production lane",
+    "shadow ai"
+   ]
+  },
+  {
+   "q": "You have an AI project with a six-week deadline and unclear requirements. How would you proceed?",
+   "id": "iv3-six-weeks",
+   "must_all": [
+    "scope flex",
+    "success criteria",
+    "golden set",
+    "vertical slice",
+    "risk register"
+   ]
+  },
+  {
+   "q": "How would you deliver an AI project in six weeks when the requirements are unclear?",
+   "id": "iv3-six-weeks",
+   "must_all": [
+    "scope flex",
+    "success criteria",
+    "golden set",
+    "vertical slice",
+    "risk register"
+   ]
+  },
+  {
+   "q": "The deadline is six weeks and the requirements are unclear. What is your plan?",
+   "id": "iv3-six-weeks",
+   "must_all": [
+    "scope flex",
+    "success criteria",
+    "golden set",
+    "vertical slice",
+    "risk register"
+   ]
+  },
+  {
+   "q": "How do you estimate the effort and cost of an AI implementation?",
+   "id": "iv3-estimation",
+   "must_all": [
+    "cost to build",
+    "cost to run",
+    "ranges",
+    "cost per transaction",
+    "time-boxed"
+   ]
+  },
+  {
+   "q": "How do you estimate the cost of an AI project?",
+   "id": "iv3-estimation",
+   "must_all": [
+    "cost to build",
+    "cost to run",
+    "ranges",
+    "cost per transaction",
+    "time-boxed"
+   ]
+  },
+  {
+   "q": "How do you estimate the cost and effort of a GenAI project?",
+   "id": "iv3-estimation",
+   "must_all": [
+    "cost to build",
+    "cost to run",
+    "ranges",
+    "cost per transaction",
+    "time-boxed"
+   ]
+  },
+  {
+   "q": "How do you handle a client who expects 100% accuracy from an LLM?",
+   "id": "iv3-accuracy-expectations",
+   "must_all": [
+    "probabilistic",
+    "human baseline",
+    "golden set",
+    "confidence thresholds",
+    "no silent errors"
+   ]
+  },
+  {
+   "q": "What do you tell a client who wants an LLM that is never wrong?",
+   "id": "iv3-accuracy-expectations",
+   "must_all": [
+    "probabilistic",
+    "human baseline",
+    "golden set",
+    "confidence thresholds",
+    "no silent errors"
+   ]
+  },
+  {
+   "q": "What do you say to a stakeholder who demands 100% accuracy from GenAI?",
+   "id": "iv3-accuracy-expectations",
+   "must_all": [
+    "probabilistic",
+    "human baseline",
+    "golden set",
+    "confidence thresholds",
+    "no silent errors"
+   ]
+  },
+  {
+   "q": "What would you do if your team proposed an architecture that you believe is technically incorrect?",
+   "id": "iv3-team-wrong-architecture",
+   "must_all": [
+    "one-way door",
+    "two-way door",
+    "time-boxed spike",
+    "architecture decision record",
+    "questions first"
+   ]
+  },
+  {
+   "q": "What if your team proposes an architecture you think is wrong?",
+   "id": "iv3-team-wrong-architecture",
+   "must_all": [
+    "one-way door",
+    "two-way door",
+    "time-boxed spike",
+    "architecture decision record",
+    "questions first"
+   ]
+  },
+  {
+   "q": "Your team proposes an architecture you believe is wrong. How do you respond?",
+   "id": "iv3-team-wrong-architecture",
+   "must_all": [
+    "one-way door",
+    "two-way door",
+    "time-boxed spike",
+    "architecture decision record",
+    "questions first"
+   ]
+  },
+  {
+   "q": "How do you manage technical debt in AI projects?",
+   "id": "iv3-tech-debt",
+   "must_all": [
+    "debt register",
+    "prompts",
+    "golden set",
+    "gateway",
+    "fixed share of every sprint"
+   ]
+  },
+  {
+   "q": "How do you handle tech debt in GenAI projects?",
+   "id": "iv3-tech-debt",
+   "must_all": [
+    "debt register",
+    "prompts",
+    "golden set",
+    "gateway",
+    "fixed share of every sprint"
+   ]
+  },
+  {
+   "q": "How do you deal with technical debt in machine learning and GenAI projects?",
+   "id": "iv3-tech-debt",
+   "must_all": [
+    "debt register",
+    "prompts",
+    "golden set",
+    "gateway",
+    "fixed share of every sprint"
+   ]
+  },
+  {
+   "q": "How do you measure the success of an AI implementation beyond model accuracy?",
+   "id": "iv3-success-metrics",
+   "must_all": [
+    "business outcome",
+    "adoption",
+    "cost per transaction",
+    "baseline",
+    "override"
+   ]
+  },
+  {
+   "q": "How do you measure whether an AI project is successful?",
+   "id": "iv3-success-metrics",
+   "must_all": [
+    "business outcome",
+    "adoption",
+    "cost per transaction",
+    "baseline",
+    "override"
+   ]
+  },
+  {
+   "q": "How do you judge the success of an AI project beyond accuracy?",
+   "id": "iv3-success-metrics",
+   "must_all": [
+    "business outcome",
+    "adoption",
+    "cost per transaction",
+    "baseline",
+    "override"
+   ]
+  },
+  {
+   "q": "How would you build an AI team from scratch?",
+   "id": "iv3-build-team",
+   "must_all": [
+    "product owner",
+    "mlops",
+    "fundamentals and judgement",
+    "subject-matter experts",
+    "three geographies"
+   ]
+  },
+  {
+   "q": "How do you set up a new AI team?",
+   "id": "iv3-build-team",
+   "must_all": [
+    "product owner",
+    "mlops",
+    "fundamentals and judgement",
+    "subject-matter experts",
+    "three geographies"
+   ]
+  },
+  {
+   "q": "If you had to build an AI team from scratch, how would you do it?",
+   "id": "iv3-build-team",
+   "must_all": [
+    "product owner",
+    "mlops",
+    "fundamentals and judgement",
+    "subject-matter experts",
+    "three geographies"
+   ]
+  },
+  {
+   "q": "What roles would you hire for an enterprise GenAI implementation?",
+   "id": "iv3-genai-roles",
+   "must_all": [
+    "ai evaluation",
+    "product owner",
+    "mlops",
+    "subject-matter experts",
+    "security architect"
+   ]
+  },
+  {
+   "q": "Which roles does an enterprise GenAI team need?",
+   "id": "iv3-genai-roles",
+   "must_all": [
+    "ai evaluation",
+    "product owner",
+    "mlops",
+    "subject-matter experts",
+    "security architect"
+   ]
+  },
+  {
+   "q": "Which roles would you hire for a GenAI implementation in an enterprise?",
+   "id": "iv3-genai-roles",
+   "must_all": [
+    "ai evaluation",
+    "product owner",
+    "mlops",
+    "subject-matter experts",
+    "security architect"
+   ]
+  },
+  {
+   "q": "How do you mentor junior AI engineers?",
+   "id": "iv3-mentor-juniors",
+   "must_all": [
+    "real ownership",
+    "fundamentals before frameworks",
+    "interns and freshers",
+    "definition of done",
+    "sixteen interviews"
+   ]
+  },
+  {
+   "q": "How do you coach junior engineers?",
+   "id": "iv3-mentor-juniors",
+   "must_all": [
+    "real ownership",
+    "fundamentals before frameworks",
+    "interns and freshers",
+    "definition of done",
+    "sixteen interviews"
+   ]
+  },
+  {
+   "q": "How do you mentor the junior engineers in your AI team?",
+   "id": "iv3-mentor-juniors",
+   "must_all": [
+    "real ownership",
+    "fundamentals before frameworks",
+    "interns and freshers",
+    "definition of done",
+    "sixteen interviews"
+   ]
+  },
+  {
+   "q": "How do you assess whether an engineer is ready to become an AI architect?",
+   "id": "iv3-architect-readiness",
+   "must_all": [
+    "problem framing",
+    "trade-off judgement",
+    "production thinking",
+    "stretch assignments",
+    "communication and influence"
+   ]
+  },
+  {
+   "q": "How do you know an engineer is ready to be an architect?",
+   "id": "iv3-architect-readiness",
+   "must_all": [
+    "problem framing",
+    "trade-off judgement",
+    "production thinking",
+    "stretch assignments",
+    "communication and influence"
+   ]
+  },
+  {
+   "q": "How can you tell that an engineer is ready to become an architect?",
+   "id": "iv3-architect-readiness",
+   "must_all": [
+    "problem framing",
+    "trade-off judgement",
+    "production thinking",
+    "stretch assignments",
+    "communication and influence"
+   ]
+  },
+  {
+   "q": "How do you handle a technically strong engineer who cannot communicate effectively with business stakeholders?",
+   "id": "iv3-communication-gap",
+   "must_all": [
+    "business outcome",
+    "privately",
+    "co-present",
+    "translation",
+    "one-page decision note"
+   ]
+  },
+  {
+   "q": "How do you help an engineer who struggles to communicate with business stakeholders?",
+   "id": "iv3-communication-gap",
+   "must_all": [
+    "business outcome",
+    "privately",
+    "co-present",
+    "translation",
+    "one-page decision note"
+   ]
+  },
+  {
+   "q": "A strong engineer struggles to communicate with business stakeholders. How do you help?",
+   "id": "iv3-communication-gap",
+   "must_all": [
+    "business outcome",
+    "privately",
+    "co-present",
+    "translation",
+    "one-page decision note"
+   ]
+  },
+  {
+   "q": "The client wants to convert all existing workflows into autonomous AI agents. Would you agree? How do you decide which workflows need agents?",
+   "id": "iv3-agents-everywhere",
+   "must_all": [
+    "determinism",
+    "variability",
+    "reversibility",
+    "roi",
+    "workflow automation",
+    "human approval"
+   ]
+  },
+  {
+   "q": "A client wants to turn every workflow into an autonomous AI agent. Would you agree?",
+   "id": "iv3-agents-everywhere",
+   "must_all": [
+    "determinism",
+    "variability",
+    "reversibility",
+    "roi",
+    "workflow automation",
+    "human approval"
+   ]
+  },
+  {
+   "q": "A client wants every workflow converted into autonomous AI agents. Would you agree?",
+   "id": "iv3-agents-everywhere",
+   "must_all": [
+    "determinism",
+    "variability",
+    "reversibility",
+    "roi",
+    "workflow automation",
+    "human approval"
+   ]
+  },
+  {
+   "q": "How do you decide which workflows need agents and which should stay as automation?",
+   "id": "iv3-agents-everywhere",
+   "must_all": [
+    "determinism",
+    "variability",
+    "reversibility",
+    "roi",
+    "workflow automation",
+    "human approval"
+   ]
+  },
+  {
+   "q": "Leadership wants to drop OpenAI, Anthropic and Google for an entirely self-hosted AI ecosystem. Approach, hidden costs and risks?",
+   "id": "iv3-self-hosted",
+   "must_all": [
+    "total cost of ownership",
+    "gpus",
+    "evaluation parity",
+    "security patching",
+    "hybrid",
+    "model gateway"
+   ]
+  },
+  {
+   "q": "Leadership wants to replace OpenAI, Anthropic and Google with a fully self-hosted AI ecosystem. What would be your approach, and what are the hidden costs and risks?",
+   "id": "iv3-self-hosted",
+   "must_all": [
+    "total cost of ownership",
+    "gpus",
+    "evaluation parity",
+    "security patching",
+    "hybrid",
+    "model gateway"
+   ]
+  },
+  {
+   "q": "Leadership wants to stop using OpenAI, Anthropic and Google and self-host everything. What are the hidden costs and risks?",
+   "id": "iv3-self-hosted",
+   "must_all": [
+    "total cost of ownership",
+    "gpus",
+    "evaluation parity",
+    "security patching",
+    "hybrid",
+    "model gateway"
+   ]
+  },
+  {
+   "q": "25 AI applications built independently, no central governance, monitoring or model registry. Establish enterprise AI governance.",
+   "id": "iv3-governance-25-apps",
+   "must_all": [
+    "inventory",
+    "risk tier",
+    "ai gateway",
+    "model and prompt registry",
+    "evaluation service",
+    "observability"
+   ]
+  },
+  {
+   "q": "An organization has 25 AI applications built independently with no central governance, monitoring or model registry. How would you establish enterprise AI governance?",
+   "id": "iv3-governance-25-apps",
+   "must_all": [
+    "inventory",
+    "risk tier",
+    "ai gateway",
+    "model and prompt registry",
+    "evaluation service",
+    "observability"
+   ]
+  },
+  {
+   "q": "We have 25 AI applications with no central governance or model registry. How would you fix that?",
+   "id": "iv3-governance-25-apps",
+   "must_all": [
+    "inventory",
+    "risk tier",
+    "ai gateway",
+    "model and prompt registry",
+    "evaluation service",
+    "observability"
+   ]
+  },
+  {
+   "q": "The business wants an AI solution in 30 days; data quality and security architecture are insufficient. How do you handle it?",
+   "id": "iv3-30-day-ask",
+   "must_all": [
+    "negotiate scope",
+    "guarded mvp",
+    "safe data",
+    "risk acceptance",
+    "risk register"
+   ]
+  },
+  {
+   "q": "The business wants an AI solution in 30 days, but the data quality and security architecture are not ready. How would you handle it?",
+   "id": "iv3-30-day-ask",
+   "must_all": [
+    "negotiate scope",
+    "guarded mvp",
+    "safe data",
+    "risk acceptance",
+    "risk register"
+   ]
+  },
+  {
+   "q": "The business wants AI in 30 days but the data quality and security are not ready. What do you do?",
+   "id": "iv3-30-day-ask",
+   "must_all": [
+    "negotiate scope",
+    "guarded mvp",
+    "safe data",
+    "risk acceptance",
+    "risk register"
+   ]
+  },
+  {
+   "q": "Your first 30, 60 and 90 days as an AI Enterprise Architect in our organization.",
+   "id": "iv3-first-90-days",
+   "must_all": [
+    "listen",
+    "inventory",
+    "reference architecture",
+    "lighthouse",
+    "roadmap",
+    "ai gateway"
+   ]
+  },
+  {
+   "q": "What would you do in your first 30, 60 and 90 days as an AI Enterprise Architect in our organization?",
+   "id": "iv3-first-90-days",
+   "must_all": [
+    "listen",
+    "inventory",
+    "reference architecture",
+    "lighthouse",
+    "roadmap",
+    "ai gateway"
+   ]
+  },
+  {
+   "q": "What would you do in your first 90 days as our AI architect?",
+   "id": "iv3-first-90-days",
+   "must_all": [
+    "listen",
+    "inventory",
+    "reference architecture",
+    "lighthouse",
+    "roadmap",
+    "ai gateway"
+   ]
+  },
+  {
+   "q": "An example where you rejected a technically attractive solution because it was not right for the business.",
+   "id": "iv3-rejected-attractive",
+   "must_all": [
+    "no backend",
+    "nothing is generated",
+    "trade-off",
+    "rule-based",
+    "trust"
+   ]
+  },
+  {
+   "q": "Give an example where you rejected a technically attractive solution because it was not right for the business.",
+   "id": "iv3-rejected-attractive",
+   "must_all": [
+    "no backend",
+    "nothing is generated",
+    "trade-off",
+    "rule-based",
+    "trust"
+   ]
+  },
+  {
+   "q": "Tell me about a time you rejected a technically attractive solution because it was wrong for the business.",
+   "id": "iv3-rejected-attractive",
+   "must_all": [
+    "no backend",
+    "nothing is generated",
+    "trade-off",
+    "rule-based",
+    "trust"
+   ]
+  },
+  {
+   "q": "What makes an AI architect different from a senior AI developer?",
+   "id": "iv3-architect-vs-developer",
+   "must_all": [
+    "right solution",
+    "technical direction",
+    "where agents are justified",
+    "total solution economics",
+    "standards",
+    "hands-on"
+   ]
+  },
+  {
+   "q": "What is the difference between an AI architect and a senior AI developer?",
+   "id": "iv3-architect-vs-developer",
+   "must_all": [
+    "right solution",
+    "technical direction",
+    "where agents are justified",
+    "total solution economics",
+    "standards",
+    "hands-on"
+   ]
+  },
+  {
+   "q": "What is the difference between an AI architect and a senior developer?",
+   "id": "iv3-architect-vs-developer",
+   "must_all": [
+    "right solution",
+    "technical direction",
+    "where agents are justified",
+    "total solution economics",
+    "standards",
+    "hands-on"
+   ]
+  }
+ ],
+ "no_answer": []
+}
