@@ -3,26 +3,40 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#0E1A45" />
-  <title>Prashobh Paul · Knowledge Fabric</title>
-  <meta name="description" content="Knowledge Fabric for Prashobh Paul — one citation-grounded answer surface over his resume, website, YouTube channel and GitHub repositories, with a live knowledge graph, source lineage and knowledge health." />
+  <meta name="theme-color" content="#08090B" />
+  <meta name="color-scheme" content="dark" />
+  <title>Eidolon, the living knowledge twin of Prashobh Paul</title>
+  <meta name="description" content="Eidolon is the living knowledge twin of Prashobh Paul, AI Architect. Ask it anything: it answers in his voice, quotes his resume, website, YouTube channel and GitHub repositories, and shows the knowledge graph, source lineage and knowledge health behind every answer." />
+  <meta name="application-name" content="Eidolon" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Eidolon" />
+  <meta property="og:title" content="Eidolon, the living knowledge twin of Prashobh Paul" />
+  <meta property="og:description" content="Ask Prashobh Paul's living knowledge twin about his work, projects and travels. Every sentence is quoted from a source and linked to it." />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Eidolon, the living knowledge twin of Prashobh Paul" />
+  <meta name="twitter:description" content="A citation-grounded twin with a voice, an avatar and a live knowledge graph." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
-  <link rel="stylesheet" href="styles/main.css" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%234D7CFF'/%3E%3Ctext x='16' y='23' font-family='Arial,Helvetica,sans-serif' font-size='20' font-weight='700' text-anchor='middle' fill='white'%3EP%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="styles/main.css?v=13" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23F3E6C8'/%3E%3Cstop offset='1' stop-color='%23A9875A'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='%2308090B'/%3E%3Ccircle cx='32' cy='27' r='15' fill='none' stroke='url(%23g)' stroke-width='2.4'/%3E%3Cpath d='M21 52c2-8 6-12 11-12s9 4 11 12' fill='none' stroke='url(%23g)' stroke-width='2.4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='27' r='5' fill='url(%23g)'/%3E%3C/svg%3E" />
+
+  <!-- three.js examples import the bare specifier "three"; the map lets the
+       avatar's GLTF loader resolve it from the same CDN build as stage.js. -->
+  <script type="importmap">
+    { "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js" } }
+  </script>
   <script defer src="https://unpkg.com/vis-network@9.1.9/standalone/umd/vis-network.min.js"></script>
 </head>
 <body class="narrative">
-  <!-- ===== Aurora + grid background ===== -->
-  <div class="aurora-layer" aria-hidden="true">
-    <div class="aurora aurora-1"></div>
-    <div class="aurora aurora-2"></div>
-    <div class="aurora aurora-3"></div>
-    <div class="aurora aurora-4"></div>
-    <div class="grid-overlay"></div>
+  <!-- ===== Living background: a WebGL silk field (ambient.js), with a static
+       gradient beneath it for no-WebGL and reduced-motion visitors ===== -->
+  <div class="ambient" aria-hidden="true">
+    <canvas id="ambient-canvas" class="ambient-canvas"></canvas>
+    <div class="ambient-veil"></div>
+    <div class="ambient-grain"></div>
   </div>
 
   <!-- ===== Scroll progress bar (sits at very top of viewport) ===== -->
@@ -30,26 +44,34 @@
 
   <!-- ===== Right-side section dots ===== -->
   <nav class="section-nav" id="section-nav" aria-label="Page sections">
-    <button class="section-nav-dot is-current" data-target="hero" data-label="Hero"></button>
-    <button class="section-nav-dot" data-target="section-answer" data-label="Live Answer"></button>
-    <button class="section-nav-dot" data-target="section-explain" data-label="Explainability"></button>
-    <button class="section-nav-dot" data-target="section-health" data-label="Health"></button>
-    <button class="section-nav-dot" data-target="section-insights" data-label="Insights"></button>
+    <button class="section-nav-dot is-current" data-target="hero" data-label="Eidolon" aria-label="Eidolon"></button>
+    <button class="section-nav-dot" data-target="section-answer" data-label="Live answer" aria-label="Live answer"></button>
+    <button class="section-nav-dot" data-target="section-explain" data-label="Explainability" aria-label="Explainability"></button>
+    <button class="section-nav-dot" data-target="section-health" data-label="Health" aria-label="Health"></button>
+    <button class="section-nav-dot" data-target="section-insights" data-label="Insights" aria-label="Insights"></button>
   </nav>
 
   <!-- ===== Brand navbar ===== -->
-  <header class="qz-navbar">
-    <a class="qz-brand" data-brand-href="client" target="_blank" rel="noreferrer">
-      <!-- Subject name is a placeholder: no styling is keyed to its content, so a
-           different person inherits the identical lockup. -->
-      <span class="qz-client" data-brand="clientName">Prashobh Paul</span>
+  <header class="qz-navbar" id="navbar">
+    <a class="qz-brand" data-brand-href="client" target="_blank" rel="noreferrer" aria-label="Eidolon, the living knowledge twin of Prashobh Paul">
+      <svg class="eid-sigil" viewBox="0 0 40 40" aria-hidden="true">
+        <defs>
+          <linearGradient id="sigil-gold" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#F3E6C8"/><stop offset="0.55" stop-color="#D6B98A"/><stop offset="1" stop-color="#9C7A4E"/>
+          </linearGradient>
+        </defs>
+        <circle class="sigil-halo" cx="20" cy="16" r="10.5" fill="none" stroke="url(#sigil-gold)" stroke-width="1.3"/>
+        <circle cx="20" cy="16" r="3.4" fill="url(#sigil-gold)"/>
+        <path d="M11.5 34c1.6-6.2 4.8-9.2 8.5-9.2s6.9 3 8.5 9.2" fill="none" stroke="url(#sigil-gold)" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+      <span class="qz-product" data-brand="productName">Eidolon</span>
     </a>
     <span class="qz-divider" aria-hidden="true"></span>
     <div class="qz-context">
-      <span class="qz-product" data-brand="productName">Knowledge Fabric</span>
+      <span class="qz-client" data-brand="clientName">Prashobh Paul</span>
       <span class="qz-demoby">
         <span data-brand="demoBy">Built by Prashobh Paul</span>
-        <small data-brand="demoByUnit">Knowledge Factory + Knowledge Fabric</small>
+        <small data-brand="demoByUnit">Runs on Knowledge Factory + Knowledge Fabric</small>
       </span>
     </div>
     <nav class="qz-nav">
@@ -58,69 +80,92 @@
       <a href="#section-explain" class="nav-scroll">Why</a>
       <a href="#section-health" class="nav-scroll">Health</a>
       <a href="#section-insights" class="nav-scroll">Insights</a>
-      <a class="qz-cta" href="https://www.prashobhpaul.com" target="_blank" rel="noreferrer">Visit prashobhpaul.com</a>
+      <a class="qz-cta fx-magnetic" href="https://www.prashobhpaul.com" target="_blank" rel="noreferrer"><span class="qz-cta-long">Visit prashobhpaul.com</span><span class="qz-cta-short">prashobhpaul.com</span></a>
     </nav>
   </header>
 
   <!-- ===== Sticky ask bar — appears after user scrolls past the hero ===== -->
   <div class="sticky-ask" id="sticky-ask" hidden>
     <div class="sticky-ask-inner">
-      <span class="sticky-ask-label">Ask Knowledge Fabric</span>
+      <span class="sticky-ask-label">Ask Eidolon</span>
       <form class="sticky-ask-form" id="sticky-ask-form">
-        <input id="sticky-ask-input" type="text" placeholder="Ask about his work, projects, skills, education, or travel videos…" autocomplete="off" spellcheck="false" />
-        <button type="submit" class="sticky-ask-submit">
+        <input id="sticky-ask-input" type="text" placeholder="Ask about his work, projects, skills, education, or travel videos…" autocomplete="off" spellcheck="false" aria-label="Ask Eidolon a question" />
+        <button type="submit" class="sticky-ask-submit fx-magnetic">
           <span>Ask</span>
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
       </form>
     </div>
   </div>
 
   <!-- ============================================================
-       SECTION 1 — HERO  (galaxy + ask box, that's it)
+       SECTION 1 — HERO  (the twin in its niche, beside the knowledge graph)
        ============================================================ -->
   <section class="story-section hero-section" id="hero">
     <div class="hero-overlay">
-      <div id="twin-stage" class="twin-stage" data-mood="idle" aria-label="Prashobh's avatar"></div>
+      <div class="stage-niche" id="stage-niche" data-mood="idle">
+        <div class="niche-halo" aria-hidden="true">
+          <span class="halo-ring halo-ring-1"></span>
+          <span class="halo-ring halo-ring-2"></span>
+          <span class="halo-ring halo-ring-3"></span>
+          <span class="halo-sweep"></span>
+        </div>
+        <div id="twin-stage" class="twin-stage" data-mood="idle" aria-label="Prashobh's avatar"></div>
+        <span class="stage-state" id="stage-state" aria-live="polite">At rest</span>
+        <div class="niche-plaque">
+          <span class="plaque-name" data-brand="productName">Eidolon</span>
+          <span class="plaque-tagline" data-brand="productTagline">The living knowledge twin of Prashobh Paul</span>
+        </div>
+      </div>
       <div class="stage-actions">
-        <button type="button" id="twin-greet" class="stage-btn">Say hello</button>
+        <button type="button" id="twin-greet" class="stage-btn">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8.5 8.5 0 0 1-12.6 7.4L3 21l1.6-5.2A8.5 8.5 0 1 1 21 12z"/></svg>
+          <span>Say hello</span>
+        </button>
         <button type="button" id="twin-mute" class="stage-btn" aria-pressed="false">Sound on</button>
         <span id="twin-status" class="stage-status"></span>
       </div>
 
       <form class="hero-composer" id="composer-form">
-        <input id="composer-input" type="text" placeholder="Ask anything about Prashobh Paul…" autocomplete="off" spellcheck="false" />
+        <input id="composer-input" type="text" placeholder="Ask Eidolon anything about Prashobh Paul…" autocomplete="off" spellcheck="false" aria-label="Ask Eidolon a question" />
         <span class="voice-controls" id="voice-controls"></span>
-        <button type="submit" id="composer-submit">
+        <button type="submit" id="composer-submit" class="fx-magnetic">
           <span>Ask</span>
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </button>
       </form>
 
       <div class="hero-suggestions" id="suggestions"></div>
     </div>
 
+    <div class="galaxy-frame">
+      <div id="galaxy" class="hero-galaxy"></div>
+
+      <!-- One chip, two states. At rest it states what the graph IS; while an
+           answer is live it states what the graph DID. Same position, same
+           styling — the reader watches one element change rather than hunting
+           across two panels. -->
+      <div class="hero-status" id="galaxy-status-wrap" data-state="idle">
+        <span class="hero-status-text" id="galaxy-status">indexing…</span>
+        <span class="retrieval-badge" id="retrieval-mode-badge" data-mode="lexical" title="Retrieval mode">lexical · bm25</span>
+      </div>
+
+      <div class="galaxy-legend" aria-hidden="true">
+        <span class="gl-item"><i class="gl-dot gl-active"></i>Answering</span>
+        <span class="gl-item"><i class="gl-dot gl-related"></i>Connected</span>
+        <span class="gl-item"><i class="gl-dot gl-base"></i>Corpus</span>
+      </div>
+
+      <!-- Galaxy detail card (entity / chunk) — overlay -->
+      <div class="galaxy-detail" id="galaxy-detail" hidden>
+        <button class="detail-close" id="galaxy-detail-close" aria-label="Close">×</button>
+        <div id="galaxy-detail-body"></div>
+      </div>
+    </div>
+
     <div class="hero-scroll-cue">
       <span>Scroll to explore</span>
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-    </div>
-
-    <div id="galaxy" class="hero-galaxy"></div>
-
-    <!-- Galaxy detail card (entity / chunk) — overlay -->
-    <div class="galaxy-detail" id="galaxy-detail" hidden>
-      <button class="detail-close" id="galaxy-detail-close" aria-label="Close">×</button>
-      <div id="galaxy-detail-body"></div>
-    </div>
-
-    <!-- Inline status overlay -->
-    <!-- One chip, two states. At rest it states what the graph IS; while an
-         answer is live it states what the graph DID. Same position, same
-         styling — the reader watches one element change rather than hunting
-         across two panels. -->
-    <div class="hero-status" id="galaxy-status-wrap" data-state="idle">
-      <span class="hero-status-text" id="galaxy-status">indexing…</span>
-      <span class="retrieval-badge" id="retrieval-mode-badge" data-mode="lexical" title="Retrieval mode">lexical · bm25</span>
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
     </div>
   </section>
 
@@ -130,7 +175,7 @@
        ============================================================ -->
   <section class="story-section answer-section" id="section-answer">
     <div class="story-head">
-      <span class="story-eyebrow">Section 02 · Live Answer</span>
+      <span class="story-eyebrow"><b>02</b><span>Live answer</span></span>
       <h2 class="story-title">Citation-grounded answers — verbatim, never paraphrased.</h2>
       <p class="story-sub">Every sentence in every answer ties back to a specific record: a resume paragraph, a website section, a video, a repository. Zero LLM rewriting. Click any <span class="cite-inline-demo">[citation]</span> to inspect the source.</p>
     </div>
@@ -154,7 +199,7 @@
         </div>
 
         <div class="answer-a-card">
-          <span class="answer-a-eyebrow">Knowledge Fabric Answer</span>
+          <span class="answer-a-eyebrow"><svg class="eyebrow-sigil" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="16" r="10.5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="20" cy="16" r="3.6" fill="currentColor"/><path d="M11.5 34c1.6-6.2 4.8-9.2 8.5-9.2s6.9 3 8.5 9.2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Answered by Eidolon</span>
           <div class="answer-a-text" id="answer-stage-text">—</div>
           <div class="answer-player" id="answer-player" hidden></div>
           <div class="answer-related" id="answer-related" hidden></div>
@@ -197,7 +242,7 @@
 
   <section class="story-section explain-section" id="section-explain">
     <div class="story-head">
-      <span class="story-eyebrow">Section 03 · Explainability</span>
+      <span class="story-eyebrow"><b>03</b><span>Explainability</span></span>
       <h2 class="story-title">Every answer is a traceable chain.</h2>
       <p class="story-sub">From the question, through retrieved records, through the knowledge graph that joins resume to website to YouTube to GitHub, to each cited sentence. No black box.</p>
     </div>
@@ -206,9 +251,9 @@
       <!-- Left: lineage tree -->
       <div class="explain-panel lineage-panel">
         <header class="explain-panel-head">
-          <span class="explain-panel-eyebrow">Source Lineage</span>
+          <span class="explain-panel-eyebrow">Source lineage</span>
           <button class="ghost-btn" id="explain-btn" hidden>
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
             Show reasoning trace
           </button>
         </header>
@@ -230,11 +275,11 @@
       <!-- Middle: traces this browser left, and the curator's gap board -->
       <div class="explain-panel traces-panel">
         <header class="explain-panel-head">
-          <span class="explain-panel-eyebrow">Traces · this browser</span>
+          <span class="explain-panel-eyebrow">Traces in this browser</span>
         </header>
         <div class="traces-body" id="traces-body"></div>
         <header class="explain-panel-head explain-panel-head-sub">
-          <span class="explain-panel-eyebrow">Flags · curator gap board</span>
+          <span class="explain-panel-eyebrow">Flags and the curator's gap board</span>
         </header>
         <div class="traces-body" id="gaps-body"></div>
       </div>
@@ -242,7 +287,7 @@
       <!-- Right: trust pillars -->
       <div class="explain-panel pillars-panel">
         <header class="explain-panel-head">
-          <span class="explain-panel-eyebrow">Trust Pillars</span>
+          <span class="explain-panel-eyebrow">Trust pillars</span>
         </header>
         <div class="pillars-list">
           <div class="pillar">
@@ -283,9 +328,9 @@
        ============================================================ -->
   <section class="story-section health-section" id="section-health">
     <div class="story-head">
-      <span class="story-eyebrow">Section 04 · Knowledge Health</span>
+      <span class="story-eyebrow"><b>04</b><span>Knowledge health</span></span>
       <h2 class="story-title">How complete is the picture?</h2>
-      <p class="story-sub">Knowledge that sits in a single source, that nobody can date, or that no other source corroborates is a gap you cannot see by reading a resume. Knowledge Fabric measures that gap directly from the sources — and says which one to close first.</p>
+      <p class="story-sub">Knowledge that sits in a single source, that nobody can date, or that no other source corroborates is a gap you cannot see by reading a resume. Eidolon measures that gap directly from the sources — and says which one to close first.</p>
       <div class="health-verdict" id="health-verdict"></div>
     </div>
 
@@ -314,7 +359,7 @@
        ============================================================ -->
   <section class="story-section insights-section" id="section-insights">
     <div class="story-head">
-      <span class="story-eyebrow">Section 05 · Insights</span>
+      <span class="story-eyebrow"><b>05</b><span>Insights</span></span>
       <h2 class="story-title">The corpus at a glance.</h2>
       <p class="story-sub">Which sources the Knowledge Factory synced and when, knowledge density per record, dominant concepts, and the graph footprint.</p>
       <div class="source-strip" id="source-strip"></div>
@@ -338,7 +383,7 @@
         <span class="tile-delta">graph edges</span>
       </div>
       <div class="tile" data-key="chunks">
-        <span class="tile-label">Knowledge Units</span>
+        <span class="tile-label">Knowledge units</span>
         <span class="tile-value" id="tile-chunks">—</span>
         <span class="tile-delta">cited passages</span>
       </div>
@@ -370,6 +415,10 @@
        ============================================================ -->
   <footer class="story-footer">
     <div class="footer-inner">
+      <div class="footer-mark" aria-hidden="true">
+        <svg class="eid-sigil" viewBox="0 0 40 40"><circle cx="20" cy="16" r="10.5" fill="none" stroke="url(#sigil-gold)" stroke-width="1.3"/><circle cx="20" cy="16" r="3.4" fill="url(#sigil-gold)"/><path d="M11.5 34c1.6-6.2 4.8-9.2 8.5-9.2s6.9 3 8.5 9.2" fill="none" stroke="url(#sigil-gold)" stroke-width="1.3" stroke-linecap="round"/></svg>
+        <span class="footer-word" data-brand="productName">Eidolon</span>
+      </div>
       <span class="footer-brand" data-brand="footerBrand"></span>
       <span class="footer-meta" id="footer-meta" data-brand="footerNote"></span>
     </div>
@@ -380,8 +429,8 @@
     <div class="explain-modal">
       <header class="explain-head">
         <div>
-          <span class="explain-eyebrow">Reasoning Trace</span>
-          <h2>Why did the AI say this?</h2>
+          <span class="explain-eyebrow">Reasoning trace</span>
+          <h2>Why did Eidolon say this?</h2>
         </div>
         <button class="detail-close" id="explain-close" aria-label="Close">×</button>
       </header>
@@ -430,7 +479,7 @@
     <span id="risk-meta"></span>
   </div>
 
-  <script type="module" src="js/main.js?v=12"></script>
+  <script type="module" src="js/main.js?v=13"></script>
 
   <script>
     // Smooth scroll for in-page nav links
@@ -444,9 +493,11 @@
       });
     });
 
-    // Scroll progress bar + section-nav dot highlighting
+    // Scroll progress bar, section-nav dot highlighting, and the navbar's
+    // glass state once the page has moved off the hero.
     (function () {
       const fill = document.getElementById('scroll-progress-fill');
+      const nav = document.getElementById('navbar');
       const dots = [...document.querySelectorAll('.section-nav-dot')];
       const sections = dots.map(d => document.getElementById(d.dataset.target)).filter(Boolean);
 
@@ -458,10 +509,13 @@
         });
       });
 
+      let queued = false;
       function update() {
+        queued = false;
         const docH = document.documentElement.scrollHeight - window.innerHeight;
         const sy = window.scrollY;
-        if (fill) fill.style.width = `${Math.min(100, Math.max(0, (sy / Math.max(1, docH)) * 100))}%`;
+        if (fill) fill.style.transform = `scaleX(${Math.min(1, Math.max(0, sy / Math.max(1, docH)))})`;
+        if (nav) nav.classList.toggle('is-scrolled', sy > 12);
 
         // Find which section is most "in view" — closest to scroll position + 30% offset
         const probe = sy + window.innerHeight * 0.3;
@@ -472,8 +526,9 @@
         }
         dots.forEach((d, i) => d.classList.toggle('is-current', i === currentIdx));
       }
-      window.addEventListener('scroll', update, { passive: true });
-      window.addEventListener('resize', update);
+      const schedule = () => { if (!queued) { queued = true; requestAnimationFrame(update); } };
+      window.addEventListener('scroll', schedule, { passive: true });
+      window.addEventListener('resize', schedule);
       update();
     })();
 

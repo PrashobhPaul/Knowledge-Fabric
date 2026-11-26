@@ -1,10 +1,10 @@
 // ============================================================================
-// Knowledge Fabric · Command Center — main entry
+// Eidolon — main entry (runs on the Knowledge Fabric engine)
 // ============================================================================
 
 import { BM25, cohereByDocument, tokenize } from './search.js?v=5';
 import { buildAnswer } from './answer.js?v=5';
-import { KnowledgeGraph } from './graph.js?v=5';
+import { KnowledgeGraph } from './graph.js?v=6';
 import { initInsights } from './insights.js?v=5';
 import { initLineage, renderLineage } from './lineage.js?v=5';
 import { initExplain, openExplain } from './explain.js?v=5';
@@ -13,21 +13,23 @@ import { Typeahead } from './typeahead.js?v=12';
 import { loadSemanticIndex } from './semantic.js?v=6';
 import { hybridSearch, explainRanking } from './hybrid.js?v=6';
 import { renderConfidenceBreakdown } from './confidence.js?v=7';
-import { computeHealth, renderHealthDerivation, healthNarrative } from './health.js?v=8';
-import { renderMaturityRings } from './rings.js?v=11';
-import { BRAND, COPY, applyBrand } from './brand.js?v=9';
+import { computeHealth, renderHealthDerivation, healthNarrative } from './health.js?v=9';
+import { renderMaturityRings } from './rings.js?v=12';
+import { BRAND, COPY, applyBrand } from './brand.js?v=10';
 import { explainGraphContribution, renderGraphContribution, graphPurposeCopy }
   from './graphvalue.js?v=9';
-import { recordTrace, allTraces, renderTraces, renderFlagBox, renderGapBoard } from './traces.js?v=1';
+import { recordTrace, allTraces, renderTraces, renderFlagBox, renderGapBoard } from './traces.js?v=2';
 import { renderRelated } from './related.js?v=1';
 import { languageNote, LANGS } from './multilingual.js?v=1';
 import { TWIN_CONFIG } from './twinconfig.js?v=1';
-import { createStage } from './stage.js?v=1';
+import { createStage } from './stage.js?v=2';
 import { firstPersonAnswer, verdictLine, noAnswerLine } from './persona.js?v=1';
-import * as speaker from './speaker.js?v=1';
-import { answerQuestion } from './pipeline.js?v=1';
+import * as speaker from './speaker.js?v=2';
+import { answerQuestion } from './pipeline.js?v=2';
 import * as semNLU from './nlu_semantic.js?v=1';
-import { currentLang, setLang, listen, speak, recognitionSupported, synthesisSupported, renderVoiceControls, renderSpeakButton } from './voice.js?v=1';
+import { currentLang, setLang, listen, speak, recognitionSupported, synthesisSupported, renderVoiceControls, renderSpeakButton } from './voice.js?v=2';
+import { startAmbient } from './ambient.js?v=1';
+import { initMotion, observeReveals, countUp } from './motion.js?v=1';
 
 const INDEX_URL = 'data/index.json';
 
@@ -49,6 +51,11 @@ const state = {
 // Boot
 // ============================================================================
 async function boot() {
+  // The living background and the page's response to the pointer come first:
+  // they need nothing from the index, so the page is alive while it loads.
+  state.ambient = startAmbient(document.getElementById('ambient-canvas'));
+  initMotion();
+
   // The twin: avatar on the stage, baked voice manifest, stage controls.
   const stageHost = document.getElementById('twin-stage');
   if (stageHost) {
@@ -114,6 +121,9 @@ async function boot() {
   // past the hero immediately sees the product working, not an empty stage.
   // First user click runs through the normal ask() flow and overwrites this.
   seedDemoAnswer();
+
+  // Sections come into focus as they scroll in (rendered content included).
+  observeReveals();
 }
 
 // Curated demo questions — hand-vetted to return strong, fully-cited answers
@@ -566,6 +576,7 @@ function setupCopilot() {
     mic.addEventListener('click', async () => {
       if (mic.dataset.listening === 'true') return;
       mic.dataset.listening = 'true';
+      if (state.stage) { speaker.stop(); state.stage.setMood('listening'); state.stage.gesture('tilt'); }
       const placeholder = input.placeholder;
       input.placeholder = `Listening (${LANGS[currentLang()].native})…`;
       try {
@@ -574,6 +585,7 @@ function setupCopilot() {
       } catch (err) {
         input.placeholder = err.message === 'not-allowed' ? 'Microphone access was blocked' : 'Did not catch that — try again';
         setTimeout(() => { input.placeholder = placeholder; }, 2500);
+        if (state.stage) state.stage.setMood('idle');
         return;
       } finally { mic.dataset.listening = 'false'; }
       input.placeholder = placeholder;
@@ -740,7 +752,9 @@ async function ask(question, opts = {}) {
     appendUserMessage(question);
   }
 
-  await new Promise(r => setTimeout(r, 80));
+  // The twin looks up and thinks while the answer is assembled.
+  if (!silent && state.stage) { speaker.stop(); state.stage.setMood('thinking'); }
+  await new Promise(r => setTimeout(r, silent ? 80 : 420));
 
   // Retrieve with a curated-question-bank assist. We first try to match the
   // user's wording to a vetted bank question:
@@ -794,8 +808,10 @@ async function ask(question, opts = {}) {
     }
     const player = document.getElementById('answer-player');
     if (player) { player.innerHTML = ''; player.hidden = true; }
-    if (!silent && TWIN_CONFIG.autoSpeak) sayLines(lines, result.answerLang || currentLang());
+    if (!silent && TWIN_CONFIG.autoSpeak && !speaker.isMuted()) sayLines(lines, result.answerLang || currentLang());
+    else if (!silent && state.stage) { state.stage.setMood('idle'); state.stage.gesture(result.lowConfidence ? 'tilt' : 'nod'); }
   }
+  if (!silent && state.ambient) state.ambient.pulse(0.9);
   renderGraphValue(citations, result.analysis);
   // Leave a trace; offer a flag. The seeded demo answer is not a visitor action.
   if (!silent) {
@@ -857,6 +873,12 @@ function populateAnswerStage(question, answerHtml, citations, ranked, trace, coh
   if (qEl) qEl.textContent = question;
   if (aEl) {
     aEl.innerHTML = answerHtml;
+    // Paragraphs of the new answer come into focus one after another.
+    aEl.classList.remove('is-entering');
+    void aEl.offsetWidth;
+    aEl.classList.add('is-entering');
+    clearTimeout(aEl._enterT);
+    aEl._enterT = setTimeout(() => aEl.classList.remove('is-entering'), 1800);
     // Inline citation refs → open chunk detail
     aEl.querySelectorAll('.cite-ref').forEach(ref => {
       ref.addEventListener('click', () => {
@@ -883,7 +905,8 @@ function populateAnswerStage(question, answerHtml, citations, ranked, trace, coh
     requestAnimationFrame(() => { confFillEl.style.width = `${conf}%`; });
   }
   if (confValEl) {
-    confValEl.textContent = typeof conf === "number" ? `${conf.toFixed(2)}%` : `${conf}%`;
+    if (typeof conf === 'number') countUp(confValEl, conf, { decimals: 2, suffix: '%', duration: 1300, from: 0 });
+    else confValEl.textContent = `${conf}%`;
     confValEl.dataset.band = confObj ? confObj.band : '';
   }
   const confWhy = document.getElementById('confidence-why');
@@ -891,8 +914,8 @@ function populateAnswerStage(question, answerHtml, citations, ranked, trace, coh
     confWhy.innerHTML = renderConfidenceBreakdown(confObj);
     confWhy.hidden = false;
   }
-  if (srcEl) srcEl.textContent = citations.length;
-  if (pathsEl) pathsEl.textContent = Math.max(1, trace.edgeCount);
+  if (srcEl) countUp(srcEl, citations.length, { duration: 900 });
+  if (pathsEl) countUp(pathsEl, Math.max(1, trace.edgeCount), { duration: 1200 });
 }
 
 function updateCopilotMetrics(citations, trace, ranked, cohesion) {
@@ -1212,11 +1235,27 @@ function wireStageActions() {
   });
 }
 
+// While the avatar is still streaming in, the voice goes ahead without a face.
+const NO_STAGE = { setMood() {}, gesture() {}, setViseme() {}, setMouth() {} };
+
 function sayLines(lines, lang = currentLang()) {
-  if (!state.stage || !lines.length) return;
-  state.stage.setMood('speaking');
-  speaker.speak(lines, { lang, onLevel: (l) => state.stage.setMouth(l) })
-    .then(() => state.stage.setMood('idle'));
+  const st = state.stage || NO_STAGE;
+  if (!lines.length) return;
+  if (speaker.isMuted()) { st.setMood('idle'); st.gesture('nod'); return; }
+  const my = (state.sayToken = (state.sayToken || 0) + 1);
+  // A small nod as he begins, a smile as he finishes: punctuation, not theatre.
+  st.setMood('speaking');
+  st.gesture('nod');
+  speaker.speak(lines, {
+    lang,
+    onStart: () => st.gesture('smile'),
+    onViseme: (v, w) => st.setViseme && st.setViseme(v, w),
+    onLevel: (l) => { st.setMouth(l); if (state.ambient && l > 0.5) state.ambient.setEnergy(l * 0.35); },
+  }).then(() => {
+    if (my !== state.sayToken) return;
+    st.setMood('idle');
+    st.gesture('smile');
+  });
 }
 
 function openPlayer(videoId, t, title) {

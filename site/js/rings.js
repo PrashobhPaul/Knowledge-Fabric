@@ -18,14 +18,16 @@
 // Pure inline SVG. No chart library, no canvas, ~3 KB, and it animates with CSS
 // stroke-dashoffset so there is no per-frame JavaScript.
 
+// Precious metals and one stone: platinum, glacier titanium, champagne gold,
+// rose gold and jade — distinct at a glance, and all from the page's palette.
 const RING_COLORS = {
-  coverage:     { from: '#5B86FF', to: '#7FD8FF' },
-  connectivity: { from: '#7B5BFF', to: '#B388FF' },
-  provenance:   { from: '#F6B44C', to: '#FFD98A' },
-  extraction:   { from: '#FF6E9C', to: '#FF2E6B' },
-  freshness:    { from: '#47D6A6', to: '#8AF0CE' },
+  coverage:     { from: '#9EA4AD', to: '#F1F2F4' },
+  connectivity: { from: '#5FA9C2', to: '#BDE8F5' },
+  provenance:   { from: '#A6845A', to: '#F3E6C8' },
+  extraction:   { from: '#B07862', to: '#EBC2B0' },
+  freshness:    { from: '#5E9E82', to: '#B9E5CF' },
 };
-const FALLBACK = { from: '#5B86FF', to: '#7FD8FF' };
+const FALLBACK = { from: '#A6845A', to: '#F3E6C8' };
 
 // Arcs run 270° with a gap at the bottom, so the start and end of each arc are
 // visible and a 100% value still reads as a complete measure rather than a
