@@ -1,0 +1,58 @@
+{
+ "cases": [
+  {
+   "q": "What do you mean by Om Mani Padma hum",
+   "id": "moment",
+   "must": "purity of body"
+  },
+  {
+   "q": "What is the meaning of Om Mani Padme Hum?",
+   "id": "moment",
+   "must": "wisdom and compassion"
+  },
+  {
+   "q": "Explain Om Mani Padme Hum",
+   "id": "moment",
+   "must": "jealousy"
+  },
+  {
+   "q": "om mani padme hum meaning",
+   "id": "moment",
+   "must": "4:12"
+  },
+  {
+   "q": "Who founded Key Monastery?",
+   "id": "moment",
+   "must": "Atisha"
+  },
+  {
+   "q": "Why is Key Monastery called honeycomb?",
+   "id": [
+    "key-monastery",
+    "moment"
+   ],
+   "must": "honeycomb"
+  },
+  {
+   "q": "When was the Key Monastery prayer hall inaugurated?",
+   "id": [
+    "key-monastery",
+    "moment"
+   ],
+   "must": "2000"
+  },
+  {
+   "q": "What are the yak butter lamps at Key Monastery?",
+   "id": "moment",
+   "must": "butter"
+  },
+  {
+   "q": "Which earthquake damaged Key Monastery?",
+   "id": "moment",
+   "must": "1975"
+  }
+ ],
+ "no_answer": [
+  "What does Om Shanti Om mean?"
+ ]
+}

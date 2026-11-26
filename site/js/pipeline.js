@@ -11,7 +11,7 @@ import { cohereByDocument, tokenize } from './search.js?v=5';
 import { hybridSearch } from './hybrid.js?v=3';
 import { buildAnswer } from './answer.js?v=8';
 import { matchQuestionBank } from './questionbank.js?v=3';
-import { matchCanon, applyCanon, suggestCanon, contentWords, isImperativeTask, focus, smallTalk, resolveFollowUp, canonDecline, codeCardHtml } from './canon.js?v=1';
+import { matchCanon, applyCanon, suggestCanon, contentWords, isImperativeTask, focus, smallTalk, resolveFollowUp, canonDecline, codeCardHtml, sameWord } from './canon.js?v=1';
 import { expandQuery } from './multilingual.js?v=1';
 import { relatedItems } from './related.js?v=1';
 import { matchCanonByVector, chunkRun } from './nlu_semantic.js?v=1';
@@ -186,6 +186,46 @@ export function lookupTitle(question, chunks) {
   return { kind: 'repository', chunk: best, text: text.replace(/\.\./g, '.') };
 }
 
+// ---------------------------------------------------------------------------
+// Video moments: "What does Om Mani Padme Hum mean?" is explained in my Key
+// Monastery video at 4:12. A chapter (or transcript window) that covers the
+// question is quoted in my own words, cited at that second, and plays inline.
+// ---------------------------------------------------------------------------
+const GENERIC = new Set(['explain', 'explained', 'video', 'videos', 'tell', 'about', 'say', 'said', 'talk', 'describe', 'story', 'behind', 'there', 'why', 'how', 'who', 'what', 'when', 'where']);
+const covered = (words, text) => { const tw = tokenize(text); return words.filter(w => tw.some(t => sameWord(w, t))).length; };
+export function findMoment(question, chunks) {
+  const words = [...new Set(contentWords(question).filter(w => !GENERIC.has(w) && w.length > 1))];
+  if (words.length < 2) return null;
+  const names = corpusNames(chunks);
+  let best = null;
+  for (const c of chunks) {
+    const m = c.meta || {};
+    if (m.record_type !== 'chapter' && m.record_type !== 'transcript') continue;
+    const t = String(c.text || '');
+    const title = (t.match(/the chapter '(.+?)' begins/) || [])[1] || '';
+    const cov = covered(words, t) / words.length, th = covered(words, title);
+    if (cov < 0.75 || !(th >= 1 || cov === 1)) continue;
+    // it must be about something named ("Om Mani Padme Hum", "Key Monastery"), not "first job"
+    // a corpus-wide name, or a word this very record writes as a name mid-sentence ("…landmarks of Spiti Valley—Key Monastery")
+    const caps = [...t.matchAll(/(?<=[a-z0-9,;:)—–-] ?)([A-Z][\p{L}]+)/gu)].map(x => x[1].toLowerCase());
+    if (!words.some(w => (names.has(w) && tokenize(t).some(x => sameWord(w, x))) || caps.some(x => sameWord(w, x)))) continue;
+    // a focused chapter beats a long transcript window that merely contains the words
+    const sc = cov + 0.1 * th + (m.record_type === 'chapter' ? 0.05 : 0) + 0.2 * (1 - Math.min(1, t.length / 1200));
+    if (!best || sc > best.sc) best = { sc, cov, th, chunk: c, title, words };
+  }
+  if (!best) return null;
+  const t = String(best.chunk.text);
+  const video = (t.match(/in the video '(.+?)'/) || [])[1] || best.chunk.document_name || '';
+  const at = (t.match(/^At (\d+:\d{2})/) || [])[1] || '';
+  const body = t.replace(/^At [^,]+, the chapter '.+?' begins\.\s*/, '').replace(/^At [^.]*?\.\s*/, '').trim();
+  // quote from the first sentence that touches the question, four sentences at most
+  const sents = body.split(/(?<=[.!?])\s+(?=[A-Z"“'])/);
+  const first = Math.max(0, sents.findIndex(x => covered(best.words, x) > 0));
+  const said = sents.slice(first, first + 4).join(' ');
+  return { ...best, video, at, said };
+}
+const momentCard = (mo, idxOf) => `<div class="showcase"><div class="sc-cta"><a class="sc-btn sc-primary moment-play" href="${esc(mo.chunk.url)}" data-cite="${idxOf}" target="_blank" rel="noopener">▶ Watch me explain it${mo.at ? ` · from ${esc(mo.at)}` : ''}</a></div></div>`;
+
 export function answerQuestion(asked, ctx) {
   const { index, bm25, chunks } = ctx;
   // Conversation first: greetings and introductions are not the question, small
@@ -245,8 +285,30 @@ export function answerQuestion(asked, ctx) {
   // Answer language: the script the question was written in, else the visitor's chosen language.
   const scriptLang = expandQuery(asked).lang;
   const answerLang = scriptLang !== 'en' ? scriptLang : (ctx.answerLang || 'en');
+  // A video moment leads when it covers the question better than the curated answer does.
+  const moment = decline ? null : findMoment(question, chunks);
+  const canonCov = canonMatch && moment ? covered(moment.words, canonMatch.entry.answer) / moment.words.length : 0;
+  // Lead with the moment only when its chapter title names what was asked; a strong
+  // curated answer keeps the lead otherwise, with the moment beneath it.
+  const momentLeads = !!(moment && moment.said && !code && (!canonMatch
+    || (canonMatch.score < 0.75 && moment.th >= 2 && moment.cov >= canonCov)));
+  if (momentLeads) {
+    const ci = chunks.indexOf(moment.chunk);
+    const cite = { num: 1, chunkIdx: ci, chunk: moment.chunk, score: 1, confidence: 1, why: `${moment.video}${moment.at ? ' at ' + moment.at : ''}` };
+    const opener = `I explain this in my video “${moment.video}”${moment.at ? `, at ${moment.at}` : ''}:`;
+    result = { ...result,
+      answerHtml: `<p class="answer-opener">${esc(opener)}</p><p class="answer-body answer-canon">${esc(moment.said)} <sup class="cite-ref" data-cite="1" title="${esc(cite.why)}">[1]</sup></p>` + momentCard(moment, 1),
+      citations: [cite, ...(result.citations || []).filter(c => c.chunkIdx !== ci).slice(0, 2).map((c, i) => ({ ...c, num: i + 2 }))],
+      summary: { ...(result.summary || {}), sentences: [opener, ...moment.said.split(/(?<=[.!?])\s+/)].map((x, i) => ({ text: x, display: x, chunkIdx: ci, chunk: moment.chunk, final: 1, position: i, tokens: new Set(), signals: {} })) },
+      canon: { id: 'moment', answer: moment.said, sentences: [opener, ...moment.said.split(/(?<=[.!?])\s+/)], evidence: [], lang: 'en' },
+      lowConfidence: false, verdict: null, moment: { url: moment.chunk.url, at: moment.at } };
+    result.related = relatedItems({ citations: result.citations, ranked: [], analysis: result.analysis, index: { chunks }, weak: false });
+    return { ...result, answerLang: 'en', resolvedQuestion: question, retrievalQuery, bankMatch, canonMatch: { id: 'moment', score: moment.cov, via: 'video' }, code: null };
+  }
   if (canonMatch) {
     result = applyCanon(result, { ...canonMatch, lang: answerLang }, chunks, index.showcase || {});
+    if (moment && !(result.answerHtml || '').includes(moment.chunk.url))     // the curated answer leads; the video moment backs it
+      result.answerHtml = result.answerHtml.replace('<p class="answer-closing">Curated answer.', momentCard(moment, 0) + '<p class="answer-closing">Curated answer.');
     if (code && !(result.answerHtml || '').includes(code.url)) result.answerHtml = result.answerHtml.replace('<p class="answer-closing">Curated answer.', codeCardHtml(code, true) + '<p class="answer-closing">Curated answer.');
     result.related = relatedItems({ citations: result.citations, ranked: [], analysis: result.analysis, index: { chunks }, weak: false });
   } else if (code) {
