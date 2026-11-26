@@ -185,14 +185,16 @@ export function lookupTitle(question, chunks) {
   if (/\b(videos|vlogs|shorts|clips)\b/i.test(question) && hits.length >= 2) {
     const list = hits.sort((a, b) => ((b.meta || {}).views || 0) - ((a.meta || {}).views || 0)).slice(0, 6);
     const names = list.map(c => `“${c.document_name.replace(/\s+/g, ' ').trim()}”`);
-    const text = `I have ${list.length === hits.length ? list.length : `${hits.length}, here are the top ${list.length}`} videos on that on The Canvas of Earth: `
+    const onWhere = list.some(c => (c.meta || {}).catalogue_where) ? 'on YouTube' : 'on The Canvas of Earth';
+    const text = `I have ${list.length === hits.length ? list.length : `${hits.length}, here are the top ${list.length}`} videos on that ${onWhere}: `
       + `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}. Each one plays right here.`;
     return { kind: 'videos', chunk: list[0], chunks: list, text };
   }
   const m = best.meta || {};
   if (m.record_type === 'video') {
     const where = (m.places || []).filter(Boolean).slice(0, 2).join(', ');
-    const text = `Yes. “${best.document_name.replace(/\s+/g, ' ').trim()}” is on my channel, The Canvas of Earth`
+    // An older upload (extra_videos.json) says where it really is: "on my old channel, …".
+    const text = `Yes. “${best.document_name.replace(/\s+/g, ' ').trim()}” is ${m.catalogue_where || 'on my channel, The Canvas of Earth'}`
       + `${m.format === 'short' ? ', as a short' : ''}${where ? `, filmed in ${where}` : ''}`
       + `${m.published ? `, published in ${when(m.published)}` : ''}${m.views ? `, with ${Number(m.views).toLocaleString('en-IN')} views` : ''}. It plays right here.`;
     return { kind: 'video', chunk: best, text };
