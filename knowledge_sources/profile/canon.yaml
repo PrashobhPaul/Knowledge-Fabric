@@ -32,10 +32,11 @@ canon:
   - What do you do?
   answer: I am Prashobh Paul, an AI Architect based in Hyderabad, India, with over eleven years in AI,
     Generative AI, NLP and robotics. Today I lead the AI Center of Excellence work at Qualizeal, where
-    I design and build agentic AI systems for enterprises and AI-testing platforms. Before that I spent
-    years in healthcare NLP, BFSI analytics and autonomous robotics. Outside work I run a travel channel
-    on YouTube called The Canvas of Earth and I build small apps that solve real problems for people around
-    me.
+    I design and build agentic AI systems for enterprises and AI-testing platforms, from the architecture
+    down to the code. Before that I spent years in healthcare NLP, BFSI analytics and autonomous robotics,
+    so I have grown along with the field itself, from classic NLP to LLMs and agents. Outside work I run
+    a travel channel on YouTube called The Canvas of Earth and I build small apps that solve real problems
+    for people around me.
   evidence:
   - url: https://www.prashobhpaul.com/
     source: website
@@ -68,11 +69,14 @@ canon:
   - What do you do at Qualizeal?
   - What are your roles and responsibilities?
   answer: 'I work at Qualizeal as an AI Architect in the AI Center of Excellence, since January 2026.
-    I lead the AI CoE roadmap and I stay hands-on: I design and implement production-grade multi-agent
-    systems with frameworks like LangGraph, CrewAI and AutoGen, I drive the AI architecture and governance
-    strategy, and I set the practices for GenAI integration, prompt engineering and RAG pipelines across
-    our programs. I contribute to both our internal platforms and our client solutions, from architecture
-    through implementation.'
+    I lead the AI CoE roadmap and I stay hands-on: I design the architecture and then write a good part
+    of the implementation myself. Day to day that means production-grade multi-agent systems with frameworks
+    like LangGraph, CrewAI and AutoGen, the AI architecture and governance strategy, and the practices
+    our programs follow for GenAI integration, prompt engineering and RAG pipelines. My time splits between
+    our internal AI-testing platforms, ValidAIte and QMentisAI, and client solutions, where I build agentic
+    AI for the software development and testing life cycles. The balance I hold every day is delivery
+    speed against long-term scalability, with latency, cost, observability and governance treated as design
+    requirements from the first sketch, not as clean-up after go-live.'
   evidence:
   - url: profile:roles/Qualizeal
     source: resume
@@ -125,11 +129,15 @@ canon:
   - What are you building at Qualizeal?
   - What platforms has Prashobh built at Qualizeal?
   - Tell me about ValidAIte and QMentisAI.
-  answer: At Qualizeal I work on two internal platforms and on client solutions. ValidAIte is our platform
+  answer: 'At Qualizeal I work on two internal platforms and on client solutions. ValidAIte is our platform
     for testing and validating AI and GenAI systems, and QMentisAI is our AI testing and quality-engineering
-    platform. For clients I build agentic AI for the software development life cycle with Kiro for a major
-    US airline, and agentic AI for the software testing life cycle with the Microsoft Agent Framework
-    and .NET for a global professional-services firm. I keep client names confidential.
+    platform. Both exist because an LLM or an agent cannot be tested like ordinary software: the same
+    input can produce different outputs, so you test behaviour against criteria such as groundedness,
+    task completion, safety and consistency across runs, not exact matches. For clients I build agentic
+    AI for the software development life cycle with Kiro for a major US airline, and agentic AI for the
+    software testing life cycle with the Microsoft Agent Framework and .NET for a global professional-services
+    firm. The two sides feed each other: what we learn validating AI on the platforms shapes the evaluation
+    and guardrails I build into the agents we ship. I keep client names confidential.'
   evidence:
   - url: profile:engagements/ValidAIte
     source: resume
@@ -212,10 +220,16 @@ canon:
   questions:
   - What did Prashobh do at Tech Mahindra?
   - What was your role at Tech Mahindra?
-  answer: At Tech Mahindra I was Technical Architect for Data Science from June 2023 to January 2026.
-    I led Generative AI and agentic AI enterprise implementations for telecom and BFSI clients, designed
-    multi-agent orchestration frameworks for customer insights, digital reporting and automated decision-making,
-    mentored AI teams across three geographies and advised C-level stakeholders on AI strategy and roadmap.
+  answer: 'At Tech Mahindra I was Technical Architect for Data Science from June 2023 to January 2026,
+    the years when enterprise GenAI moved from pilots into production. I led Generative AI and agentic
+    AI enterprise implementations for telecom and BFSI clients, and designed multi-agent orchestration
+    frameworks for customer insights, digital reporting and automated decision-making. I also led LLM-based
+    conversational systems for global clients and managed their production deployments. Most of the architect''s
+    job there was turning a promising demo into something that survives real traffic: grounding answers
+    in the client''s own data with RAG, keeping latency and token cost predictable, and putting monitoring
+    and human review around any decision an agent automated. I mentored AI teams across three geographies
+    and advised C-level stakeholders on AI strategy and roadmap, and that advice always started with choosing
+    the few use cases worth doing first.'
   evidence:
   - url: profile:roles/Tech Mahindra
     source: resume
@@ -231,11 +245,15 @@ canon:
   - What is Prashobh's experience in healthcare NLP?
   - What did you do at Primera Medical Technologies?
   - Have you worked in healthcare?
-  answer: Yes, four years of it. At Primera Medical Technologies, from 2017 to 2021, I was a Senior NLP
-    Engineer. I built NLP pipelines for EMR systems such as Epic and Meditech processing HL7 and FHIR
-    clinical data at scale and mapping it to clinical ontologies like SNOMED, LOINC and ICD-10, developed
-    clinical NLP systems used across more than sixty US hospitals including a real-time medical note reader
-    and OCR tools, and built predictive models for patient outcomes and clinical decision support.
+  answer: 'I spent four years in healthcare NLP, and it shaped how I think about AI. At Primera Medical
+    Technologies, from 2017 to 2021, I was an NLP Engineer and then Senior NLP Engineer, building clinical
+    NLP for a US hospital network. I built pipelines for EMR systems such as Epic and Meditech that processed
+    HL7 and FHIR clinical data at scale and mapped it to clinical ontologies like SNOMED, LOINC and ICD-10.
+    The flagship was a real-time physician''s note reader used across more than sixty US hospitals, alongside
+    OCR tools for EOBs and diagnostic insights and predictive models for patient outcomes and clinical
+    decision support. Healthcare taught me the discipline I still bring to GenAI: the data is messy and
+    regulated, privacy is non-negotiable, and every output has to trace back to the record it came from,
+    because a clinician will not act on a number they cannot verify.'
   evidence:
   - url: profile:roles/Primera Medical Technologies
     source: resume
@@ -262,11 +280,15 @@ canon:
   questions:
   - Has Prashobh worked in BFSI or banking?
   - What is your experience in finance?
-  answer: Yes. At Yash Technologies I was a Senior Data Scientist working on BFSI and risk analytics,
-    and at Tech Mahindra I led GenAI and agentic implementations for BFSI clients. Earlier, at TCS, I
+  answer: 'Yes. At Yash Technologies I was a Senior Data Scientist in BFSI and risk analytics, building
+    fraud detection, loan eligibility and credit scoring models that improved risk prediction accuracy
+    by more than 25 percent, plus predictive frameworks for portfolio management and risk assessment.
+    At Tech Mahindra I led GenAI and agentic implementations for BFSI clients, and earlier, at TCS, I
     built AI-driven customer analytics and NLP models for enterprise clients including a global financial-services
-    company. I have also built finance tooling on my own time, such as automating 10-K and 10-Q filings
-    analysis and stock research for Indian equities.
+    company. Finance is a regulated domain, so the models have to be explainable: a credit decision needs
+    reasons a risk team and a regulator can follow, and a fraud model has to balance catching fraud against
+    blocking genuine customers. I have also built finance tooling on my own time, such as automating 10-K
+    and 10-Q filings analysis and AI stock research for Indian equities.'
   evidence:
   - url: profile:roles/Yash Technologies
     source: resume
@@ -299,11 +321,17 @@ canon:
   questions:
   - What robotics work has Prashobh done?
   - Have you worked on robots?
-  answer: Yes. From 2021 to 2022 I was Associate Solutions Leader in AI and Robotics at Brane Enterprises,
+  answer: 'Yes. From 2021 to 2022 I was Associate Solutions Leader in AI and Robotics at Brane Enterprises,
     a Hyderabad startup where my mentors Dr. Roshy and Rajaram had called me back to work with them. I
-    led object detection, gait and path planning and the physics engine for quadrupedal robots, took AI
-    onto edge devices with ONNX, and worked on vision glasses for the visually impaired as part of a Telangana
-    State Government initiative. My toolkit there included ROS, SLAM, sensor fusion and autonomous navigation.
+    led object detection, gait and path planning and the physics engine for quadrupedal robots, taking
+    gait control from simulation to the physical robot with ROS and PyBullet, alongside autonomous navigation,
+    SLAM and sensor fusion. A legged robot is unforgiving: a gait that works in simulation still has to
+    survive real friction, payload and uneven ground, so much of the work was closing the gap between
+    the simulator and the floor. I also took AI onto edge devices with ONNX, where every model has to
+    fit tight memory, power and latency budgets, and in 2022 I worked on vision glasses for the visually
+    impaired, a smaller cousin of the Meta Ray-Ban style glasses, as part of a Telangana State Government
+    initiative. It is also where I lifted an object detection model from 76 to 89.5 percent accuracy with
+    an NLP-inspired hybrid approach.'
   evidence:
   - url: doc:Career_In_Depth
     source: resume
@@ -381,11 +409,14 @@ canon:
   - What is your tech stack?
   - Which agent frameworks do you use?
   answer: 'My core is agentic and generative AI: LangGraph, CrewAI and AutoGen for multi-agent systems,
-    RAG and LangChain, fine-tuning, and the major LLM platforms, OpenAI, Claude and Gemini. Underneath
-    that is a decade of NLP and machine learning with transformers, computer vision and predictive modelling,
-    and the architecture side: solution architecture, AI governance, AWS and GCP including SageMaker and
-    Vertex AI. I build mostly in Python with PyTorch, TensorFlow, Hugging Face and FastAPI, and I ship
-    web and mobile apps in TypeScript and React.'
+    the Microsoft Agent Framework and Kiro in my current client work, RAG and LangChain, prompt engineering,
+    fine-tuning, and the major LLM platforms, OpenAI, Claude and Gemini. Underneath that is a decade of
+    NLP and machine learning with transformers, computer vision and predictive modelling, with domain
+    depth in clinical NLP, BFSI risk models and robotics. The architecture side is solution architecture,
+    AI governance and MLOps on AWS and GCP, including SageMaker and Vertex AI, with Docker and Kubernetes.
+    I build mostly in Python with PyTorch, TensorFlow, Hugging Face and FastAPI, use .NET where a client
+    runs on Microsoft, and I ship web and mobile apps in TypeScript and React. The skill I value most
+    is not on that list: knowing which of these a problem actually needs, and which it does not.'
   evidence:
   - url: profile:skills/Generative AI & Agents
     source: resume
@@ -492,11 +523,18 @@ canon:
   - What is the Knowledge Fabric project?
   - Tell me about the Knowledge Fabric project and its code.
   - What is a knowledge fabric?
-  answer: 'Knowledge Fabric is my demo of explainable, citation-grounded AI: a Knowledge Factory syncs
-    everything public about me, my website, resume, GitHub, YouTube and LinkedIn, and the Fabric links
-    it into one graph and answers questions with verbatim, cited evidence and a derived confidence score.
-    Nothing is generated; every sentence is traced to its source. It runs as a static site, and the feedback
-    loop turns flagged answers into curator work. The code is public on GitHub.'
+  answer: 'Knowledge Fabric is my demonstration of explainable, citation-grounded AI, and the project
+    I am most attached to right now. A Knowledge Factory syncs everything public about me, my website,
+    resume, GitHub, YouTube and LinkedIn, and the Fabric links it into one typed knowledge graph and answers
+    questions with verbatim, cited evidence, a derived confidence score and the lineage of every sentence;
+    curated answers in my own words sit on top, each with its proofs. Under the hood it is BM25, LSA and
+    MiniLM sentence embeddings over the graph, built in Python and served as a fully static JavaScript
+    site: no backend, no vector database and no API keys, so it is cheap to run and reproducible. Nothing
+    is generated; every sentence is traced to its source. Quality is measured, not asserted: every build
+    runs gold question sets and fails the deploy when answers regress, and the feedback loop turns flagged
+    answers into curator work. It is the pattern I want for the AI-driven development life cycle at my
+    company: a knowledge layer that agents and people can trust because every answer shows where it came
+    from. The code is public on GitHub.'
   evidence:
   - url: doc:Knowledge_Fabric
     source: resume
@@ -521,12 +559,16 @@ canon:
   - What is Invest.IQ?
   - Tell me about your stock research app.
   - Do you have an AI based prediction system?
-  answer: 'Invest.IQ is where I pushed the AI the furthest in my side projects. It is AI stock research
-    for Indian equities: heavy analytics plus an AI reasoning layer that turns a tiered universe of stocks
-    into one opinionated, backtest-first shortlist across short, medium and long horizons. It is live
-    on the web and as an Android app, built with React, TypeScript and Capacitor. It grew out of my earlier
-    stock-analysis and ProfitPilot experiments, which are also on GitHub. It is educational, not financial
-    advice.'
+  answer: 'Invest.IQ is where I pushed the AI the furthest in my side projects: agentic AI applied to
+    the Indian stock market. Heavy analytics plus an AI reasoning layer turn a tiered universe of Indian
+    equities into one opinionated, backtest-first shortlist across short, medium and long horizons. Quality
+    scores, technicals and news influence are all weighed and explained, so you can see exactly why each
+    pick ranks where it does; a pick I cannot explain is a pick I do not trust. Backtest-first matters
+    because markets punish overfitting: in my earlier stock-analysis pipeline a stock had to clear a 60
+    percent walk-forward win rate over three years of history, with no look-ahead, before it could appear,
+    and every stage falls back to the last good data instead of publishing a bad run. My earlier stock-analysis
+    and ProfitPilot experiments are also on GitHub. Invest.IQ is live on the web and as an Android app
+    built with React, TypeScript and Capacitor. It is educational, not financial advice.'
   evidence:
   - url: https://www.prashobhpaul.com/works.html
     source: website
@@ -644,11 +686,17 @@ canon:
   - Does Prashobh work on AI-driven SDLC?
   - What is your work on AIDLC?
   - Tell me about Kiro automation.
-  answer: Yes. Agentic AI across the software life cycle is my core work at Qualizeal. I build agentic
+  answer: 'Yes. Agentic AI across the software life cycle is my core work at Qualizeal. I build agentic
     AI for the software development life cycle with Kiro for a major US airline, and agentic AI for the
     software testing life cycle with the Microsoft Agent Framework and .NET for a global professional-services
-    firm. My Kiro SDLC automation experiments are on GitHub, and Knowledge Fabric is my take on the knowledge
-    layer an AI-driven development life cycle needs.
+    firm. Kiro suits the development side because it is spec-driven: requirements, design and tasks are
+    written down before code is generated, so the agents work from an agreed specification and a team
+    can review each step instead of trusting one big generation. On the testing side, agents help across
+    the life cycle, from analysing requirements to designing tests, writing test cases and automating
+    them, and the Microsoft Agent Framework keeps them native to an enterprise .NET stack. In my experience
+    the harder part is not the agents but the knowledge underneath them, a project''s conventions, decisions
+    and domain rules, which is why Knowledge Fabric is my take on the knowledge layer an AI-driven development
+    life cycle needs.'
   evidence:
   - url: profile:engagements/Agentic AI for the SDLC
     source: resume
@@ -675,11 +723,14 @@ canon:
   - What services does Prashobh offer?
   - Can I hire you?
   - Do you do consulting?
-  answer: Yes. I take on AI consulting and strategy work, enterprise GenAI strategy, architecture reviews
+  answer: 'Yes. I take on AI consulting and strategy work, enterprise GenAI strategy, architecture reviews
     and AI governance. I design and deliver agentic AI systems hands-on, and I build GenAI solutions end
-    to end, RAG pipelines, LLM workflows and conversational AI. I also run corporate training and workshops,
-    offer interview preparation and coaching for AI, ML and data science roles, and provide IT advisory.
-    I work remote-first and I am open to global collaboration.
+    to end, RAG pipelines, LLM workflows and conversational AI. A typical engagement starts with the problem,
+    not the technology: we pick the use case with the clearest value, prove it with a small proof of concept
+    measured against criteria we agree up front, and only then scale it with the governance, monitoring
+    and evaluation it needs in production. I also run corporate training and workshops, offer interview
+    preparation and coaching for AI, ML and data science roles, and provide IT advisory. I choose freelance
+    work by the problem statement and the scope, and I work remote-first and I am open to global collaboration.'
   evidence:
   - url: profile:services/AI Consulting & Strategy
     source: website
@@ -739,10 +790,15 @@ canon:
   - Does Prashobh do corporate training?
   - Do you teach AI?
   - Do you run workshops?
-  answer: Yes, I do. I run one-hour introductory AI talks, half-day and full-day GenAI and agentic AI
-    workshops, and custom corporate programmes. I also do personalised interview preparation for AI, ML
-    and data science roles. My YouTube channel is about travel, not teaching, so the training happens
-    in sessions and workshops rather than on video.
+  answer: 'Yes, I do. I run one-hour introductory AI talks, half-day and full-day GenAI and agentic AI
+    workshops, and custom corporate programmes for teams that need to go deeper. I tailor the level to
+    the room, from leaders who need to know what AI can and cannot do for them, to engineers who need
+    hands-on patterns they can take into production. I prefer building over slides: where the format allows,
+    people put together a small RAG pipeline or a simple agent and learn how to evaluate it, because that
+    is where the understanding sticks. I also do personalised interview preparation for AI, ML and data
+    science roles, with concepts, mock sessions, resume reviews and strategy, for students and working
+    professionals. My YouTube channel is about travel, not teaching, so the training happens in sessions
+    and workshops rather than on video.'
   evidence:
   - url: profile:services/Corporate Training & Workshops
     source: website
@@ -952,9 +1008,16 @@ canon:
   - What do you think about knowledge layers and ontologies for companies?
   answer: 'On LinkedIn I write about how companies will build their own ontology and knowledge layer.
     My view is that this pattern will emerge in every organisation as agents become major contributors
-    to work, and that the architecture will evolve towards one cohesive "brain" for the company. The nuance
+    to work, and that the architecture will evolve as models get better at consolidating knowledge across
+    segregated domains into one cohesive "brain" for the company. The distinction I draw is between context
+    and knowledge: context is what an agent has available while doing a task, and knowledge is the reusable
+    understanding we maintain so it can do that task correctly, what a metric means, which source to trust,
+    how we handle a particular situation, sometimes written down and often not. A knowledge factory turns
+    scattered documents and experience into knowledge that can become context for future work. The nuance
     I keep pointing at is risk: a company''s knowledge, how it works and its product thinking can be leaked
-    or hacked, and that can be catastrophic. This fabric is my working answer to that problem.'
+    or hacked, and that can be catastrophic, so the knowledge layer needs access control and provenance
+    as much as it needs search. This fabric is my working answer to that problem, and I also post about
+    AI governance and agentic orchestration.'
   evidence:
   - url: profile:posts/ontology and knowledge layer
     source: linkedin
@@ -979,10 +1042,17 @@ canon:
   questions:
   - What is agentic AI according to Prashobh?
   - What is your view on agentic AI?
-  answer: Agentic AI is my primary area of work right now. For me it means systems where models plan,
-    call tools and collaborate as agents to finish real work, with governance, evaluation and observability
-    designed in from the start. I pick the tooling for the problem, LangGraph, CrewAI or AutoGen, and
-    I care more about clean architecture and reliable delivery than about any single framework.
+  answer: 'Agentic AI is my primary area of work right now. For me it means systems where models plan,
+    call tools and hand work to each other to finish a real task, not a chatbot that only answers. The
+    model is rarely what makes an agent trustworthy in production; the engineering around it is: clear
+    limits on what each agent may do, tools exposed through standard interfaces like MCP, state you can
+    inspect, and a human checkpoint wherever a mistake is expensive. I widen autonomy in steps, starting
+    with a narrow task and giving the agent more room only when the evaluations show it holds. Governance,
+    evaluation and observability are designed in from the start, because an agent you cannot trace is
+    an agent you cannot debug or defend. The next step, as I see it, is knowledge rather than more agents:
+    they do their best work when the organisation''s own knowledge layer feeds them the right context.
+    I pick the tooling for the problem, LangGraph, CrewAI or AutoGen, and I care more about clean architecture
+    and reliable delivery than about any single framework.'
   evidence:
   - url: https://www.prashobhpaul.com/
     source: website
@@ -1030,9 +1100,9 @@ canon:
   questions:
   - What are Prashobh's hobbies?
   - What do you do outside work?
-  answer: Travel and filming it for The Canvas of Earth, photography and art, and sport, cricket and football,
-    which is why IPLBuzz and Soccer.AI exist. Most of my side projects start as something useful for my
-    family or my community.
+  answer: Travel, and filming it for The Canvas of Earth; photography and conceptual art; and sport, cricket
+    and football, which is why IPLBuzz and Soccer.AI exist. Most of my side projects start as something
+    useful for my family or my community.
   evidence:
   - url: profile:personal
     source: resume
@@ -1199,12 +1269,14 @@ canon:
   - Why did you choose computer science and AI?
   - How did you get into AI?
   - What was your first AI project?
-  answer: I chose computer science because I wanted to make games, and I kept it in B.Tech for the love
-    of building software; I liked maths and physics but hated chemistry, which B.Arch required. My first
-    AI paper came in 2010, in the second year of B.Tech. Then I got into voice-controlled systems built
-    on Hidden Markov Models, and in 2012 I flew a voice-controlled climate-analyser plane on Engineer's
-    Day. It made the regional papers, carried me into my M.Tech in Knowledge Engineering, and even helped
-    land my first job.
+  answer: 'I chose computer science in school because I loved computer games and wanted to make them,
+    and I kept it for B.Tech for the love of building software. I was drawn to architecture and civil
+    engineering too, and I liked maths and physics, but I hated chemistry, which B.Arch required at the
+    time. AI came early: my first paper on it was in 2010, in the second year of B.Tech, and then I got
+    into voice-controlled systems built on Hidden Markov Models. In 2012 I flew a voice-controlled climate-analyser
+    plane on Engineer''s Day; it made the regional papers, carried me into my M.Tech in Knowledge Engineering,
+    and even helped land my first job. What kept me in AI is what started it: making a machine do the
+    things I would rather not do by hand, like reading textbooks aloud to me.'
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1242,14 +1314,18 @@ canon:
   - What did you do at TCS?
   - How did your career start?
   - Tell me the story of your first job.
-  answer: TCS gave me the real-world taste of AI. I started in Kochi, home of the Digital Enterprise Systems
-    and Solutions wing with its AI and Robotics labs, and I asked, by formal email, to be moved into the
-    AI Labs. They said no, then said pass our interviews, and after sixteen interviews the architect Manoj
-    Madhavan took me in, for the relentlessness as much as for my NLP answer. There I built custom OpenNLP
-    models, an intelligent date tagger reused across TCS, multi-class classification for the Ultimatix
-    ticketing tool with the CTO team, type-ahead and intelligent prompting for in-house search, and I
-    spent a short time in the Robotics lab under Dr. Roshy and Rajaram. TCS taught me resilience and both
-    the industrial and the research side of AI.
+  answer: TCS gave me the real-world taste of AI; until then I had worked on expert systems and probabilistic
+    predictions. After campus placement and three months of training as a regular IT engineer, I started
+    on a client project in Kochi, home of the Digital Enterprise Systems and Solutions wing with its AI,
+    Robotics and IoT labs. I asked, by formal email to the zonal head and the digital team head, to be
+    moved into the AI Labs. They said no, then said pass our interviews, and after sixteen interviews
+    the architect Manoj Madhavan took me in, for the relentlessness as much as for my NLP answer, even
+    without the differential package the IIT freshers had. There I built custom OpenNLP models, an intelligent
+    date tagger that inferred indirect references to a day or date and was reused across TCS, multi-class
+    classification for the Ultimatix ticketing tool with the CTO team, and type-ahead and intelligent
+    prompting for in-house search. I also spent a short time in the Robotics lab under Dr. Roshy and Rajaram.
+    TCS taught me resilience and both the industrial and the research side of AI, and it gave me the foundation
+    of who I am.
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1279,13 +1355,16 @@ canon:
   - What achievement are you proudest of?
   - What is your biggest accomplishment?
   - What is your best work?
-  answer: 'Having evolved with AI itself, from basic NLP to transformers, LSTMs, LLMs and now agents.
-    From a solutioning point of view I am prouder of my approach than of awards: at Brane, object detection
-    accuracy had dropped from 86 to 76 percent when the classes went from 80 to 120, YOLO was weak on
-    Indian data, and I had never trained custom weights. I brought my NLP side to a vision problem, describing
-    scenes, tagging text to images and layering a custom word2vec on top, and took it to 89.5. Dr. Roshy,
-    the man who kick-started the driverless car in India, appreciated that call, and that means more to
-    me than any award.'
+  answer: 'Having evolved with AI itself, from basic NLP to transformers, LSTMs, LLMs and SLMs, and now
+    agents. From a solutioning point of view I am prouder of my approach than of awards: at Brane, object
+    detection accuracy had dropped from 86 to 76 percent when the classes went from 80 to 120, YOLO was
+    weak on Indian data, and I had never trained custom weights. Instead of fighting only at the bounding-box
+    level, I brought my NLP side to a vision problem: describing scenes, tagging text to images and layering
+    a custom word2vec on top, so the model could use context, what usually appears together in a scene,
+    to tell similar classes apart. That took it not just back to 86 but to 89.5. Dr. Roshy, the man who
+    kick-started the driverless car in India, appreciated that call, and that means more to me than any
+    award. The lesson I still use is that the best fix often comes from another field, which is why I
+    keep my toolbox wide.'
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1311,12 +1390,17 @@ canon:
   questions:
   - What was the hardest problem you solved?
   - Tell me about the physician's note reader.
-  answer: The physician's note reader at Primera. It had to read every inpatient note across more than
-    sixty hospitals, from Epic and Meditech, in HL7 and MAR, collate physician notes, nursing notes and
-    medication records per patient, map them through clinical ontologies like SNOMED, LOINC and ICD-10,
-    build custom relationship graphs and feed real-time analytics. Lots of small but powerful NLP and
-    ML on huge data, for the first time, while I was the pillar of the NLP team. I am prouder of that
-    than of today's sophisticated agentic work.
+  answer: 'The physician''s note reader at Primera. It had to read every inpatient note across more than
+    sixty hospitals, each with at least a hundred beds, from Epic and Meditech, some in HL7 and some in
+    MAR. Per patient it had to collate physician notes, nursing notes and medication records, map them
+    through clinical ontologies like SNOMED, LOINC and ICD-10, build custom relationship graphs and feed
+    real-time analytics. The hard part was not one clever model; it was making many small NLP and ML pieces
+    reliable together on huge data, for the first time: abbreviations and negations in clinical text,
+    the same drug or condition written many ways, and records that had to line up per patient across systems.
+    Mapping to standard ontologies is what made it work, because once a mention resolved to a SNOMED or
+    ICD-10 concept, notes from different hospitals and formats could be joined and reasoned over. I was
+    the pillar of the NLP team then, and I am prouder of that than of today''s sophisticated agentic work;
+    it is also where I learned that a shared vocabulary of concepts matters as much as the model.'
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1351,10 +1435,14 @@ canon:
   - Who were your mentors?
   - Who do you mentor?
   - Who inspired your career?
-  answer: In B.Tech, Dr. Uma N. Dulhera, who backed my voice-controlled UAV. At TCS, Manoj Madhavan, who
-    saw my passion and made me strong in Python and fuzzy logic. And my role models, Roshy sir and Rajaram
-    sir, who later called me back to work with them at Brane. Today I mentor the young engineering graduates
-    who join Qualizeal's AI Center of Excellence as interns and freshers.
+  answer: In B.Tech, Dr. Uma N. Dulhera, who backed my ambitious project of controlling a UAV by voice.
+    At TCS, Manoj Madhavan, the architect who took me into the AI Labs, saw my passion, made me strong
+    in Python and helped me with fuzzy logic implementations. And my role models, Roshy sir and Rajaram
+    sir, whom I first worked under in the TCS Robotics lab and who later called me back to work with them
+    at Brane. Each of them gave me a chance before I had fully proved myself, and that is the part I try
+    to pass on. Today I mentor the young engineering graduates who join Qualizeal's AI Center of Excellence
+    as interns and freshers, and I try to give them real problems and real ownership early, the way I
+    was given them.
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1384,10 +1472,20 @@ canon:
   - How do you choose between LangGraph, CrewAI and AutoGen?
   - What does AI governance mean to you?
   - How do you evaluate AI systems?
-  answer: Between LangGraph, CrewAI, AutoGen or custom orchestration, the choice depends on the client's
-    need and the situation; I do not marry a framework. AI governance means a lot to me because AI adoption
-    is now in everything. On evaluating AI systems I have my own approaches and thoughts, beyond the products
-    Qualizeal offers.
+  answer: 'I do not marry a framework: between LangGraph, CrewAI, AutoGen or custom orchestration, the
+    choice depends on the client''s need and the situation. I start from the problem and its constraints,
+    scale, latency, cost, compliance and the stack the client already runs, then pick the model for the
+    reasoning layer and design the agent or retrieval layer around it. LangGraph is my default when a
+    workflow needs explicit state, branching, retries and human approval steps, because the graph makes
+    every path visible and testable. CrewAI is quicker for role-based crews on a well-defined task, AutoGen
+    suits conversational multi-agent patterns, and on a Microsoft estate the Microsoft Agent Framework
+    with .NET is the natural fit, which is what I use for a global professional-services firm. When most
+    of the flow is deterministic, a plain orchestrator that calls a model only at the decision points
+    is simpler, cheaper and easier to test. AI governance means a lot to me because AI adoption is now
+    in everything, so guardrails, audit trails, access control and human checkpoints go into the design
+    from day one. On evaluating AI systems I have my own approaches beyond the products Qualizeal offers:
+    a golden set of real questions with expected behaviour, run on every change, with traces I can inspect
+    and gates that block a release when quality drops, which is how this fabric itself is tested.'
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1409,8 +1507,11 @@ canon:
   questions:
   - What drives your career decisions?
   - What motivates you?
-  answer: Quality of work and challenges drive me, whether it is a job change or freelance work. Every
-    project I build starts with making life easier for someone, often myself.
+  answer: 'Quality of work and challenges drive me, whether it is a job change or freelance work. I say
+    yes to work where I will have to learn something new to deliver it, which is how I went from NLP into
+    healthcare, robotics, BFSI and now agentic AI. Close behind is usefulness: every project I build on
+    my own starts with making life easier for someone, often myself. And I judge the result by whether
+    it holds up in real use, not by how it demos.'
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1430,9 +1531,14 @@ canon:
   questions:
   - Which project are you most attached to?
   - What is your favourite project?
-  answer: Right now it is Knowledge Fabric and Knowledge Factory, not just agentic AI but a knowledge
-    layer for the AI-driven development life cycle at my company. Before that, the object detection problem
-    I solved with NLP ideas, and before that the college project that was my launchpad.
+  answer: 'Right now it is Knowledge Fabric and Knowledge Factory, not just agentic AI but a knowledge
+    layer for the AI-driven development life cycle at my company. The Factory gathers knowledge from every
+    source and the Fabric links it into one graph that answers with citations, and I am attached to it
+    because it tackles what I think matters most for agents at work: giving them knowledge they can trust
+    instead of guesses. This site, answering about me with proofs, is that idea working at a small scale.
+    Before that, it was the object detection problem I solved with NLP ideas, because it proved an approach
+    from one field could crack a problem in another. And before that, the college project that was my
+    launchpad, the voice-controlled UAV.'
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1456,11 +1562,13 @@ canon:
   questions:
   - Why did you build Koode, Pachaka Lokam and Invest.IQ?
   - What is the story behind your apps?
-  answer: Every project starts with making life easier for someone. Koode exists because my parents still
-    worry when I drive from Hyderabad to Thrissur and back. Pachaka Lokam came from helping my wife and
-    making sure I buy everything the kitchen needs on a busy day. Invest.IQ is my experiment in bringing
-    agentic AI to the Indian stock market. Even the voice-controlled systems in college began because
-    I wanted something to read my PDF textbooks aloud.
+  answer: Every project starts with making life easier for someone, often me. Koode exists because my
+    parents still worry when I drive from Hyderabad to Thrissur and back, so it gives them calm, live
+    reassurance instead of calls at every stop. Pachaka Lokam came from helping my wife and making sure
+    I buy everything the kitchen needs on a busy day. Invest.IQ is my experiment in bringing agentic AI
+    to the Indian stock market, and my playground for applied AI on real, noisy data. Even the voice-controlled
+    systems in college began because I wanted something to read my PDF textbooks aloud. My work comes
+    from working hard to avoid the things I do not like.
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1484,9 +1592,15 @@ canon:
   questions:
   - What does CogniFlow do?
   - What is CogniFlow?
-  answer: CogniFlow makes architecture diagrams with motion and animation, the kind my clients prefer
+  answer: 'CogniFlow makes architecture diagrams with motion and animation, the kind my clients prefer
     over the static ones I used to draw in draw.io. Even with Claude it took a lot of prompting, so I
-    built it and attached it to my Claude to make architecture design work easier.
+    built it and attached it to my Claude as an MCP server: Claude hands over a short description of the
+    architecture, and CogniFlow compiles it into a validated graph and renders the animated, editable
+    diagram, instead of the model drawing every shape itself. It is a free, browser-only studio in TypeScript:
+    you describe a system or import draw.io and Mermaid, watch data flow along the connectors, and export
+    GIFs, videos or slides, with a small open-weight model running in the browser and no backend. Two
+    rules keep it dependable: the graph is the source of truth, and nothing an AI model returns is executed
+    as code. It makes my own architecture design work easier, which is why I built it.'
   evidence:
   - url: https://github.com/PrashobhPaul/CogniFlow
     source: github
@@ -1557,8 +1671,9 @@ canon:
   questions:
   - What does a typical day look like for you?
   - What is your daily routine?
-  answer: AI Architect by day, a father by evening, and an artist at times on weekends. Most evenings
-    belong to my family, and most weekends have a canvas or a camera in them.
+  answer: AI Architect by day, a father by evening, and an artist at times on weekends. Days go to architecture
+    and hands-on building at the AI Center of Excellence, most evenings belong to my family, and most
+    weekends have a canvas or a camera in them.
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1638,9 +1753,9 @@ canon:
   questions:
   - What books or people shape your thinking?
   - What inspires you?
-  answer: Conceptual art by many artists, and the poems of Wordsworth. I love art and poems more than
-    novels and stories, and reading for its own sake was never my thing, which is why I built machines
-    to read to me.
+  answer: Conceptual art by many artists and the poems of Wordsworth shape my thinking. I love art and
+    poems more than novels and stories, and reading for its own sake was never my thing, which is why
+    I built machines to read to me.
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -1660,8 +1775,9 @@ canon:
   questions:
   - What do you want your children to know about your work?
   - What advice would you give?
-  answer: Strive hard, and always follow the passion. That is what I want my children to take from my
-    work, more than any title or project.
+  answer: 'Strive hard, and always follow the passion. That is what I want my children to take from my
+    work, more than any title or project: every turn that mattered in my career came from following what
+    I cared about and then working hard at it.'
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -2033,10 +2149,14 @@ canon:
   questions:
   - Tell me about your voice-controlled UAV.
   - What was your college project?
-  answer: In 2012, on Engineer's Day, I flew a voice-controlled UAV, a climate-analyser smart plane, using
-    speech recognition I built on Hidden Markov Models. It started because I wanted machines to read my
-    textbooks aloud, it made the regional Telugu newspapers, it carried me into my M.Tech in Knowledge
-    Engineering, and it was my launchpad into AI.
+  answer: 'In 2012, on Engineer''s Day, I flew a voice-controlled UAV, a climate-analyser smart plane,
+    using speech recognition I built on Hidden Markov Models. It started because I wanted machines to
+    read my textbooks aloud, since reading bored me and there were no audiobooks for everything then,
+    and that pulled me into voice-controlled systems in 2011 and 2012. Hidden Markov Models treat speech
+    as a sequence of hidden states, which works well for recognising a small set of spoken commands, exactly
+    what flying a plane by voice needs. Dr. Uma N. Dulhera backed it, it made the regional Telugu newspapers,
+    it carried me into my M.Tech in Knowledge Engineering, and my job offer came partly because of it.
+    Those paper cuttings are worth more to me than any other record: they were my launchpad into AI.'
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -2065,12 +2185,15 @@ canon:
   questions:
   - Which technologies do your apps use?
   - What are your projects built with?
-  answer: Each app uses what its problem needs. RVonWheelz is React and TypeScript with Capacitor for
-    Android and Supabase. Invest.IQ is React and TypeScript with Capacitor and an AI reasoning layer.
-    Soccer.AI is a React and TypeScript progressive web app with Supabase. Koode and Dhinasuthra are native
-    Android apps in Kotlin, Koode with Jetpack Compose, OpenStreetMap and Supabase. Pachaka Lokam and
-    IPLBuzz are JavaScript web apps, Pachaka Lokam fully offline. CogniFlow is TypeScript, and Knowledge
-    Fabric is Python with a static JavaScript site.
+  answer: 'Each app uses what its problem needs, and I keep the stack as small as the problem allows.
+    RVonWheelz is React and TypeScript with Capacitor for Android and Supabase. Invest.IQ is React and
+    TypeScript with Capacitor and an AI reasoning layer, and Soccer.AI is a React and TypeScript progressive
+    web app with Supabase. Koode and Dhinasuthra are native Android apps in Kotlin, Koode with Jetpack
+    Compose, OpenStreetMap and Supabase. Pachaka Lokam and IPLBuzz are JavaScript web apps, Pachaka Lokam
+    fully offline. CogniFlow is TypeScript with its AI model running in the browser, and Knowledge Fabric
+    is Python with a static JavaScript site. The rule behind the choices: Supabase when people need live,
+    shared data, native Kotlin when an app has to work closely with Android, and no backend at all when
+    the data should stay with the user.'
   evidence:
   - url: https://www.prashobhpaul.com/works.html
     source: website
