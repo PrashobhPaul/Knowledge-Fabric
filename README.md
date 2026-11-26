@@ -156,17 +156,17 @@ Current build: **73 cross-source entities** out of 348 nodes.
 # Measured, not asserted
 
 Every build runs the retrieval gold set (`eval/gold_set.yaml`) in all three
-modes and fails the deploy below the floor. Current numbers:
+modes and fails the deploy below the floor. Current numbers (`python -m eval.evaluate`):
 
 ```
-corpus: 239 chunks · 97 records · 5 sources
+corpus: 811 chunks · 361 documents · 12 sources
 gold set: 18 cases (lexical · semantic · structured · cross-source · robustness)
 
 mode          recall@5  recall@10      MRR   nDCG@10
 ----------------------------------------------------
-lexical          1.000      1.000    0.963     0.961
-semantic         1.000      1.000    0.903     0.924
-hybrid           1.000      1.000    0.963     0.949
+lexical          1.000      1.000    0.963     0.951
+semantic         0.944      0.944    0.824     0.876
+hybrid           1.000      1.000    0.963     0.945
 ```
 
 The browser integration test (`tests/integration.test.mjs`) runs the real
@@ -175,22 +175,32 @@ the question bank must produce a cited answer, travel videos must never answer a
 career question, a question about one employer must not be answered from another,
 and the fabric must have cross-source joins.
 
-The same test runs **532 questions about Prashobh** through the exact answer path
+The same test runs **3,734 questions about Prashobh** through the exact answer path
 visitors use (`site/js/pipeline.js`): the golden set (`tests/qa_gold.json`, 221 +
-9 to decline) and six harder rounds written afterwards (`tests/qa_round2…7.json`).
-The rounds cover paraphrases, typos and texting shorthand, Malayalam / Telugu /
-Hindi, several questions in one, side-by-side comparisons, before/after career
-questions answered from the role dates, follow-ups that say "it" or "there",
-greetings and introductions, private details, errands and off-topic questions,
-which must be declined honestly. Rounds 6 and 7 were first run untuned, as
-held-out checks (81% and 78%), and fixed from there; every round passes in full now.
-`node tests/qa_eval.mjs tests/qa_round5.json` prints any miss with its top candidates.
+9 to decline), seven harder rounds written afterwards (`tests/qa_round2…8.json`),
+the language set (`tests/qa_lang.json`), the interview sets (`tests/qa_interview_s1/s2/s3.json`,
+every rubric point checked, plus the held-out `qa_interview_heldout.json`) and the
+coverage set (`tests/qa_coverage.json`: 2,874 questions, every wording of all 163
+curated answers, every video and every public repo; regenerate it with
+`python3 tests/gen_coverage.py`). The rounds cover paraphrases, typos and texting
+shorthand, Malayalam / Telugu / Tamil / Hindi, several questions in one, side-by-side
+comparisons, before/after career questions answered from the role dates, follow-ups
+that say "it" or "there", greetings and introductions, private details, errands and
+off-topic questions, which must be declined honestly. Rounds 6 and 7 were first run
+untuned, as held-out checks (81% and 78%), and fixed from there; every set passes in
+full now. `node tests/qa_eval.mjs tests/qa_round5.json` prints any miss with its top candidates.
 
-**One report proves it all.** `node tests/prove.mjs` (CI runs it on every pull request) writes
-[`tests/reports/PROOF.md`](tests/reports/PROOF.md): accuracy on every `tests/qa_*.json` set, the interview
-brief asked in full, determinism (three runs), context independence, paraphrase consistency, grounding and
-latency. Any failure fails the check; `--build` also rebuilds and times the index.
-The full testing record (what was proven, defects found and fixed, what to prove next) is in [`docs/testing/`](docs/testing/README.md).
+**One report proves it all.** `node tests/prove.mjs` (CI runs it on every pull request,
+and the deploy runs it as a gate before the Pages upload) writes
+[`tests/reports/PROOF.md`](tests/reports/PROOF.md). Latest run: accuracy 3,770/3,770
+questions across 15 `tests/qa_*.json` sets (with `qa_research.json`), the interview
+brief asked in full (82/82), determinism 264/264 over three runs, context independence
+792/792, paraphrase consistency 163/163 curated answers over 3,153 phrasings, grounding
+with 0 unresolved links and 0 client-name leaks, and p95 latency 42.7 ms against a
+250 ms limit. Any failure fails the check; `--build` also rebuilds and times the index.
+
+The full testing record, what was proven, the defects found and fixed, and what to
+prove next, is in [`docs/testing/README.md`](docs/testing/README.md).
 
 ---
 
