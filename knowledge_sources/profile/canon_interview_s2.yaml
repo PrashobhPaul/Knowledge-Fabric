@@ -1,0 +1,1602 @@
+# =============================================================================
+# Canon — Senior / Enterprise AI Architect interview, Session 2
+# Enterprise architecture and engineering (tests/interview_brief.md, sections A–D),
+# the Enterprise AI Knowledge Assistant whiteboard with every follow-up, the
+# 12s / 18% / ₹8 lakh problem-solving challenge, and "never skip" #4 and #5.
+# =============================================================================
+#
+# Same schema and rules as canon.yaml: first person, as Prashobh answers in an
+# architect interview; every example from his own work is backed by evidence that
+# resolves in the index; client names stay confidential. Design answers start the
+# way he starts at a whiteboard: the questions he asks and the assumptions he makes,
+# then the layers, the choices and the alternatives he rejects.
+# Regression set: tests/qa_interview_s2.json.
+
+canon:
+
+# ----------------------------------------------------------------------------- A. Enterprise architecture
+- id: iv2-requirement-to-architecture
+  topics: [interview, architecture]
+  questions:
+  - How do you translate a business requirement into an AI solution architecture?
+  - How do you go from a business requirement to an AI architecture?
+  - What is your process for converting business needs into an AI solution design?
+  - How do you turn business requirements into an AI solution architecture?
+  keywords:
+  - business requirement
+  - business requirements
+  - business needs into
+  - requirement into an ai
+  - requirements into an ai
+  - into an ai solution
+  - ai solution design
+  - requirement to an ai architecture
+  answer: >-
+    I never start with a model. I start with the questions the design depends on: the business objective
+    and how we will measure it, the users and where they work, the data and who owns it, the constraints
+    and SLAs such as latency, availability, compliance and data residency, the security model, the budget,
+    and what happens when the AI is wrong. I write the answers down as assumptions and get the business
+    owner to sign them off, because many AI projects fail by solving a different problem from the one the
+    business has.
+
+    Then I classify the problem. Prediction on structured data is classic ML, cheaper and more explainable
+    than an LLM. Reading, summarising or answering over documents is RAG. Multi-step work across systems
+    is an agent, and only for the steps that need judgement. A fixed process is a workflow with a model at
+    one or two decision points. Each choice is tied to a success metric agreed up front: accuracy, deflection
+    rate, time saved or cost per transaction.
+
+    Then I draw the architecture in layers: data and ingestion, retrieval and knowledge, the model layer
+    behind a gateway, orchestration, the user channel, and the cross-cutting layers of security, evaluation,
+    observability and governance. Every layer gets an explicit non-functional target, such as p95 latency,
+    availability, cost per request and the access model, so the design can be tested against the requirement
+    rather than against my taste. Decisions and the alternatives I rejected go into short architecture
+    decision records. I prove the riskiest assumption first with a thin end-to-end slice on real data and a
+    small golden evaluation set, and only then scale out.
+
+    That is how I worked at Tech Mahindra, turning GenAI demos for telecom and BFSI clients into production
+    systems, and how I run engagements at the Qualizeal AI Center of Excellence: requirement, metric, layers,
+    decision record, evaluation gate.
+  evidence:
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: GenAI and agentic implementations for telecom and BFSI clients, taken into production
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: AI architecture strategy and governance at the AI Center of Excellence
+  - url: doc:Career_In_Depth
+    source: resume
+    why: The roles in his own words
+
+- id: iv2-10k-concurrent-users
+  topics: [interview, architecture]
+  questions:
+  - What are the architectural considerations when deploying an AI application for 10,000 concurrent users?
+  - How would you architect an AI application for 10,000 concurrent users?
+  - How would you design an AI application that serves 10,000 concurrent users?
+  - How do you scale a GenAI application to 10,000 concurrent users?
+  - What changes when an AI application has to serve 10,000 users at the same time?
+  keywords:
+  - 10 000 concurrent
+  - 10000 concurrent
+  - 10k concurrent
+  - 10 000 users
+  - 10000 users
+  - 10k users
+  - ten thousand concurrent
+  - ten thousand users
+  answer: >-
+    First I pin down what 10,000 concurrent means, because 10,000 open sessions is very different from
+    10,000 requests per second. I ask for the request rate at peak, prompt and response sizes, the latency
+    SLA, and whether traffic is global or regional. In chat, an active user sends a question every 20 to 60
+    seconds, so 10,000 sessions may be a few hundred model calls per second, and the real bottleneck is model
+    throughput and provider token quotas, not the web tier.
+
+    Then the considerations, layer by layer. Stateless API and orchestration services behind a load balancer,
+    on Kubernetes with horizontal autoscaling on queue depth and in-flight requests, not just CPU. Session
+    state and conversation memory in Redis or a database, never in the pod. Streaming over server-sent events
+    or WebSockets, so time to first token stays under a second. An LLM gateway that pools quota across
+    regions and deployments, applies per-tenant rate limits and token budgets, and routes simple questions to
+    smaller, cheaper models. A semantic cache in front of the model, scoped by permissions, because enterprise
+    questions repeat. Retrieval sized for the read load, with replicated vector and keyword indexes and
+    metadata filters pushed into the index. Ingestion and report generation on a queue with workers, so they
+    never compete with interactive traffic.
+
+    Around it: backpressure and graceful degradation, so at saturation a user gets a queued or cached answer
+    instead of a timeout; a load test that replays realistic conversations at above peak before go-live; and
+    observability on p50 and p95 latency, tokens, cache hit rate and cost per request per tenant.
+
+    I keep the cheapest path the default. My own Knowledge Fabric is a fully static site with no backend,
+    so more readers add no server load and no cost; in an enterprise system the same instinct means
+    precomputing and caching whatever does not need a live model call.
+  evidence:
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: A fully static site with no backend, no vector database and no API keys
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: Solution architecture, microservices, Docker, Kubernetes, AWS and GCP
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Production deployments of LLM-based conversational systems for global clients
+
+- id: iv2-high-availability
+  topics: [interview, architecture]
+  questions:
+  - How do you design an AI application for high availability and fault tolerance?
+  - How do you make an AI system highly available and fault tolerant?
+  - How do you keep an LLM application running when one of its components fails?
+  - What is your approach to failover and resilience in GenAI applications?
+  keywords:
+  - high availability
+  - fault tolerance
+  - fault tolerant
+  - highly available
+  - failover and
+  - resilience in
+  - disaster recovery
+  - components fails
+  answer: >-
+    High availability and fault tolerance start with an availability target per capability, because an AI
+    application is several services with different needs: 99.9 percent for the chat front door is a
+    different budget from nightly ingestion. Then I list every dependency that can fail, the LLM provider, the vector index, the identity
+    provider and the document sources, and design a degraded mode for each one.
+
+    The model layer is the most fragile, so it sits behind a gateway with timeouts, retries with backoff and
+    jitter, circuit breakers, and failover to a second deployment or provider of equivalent quality. Prompts
+    are versioned per model, so the fallback model gets a prompt it was evaluated with. Retrieval runs on
+    indexes replicated across availability zones; if the vector index fails, search falls back to the keyword
+    index, and if both are down the assistant says so honestly instead of answering without grounding.
+    Services are stateless and spread across zones on Kubernetes, with readiness and liveness probes, pod
+    disruption budgets and autoscaling; state lives in managed databases with backups and point-in-time
+    recovery. Ingestion is idempotent and queue-based with dead-letter queues, so a failed document is
+    retried, not lost, and a bad batch never replaces a good index.
+
+    I test the failure modes on purpose: kill a provider, slow the vector store, expire a token, and check
+    that the SLOs and the user experience hold. Health checks cover quality as well as uptime, because a model
+    that answers fast and wrong is an outage too.
+
+    This is a pattern I build into my own code. In AgentBasedSystem the LLM intent classifier falls back to
+    the rule-based classifier on any error, low confidence or invalid output, so the system never hard-fails
+    because of the model. In my Knowledge Factory a failed source leaves the last good data in place and
+    records the failure, instead of shipping a half-empty index.
+  evidence:
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: LLM classifier with graceful fallback to rules; never hard-fails because of the model
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: A failed source leaves last week's data in place and records the failure in the manifest
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: Solution architecture, MLOps, Docker and Kubernetes
+
+- id: iv2-multi-tenancy
+  topics: [interview, architecture]
+  questions:
+  - How would you handle multi-tenancy in an enterprise GenAI platform?
+  - How do you design tenant isolation in a multi-tenant GenAI platform?
+  - What is your approach to multi-tenancy for LLM applications?
+  - How would you isolate several business units or customers on one GenAI platform?
+  keywords:
+  - multi tenancy
+  - multitenancy
+  - multi tenant
+  - multitenant
+  - tenant isolation
+  - isolate several business units
+  - several business units or customers
+  answer: >-
+    For multi-tenancy, first I ask what a tenant is here: a business unit, a subsidiary or an external
+    customer, and what isolation the contract and the regulator require. That decides the model: silo, pool or a bridge between
+    them.
+
+    For most internal platforms I use a pooled control plane with tenant-aware data. Identity carries the
+    tenant: every request has a tenant ID and user claims from the identity provider, enforced at the gateway,
+    never trusted from the caller. Data is isolated by default: per-tenant namespaces or collections in the
+    vector store, row-level security in the relational database, per-tenant prefixes in the object store, and
+    encryption with per-tenant keys in a KMS where a tenant needs it. Retrieval applies the tenant filter
+    inside the index query, before ranking, so another tenant's document can never reach the prompt. Caches
+    are keyed by tenant and permission scope, because a shared semantic cache is the easiest way to leak an
+    answer across tenants.
+
+    For regulated or high-value tenants I move to a silo: a dedicated index and model deployment, sometimes a
+    dedicated account or region for data residency. The same infrastructure-as-code templates stamp out
+    either shape, so it is a configuration choice, not a rewrite.
+
+    The model layer is shared but governed per tenant: model allow-lists, prompt templates, guardrail
+    policies, token budgets and rate limits per tenant, with cost attributed from the gateway logs for
+    chargeback. Audit logs, evaluation results and dashboards are per tenant too. Noisy neighbours are real
+    with LLM quotas, so I reserve capacity for critical tenants and queue the rest.
+
+    Finally I test tenant isolation like any security control: automated cross-tenant tests in CI try to
+    retrieve another tenant's documents and must always come back empty. It is the same discipline I apply
+    to confidentiality in my own Knowledge Fabric, where confidential names are masked before anything is
+    indexed.
+  evidence:
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: Solution architecture, AI governance, microservices and Kubernetes
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Client names masked in every source before indexing
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: AI architecture strategy and governance across enterprise programs
+
+- id: iv2-security-auth
+  topics: [interview, architecture, security]
+  questions:
+  - How do you approach authentication, authorization and data security in AI applications?
+  - How do you secure an AI application end to end?
+  - What is your approach to authentication and authorization for LLM applications?
+  - How do you handle data security and access control in GenAI systems?
+  keywords:
+  - authentication authorization
+  - authentication and authorization
+  - authorization and data security
+  - data security in ai
+  - data security and access control
+  - secure an ai application
+  - security in ai applications
+  - authorization in a rag
+  - access control in rag
+  answer: >-
+    I treat an AI application as an enterprise application with three new attack surfaces: the prompt,
+    the retrieved context and the tools an agent can call.
+
+    Authentication goes through the enterprise identity provider with SSO over OIDC or SAML, and MFA.
+    Service-to-service calls use managed identities or short-lived tokens, never keys in code, and secrets
+    live in a vault.
+
+    Authorization is layered. RBAC decides which features and tools a role can use; ABAC decides which data a
+    user can see, from attributes such as department, region, clearance and project. The rule for RAG is that
+    the model never decides access: permissions are applied at retrieval time as metadata filters inside the
+    index query, synced from the source systems' ACLs, so the LLM only sees chunks the user could open in
+    SharePoint or Confluence themselves. Agents act on behalf of the user with least privilege, every tool call
+    is authorized again at the tool, and anything irreversible needs human approval.
+
+    Data security: encryption in transit with TLS and at rest with KMS-managed keys, private networking to
+    model endpoints, tenant isolation, and data classification at ingestion. A PII redaction gateway masks
+    personal and confidential data before any prompt leaves for an external LLM API, under enterprise terms
+    of no retention and no training on our data, and the most sensitive classes are routed to a self-hosted
+    model. Outputs are filtered too, for leakage and for prompt-injection payloads hidden in documents.
+
+    Everything is audited: who asked what, which documents were retrieved, which model answered and what it
+    returned, kept immutable for compliance.
+
+    Healthcare taught me this discipline: in clinical NLP for US hospitals, privacy was non-negotiable. And I
+    apply it in my own work: in my Knowledge Fabric, confidential company names are masked in every source at
+    build time, before indexing, so the system can never quote one.
+  evidence:
+  - url: profile:roles/Primera
+    source: resume
+    why: Clinical NLP on HL7 and FHIR data for US hospitals
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Confidential client names masked before indexing
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: AI governance and solution architecture
+
+- id: iv2-multi-cloud
+  topics: [interview, architecture, cloud]
+  questions:
+  - How would you design an AI solution that must work across AWS, Azure and GCP?
+  - How do you build a multi-cloud AI architecture?
+  - How would you make a GenAI platform portable across AWS, Azure and Google Cloud?
+  - What is your approach to cloud-agnostic AI solutions?
+  keywords:
+  - aws azure and gcp
+  - aws azure gcp
+  - across aws
+  - multi cloud
+  - multicloud
+  - cloud agnostic
+  - azure and google cloud
+  - portable across
+  answer: >-
+    First question: why multi-cloud? Data residency, a contractual mandate, the best models in each cloud, or
+    avoiding lock-in. The answer changes the design. Running every workload active-active in three clouds is
+    expensive; most enterprises need portability and per-cloud deployment, not one system stretched across
+    all three.
+
+    My approach is a portable core with thin cloud adapters. The application runs in containers on
+    Kubernetes, EKS, AKS or GKE, defined in Terraform and deployed through the same GitOps pipeline. Business
+    logic talks to interfaces, not cloud SDKs: a model gateway with one API that routes to Bedrock, Azure
+    OpenAI, Vertex AI or a self-hosted model; a storage interface over S3, Blob Storage and GCS; and search on
+    a portable engine such as OpenSearch, Elasticsearch or pgvector rather than a cloud-only service. Identity
+    is federated through one enterprise identity provider, and secrets come from each cloud's vault behind one
+    abstraction. Observability uses OpenTelemetry, so traces, metrics and token costs land in one place
+    whatever the cloud.
+
+    Data gravity decides placement: retrieval and inference run in the cloud where the data lives, to avoid
+    egress cost and data residency problems, and only queries and answers cross the boundary. Prompts and
+    evaluation sets are cloud-neutral assets in Git, so a model swap in any cloud is tested against the same
+    golden set before it ships.
+
+    I accept a managed service where it clearly wins, such as a provider's model catalogue, but only behind
+    an adapter, so every lock-in is a conscious, documented decision. My own experience spans AWS SageMaker
+    and GCP Vertex AI, and Microsoft estates where I build agents with the Microsoft Agent Framework and .NET.
+    The same principle is in my AgentBasedSystem, where one LLM layer targets OpenAI, Azure OpenAI or
+    Anthropic through configuration alone.
+  evidence:
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: AWS, GCP, AWS SageMaker, GCP Vertex AI, Docker and Kubernetes
+  - url: profile:engagements/Agentic AI for the STLC
+    source: resume
+    why: Microsoft Agent Framework and .NET for a global professional-services firm
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: One provider-agnostic LLM layer for OpenAI, Azure OpenAI or Anthropic
+
+- id: iv2-standard-components
+  topics: [interview, architecture, governance]
+  questions:
+  - What architectural components would you standardize across multiple enterprise AI applications?
+  - Which components should be shared across all enterprise AI applications?
+  - What would you build once as a common AI platform for many applications?
+  - What reusable building blocks would you standardize for enterprise AI?
+  keywords:
+  - components would you standardize
+  - components would you standardise
+  - components should be standardized
+  - standardized across
+  - standardize across
+  - standardise across
+  - shared across all enterprise ai
+  - common ai platform
+  - reusable building blocks
+  - across multiple enterprise ai
+  answer: >-
+    I standardize what is risky, expensive or slow to get right, and leave the use-case logic to the teams.
+
+    The shared platform, in order of value. First, an LLM gateway: one API to every approved model, with
+    routing, fallback, rate limits, token budgets, caching, PII redaction and cost attribution per
+    application. Second, identity and access: SSO, the RBAC and ABAC model, and permission-aware retrieval as
+    a shared service, so no team reinvents document security. Third, ingestion and retrieval: connectors for
+    the common sources, parsing and OCR, a chunking and metadata standard, versioned embedding models, a
+    hybrid search and reranking service, and incremental indexing that handles deletions. Fourth, guardrails:
+    input and output filters, prompt-injection defences and grounding checks as policy, not code each team
+    copies. Fifth, evaluation: golden-set tooling, LLM judges calibrated against humans, regression gates in
+    CI and online feedback capture; it is the component teams skip most and regret most. Sixth,
+    observability: OpenTelemetry tracing of every prompt, retrieval and tool call, with dashboards for
+    latency, quality, tokens and cost. Seventh, a registry of models, prompts, datasets and agents with
+    owners, evaluation results and approval status, which is the backbone of governance and audit. Eighth,
+    the delivery path: templates, CI/CD, infrastructure-as-code and deployment patterns on Kubernetes.
+
+    Standards also cover contracts: an agent interface, and MCP for exposing tools, so agents built by
+    different teams use the same tools safely. I already work this way: CogniFlow and CodeFabric both expose
+    their capabilities to any agent through an MCP server.
+
+    At the Qualizeal AI Center of Excellence I lead the roadmap and set the best practices for GenAI
+    integration, prompt engineering and RAG pipelines across programmes, and our ValidAIte and QMentisAI
+    platforms make AI testing and evaluation a shared capability instead of a per-project afterthought.
+  evidence:
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Leads the AI CoE roadmap and best practices for GenAI integration, prompt engineering and RAG
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Shared platform for testing and validating AI and GenAI systems
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Exposes search and impact analysis to AI agents over MCP
+
+- id: iv2-microservices-monolith-serverless
+  topics: [interview, architecture]
+  questions:
+  - How do you decide whether to use microservices, modular monoliths or serverless architecture?
+  - When would you choose a modular monolith over microservices for an AI system?
+  - How do you choose between microservices, a modular monolith and serverless for an AI application?
+  - When does serverless make sense for GenAI workloads?
+  keywords:
+  - modular monolith
+  - modular monoliths
+  - microservices or
+  - serverless architecture
+  - serverless for
+  - monolith over microservices
+  - microservices a modular
+  - microservices
+  - serverless
+  answer: >-
+    I decide on team size, scaling profile and rate of change, not fashion.
+
+    A modular monolith is my default for a new AI product with one team: one deployable, clear internal
+    modules for ingestion, retrieval, orchestration and the API, strict interfaces between them, and one place
+    to test and debug. Early AI applications fail on quality far more often than on scale, and a monolith lets
+    the team iterate on prompts and retrieval fastest. Because the module boundaries are clean, any module
+    can be lifted out later.
+
+    I move to microservices when parts of the system have genuinely different scaling, runtime or ownership
+    needs, and in AI systems that split comes naturally. GPU inference scales differently from a CPU web
+    tier; ingestion is bursty batch work; and the LLM gateway, retrieval service and evaluation service are
+    shared by many applications and owned by a platform team. Those become services with their own SLOs,
+    deployments and autoscaling on Kubernetes. I do not split further than the team and its operational
+    maturity can carry, because every service adds network hops, latency and failure modes to a request path
+    that already waits on a model.
+
+    Serverless fits event-driven and spiky work: document-arrival triggers for ingestion, scheduled
+    re-indexing, webhooks, light orchestration steps and low-traffic internal tools. It is a poor fit for
+    long streaming responses, GPU inference, or steady high load, where cold starts and per-invocation cost
+    hurt.
+
+    So the usual answer is a hybrid: a modular monolith or a few services for the core, serverless functions
+    for event handling, and dedicated inference services for models. My AgentBasedSystem shows the modular
+    style in small: orchestration, intent, agents, repository, models and configuration as separate, testable
+    layers in one deployable, with a Streamlit UI and a CLI on the same core.
+  evidence:
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: Layered orchestration, intent, agents, repository, models and config in one deployable
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: Microservices, MLOps, Docker and Kubernetes
+
+# ----------------------------------------------------------------------------- B. Whiteboard: Enterprise AI Knowledge Assistant
+- id: iv2-knowledge-assistant
+  topics: [interview, whiteboard, rag]
+  diagram: assets/diagrams/iv2-knowledge-assistant.svg
+  questions:
+  - '50,000 documents (SharePoint, Confluence, internal DBs); 5,000 employees; department permissions; PDF, DOCX, PPTX, XLSX, images; 1,000 concurrent users at peak; multiple LLM providers; strict privacy and audit. Design it production-ready with RAG and agents where appropriate: architecture, technology choices, deployment, security, evaluation, monitoring.'
+  - 'Whiteboard: Enterprise AI Knowledge Assistant. 50,000 documents (SharePoint, Confluence, internal DBs); 5,000 employees; department permissions; PDF, DOCX, PPTX, XLSX, images; 1,000 concurrent users at peak; multiple LLM providers; strict privacy and audit. Design it production-ready with RAG and agents where appropriate: architecture, technology choices, deployment, security, evaluation, monitoring.'
+  - Design a production-ready Enterprise AI Knowledge Assistant for 50,000 documents from SharePoint, Confluence and internal databases, 5,000 employees with department permissions, PDF, DOCX, PPTX, XLSX and images, 1,000 concurrent users at peak, multiple LLM providers, and strict privacy and audit requirements.
+  - 'Whiteboard: design an Enterprise AI Knowledge Assistant.'
+  - Design an Enterprise AI Knowledge Assistant.
+  - How would you architect an enterprise knowledge assistant over SharePoint and Confluence?
+  - Design a production-ready enterprise AI knowledge assistant with RAG and agents.
+  keywords:
+  - knowledge assistant
+  - enterprise ai knowledge assistant
+  - sharepoint and confluence
+  - sharepoint confluence
+  - 50 000 documents
+  - 5 000 employees
+  - department permissions
+  - whiteboard
+  answer: >-
+    Before drawing anything I ask: which decisions should this speed up, and how will we measure it? Which
+    departments go first? How fresh must answers be, and how clean are the SharePoint and Confluence
+    permissions? Which data classes may leave our network? What latency SLA, data residency and budget? My
+    assumptions: p95 under 5 seconds with streaming, permission changes live within minutes, 99.9 percent
+    availability, and no restricted data sent to external APIs.
+
+    Then the layers.
+
+    Ingestion: connectors for SharePoint through Microsoft Graph, Confluence and the internal databases,
+    driven by change events plus a nightly reconciliation crawl, with ETL as idempotent queue jobs. Parsing
+    per format: layout-aware PDF and DOCX, slide-level PPTX, table-aware XLSX, and OCR for scans and images.
+
+    Processing: structure-aware chunking on headings and tables, a few hundred tokens with overlap. Every
+    chunk carries metadata: document ID, version, department, ACL groups, classification and dates.
+    Enrichment adds titles, summaries, entities and PII tags.
+
+    Storage: originals and parsed text in an object store; documents, ACLs, versions and lineage in a
+    relational database, PostgreSQL; chunks in a vector DB with a keyword index. I would choose OpenSearch
+    for BM25, vectors and ACL filters in one engine, and reject a vector-only store, because enterprise
+    questions are full of codes and names that keyword search finds best.
+
+    Retrieval: hybrid BM25 and dense search fused with reciprocal rank fusion, permission filtering inside
+    the query before ranking, cross-encoder reranking of the top 50, and a no-answer path when evidence is
+    weak.
+
+    Intelligence: an LLM gateway abstracts the providers, routes simple questions to a small model and hard
+    ones to a frontier model, caches, and redacts PII before any external call. Orchestration runs in
+    LangGraph, chosen for explicit state and approval steps: a router picks a direct answer, RAG or an agent.
+    Agents are reserved for multi-step work, such as comparing policies or querying a database, through
+    read-only tools over MCP that run with the user's permissions. Every answer cites its sources.
+
+    Security: SSO through the identity provider, RBAC for features, ABAC on department and classification for
+    data, encryption in transit and at rest with KMS keys, tenant isolation for departments that need separate
+    indexes, and a PII redaction gateway.
+
+    Infrastructure: containers on Kubernetes with horizontal autoscaling on in-flight requests and queue
+    depth, sized by a load test at twice the 1,000-user peak; Redis for sessions and the semantic cache;
+    separate ingestion workers. I prefer this to serverless because streaming and steady load suit
+    long-lived services.
+
+    Observability: structured logs, OpenTelemetry traces across retrieval, model and tool calls, metrics for
+    latency, tokens and cost, and evaluation: a golden set gating every release, plus sampled faithfulness
+    scoring and user feedback in production.
+
+    Governance: an immutable audit of user, question, retrieved documents, model and answer; lineage from
+    answer to chunk to source version; model versioning, with prompt and index versions and one-step
+    rollback.
+
+    Failure modes are designed in: a vector outage falls back to keyword search, a provider outage fails
+    over, an identity outage fails closed. Cost is mostly tokens, so routing and caching come first.
+
+    It is the pattern I proved in my Knowledge Fabric: hybrid BM25, LSA and MiniLM retrieval fused with RRF,
+    curated answers with resolved evidence, confidential names masked before indexing, and more than 1,400
+    regression questions gating every deploy.
+  evidence:
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Hybrid BM25, LSA and MiniLM retrieval, typed graph, cited answers with lineage
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Reciprocal rank fusion, evaluation gate on every build, client-name masking
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Hybrid BM25 and dense retrieval with RRF, incremental indexing and an MCP server
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: RAG pipelines and production-grade multi-agent systems at the AI Center of Excellence
+
+- id: iv2-ka-vector-db-down
+  topics: [interview, whiteboard, reliability]
+  questions:
+  - What happens if the vector database goes down?
+  - What if the vector DB goes down?
+  - How does the assistant behave when the vector store is unavailable?
+  - How do you handle a vector database outage in a RAG system?
+  - Vector DB goes down?
+  keywords:
+  - vector db goes down
+  - vector database goes down
+  - vector store goes down
+  - vector db is down
+  - vector database is down
+  - vector store is unavailable
+  - vector database outage
+  - vector db outage
+  - vector store outage
+  - vector db fails
+  answer: >-
+    It should be a degraded service, not an outage, and the design decides that in advance.
+
+    Prevention first. The vector index runs replicated across availability zones, with replicas serving
+    reads, regular snapshots to the object store, and health checks that take a bad node out of the pool.
+    Because chunks, metadata and ACLs are kept in the relational database and the object store as the source
+    of truth, the index is a derived artifact: I can restore a snapshot and replay the ingestion queue since
+    that point, or rebuild it entirely, without going back to SharePoint or Confluence.
+
+    If it still goes down, the retrieval service has a circuit breaker on the vector call and falls back to
+    keyword-only BM25 search on the separate keyword index, with the same permission filters, plus answers
+    already in the semantic cache. Quality drops a little, so the assistant shows that search is degraded,
+    and agents that need deep retrieval pause rather than guess. If no retrieval path is available, the
+    assistant says it cannot answer from the documents right now. It never falls back to the model's own
+    memory, because an ungrounded answer from an enterprise assistant is worse than no answer.
+
+    Operationally, the outage raises alerts on error rate and latency, the runbook covers failover and
+    reindexing, and I rehearse this path in chaos drills rather than meeting it for the first time in
+    production.
+
+    The principle comes from my own retrieval work. In Knowledge Fabric and CodeFabric, keyword and semantic
+    retrieval are independent rankers fused with reciprocal rank fusion, so either one alone still returns
+    evidence, and every Knowledge Fabric build measures the lexical, semantic and hybrid modes separately, so I
+    know exactly what quality the fallback mode gives.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: BM25 and LSA rankers fused with RRF; the gold set scores lexical, semantic and hybrid modes
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Keyword and dense retrieval merged with reciprocal rank fusion
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: BM25, LSA and MiniLM retrieval over the graph
+
+- id: iv2-ka-access-revoked
+  topics: [interview, whiteboard, security]
+  questions:
+  - What happens when a user loses access to a document?
+  - How do you make sure a user who loses access to a document can no longer retrieve it?
+  - How are permission changes reflected in the knowledge assistant?
+  - What if someone's access to a SharePoint document is revoked?
+  - A user loses access to a document?
+  keywords:
+  - loses access
+  - losing access
+  - employee loses access
+  - lost access
+  - lose access
+  - access is revoked
+  - access revoked
+  - revoke access
+  - permission changes
+  - permissions change
+  - no longer has access
+  - no longer retrieve
+  answer: >-
+    The user must stop seeing it in answers within a bounded time, and I guarantee that with two layers.
+
+    Layer one is sync. Each chunk carries the document's ACL as metadata, as group IDs rather than user
+    names. The connectors subscribe to permission-change events from SharePoint and Confluence and update the
+    ACL metadata on every chunk of that document without re-embedding, because only metadata changed. Group
+    membership changes come from the identity provider. A periodic reconciliation job compares the source ACLs
+    with the index and repairs any drift, and I agree an SLA with the security team, typically minutes.
+
+    Layer two is query time. Retrieval filters on the user's current group claims, resolved from the identity
+    provider at sign-in and refreshed often, so a user removed from a group loses access even before the
+    documents are re-synced. For highly sensitive sources I add a late check: before chunks go to the model,
+    the service confirms access for the top results against the source system's own API.
+
+    Then the caches. The semantic cache and conversation memory are keyed by permission scope, and a
+    permission change invalidates every cached answer that used that document, so an old answer cannot leak
+    it. Answers already given remain in the audit log, which records the documents used and the permissions in
+    force at that moment, so security can see exactly what was exposed and when.
+
+    And I test it as a security control: automated tests revoke access in a test tenant and assert that
+    retrieval, the cache and the agents all stop returning the document.
+  evidence:
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: AI governance and solution architecture
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Governance frameworks and RAG pipeline practices at the AI CoE
+
+- id: iv2-ka-deleted-documents
+  topics: [interview, whiteboard, rag]
+  questions:
+  - How do you ensure deleted documents disappear from retrieval?
+  - How do deleted documents get removed from the vector index?
+  - What happens when a document is deleted in SharePoint or Confluence?
+  - How do you handle document deletion and updates in a RAG index?
+  - Deleted documents disappear from retrieval?
+  keywords:
+  - deleted documents
+  - deleted document
+  - document is deleted
+  - documents are deleted
+  - document deletion
+  - disappear from retrieval
+  - removed from the vector index
+  answer: >-
+    Deletion is the part of incremental indexing most teams forget, and it is a compliance issue, not a
+    nicety.
+
+    Every chunk carries a stable document ID and version, and a relational catalogue maps each document to
+    its chunks and index entries. When a connector sees a delete event, or the reconciliation crawl finds a
+    document missing at the source, the pipeline writes a tombstone, removes that document's chunks from the
+    vector and keyword indexes by document ID, deletes the parsed text from the object store under the
+    retention policy, and invalidates any cached answers that cited it. Until the purge completes, retrieval
+    filters out tombstoned IDs at query time, so the document disappears from answers immediately even if
+    physical deletion takes longer.
+
+    Updates work the same way: a new version gets new chunks, and the old version's chunks are removed in the
+    same step, so the index never holds two versions that contradict each other.
+
+    Because events get missed, I never rely on events alone. A nightly reconciliation compares the source
+    inventory with the catalogue and repairs the difference, and a metric tracks orphaned chunks, which must
+    be zero. For legal holds and the right to erasure, the catalogue keeps an auditable record of when each
+    document and its chunks, embeddings and cached answers were removed.
+
+    My own indexes are built on the same idea. CodeFabric builds and incrementally updates its index, with
+    tests on the incremental path, and in Knowledge Fabric the build is deterministic, the same sources in
+    give the same index out, so a record removed at the source cannot survive into the next index.
+  evidence:
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Builds or incrementally updates the index; tests cover incremental indexing
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Deterministic build, same files in, same index out
+
+- id: iv2-ka-1000-concurrent
+  topics: [interview, whiteboard, scale]
+  questions:
+  - How would you support 1,000 concurrent users?
+  - How does the knowledge assistant handle 1,000 concurrent users at peak?
+  - How do you scale the assistant for 1,000 simultaneous users?
+  - What do you do to support a peak of 1,000 concurrent users?
+  - Support 1,000 concurrent users?
+  keywords:
+  - 1 000 concurrent
+  - 1000 concurrent
+  - 1 000 simultaneous
+  - 1000 simultaneous
+  - 1 000 users
+  - 1000 users
+  - thousand concurrent
+  - thousand simultaneous
+  answer: >-
+    First I turn users into load. 1,000 concurrent users of a chat assistant is perhaps 20 to 50 questions
+    per second at peak, each with retrieval, reranking and a model call streaming a few hundred tokens. That
+    is very achievable; the constraints are model throughput and provider rate limits, not the web tier.
+
+    Then per layer. The API and orchestration services are stateless containers on Kubernetes, with
+    horizontal pod autoscaling on in-flight requests and queue depth, spread across zones, and sessions in
+    Redis. Answers stream, so users see the first tokens within a second even when the full answer takes
+    longer. Retrieval runs on replicated index nodes sized from a load test, with the permission filter
+    inside the query so it stays fast, and the reranker as a batched service with a strict top-k. The LLM
+    gateway pools quota across providers and regions, enforces per-user rate limits, and routes easy
+    questions to a smaller, faster model. A semantic cache, scoped by permissions, answers repeated questions
+    at almost no cost, and in an enterprise a large share of questions repeat.
+
+    Ingestion runs on separate worker pools and queues, so a large re-index never slows users down.
+
+    Around it: backpressure with a queue and an honest wait message instead of timeouts, admission control
+    per department if quota runs short, and load tests that replay the real question mix at 1.5 to 2 times
+    peak before launch. In production I watch p95 latency, time to first token, tokens per second, cache hit
+    rate and error rate, with autoscaling and alerts tied to them.
+
+    It is the same discipline I learned taking LLM-based conversational systems into production at Tech
+    Mahindra: keep latency and token cost predictable before adding users.
+  evidence:
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Led LLM-based conversational systems and managed their production deployments
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: Microservices, Docker and Kubernetes
+
+- id: iv2-ka-switch-llm-provider
+  topics: [interview, whiteboard, llm]
+  diagram: assets/diagrams/iv2-llm-gateway.svg
+  questions:
+  - How do you switch LLM provider without changing application logic?
+  - How would you change the LLM provider without touching the application code?
+  - How do you avoid lock-in to a single LLM provider?
+  - How do you make the application provider-agnostic across OpenAI, Anthropic and Gemini?
+  - Switch LLM provider without changing application logic?
+  keywords:
+  - switch llm provider
+  - switch llm providers
+  - switch the llm provider
+  - change the llm provider
+  - change llm provider
+  - without changing application logic
+  - provider agnostic
+  - lock in to a single llm
+  - single llm provider
+  answer: >-
+    By never letting application logic talk to a provider SDK. Everything goes through one model interface,
+    and the provider becomes configuration.
+
+    The pieces: an LLM gateway, our own thin service or something like LiteLLM, exposing one API for chat,
+    embeddings and tool calls. Behind it, adapters per provider absorb the differences in message formats,
+    tool-calling schemas, streaming and error codes. The application asks for a capability, such as a
+    grounded answer or a cheap classification, and a routing table maps capabilities to concrete models, so a
+    switch is a configuration change with a rollout, not a code change.
+
+    What actually breaks in a switch is behaviour, not the API, so three more things. Prompts are versioned
+    per model family, because the best prompt for one model is rarely the best for another. Outputs are
+    validated against schemas, so a model that formats differently is caught. And every candidate model runs
+    the same golden evaluation set for groundedness, accuracy, refusals, latency and cost before it gets
+    traffic. Then traffic moves gradually, shadow first, then canary, with the old model kept warm for
+    instant rollback.
+
+    Embeddings are the exception: a new embedding model means a re-index, so each index is versioned with its
+    embedding model, and the new one is built beside the old before the cut-over.
+
+    I build this way in my own code. In AgentBasedSystem the LLM layer uses LangChain's init_chat_model, so
+    the same code targets OpenAI, Azure OpenAI or Anthropic from configuration alone, and falls back to rules
+    on any error. CodeFabric picks its provider with one flag, none, Anthropic, OpenAI or Ollama, and CogniFlow
+    talks to any OpenAI-compatible endpoint.
+  evidence:
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: Provider-agnostic LLM layer via init_chat_model for OpenAI, Azure OpenAI or Anthropic
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: --provider none, anthropic, openai or ollama; extractive mode without any LLM
+  - url: https://github.com/PrashobhPaul/CogniFlow
+    source: github
+    why: Any OpenAI-compatible endpoint, or an open-weight model in the browser
+
+- id: iv2-ka-sensitive-data
+  topics: [interview, whiteboard, security]
+  diagram: assets/diagrams/iv2-llm-gateway.svg
+  questions:
+  - How do you keep sensitive information out of external LLM APIs?
+  - How do you stop confidential data from reaching external LLM providers?
+  - How do you prevent personal data from being sent to OpenAI or other external models?
+  - How do you protect sensitive data when using third-party LLM APIs?
+  - Keep sensitive information out of external LLM APIs?
+  keywords:
+  - sensitive information
+  - sensitive data
+  - external llm apis
+  - external llm api
+  - external llm providers
+  - external models
+  - third party llm
+  - confidential data from
+  answer: >-
+    With a policy enforced in the request path, not a guideline in a wiki.
+
+    It starts at ingestion: every document and chunk gets a classification, public, internal, confidential or
+    restricted, from source labels and a PII and secrets scan, and that label travels with the chunk as
+    metadata.
+
+    At request time, every prompt passes through a PII redaction gateway before it can leave our network. It
+    detects personal data, account numbers, credentials and client names with pattern rules plus an NER model,
+    replaces them with consistent placeholders, and puts the real values back into the response on our side,
+    so the external model reasons over the structure without seeing the identities. The gateway also enforces
+    routing by classification: restricted content never goes to an external API; it goes to a self-hosted
+    open model inside our network, on our own Kubernetes GPU nodes or a private SageMaker or Vertex AI
+    endpoint.
+
+    For what does go out, I use enterprise agreements with zero data retention and no training on our data,
+    private endpoints in our region, encryption in transit, and no raw-prompt logging at the provider.
+    Retrieval sends only the few chunks needed, never whole documents.
+
+    Then verification: the gateway logs what was redacted and where each request was routed, red-team tests
+    try to push sensitive data through, and an output filter checks that responses do not leak it back.
+
+    I apply the same rule in my own work. In my Knowledge Fabric, confidential client names are masked in
+    every source, the website, resumes, GitHub, YouTube and my notes, at build time before indexing, so the
+    system can never quote them; and in client work, client names stay confidential. Healthcare NLP taught me
+    early that privacy is non-negotiable.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Client names masked in every source before indexing
+  - url: profile:roles/Primera
+    source: resume
+    why: Clinical NLP on regulated HL7 and FHIR data for US hospitals
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: AWS SageMaker, GCP Vertex AI and Kubernetes for self-hosted models
+
+- id: iv2-ka-retrieval-quality-production
+  topics: [interview, whiteboard, evaluation]
+  questions:
+  - How do you measure retrieval quality in production?
+  - How would you monitor retrieval quality once the assistant is live?
+  - What metrics do you use to track RAG retrieval quality in production?
+  - How do you know your retrieval is still good after go-live?
+  - Measure retrieval quality in production?
+  keywords:
+  - retrieval quality in production
+  - measure retrieval quality
+  - monitor retrieval quality
+  - track rag retrieval quality
+  - retrieval quality once
+  - retrieval is still good
+  - retrieval in production
+  answer: >-
+    Offline metrics tell me a release is safe; production metrics tell me it still works for real users. I
+    need both.
+
+    Offline, before every release: a golden set of real questions with the documents that should answer them,
+    labelled with subject-matter experts, scored for recall at k, MRR and nDCG per department and document
+    type; a release fails if any score drops below its floor.
+
+    In production, three kinds of signal. First, user feedback, explicit and implicit: thumbs up and down,
+    citation clicks, copies, escalations to a human, and rephrasing of the same question, because a rephrase
+    within a minute is a strong sign retrieval missed. Second, automated judgement on a daily sample of live
+    traffic: an LLM judge, calibrated against human ratings, scores context relevance, whether the retrieved
+    chunks were about the question, context sufficiency, and the faithfulness of the answer to those chunks,
+    which separates retrieval failures from generation failures. Third, system signals: the no-answer rate,
+    reranker score distributions, the share of queries with no chunk above the relevance threshold, and drift
+    between what users ask and what the index covers, which reveals content gaps.
+
+    Every request is traced with its query, filters, retrieved chunk IDs and scores, reranked order and cited
+    chunks, so any bad answer can be replayed. Failures found in production are labelled and added to the
+    golden set, so the regression suite grows from real misses.
+
+    That loop is how my Knowledge Fabric works: every build runs a retrieval gold set and reports recall, MRR
+    and nDCG for the lexical, semantic and hybrid modes, CI fails on regression, every answer leaves a trace
+    with its confidence and sources, and flagged answers become curator work and then permanent regression
+    tests.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Gold set with recall, MRR and nDCG per mode; traces; flags become regression tests
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Feedback loop turns flagged answers into curator work
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Testing and validating AI and GenAI systems
+
+# ----------------------------------------------------------------------------- C. AI engineering and deployment
+- id: iv2-python-app-structure
+  topics: [interview, engineering]
+  questions:
+  - How do you structure a production-grade Python AI application?
+  - How do you organise a production AI application in Python?
+  - What project structure do you use for Python GenAI services?
+  - What does a well-structured production Python AI service look like?
+  keywords:
+  - production grade python
+  - python ai application
+  - production ai application in python
+  - python genai
+  - production python ai
+  - project structure
+  - structure a production
+  answer: >-
+    In layers with one-way dependencies, so the model is a detail, not the centre of the code.
+
+    My usual layout: an API layer with FastAPI routers, Pydantic request and response schemas and
+    authentication; a service layer with the use cases, orchestration and business rules; an AI layer with
+    interfaces for the LLM, embeddings, retrieval and tools, each with an adapter per provider; a
+    repository layer for databases, vector stores and object storage; and workers for background jobs.
+    Prompts live as versioned templates in their own package or registry, not as strings scattered through
+    the code. Configuration is typed settings from the environment, with secrets from a vault.
+
+    Cross-cutting from the first commit: structured logging and OpenTelemetry tracing, typed models
+    everywhere, dependency injection so tests can swap the LLM for a fake, timeouts and retries on every
+    outbound call, and graceful fallbacks.
+
+    Tooling: pyproject with pinned dependencies, ruff and mypy, pre-commit hooks, pytest unit tests on the
+    deterministic code, contract tests on the LLM adapters, and a separate evaluation suite with golden sets
+    that runs when prompts or models change. Container images are small and reproducible.
+
+    My AgentBasedSystem rewrite is this in miniature: LangGraph orchestration, an intent agent, the
+    individual agents, a repository layer for data, typed User and Session models instead of raw tuples,
+    environment-driven configuration for the database and the LLM provider, and a Streamlit UI and CLI on top,
+    with 27 tests running on an isolated, per-test seeded database. The original prototype did not run;
+    clear layers are what made it testable and fixable.
+  evidence:
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: Layered rewrite with typed models, env-driven config and 27 tests
+  - url: profile:skills/Programming & Frameworks
+    source: resume
+    why: Python, FastAPI, Streamlit, Flask, PyTorch and Hugging Face
+
+- id: iv2-fastapi-backend
+  topics: [interview, engineering]
+  questions:
+  - What is your preferred backend architecture using FastAPI?
+  - How do you design a FastAPI backend for an AI application?
+  - What does your FastAPI architecture for LLM services look like?
+  - How would you build an AI backend with FastAPI?
+  keywords:
+  - using fastapi
+  - with fastapi
+  - fastapi backend
+  - fastapi architecture
+  - backend architecture
+  - ai backend
+  - fastapi
+  answer: >-
+    FastAPI is my default for AI backends because it is async-native, typed with Pydantic, and gives an
+    OpenAPI contract that front ends and other teams can rely on.
+
+    The architecture: thin routers per domain, chat, search, ingestion and admin, that only validate input
+    and call services; dependency injection for the current user, tenant, database session and LLM adapter,
+    so authentication and authorization are enforced in one place and every route can be tested with fakes;
+    a service layer with the use cases; and adapters for the LLM gateway, the vector store and the databases.
+    Everything on the request path is async: model calls, retrieval and database access use async drivers
+    with connection pooling and strict timeouts, so one slow model call never blocks a worker.
+
+    Chat answers stream over server-sent events, with the citations sent first and the tokens after.
+    Anything slow and not interactive, such as document ingestion, re-indexing, bulk evaluation or report
+    generation, becomes a background job: the endpoint enqueues it and returns a job ID, and a worker pool on
+    Celery, Arq or a cloud queue does the work, with status polling or a webhook.
+
+    Middleware handles request IDs, OpenTelemetry tracing, structured logs, rate limiting and token
+    accounting per user. The app runs as Uvicorn workers in containers on Kubernetes behind an API gateway,
+    with health and readiness endpoints that check dependencies, and scales horizontally because it holds no
+    state.
+
+    Tests use FastAPI's TestClient with the LLM dependency overridden by a deterministic fake, so the API
+    suite is fast and stable, and model quality is evaluated separately. It is the same separation I used in
+    AgentBasedSystem, where a Streamlit UI and a CLI sit on one tested service core.
+  evidence:
+  - url: profile:skills/Programming & Frameworks
+    source: resume
+    why: Python, FastAPI, Streamlit and Flask
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: UI and CLI over one layered, tested core
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: Microservices, Docker and Kubernetes
+
+- id: iv2-async-background-jobs
+  topics: [interview, engineering]
+  questions:
+  - How do you manage asynchronous processing and background jobs?
+  - How do you handle long-running tasks like document ingestion in an AI application?
+  - What is your approach to queues and background workers for AI workloads?
+  - How do you run asynchronous jobs in a GenAI system?
+  keywords:
+  - asynchronous processing
+  - background jobs
+  - background job
+  - background workers
+  - long running tasks
+  - asynchronous jobs
+  - async jobs
+  - queues and background
+  answer: >-
+    I separate the interactive path from everything else. The rule is simple: if it can take more than a few
+    seconds and the user does not need to watch it, it is a job.
+
+    Inside a request I use async I/O: concurrent retrieval and tool calls with asyncio, async drivers,
+    timeouts and cancellation, so each worker serves many requests while it waits on models.
+
+    Outside the request, a durable queue, SQS, Pub/Sub, Service Bus, RabbitMQ or Redis streams, with a worker
+    pool per job type, Celery or Arq in Python, scaled on queue depth with KEDA on Kubernetes. Typical jobs are
+    document ingestion, OCR, chunking and embedding, re-indexing, batch evaluation runs, scheduled syncs and
+    long agent tasks.
+
+    Every job is designed to fail safely: idempotent with a job key, so a retry never duplicates chunks;
+    retries with exponential backoff; a dead-letter queue for poison messages, with alerts; and checkpoints, so
+    a 10,000-document ingestion resumes instead of restarting. Jobs carry trace IDs, so one upload can be
+    followed from the API through every worker, and status is exposed through a job API with webhooks or
+    server-sent events on completion.
+
+    Long multi-step workflows, such as an agent that waits for human approval, go to a durable workflow
+    engine, Temporal, Step Functions, or LangGraph with a persistent checkpointer, so state survives restarts
+    and the run resumes where it stopped.
+
+    I batch where it pays: batch embedding and batch LLM APIs for offline work cost far less than real-time
+    calls. In my own Knowledge Factory, acquisition runs as scheduled GitHub Actions jobs kept separate from
+    the build, so a failed source never blocks or corrupts the index.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: The Factory syncs on a schedule, isolated from the deterministic build
+  - url: https://github.com/PrashobhPaul/Prashobh_Knowledge_Factory
+    source: github
+    why: The Knowledge Factory repository
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: MLOps, Docker and Kubernetes
+
+- id: iv2-cicd
+  topics: [interview, engineering]
+  questions:
+  - How do you implement CI/CD for an AI application?
+  - What does a CI/CD pipeline for an LLM application look like?
+  - How do you set up continuous integration and deployment for GenAI systems?
+  - How do you build a deployment pipeline for an AI application?
+  keywords:
+  - ci cd
+  - cicd
+  - continuous integration
+  - continuous delivery
+  - deployment pipeline
+  - ci pipeline
+  answer: >-
+    Ordinary CI/CD plus a quality gate for the parts that are not deterministic: prompts, models, retrieval
+    and data.
+
+    On every pull request: linting, type checks, unit tests on the deterministic code with the LLM mocked,
+    contract tests on the provider adapters, security scans of dependencies, containers and secrets, and
+    validation of the infrastructure-as-code. Fast and cheap, minutes, not hours.
+
+    Then the AI gate. Any change to a prompt, a model version, the retrieval configuration, chunking or the
+    embedding model triggers the evaluation suite: a golden set of real questions run through the real
+    pipeline, scored for retrieval recall, groundedness, answer correctness, safety and format, with latency
+    and token cost. Each metric has a floor and a tolerance against the production baseline, and a regression
+    fails the build like a failing unit test. Expensive judge-based runs execute on a sample per pull request
+    and in full nightly.
+
+    Delivery: immutable, versioned container images; prompts, model choices and configuration released as
+    versioned artifacts with the code; GitOps deployment to Kubernetes with Argo CD or the cloud's own
+    pipeline; a staging environment with production-like data; then shadow or canary releases with automatic
+    rollback on error rate, latency or online quality signals. Index rebuilds run as pipeline jobs that build
+    the new index beside the old one and switch an alias only after evaluation passes.
+
+    My own Knowledge Fabric runs exactly like this on GitHub Actions: the Factory syncs the sources, the
+    build makes the index, more than 1,400 questions run through the real answer path, the retrieval gold set
+    reports recall, MRR and nDCG per mode, and the deploy to GitHub Pages fails when answers regress. My rule:
+    no prompt change is just a text change; it goes through the same gate as code.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Every build runs the gold set and fails the deploy on regression
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Quality measured, not asserted
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: MLOps, Docker and Kubernetes
+
+- id: iv2-versioning
+  topics: [interview, engineering, governance]
+  questions:
+  - How do you manage model versions, prompts and datasets?
+  - How do you version prompts, models and evaluation datasets?
+  - What is your approach to prompt management and model versioning?
+  - How do you track which model and prompt produced an answer?
+  keywords:
+  - model versions
+  - model versioning
+  - version prompts
+  - prompt management
+  - prompts and datasets
+  - prompt versioning
+  - evaluation datasets
+  - model and prompt produced
+  answer: >-
+    Everything that changes behaviour gets a version, an owner and an evaluation result, and every answer in
+    production can be traced back to the exact versions that produced it.
+
+    Models: a model registry, MLflow, SageMaker Model Registry or the Vertex AI Model Registry, for anything
+    we train or fine-tune, with lineage to the training data, the code commit and the evaluation report. For
+    hosted LLMs we pin dated model versions, never a floating alias, and record them in the release
+    configuration.
+
+    Prompts: templates in Git with semantic versions, or in a prompt registry, never strings in code. Each
+    prompt version is linked to the model it was tested with and to its evaluation scores, and production
+    refers to a prompt by name and version, so a rollback is a pointer change.
+
+    Datasets: training data, golden evaluation sets and the document corpus are versioned with DVC, lakeFS or
+    object-store snapshots, with data cards for source, consent, PII handling and labelling. Evaluation sets
+    grow from production failures, and each addition is versioned so scores stay comparable across releases.
+    The index is versioned too, with the embedding model, chunking parameters and source snapshot it was built
+    from.
+
+    A release manifest ties it together: application commit, model versions, prompt versions, index version
+    and evaluation results, approved and stored. Every request logs the manifest ID in its trace, which gives
+    lineage for audits and makes any bad answer reproducible.
+
+    My Knowledge Fabric follows the same principle: the Factory commits every synced source to Git, the build
+    is deterministic, the same files in give the same index out, and every curated answer carries its
+    evidence, so any answer traces back to its exact sources and the commit that produced them.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: The Factory commits its output; deterministic, reproducible builds
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: MLOps, AWS SageMaker and GCP Vertex AI
+
+- id: iv2-llm-on-kubernetes
+  topics: [interview, engineering, infrastructure]
+  questions:
+  - How would you deploy an open-source LLM on Kubernetes?
+  - How do you self-host an open-source LLM on Kubernetes?
+  - What is your approach to serving Llama or Mistral models on a Kubernetes cluster?
+  - How would you run an open-weight model in production on Kubernetes?
+  keywords:
+  - on kubernetes
+  - open source llm
+  - self host an open
+  - open weight model
+  - kubernetes cluster
+  - llama or mistral
+  - serving llama
+  answer: >-
+    First the sizing questions: which model and context length, the expected tokens per second and
+    concurrency, the latency SLA, and the GPU budget. They decide the GPU type, the quantization and the
+    replica count before any YAML is written.
+
+    The stack: a GPU node pool with the NVIDIA GPU operator, taints so only inference pods land there, and a
+    cluster autoscaler that can add GPU nodes. The model is served by a production inference server, vLLM by
+    default for its continuous batching, paged attention and OpenAI-compatible API, or Hugging Face TGI or
+    Triton with TensorRT-LLM where they fit better, wrapped in KServe or a plain Deployment and Service.
+
+    Weights come from a model registry or object store and are cached on a persistent volume or baked into the
+    image, so a new pod does not download tens of gigabytes on every start, and startup and readiness probes
+    wait until the model is loaded. Quantization, AWQ, GPTQ or FP8, cuts memory so a model fits on fewer GPUs,
+    and tensor parallelism spreads a larger model across the GPUs of one node.
+
+    Scaling uses KEDA or the HPA on queue length, in-flight requests or GPU utilisation rather than CPU, with
+    a warm minimum replica because cold starts are long. In front sits the LLM gateway with authentication,
+    rate limits and routing, so to the application the self-hosted model is just one more provider.
+
+    Observability covers tokens per second, time to first token, queue time and GPU memory and utilisation,
+    in Prometheus and Grafana. Rollouts are canary, with the evaluation suite run against the new model before
+    it takes traffic.
+
+    I self-host where data cannot leave the network or where volume makes it cheaper than an API; on managed
+    estates a SageMaker or Vertex AI endpoint gives the same pattern with less to operate.
+  evidence:
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: Docker, Kubernetes, AWS SageMaker and GCP Vertex AI
+  - url: profile:skills/Programming & Frameworks
+    source: resume
+    why: PyTorch and Hugging Face
+
+- id: iv2-gpu-throughput
+  topics: [interview, engineering, infrastructure]
+  questions:
+  - How do you manage GPU utilization and inference throughput?
+  - How do you maximize GPU utilization for LLM inference?
+  - How do you improve inference throughput on GPUs?
+  - How do you get more tokens per second out of your GPUs?
+  keywords:
+  - gpu utilization
+  - gpu utilisation
+  - inference throughput
+  - tokens per second
+  - maximize gpu
+  - maximise gpu
+  - out of your gpus
+  - gpus
+  answer: >-
+    GPUs are the most expensive line on the bill, so I measure first: tokens per second per GPU, memory and
+    compute utilisation, time to first token, queue time and cost per thousand tokens. Low utilisation
+    usually means poor batching or a wrongly sized model, not too few GPUs.
+
+    The levers, in the order I pull them. Right-size the model: a smaller or distilled model for routine
+    requests, chosen by a router, often takes most of the load off the large model. Batch: continuous batching
+    in vLLM or TGI keeps the GPU busy across many requests, and offline work runs as large batch jobs at full
+    utilisation instead of real-time calls. Fit more per GPU: quantization to 8 or 4 bits, paged attention and
+    KV-cache management raise concurrency, and prefix caching reuses the shared system prompt and retrieved
+    context. Speed up decoding: speculative decoding with a small draft model, and optimised kernels such as
+    TensorRT-LLM. Trim the tokens: shorter prompts, fewer and better chunks, and output limits, because the
+    cheapest token is the one never generated. Schedule: separate pools for interactive and batch work,
+    priorities and queues that protect latency-sensitive traffic, autoscaling on queue depth to a warm minimum,
+    spot or preemptible GPUs for batch jobs, and GPU partitioning for small models.
+
+    Every change is measured against the evaluation set as well, because a quantization that saves memory but
+    loses accuracy is not a saving.
+
+    I have squeezed models into tight compute before: at Brane Enterprises I took AI onto edge devices with
+    ONNX for quadrupedal robots, and that habit of fitting the model to the hardware budget carries straight
+    into GPU inference economics.
+  evidence:
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Took AI onto edge devices with ONNX at Brane Enterprises
+  - url: profile:roles/Brane
+    source: resume
+    why: AI-powered robotics, real-time object detection, edge AI
+  - url: profile:skills/Robotics & Automation
+    source: resume
+    why: Edge AI
+
+- id: iv2-token-latency-cost-monitoring
+  topics: [interview, engineering, observability]
+  questions:
+  - How do you monitor token consumption, latency and cost?
+  - How do you track LLM token usage and cost per request?
+  - What do you monitor for LLM latency and spend?
+  - How do you keep an eye on token spend and response times in production?
+  keywords:
+  - token consumption
+  - token usage
+  - token spend
+  - monitor token
+  - llm latency and spend
+  - token usage and cost
+  - cost per request
+  answer: >-
+    At the gateway, per request, with attribution. When every model call goes through one LLM gateway, it
+    records everything consistently: prompt tokens, completion tokens and cached tokens, the model and its
+    version, latency split into queue time, time to first token and total time, retries, cache hits, and the
+    cost computed from a price table, all tagged with the application, tenant, user, feature and prompt
+    version.
+
+    Those go into OpenTelemetry traces using the GenAI semantic conventions, so one trace shows the whole
+    request, retrieval, reranking, each model call and each tool call, with their latency and tokens. Metrics
+    go to Prometheus and Grafana, Datadog or the cloud's monitoring, and LLM tools such as Langfuse or
+    LangSmith help with prompt-level analysis.
+
+    The dashboards answer business questions: cost per conversation and per resolved query, cost by
+    department, p50 and p95 latency per stage, tokens per request over time, and cache hit rate. Alerts fire
+    on budget burn rate, latency SLO breaches and anomalies, such as an agent loop suddenly using ten times its
+    normal tokens.
+
+    Then control, not just visibility: token budgets and rate limits per tenant and per user, a maximum number
+    of steps and tokens per agent run, and automatic routing to cheaper models as a budget tightens.
+
+    I always put quality on the same dashboard as cost, because cost can always be cut by giving worse
+    answers. A cheaper model or a smaller context is a win only if groundedness and accuracy hold, so cost
+    changes go through the same evaluation gate as any other change. At Tech Mahindra, keeping latency and
+    token cost predictable was a large part of taking GenAI into production, and in my own Knowledge Fabric
+    every answer leaves a trace of its question, intent, confidence and sources.
+  evidence:
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Production deployments of LLM-based systems
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Every answer leaves a trace (question, intent, confidence, sources)
+
+- id: iv2-rollback
+  topics: [interview, engineering, governance]
+  questions:
+  - How do you design rollback mechanisms for a model or prompt update?
+  - How do you roll back a bad prompt or model change?
+  - What is your rollback strategy when a new model version degrades quality?
+  - How do you safely release and revert prompt updates?
+  keywords:
+  - rollback
+  - roll back
+  - rollback mechanisms
+  - rollback strategy
+  - prompt update
+  - prompt updates
+  - revert prompt
+  - model or prompt update
+  answer: >-
+    Rollback has to be a pointer change that takes seconds, and the decision to roll back should be automatic
+    where possible.
+
+    I design for it. Models and prompts are versioned and immutable, and production refers to them by name
+    and version through configuration or a registry, never by editing them in place. The release manifest pins
+    the combination that was evaluated together, model, prompt, retrieval settings and index version, so a
+    rollback restores a known-good combination, not one piece of it. The previous version stays deployed and
+    warm.
+
+    Releases go in stages: the new version first runs in shadow mode on live traffic, with outputs compared
+    offline; then a canary to a few percent of users or one department behind a feature flag; then a ramp.
+    During the canary, automated checks compare it with the baseline on error rate, latency, cost, refusal
+    rate, schema validity, sampled groundedness scores from an LLM judge, and user feedback. A breach flips the
+    flag back automatically and alerts the owner.
+
+    Indexes follow the blue-green pattern: the new index is built beside the old one, an alias switches only
+    after evaluation passes, and rollback switches the alias back.
+
+    The harder cases need thought in advance. An embedding change cannot be rolled back without the old index,
+    so I keep it until the new one is proven, and conversation memory or agent state written by a new version
+    must stay readable by the old one.
+
+    Finally, every request logs the versions it used, so after a rollback I can find exactly which users got
+    answers from the bad version and review them. A rollback without that trace fixes the future but not the
+    past. In my own Knowledge Fabric the gate comes before the release: a regression in the question suite
+    stops the deploy, so a bad change never reaches the site.
+  evidence:
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: The deploy fails on a regression, before anything ships
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: MLOps and AI governance
+
+- id: iv2-app-testing-vs-model-eval
+  topics: [interview, engineering, evaluation]
+  questions:
+  - How do you separate application testing from model evaluation?
+  - How do you keep software tests separate from LLM evaluation?
+  - How do you test the application code independently of the LLM's quality?
+  - What is the difference between testing the application and evaluating the model?
+  keywords:
+  - application testing
+  - model evaluation
+  - testing from model evaluation
+  - software tests
+  - test the application
+  - testing the application
+  - evaluating the model
+  - separate from llm evaluation
+  answer: >-
+    They answer different questions, so they run differently. Application testing asks whether the software
+    does what we built it to do, deterministically. Model evaluation asks how well the AI behaves on the task,
+    statistically.
+
+    Application tests replace the model with a fake or recorded responses, so they are fast, free and
+    deterministic: unit tests on parsing, chunking, permission filters and tool logic; contract tests that each
+    provider adapter handles formats, errors and timeouts; integration tests on the API, authentication,
+    retries and fallbacks; and security tests such as cross-tenant access. They run on every commit and must
+    pass in full.
+
+    Model evaluation runs the real model on golden datasets and measures quality against thresholds, not exact
+    matches: retrieval recall and MRR, groundedness, answer correctness, safety, consistency across repeated
+    runs, latency and cost, scored by metrics, LLM judges calibrated against humans, and expert review. It runs
+    whenever prompts, models, retrieval or data change, and nightly against the production versions, and it
+    gates releases on tolerances against a baseline.
+
+    The boundary is an interface: the LLM adapter is injected, so the same code path runs with a fake in tests
+    and with the real model in evaluation.
+
+    This split is exactly what we build at Qualizeal. ValidAIte and QMentisAI exist because an LLM or an agent
+    cannot be tested like ordinary software: the same input can produce different outputs, so we test
+    behaviour against criteria such as groundedness, task completion, safety and consistency across runs. And
+    in my AgentBasedSystem, 27 deterministic tests cover calendar conflicts, recommendations, registration
+    guards, intent classification and full graph routing on a per-test seeded database, independent of any
+    model.
+  evidence:
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Platform for testing and validating AI and GenAI systems
+  - url: profile:engagements/QMentisAI
+    source: resume
+    why: AI testing and quality-engineering platform
+  - url: https://github.com/PrashobhPaul/AgentBasedSystem
+    source: github
+    why: 27 deterministic tests on an isolated, per-test seeded database
+
+# ----------------------------------------------------------------------------- D. Problem-solving challenge
+- id: iv2-performance-turnaround
+  topics: [interview, problem-solving]
+  diagram: assets/diagrams/iv2-performance-plan.svg
+  questions:
+  - 'Problem-solving: response time 12s→4s; hallucination 18%→<5%; monthly cost ₹8 lakh→₹5 lakh; retrieval accuracy 72%→90%; concurrent users 200→2,000. Investigation process, priorities, architectural improvements.'
+  - 'Response time 12s→4s; hallucination 18%→<5%; monthly cost ₹8 lakh→₹5 lakh; retrieval accuracy 72%→90%; concurrent users 200→2,000. Investigation process, priorities, architectural improvements.'
+  - A RAG application has a 12-second response time, an 18% hallucination rate, a monthly cost of ₹8 lakh, 72% retrieval accuracy and supports 200 concurrent users. The targets are 4 seconds, under 5% hallucination, ₹5 lakh a month, 90% retrieval accuracy and 2,000 concurrent users. How would you investigate, prioritise and improve it?
+  - 'Problem-solving: response time 12s to 4s, hallucination 18% to under 5%, monthly cost ₹8 lakh to ₹5 lakh, retrieval accuracy 72% to 90%, concurrent users 200 to 2,000. What is your investigation process, priorities and architectural improvements?'
+  - How would you cut response time from 12 seconds to 4 seconds and hallucination from 18% to under 5%?
+  - How would you improve a RAG system's latency, hallucination rate, cost, retrieval accuracy and concurrency?
+  keywords:
+  - 12 seconds
+  - 12s to 4s
+  - 12 second response
+  - 18 hallucination
+  - hallucination rate
+  - 8 lakh
+  - 5 lakh
+  - retrieval accuracy
+  - 200 concurrent
+  - 2 000 concurrent
+  answer: >-
+    I would not touch the model first. Five symptoms usually come from three or four root causes, and swapping
+    the LLM hides them. So: measure, isolate each layer, and fix in order of dependency.
+
+    Week one is investigation. I trace every request end to end with OpenTelemetry and profile latency per
+    stage: query rewriting, embedding, retrieval, reranking, prompt assembly, time to first token, generation
+    and post-processing. I build a labelled evaluation set of a few hundred real questions with their correct
+    source passages, so retrieval accuracy and hallucination are measured the same way every time. And I break
+    the cost down per stage: prompt tokens, completion tokens, embeddings and infrastructure.
+
+    Then I fix in this order, because each fix feeds the next.
+
+    First, retrieval, 72 to 90 percent, which is usually the root of the hallucinations too. I check chunking,
+    structure-aware chunks on headings and tables instead of fixed windows; then hybrid search, BM25 plus dense
+    with reciprocal rank fusion, because exact terms and codes defeat pure vector search; metadata filters for
+    department, product and date; a cross-encoder for reranking the top 50; and query rewriting for vague
+    questions, each change measured on recall at k.
+
+    Second, hallucination, 18 to under 5 percent. Better context comes first: fewer, better chunks. Then a
+    prompt that answers only from the context with citations per claim, a no-answer path when retrieval
+    confidence is low, a grounding check of each claim against its cited chunks before the answer is shown,
+    and a faithfulness eval in CI and on sampled live traffic.
+
+    Third, latency, 12 to 4 seconds. The traces usually show sequential calls and bloated prompts. I run
+    retrieval and tool calls in parallel with async, cut the context from twenty chunks to the five best after
+    reranking, use streaming so the first tokens arrive within a second, cache embeddings and frequent answers,
+    and keep connections warm.
+
+    Fourth, cost, ₹8 lakh to ₹5 lakh a month. Shorter prompts and fewer chunks already cut tokens. Then model
+    routing, a small model for simple and classification steps and the large one only for hard synthesis; a
+    semantic cache for repeated questions; prompt caching for the fixed system prompt; and batch APIs for
+    offline work, each substitution passing the evaluation set first.
+
+    Fifth, scale, 200 to 2,000 concurrent users: stateless services on Kubernetes with horizontal autoscaling
+    on in-flight requests, queueing for ingestion and long tasks, connection pooling, replicated indexes,
+    provider quota pooled through a gateway with rate limits, and a load test at 2,000 users replaying real
+    traffic.
+
+    My priorities: retrieval and grounding first, because they fix quality and reduce tokens; latency and cost
+    next, because they mostly fall out of a smaller context, caching and routing; scale last, as an
+    infrastructure exercise proven by load tests. Only if the evaluation still shows a gap do I consider a
+    different model, as a measured substitution, not a guess.
+
+    It is how I build my own systems, Knowledge Fabric with hybrid BM25, LSA and MiniLM retrieval fused with
+    RRF and a regression gate on every deploy, and at Tech Mahindra keeping latency and token cost predictable
+    was most of the work of getting GenAI into production.
+  evidence:
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Hybrid BM25, LSA and MiniLM retrieval; deploys fail when answers regress
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: Reciprocal rank fusion and the retrieval gold set with recall, MRR and nDCG
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: GenAI and agentic implementations taken into production for telecom and BFSI clients
+
+# ----------------------------------------------------------------------------- Five questions never to skip: #4 and #5
+- id: iv2-enterprise-rag-5000
+  topics: [interview, rag, architecture]
+  diagram: assets/diagrams/iv2-permission-aware-rag.svg
+  questions:
+  - Design an enterprise RAG system with 5,000 concurrent users, strict access control and multiple LLM providers.
+  - How would you design an enterprise RAG platform for 5,000 concurrent users with strict access control?
+  - Design a permission-aware RAG system that uses multiple LLM providers at enterprise scale.
+  - How do you build enterprise RAG with strict access control and several LLM providers?
+  keywords:
+  - enterprise rag
+  - 5 000 concurrent
+  - 5000 concurrent
+  - 5k concurrent
+  - strict access control
+  - permission aware rag
+  - multiple llm providers
+  - several llm providers
+  answer: >-
+    My first questions: what does strict access control mean here, document, section or row level, and is it
+    driven by groups, attributes or both? Which identity provider and source systems hold the truth? How fast
+    must a permission change apply? What latency and availability SLAs, which data may go to which provider,
+    and what budget per query? I would assume document-level ACLs plus attributes such as department and
+    classification, changes live within minutes, p95 under 5 seconds with streaming, 99.9 percent
+    availability, and a few hundred queries per second at peak, because 5,000 concurrent users rarely ask at
+    the same moment.
+
+    The core principle: the model never sees anything the user could not open themselves, and access is
+    decided by retrieval, not by the prompt.
+
+    Ingestion and indexing: connectors pull documents and their ACLs; parsing, OCR and structure-aware
+    chunking; every chunk carries metadata: document ID, version, ACL groups, department, classification and
+    tenant.
+    Incremental indexing handles adds, updates, permission changes and deletes with tombstones, and a
+    reconciliation job repairs drift.
+
+    Identity-aware retrieval: the user signs in through SSO, the retrieval service resolves their groups and
+    attributes, and the ACL filter goes inside the index query, filtering before ranking, never after, so the
+    top results are always results the user may see. Hybrid search, BM25 and dense vectors fused with
+    reciprocal rank fusion, then a cross-encoder for reranking. RBAC governs features and tools; ABAC governs
+    data. The most sensitive collections get separate indexes with tenant isolation and their own encryption
+    keys.
+
+    Multiple LLM providers: every call goes through an LLM gateway with one API and adapters per provider,
+    routing by task, cost and data classification, failover between providers, quota pooled across regions,
+    per-user rate limits, and PII redaction before any external call. Restricted data goes only to a
+    self-hosted model in our network. Prompts are versioned per model, and a model is admitted only after it
+    passes the same evaluation set.
+
+    Scale for 5,000 users: stateless services on Kubernetes with horizontal autoscaling on in-flight requests,
+    streaming responses, Redis for sessions, a semantic cache keyed by permission scope so cached answers
+    never cross access boundaries, replicated index shards, and queues so ingestion never competes with
+    queries. Load tests at twice peak before go-live.
+
+    Agents where they earn their place: a LangGraph orchestrator sends simple questions to direct RAG and
+    multi-step work to agents whose tools, exposed over MCP, run with the user's own permissions.
+
+    Auditability and evaluation: every request logs the user, the permissions applied, the retrieved chunk
+    IDs, the model and prompt versions and the answer, immutably. A golden set gates releases on retrieval
+    recall, groundedness and permission tests that try to retrieve forbidden documents and must return
+    nothing; production samples are judged for faithfulness, and user feedback flows back into the set.
+
+    Failure modes: a provider outage fails over, a vector store outage falls back to keyword search, and an
+    identity outage fails closed, never open.
+
+    This is the pattern I trust from my own work, Knowledge Fabric's hybrid BM25, LSA and MiniLM retrieval
+    with RRF, curated answers with evidence resolved at build time, confidential names masked before indexing and a
+    regression gate on every deploy, scaled up with enterprise identity, gateways and audit.
+  evidence:
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Hybrid retrieval, typed graph and cited answers with lineage
+  - url: https://github.com/PrashobhPaul/Knowledge-Fabric
+    source: github
+    why: RRF, evidence resolved at build time, client-name masking, evaluation gate
+  - url: https://github.com/PrashobhPaul/CodeFabric
+    source: github
+    why: Hybrid BM25 and dense retrieval with incremental indexing, served to agents over MCP
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: RAG pipelines and production-grade multi-agent systems
+
+- id: iv2-standardize-vs-decentralize
+  topics: [interview, architecture, governance]
+  questions:
+  - 'With complete freedom to set our enterprise AI architecture: what would you standardize, what decentralize, and why?'
+  - With complete freedom to set our enterprise AI architecture, what would you standardize, what would you decentralize, and why?
+  - If you could define our enterprise AI architecture, what would you centralize and what would you leave to the teams?
+  - What should be standardized centrally and what should be decentralized in enterprise AI?
+  - How do you balance central standards and team autonomy in enterprise AI architecture?
+  keywords:
+  - decentralize
+  - decentralise
+  - decentralized
+  - decentralised
+  - what would you standardize
+  - what would you standardise
+  - complete freedom
+  - centralize and what
+  - standardized centrally
+  - central standards and team autonomy
+  - leave to the teams
+  answer: >-
+    My rule: centralize what is expensive, risky or must be consistent, and decentralize what depends on
+    knowing the business problem. A platform team that tries to build every use case becomes the bottleneck,
+    and teams without a shared platform each rebuild security and evaluation, badly.
+
+    I would standardize centrally: the LLM gateway as the only path to models, with routing, quotas, caching,
+    PII redaction and cost attribution; identity, access and data security, meaning SSO, the RBAC and ABAC
+    model, permission-aware retrieval, encryption and data classification; the retrieval platform, with
+    connectors, parsing, chunking and metadata standards and a hybrid search and reranking service; guardrails
+    and policy, including which data classes may go to which models; evaluation and observability, with
+    golden-set tooling, release gates, OpenTelemetry tracing and quality and cost dashboards; a registry of
+    models, prompts, datasets and agents with owners and approval status, plus audit and lineage; and the
+    contracts and paved roads, MCP for tools, an agent interface, templates, CI/CD and infrastructure-as-code.
+
+    I would decentralize to the domain teams: the use cases and their success metrics, prompts and
+    orchestration logic, which agents to build and where autonomy is justified, their own domain evaluation
+    sets and acceptance criteria, the user experience, and model choice within the approved catalogue, so a
+    team can pick a small fast model or a frontier one as the task needs.
+
+    Why: governance only works when the compliant path is also the easiest one. If the gateway, evaluation and
+    security are paved roads, teams adopt them because they ship faster, not because of a mandate. The centre
+    sets guardrails and measures outcomes; the domains own the value.
+
+    I would run it as a federated model: a small central platform team and architecture board, architects
+    embedded in the domains, and a heavier review only for high-risk use cases. At Qualizeal I lead the AI
+    CoE roadmap in that spirit: shared practices for GenAI integration, prompt engineering and RAG, and
+    ValidAIte and QMentisAI as the shared testing capability.
+  evidence:
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Leads the AI CoE roadmap, governance frameworks and shared GenAI best practices
+  - url: profile:engagements/QMentisAI
+    source: resume
+    why: Shared AI testing and quality-engineering platform
+  - url: profile:services/AI Consulting & Strategy
+    source: website
+    why: Enterprise GenAI strategy, architecture reviews and AI governance

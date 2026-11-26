@@ -1,0 +1,968 @@
+{
+ "cases": [
+  {
+   "q": "How do you translate a business requirement into an AI solution architecture?",
+   "id": "iv2-requirement-to-architecture",
+   "must_all": [
+    "business objective",
+    "users",
+    "slas",
+    "security",
+    "budget",
+    "success metric",
+    "evaluation"
+   ]
+  },
+  {
+   "q": "How do you turn business requirements into an AI solution architecture?",
+   "id": "iv2-requirement-to-architecture",
+   "must_all": [
+    "business objective",
+    "data",
+    "constraints",
+    "layers",
+    "decision records"
+   ]
+  },
+  {
+   "q": "How do you convert a business requirement into an AI architecture?",
+   "id": "iv2-requirement-to-architecture",
+   "must_all": [
+    "business objective",
+    "budget",
+    "golden evaluation set"
+   ]
+  },
+  {
+   "q": "What are the architectural considerations when deploying an AI application for 10,000 concurrent users?",
+   "id": "iv2-10k-concurrent-users",
+   "must_all": [
+    "concurrent",
+    "autoscaling",
+    "kubernetes",
+    "streaming",
+    "semantic cache",
+    "rate limits",
+    "queue",
+    "load test"
+   ]
+  },
+  {
+   "q": "How would you design an AI application that serves 10,000 concurrent users?",
+   "id": "iv2-10k-concurrent-users",
+   "must_all": [
+    "stateless",
+    "llm gateway",
+    "backpressure",
+    "observability"
+   ]
+  },
+  {
+   "q": "What would you consider when deploying an AI app for 10,000 concurrent users?",
+   "id": "iv2-10k-concurrent-users",
+   "must_all": [
+    "autoscaling",
+    "streaming",
+    "load test"
+   ]
+  },
+  {
+   "q": "How would you design an AI app that serves 10,000 concurrent users?",
+   "id": "iv2-10k-concurrent-users",
+   "must_all": [
+    "requests per second",
+    "token quotas"
+   ]
+  },
+  {
+   "q": "How do you design an AI application for high availability and fault tolerance?",
+   "id": "iv2-high-availability",
+   "must_all": [
+    "high availability",
+    "fault tolerance",
+    "circuit breakers",
+    "failover",
+    "fallback",
+    "availability zones",
+    "degraded mode",
+    "kubernetes"
+   ]
+  },
+  {
+   "q": "How do you make an AI system highly available and fault tolerant?",
+   "id": "iv2-high-availability",
+   "must_all": [
+    "retries",
+    "dead-letter",
+    "falls back"
+   ]
+  },
+  {
+   "q": "How would you build fault tolerance into a GenAI application?",
+   "id": "iv2-high-availability",
+   "must_all": [
+    "failover",
+    "circuit breakers",
+    "degraded mode"
+   ]
+  },
+  {
+   "q": "How would you handle multi-tenancy in an enterprise GenAI platform?",
+   "id": "iv2-multi-tenancy",
+   "must_all": [
+    "multi-tenancy",
+    "tenant isolation",
+    "tenant id",
+    "row-level security",
+    "namespaces",
+    "encryption",
+    "rate limits",
+    "audit"
+   ]
+  },
+  {
+   "q": "How do you design tenant isolation in a multi-tenant GenAI platform?",
+   "id": "iv2-multi-tenancy",
+   "must_all": [
+    "tenant isolation",
+    "silo",
+    "per-tenant keys"
+   ]
+  },
+  {
+   "q": "How do you isolate tenants on a shared LLM platform?",
+   "id": "iv2-multi-tenancy",
+   "must_all": [
+    "tenant isolation",
+    "semantic cache",
+    "chargeback"
+   ]
+  },
+  {
+   "q": "How do you approach authentication, authorization and data security in AI applications?",
+   "id": "iv2-security-auth",
+   "must_all": [
+    "authentication",
+    "authorization",
+    "rbac",
+    "abac",
+    "encryption",
+    "pii redaction",
+    "audit",
+    "least privilege"
+   ]
+  },
+  {
+   "q": "How do you secure an AI application end to end?",
+   "id": "iv2-security-auth",
+   "must_all": [
+    "sso",
+    "metadata filters",
+    "tenant isolation"
+   ]
+  },
+  {
+   "q": "How do you handle authentication and authorization in a RAG application?",
+   "id": "iv2-security-auth",
+   "must_all": [
+    "rbac",
+    "abac",
+    "retrieval time"
+   ]
+  },
+  {
+   "q": "How would you design an AI solution that must work across AWS, Azure and GCP?",
+   "id": "iv2-multi-cloud",
+   "must_all": [
+    "kubernetes",
+    "terraform",
+    "model gateway",
+    "opentelemetry",
+    "data residency",
+    "egress",
+    "adapter"
+   ]
+  },
+  {
+   "q": "How do you build a multi-cloud AI architecture?",
+   "id": "iv2-multi-cloud",
+   "must_all": [
+    "portable core",
+    "lock-in",
+    "golden set"
+   ]
+  },
+  {
+   "q": "How do you design for AWS, Azure and GCP at the same time?",
+   "id": "iv2-multi-cloud",
+   "must_all": [
+    "eks, aks or gke",
+    "data gravity"
+   ]
+  },
+  {
+   "q": "What architectural components would you standardize across multiple enterprise AI applications?",
+   "id": "iv2-standard-components",
+   "must_all": [
+    "llm gateway",
+    "rbac",
+    "permission-aware retrieval",
+    "guardrails",
+    "evaluation",
+    "observability",
+    "registry"
+   ]
+  },
+  {
+   "q": "What would you build once as a common AI platform for many applications?",
+   "id": "iv2-standard-components",
+   "must_all": [
+    "mcp",
+    "ci/cd",
+    "infrastructure-as-code"
+   ]
+  },
+  {
+   "q": "Which architectural components should be standardized across enterprise AI applications?",
+   "id": "iv2-standard-components",
+   "must_all": [
+    "llm gateway",
+    "registry",
+    "guardrails"
+   ]
+  },
+  {
+   "q": "How do you decide whether to use microservices, modular monoliths or serverless architecture?",
+   "id": "iv2-microservices-monolith-serverless",
+   "must_all": [
+    "modular monolith",
+    "microservices",
+    "serverless",
+    "cold starts",
+    "kubernetes",
+    "team size"
+   ]
+  },
+  {
+   "q": "When would you choose a modular monolith over microservices for an AI system?",
+   "id": "iv2-microservices-monolith-serverless",
+   "must_all": [
+    "modular monolith",
+    "microservices"
+   ]
+  },
+  {
+   "q": "Microservices, modular monolith or serverless: how do you choose?",
+   "id": "iv2-microservices-monolith-serverless",
+   "must_all": [
+    "modular monolith",
+    "serverless",
+    "hybrid"
+   ]
+  },
+  {
+   "q": "50,000 documents (SharePoint, Confluence, internal DBs); 5,000 employees; department permissions; PDF, DOCX, PPTX, XLSX, images; 1,000 concurrent users at peak; multiple LLM providers; strict privacy and audit. Design it production-ready with RAG and agents where appropriate: architecture, technology choices, deployment, security, evaluation, monitoring.",
+   "id": "iv2-knowledge-assistant",
+   "must_all": [
+    "ingestion",
+    "connectors",
+    "ocr",
+    "parsing",
+    "chunking",
+    "metadata",
+    "enrichment",
+    "object store"
+   ]
+  },
+  {
+   "q": "Whiteboard: Enterprise AI Knowledge Assistant. 50,000 documents (SharePoint, Confluence, internal DBs); 5,000 employees; department permissions; PDF, DOCX, PPTX, XLSX, images; 1,000 concurrent users at peak; multiple LLM providers; strict privacy and audit. Design it production-ready with RAG and agents where appropriate: architecture, technology choices, deployment, security, evaluation, monitoring.",
+   "id": "iv2-knowledge-assistant",
+   "must_all": [
+    "relational database",
+    "vector db",
+    "hybrid",
+    "reranking",
+    "filtering",
+    "llm gateway",
+    "orchestration",
+    "agents"
+   ]
+  },
+  {
+   "q": "Design a production-ready Enterprise AI Knowledge Assistant for 50,000 documents from SharePoint, Confluence and internal databases, 5,000 employees with department permissions, PDF, DOCX, PPTX, XLSX and images, 1,000 concurrent users at peak, multiple LLM providers, and strict privacy and audit requirements.",
+   "id": "iv2-knowledge-assistant",
+   "must_all": [
+    "rbac",
+    "abac",
+    "encryption",
+    "tenant isolation",
+    "containers",
+    "kubernetes",
+    "autoscaling",
+    "etl"
+   ]
+  },
+  {
+   "q": "Whiteboard: design an Enterprise AI Knowledge Assistant.",
+   "id": "iv2-knowledge-assistant",
+   "must_all": [
+    "logs",
+    "traces",
+    "metrics",
+    "evaluation",
+    "audit",
+    "lineage",
+    "model versioning"
+   ]
+  },
+  {
+   "q": "How would you design a knowledge assistant for 5,000 employees over SharePoint, Confluence and internal databases?",
+   "id": "iv2-knowledge-assistant",
+   "must_all": [
+    "sla",
+    "budget",
+    "pii redaction",
+    "failure modes",
+    "cost",
+    "knowledge fabric"
+   ]
+  },
+  {
+   "q": "What happens if the vector database goes down?",
+   "id": "iv2-ka-vector-db-down",
+   "must_all": [
+    "replicated",
+    "circuit breaker",
+    "keyword",
+    "fallback",
+    "rebuild",
+    "degraded"
+   ]
+  },
+  {
+   "q": "What if the vector DB goes down?",
+   "id": "iv2-ka-vector-db-down",
+   "must_all": [
+    "bm25",
+    "semantic cache",
+    "runbook"
+   ]
+  },
+  {
+   "q": "Vector DB goes down?",
+   "id": "iv2-ka-vector-db-down",
+   "must_all": [
+    "replicated",
+    "keyword"
+   ]
+  },
+  {
+   "q": "What happens to the RAG assistant if the vector store goes down?",
+   "id": "iv2-ka-vector-db-down",
+   "must_all": [
+    "falls back",
+    "snapshot"
+   ]
+  },
+  {
+   "q": "What happens when a user loses access to a document?",
+   "id": "iv2-ka-access-revoked",
+   "must_all": [
+    "acl",
+    "metadata",
+    "query time",
+    "identity provider",
+    "cache",
+    "audit"
+   ]
+  },
+  {
+   "q": "A user loses access to a document?",
+   "id": "iv2-ka-access-revoked",
+   "must_all": [
+    "reconciliation",
+    "permission-change events"
+   ]
+  },
+  {
+   "q": "What if an employee loses access to a document?",
+   "id": "iv2-ka-access-revoked",
+   "must_all": [
+    "group claims",
+    "semantic cache"
+   ]
+  },
+  {
+   "q": "How do you handle a user losing access to a document?",
+   "id": "iv2-ka-access-revoked",
+   "must_all": [
+    "acl",
+    "late check"
+   ]
+  },
+  {
+   "q": "How do you ensure deleted documents disappear from retrieval?",
+   "id": "iv2-ka-deleted-documents",
+   "must_all": [
+    "document id",
+    "tombstone",
+    "incremental indexing",
+    "reconciliation",
+    "cached answers",
+    "audit"
+   ]
+  },
+  {
+   "q": "Deleted documents disappear from retrieval?",
+   "id": "iv2-ka-deleted-documents",
+   "must_all": [
+    "tombstone",
+    "orphaned chunks"
+   ]
+  },
+  {
+   "q": "How do you make sure deleted documents are no longer retrieved?",
+   "id": "iv2-ka-deleted-documents",
+   "must_all": [
+    "tombstone",
+    "query time"
+   ]
+  },
+  {
+   "q": "How would you support 1,000 concurrent users?",
+   "id": "iv2-ka-1000-concurrent",
+   "must_all": [
+    "stateless",
+    "autoscaling",
+    "stream",
+    "semantic cache",
+    "rate limits",
+    "load test",
+    "queue"
+   ]
+  },
+  {
+   "q": "Support 1,000 concurrent users?",
+   "id": "iv2-ka-1000-concurrent",
+   "must_all": [
+    "kubernetes",
+    "time to first token"
+   ]
+  },
+  {
+   "q": "How do you support 1,000 concurrent users at peak?",
+   "id": "iv2-ka-1000-concurrent",
+   "must_all": [
+    "backpressure",
+    "admission control"
+   ]
+  },
+  {
+   "q": "How do you switch LLM provider without changing application logic?",
+   "id": "iv2-ka-switch-llm-provider",
+   "must_all": [
+    "llm gateway",
+    "adapters",
+    "configuration",
+    "versioned",
+    "golden evaluation set",
+    "canary",
+    "rollback",
+    "re-index"
+   ]
+  },
+  {
+   "q": "Switch LLM provider without changing application logic?",
+   "id": "iv2-ka-switch-llm-provider",
+   "must_all": [
+    "routing table",
+    "schemas"
+   ]
+  },
+  {
+   "q": "How can we switch LLM providers without changing the application logic?",
+   "id": "iv2-ka-switch-llm-provider",
+   "must_all": [
+    "llm gateway",
+    "adapters"
+   ]
+  },
+  {
+   "q": "How do you keep sensitive information out of external LLM APIs?",
+   "id": "iv2-ka-sensitive-data",
+   "must_all": [
+    "classification",
+    "pii redaction",
+    "self-hosted",
+    "zero data retention",
+    "routing",
+    "masked"
+   ]
+  },
+  {
+   "q": "Keep sensitive information out of external LLM APIs?",
+   "id": "iv2-ka-sensitive-data",
+   "must_all": [
+    "placeholders",
+    "red-team"
+   ]
+  },
+  {
+   "q": "How do you keep sensitive data out of external LLM APIs?",
+   "id": "iv2-ka-sensitive-data",
+   "must_all": [
+    "pii redaction",
+    "self-hosted"
+   ]
+  },
+  {
+   "q": "How do you measure retrieval quality in production?",
+   "id": "iv2-ka-retrieval-quality-production",
+   "must_all": [
+    "golden set",
+    "recall",
+    "mrr",
+    "ndcg",
+    "faithfulness",
+    "context relevance",
+    "user feedback",
+    "traced"
+   ]
+  },
+  {
+   "q": "Measure retrieval quality in production?",
+   "id": "iv2-ka-retrieval-quality-production",
+   "must_all": [
+    "no-answer rate",
+    "regression"
+   ]
+  },
+  {
+   "q": "How would you track retrieval quality in production for the knowledge assistant?",
+   "id": "iv2-ka-retrieval-quality-production",
+   "must_all": [
+    "context relevance",
+    "user feedback"
+   ]
+  },
+  {
+   "q": "How do you structure a production-grade Python AI application?",
+   "id": "iv2-python-app-structure",
+   "must_all": [
+    "api layer",
+    "service layer",
+    "repository layer",
+    "pydantic",
+    "dependency injection",
+    "configuration",
+    "tests"
+   ]
+  },
+  {
+   "q": "How do you organise a production AI application in Python?",
+   "id": "iv2-python-app-structure",
+   "must_all": [
+    "opentelemetry",
+    "evaluation suite"
+   ]
+  },
+  {
+   "q": "How should a production-grade Python AI application be structured?",
+   "id": "iv2-python-app-structure",
+   "must_all": [
+    "api layer",
+    "repository layer"
+   ]
+  },
+  {
+   "q": "What is your preferred backend architecture using FastAPI?",
+   "id": "iv2-fastapi-backend",
+   "must_all": [
+    "async",
+    "pydantic",
+    "dependency injection",
+    "server-sent events",
+    "background job",
+    "kubernetes"
+   ]
+  },
+  {
+   "q": "How do you design a FastAPI backend for an AI application?",
+   "id": "iv2-fastapi-backend",
+   "must_all": [
+    "routers",
+    "service layer"
+   ]
+  },
+  {
+   "q": "How do you architect a FastAPI backend for LLM applications?",
+   "id": "iv2-fastapi-backend",
+   "must_all": [
+    "async",
+    "dependency injection"
+   ]
+  },
+  {
+   "q": "How do you manage asynchronous processing and background jobs?",
+   "id": "iv2-async-background-jobs",
+   "must_all": [
+    "queue",
+    "worker",
+    "idempotent",
+    "retries",
+    "dead-letter",
+    "checkpoint"
+   ]
+  },
+  {
+   "q": "How do you handle long-running tasks like document ingestion in an AI application?",
+   "id": "iv2-async-background-jobs",
+   "must_all": [
+    "ingestion",
+    "keda"
+   ]
+  },
+  {
+   "q": "How do you handle background jobs and async processing in AI systems?",
+   "id": "iv2-async-background-jobs",
+   "must_all": [
+    "dead-letter",
+    "idempotent"
+   ]
+  },
+  {
+   "q": "How do you implement CI/CD for an AI application?",
+   "id": "iv2-cicd",
+   "must_all": [
+    "unit tests",
+    "evaluation",
+    "golden set",
+    "regression",
+    "canary",
+    "rollback",
+    "gitops"
+   ]
+  },
+  {
+   "q": "What does a CI/CD pipeline for an LLM application look like?",
+   "id": "iv2-cicd",
+   "must_all": [
+    "prompt",
+    "baseline"
+   ]
+  },
+  {
+   "q": "What does CI/CD look like for an AI application?",
+   "id": "iv2-cicd",
+   "must_all": [
+    "golden set",
+    "canary"
+   ]
+  },
+  {
+   "q": "How do you manage model versions, prompts and datasets?",
+   "id": "iv2-versioning",
+   "must_all": [
+    "model registry",
+    "prompt",
+    "dataset",
+    "evaluation",
+    "lineage",
+    "rollback"
+   ]
+  },
+  {
+   "q": "How do you version prompts, models and evaluation datasets?",
+   "id": "iv2-versioning",
+   "must_all": [
+    "release manifest",
+    "semantic versions"
+   ]
+  },
+  {
+   "q": "How do you version models, prompts and datasets?",
+   "id": "iv2-versioning",
+   "must_all": [
+    "model registry",
+    "lineage"
+   ]
+  },
+  {
+   "q": "How would you deploy an open-source LLM on Kubernetes?",
+   "id": "iv2-llm-on-kubernetes",
+   "must_all": [
+    "gpu",
+    "vllm",
+    "quantization",
+    "autoscaler",
+    "readiness",
+    "llm gateway",
+    "canary"
+   ]
+  },
+  {
+   "q": "How do you self-host an open-source LLM on Kubernetes?",
+   "id": "iv2-llm-on-kubernetes",
+   "must_all": [
+    "continuous batching",
+    "kserve"
+   ]
+  },
+  {
+   "q": "How do you deploy an open-source LLM on a Kubernetes cluster?",
+   "id": "iv2-llm-on-kubernetes",
+   "must_all": [
+    "vllm",
+    "gpu"
+   ]
+  },
+  {
+   "q": "How do you manage GPU utilization and inference throughput?",
+   "id": "iv2-gpu-throughput",
+   "must_all": [
+    "batching",
+    "quantization",
+    "smaller",
+    "speculative decoding",
+    "autoscaling",
+    "tokens per second"
+   ]
+  },
+  {
+   "q": "How do you maximize GPU utilization for LLM inference?",
+   "id": "iv2-gpu-throughput",
+   "must_all": [
+    "continuous batching",
+    "kv-cache"
+   ]
+  },
+  {
+   "q": "How do you improve GPU utilization and throughput for LLM inference?",
+   "id": "iv2-gpu-throughput",
+   "must_all": [
+    "batching",
+    "quantization"
+   ]
+  },
+  {
+   "q": "How do you monitor token consumption, latency and cost?",
+   "id": "iv2-token-latency-cost-monitoring",
+   "must_all": [
+    "llm gateway",
+    "prompt tokens",
+    "time to first token",
+    "opentelemetry",
+    "cost per",
+    "budget",
+    "alerts"
+   ]
+  },
+  {
+   "q": "How do you track LLM token usage and cost per request?",
+   "id": "iv2-token-latency-cost-monitoring",
+   "must_all": [
+    "cost per",
+    "dashboards"
+   ]
+  },
+  {
+   "q": "How do you monitor LLM token consumption, latency and cost in production?",
+   "id": "iv2-token-latency-cost-monitoring",
+   "must_all": [
+    "prompt tokens",
+    "alerts"
+   ]
+  },
+  {
+   "q": "How do you design rollback mechanisms for a model or prompt update?",
+   "id": "iv2-rollback",
+   "must_all": [
+    "versioned",
+    "shadow",
+    "canary",
+    "feature flag",
+    "blue-green",
+    "baseline"
+   ]
+  },
+  {
+   "q": "How do you roll back a bad prompt or model change?",
+   "id": "iv2-rollback",
+   "must_all": [
+    "rollback",
+    "canary"
+   ]
+  },
+  {
+   "q": "How do you roll back a model or prompt update that hurts quality?",
+   "id": "iv2-rollback",
+   "must_all": [
+    "feature flag",
+    "baseline"
+   ]
+  },
+  {
+   "q": "How do you separate application testing from model evaluation?",
+   "id": "iv2-app-testing-vs-model-eval",
+   "must_all": [
+    "deterministic",
+    "fake",
+    "golden",
+    "groundedness",
+    "thresholds",
+    "consistency"
+   ]
+  },
+  {
+   "q": "How do you keep software tests separate from LLM evaluation?",
+   "id": "iv2-app-testing-vs-model-eval",
+   "must_all": [
+    "application testing",
+    "model evaluation"
+   ]
+  },
+  {
+   "q": "How do you keep application tests separate from model evaluation?",
+   "id": "iv2-app-testing-vs-model-eval",
+   "must_all": [
+    "deterministic",
+    "golden"
+   ]
+  },
+  {
+   "q": "Problem-solving: response time 12s→4s; hallucination 18%→<5%; monthly cost ₹8 lakh→₹5 lakh; retrieval accuracy 72%→90%; concurrent users 200→2,000. Investigation process, priorities, architectural improvements.",
+   "id": "iv2-performance-turnaround",
+   "must_all": [
+    "latency per stage",
+    "hybrid",
+    "reranking",
+    "chunking",
+    "metadata filters",
+    "citations",
+    "eval",
+    "streaming"
+   ]
+  },
+  {
+   "q": "A RAG application has a 12-second response time, an 18% hallucination rate, a monthly cost of ₹8 lakh, 72% retrieval accuracy and supports 200 concurrent users. The targets are 4 seconds, under 5% hallucination, ₹5 lakh a month, 90% retrieval accuracy and 2,000 concurrent users. How would you investigate, prioritise and improve it?",
+   "id": "iv2-performance-turnaround",
+   "must_all": [
+    "async",
+    "semantic cache",
+    "model routing",
+    "autoscaling",
+    "queueing",
+    "load test",
+    "priorities"
+   ]
+  },
+  {
+   "q": "Problem-solving: response time 12s to 4s, hallucination 18% to under 5%, monthly cost ₹8 lakh to ₹5 lakh, retrieval accuracy 72% to 90%, concurrent users 200 to 2,000. What is your investigation process, priorities and architectural improvements?",
+   "id": "iv2-performance-turnaround",
+   "must_all": [
+    "caching",
+    "grounding",
+    "faithfulness",
+    "query rewriting"
+   ]
+  },
+  {
+   "q": "How would you cut response time from 12 seconds to 4 seconds and hallucination from 18% to under 5%?",
+   "id": "iv2-performance-turnaround",
+   "must_all": [
+    "not touch the model first",
+    "rate limits"
+   ]
+  },
+  {
+   "q": "Response time is 12 seconds, hallucination 18%, cost ₹8 lakh a month and retrieval accuracy 72%. How do you fix it?",
+   "id": "iv2-performance-turnaround",
+   "must_all": [
+    "latency per stage",
+    "reranking",
+    "model routing",
+    "semantic cache"
+   ]
+  },
+  {
+   "q": "Design an enterprise RAG system with 5,000 concurrent users, strict access control and multiple LLM providers.",
+   "id": "iv2-enterprise-rag-5000",
+   "must_all": [
+    "metadata",
+    "identity",
+    "acl filter",
+    "tenant isolation",
+    "incremental indexing",
+    "audit",
+    "golden set",
+    "llm gateway"
+   ]
+  },
+  {
+   "q": "How would you design an enterprise RAG platform for 5,000 concurrent users with strict access control?",
+   "id": "iv2-enterprise-rag-5000",
+   "must_all": [
+    "hybrid search",
+    "reranking",
+    "rbac",
+    "abac",
+    "autoscaling"
+   ]
+  },
+  {
+   "q": "Design a permission-aware RAG system that uses multiple LLM providers at enterprise scale.",
+   "id": "iv2-enterprise-rag-5000",
+   "must_all": [
+    "pii redaction",
+    "failover",
+    "self-hosted"
+   ]
+  },
+  {
+   "q": "How would you design RAG for an enterprise with strict access control and multiple LLM providers?",
+   "id": "iv2-enterprise-rag-5000",
+   "must_all": [
+    "acl filter",
+    "llm gateway"
+   ]
+  },
+  {
+   "q": "With complete freedom to set our enterprise AI architecture: what would you standardize, what decentralize, and why?",
+   "id": "iv2-standardize-vs-decentralize",
+   "must_all": [
+    "standardize",
+    "decentralize",
+    "llm gateway",
+    "evaluation",
+    "registry",
+    "paved roads",
+    "federated"
+   ]
+  },
+  {
+   "q": "With complete freedom to set our enterprise AI architecture, what would you standardize, what would you decentralize, and why?",
+   "id": "iv2-standardize-vs-decentralize",
+   "must_all": [
+    "standardize",
+    "decentralize"
+   ]
+  },
+  {
+   "q": "What should be standardized centrally and what should be decentralized in enterprise AI?",
+   "id": "iv2-standardize-vs-decentralize",
+   "must_all": [
+    "centralize",
+    "domain teams"
+   ]
+  },
+  {
+   "q": "What would you standardize and what would you decentralize in our enterprise AI architecture?",
+   "id": "iv2-standardize-vs-decentralize",
+   "must_all": [
+    "standardize",
+    "decentralize"
+   ]
+  }
+ ],
+ "no_answer": []
+}
