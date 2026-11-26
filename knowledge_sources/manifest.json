@@ -50,12 +50,28 @@
         "24 public repositories mined: 67 code excerpts, 189 README sections, 14 images"
       ],
       "last_good_sync": "2026-11-25T20:34:22+00:00"
+    },
+    "youtube": {
+      "status": "ok",
+      "last_synced": "2026-11-26T04:53:59+00:00",
+      "records": 51,
+      "files": [
+        "knowledge_sources/youtube/channel.json",
+        "knowledge_sources/youtube/videos.json"
+      ],
+      "error": null,
+      "notes": [
+        "rss: 15 recent uploads",
+        "0 new transcripts",
+        "50 videos on record (0 new)"
+      ],
+      "last_good_sync": "2026-11-26T04:53:59+00:00"
     }
   },
   "person": {
     "name": "Prashobh Paul",
     "short_name": "Prashobh"
   },
-  "generated_at": "2026-11-25T20:34:22+00:00",
+  "generated_at": "2026-11-26T04:53:59+00:00",
   "generator": "knowledge-factory/1.0"
 }
