@@ -1,0 +1,73 @@
+{
+ "cases": [
+  {
+   "q": "Why would you pick XGBoost instead of GPT for a churn model?",
+   "id": "iv1-ml-vs-llm"
+  },
+  {
+   "q": "How does self-attention actually work?",
+   "id": "iv1-transformer"
+  },
+  {
+   "q": "Our fraud model looks 99% accurate but misses a lot of fraud. What do we do?",
+   "id": "iv1-fraud-accuracy"
+  },
+  {
+   "q": "Our OpenAI bill is too high. How do we cut it by more than half?",
+   "id": "iv1-cost-cut"
+  },
+  {
+   "q": "How do you stop users from seeing documents they shouldn't in a RAG chatbot?",
+   "id": [
+    "iv1-secure-rag",
+    "iv2-enterprise-rag-5000",
+    "iv2-ka-access-revoked"
+   ]
+  },
+  {
+   "q": "How do you keep an agent from looping forever?",
+   "id": "iv1-agent-loops"
+  },
+  {
+   "q": "Design a knowledge assistant over SharePoint and Confluence for 5,000 employees",
+   "id": [
+    "iv2-knowledge-assistant",
+    "iv2-enterprise-rag-5000"
+   ]
+  },
+  {
+   "q": "What if our vector database crashes?",
+   "id": "iv2-ka-vector-db-down"
+  },
+  {
+   "q": "Response time is 12 seconds and hallucinations are 18%. Where do you start?",
+   "id": "iv2-performance-turnaround"
+  },
+  {
+   "q": "How would you roll back a bad prompt change?",
+   "id": "iv2-rollback"
+  },
+  {
+   "q": "Should every workflow become an AI agent?",
+   "id": "iv3-agents-everywhere"
+  },
+  {
+   "q": "We want to stop using OpenAI and host everything ourselves. Good idea?",
+   "id": "iv3-self-hosted"
+  },
+  {
+   "q": "What would you do in your first three months here?",
+   "id": "iv3-first-90-days"
+  },
+  {
+   "q": "A client insists the LLM must be 100% accurate. How do you respond?",
+   "id": "iv3-accuracy-expectations"
+  },
+  {
+   "q": "How do you protect against prompt injection?",
+   "id": "iv1-prompt-injection"
+  }
+ ],
+ "no_answer": [],
+ "note": "Written by the parent session, not by the agents that wrote the answers; first run untuned scored 12/15."
+}

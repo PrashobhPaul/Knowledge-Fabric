@@ -54,7 +54,7 @@ Object.assign(SYNONYMS, { masters: 'education', master: 'education', mtech: 'edu
   meals: 'meal', recipes: 'meal', recipe: 'meal', cooking: 'meal', cook: 'meal', kitchen: 'meal',
   diagrams: 'diagram', architectures: 'architecture', poet: 'poems', poetry: 'poems', poems: 'poems',
   role: 'role', models: 'model', freelancing: 'freelance', freelancer: 'freelance', hire: 'hire', hiring: 'hire',
-  salary: 'salary' });
+  salary: 'salary', crash: 'down', crashes: 'down', crashed: 'down', outage: 'down', outages: 'down' });
 // "B.Tech" and "M.Tech" would tokenise to a bare "tech" (and match Tech Mahindra).
 const pre = (q) => String(q).replace(/\b([bm])\.\s?tech\b/gi, '$1tech');
 // Texting shorthand → words ("wher do u work" → "where do you work").
@@ -370,7 +370,7 @@ export function matchCanon(question, canon, { threshold = 0.3, timeline = null }
     if (frags.length >= 2 && frags.length <= 4 && frags.every(f => contentWords(f).length)) {
       const whole = matchOne(question, canon, threshold);
       if (whole && whole.score >= 0.9) return whole;    // "difference between pre-training, fine-tuning and RAG" is one question
-      const got = frags.map(f => matchOne((him && !ABOUT_HIM.test(f) ? 'your ' : '') + f, canon, 0.4));
+      const got = frags.map(f => matchOne((him && !ABOUT_HIM.test(f) ? 'your ' : '') + f, canon, 0.6));   // every piece must stand on its own
       if (got.every(Boolean) && new Set(got.map(r => r.entry.id)).size >= 2) {
         // "your favourite poet and artist": one answer whose topic covers every piece says it in one.
         const single = matchOne(question, canon, threshold);

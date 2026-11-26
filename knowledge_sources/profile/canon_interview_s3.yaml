@@ -1,0 +1,1153 @@
+# =============================================================================
+# Canon — Senior / Enterprise AI Architect interview, Session 3
+# Leadership, consulting and strategy (tests/interview_brief.md, sections A–D,
+# all five scenarios), plus "Five questions never to skip" #2 and the
+# architect-versus-senior-developer distinction from the scorecard.
+# =============================================================================
+#
+# Same schema and rules as canon.yaml: first person, as Prashobh would say it
+# aloud; every example from his own record (Qualizeal AI CoE, ValidAIte and
+# QMentisAI, agentic SDLC with Kiro for a major US airline, agentic STLC with
+# the Microsoft Agent Framework and .NET for a global professional-services
+# firm, Tech Mahindra, TCS, Brane, Knowledge Fabric, CogniFlow). Client names
+# stay confidential; no invented metrics, team sizes or clients.
+# Keywords are precise cue phrases so these answers never take the personal
+# questions (mentors, teams, services, framework-choice) that canon.yaml owns.
+# Tested by tests/qa_interview_s3.json; diagrams by scripts/diagrams_interview_s3.py.
+
+canon:
+
+# ----------------------------------------------------------------------------- A. Architecture leadership
+- id: iv3-ai-strategy
+  topics: [interview, strategy]
+  questions:
+  - How do you establish an enterprise AI architecture strategy?
+  - How would you define an AI architecture strategy for an enterprise?
+  - How do you create an enterprise AI strategy?
+  - What is your approach to setting an enterprise AI architecture strategy?
+  keywords:
+  - enterprise ai architecture strategy
+  - ai architecture strategy
+  - enterprise ai strategy
+  - architecture strategy
+  - strategy for an enterprise
+  - ai roadmap
+  - strategy and roadmap
+  - roadmap and strategy
+  answer: >-
+    I start from the business strategy, not the technology. In the first weeks I meet the business owners,
+    the CIO and CISO teams and the people who run operations, and I ask what the company is trying to move:
+    revenue, cost to serve, risk, cycle time or customer experience. Then I take stock of what exists: the
+    AI already running, the data estate and who owns it, the cloud and security standards, the skills, and
+    the regulations that apply. From there the strategy has four parts. First, a portfolio of use cases
+    scored on value and feasibility, with two or three lighthouse projects that can show measurable results
+    within a quarter. Second, a target reference architecture: a central AI gateway in front of every model
+    provider, shared retrieval and knowledge services, an agent orchestration layer, an evaluation service,
+    and observability for latency, cost and quality, all on the identity and data controls the enterprise
+    already trusts. Third, governance that matches risk: a model and prompt registry, an architecture review
+    board for new use cases, golden-set evaluation gates before release, and human approval wherever a
+    mistake is expensive. Fourth, the operating model: who builds, who owns what in production, how teams
+    reuse accelerators instead of rebuilding, and how we skill people. I write it as a roadmap with
+    measurable checkpoints, not a slide of principles, and I revisit it every quarter, because models and
+    prices change faster than any enterprise plan. This is the work I lead at Qualizeal, where I own the AI
+    Center of Excellence roadmap and the practices our programmes follow for GenAI integration, prompt
+    engineering and RAG. At Tech Mahindra, advising C-level stakeholders on AI strategy, it always started
+    with choosing the few use cases worth doing first.
+  evidence:
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Driving AI architecture strategy and governance; leading the AI CoE roadmap
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Advised C-level stakeholders on AI strategy and roadmap
+  - url: profile:services/AI Consulting & Strategy
+    source: website
+    why: Enterprise GenAI strategy, architecture reviews and AI governance
+
+- id: iv3-value-opportunities
+  topics: [interview, strategy]
+  questions:
+  - How do you identify opportunities where AI can deliver measurable business value?
+  - How do you find the right AI use cases for a business?
+  - How do you prioritise AI use cases?
+  - How do you identify where AI can create business value?
+  - Where should a company use AI first?
+  keywords:
+  - measurable business value
+  - business value
+  - ai use cases
+  - right use cases
+  - prioritise use cases
+  - prioritize use cases
+  - prioritise ai use cases
+  - prioritize ai use cases
+  - ai opportunities
+  - value and feasibility
+  - use ai first
+  - start with ai
+  - where should a company
+  answer: >-
+    I look for pain that already has a number on it. I sit with the teams that run a process and ask where
+    time, money or quality leaks: hours spent reading and routing documents, tickets bouncing between
+    queues, decisions waiting on an expert, errors that cost rework or compliance findings. Each candidate
+    gets a one-page brief: the business owner, the metric it moves, today's baseline, the data it needs and
+    who owns that data, the risk if the AI is wrong, and how a human would check it. Then I score the
+    candidates on a value and feasibility grid. Value is the size of the metric times how often it happens.
+    Feasibility is data readiness, integration effort, risk and regulatory exposure, and whether we can
+    evaluate the output objectively. The best first projects are frequent, measurable, on data we can reach,
+    with a cheap way to catch errors. I also push back on use cases that are really a rule or a report: if a
+    deterministic workflow or a dashboard solves it, that is cheaper and safer than an LLM. Before anything
+    is built we agree the success criteria and the baseline in writing, so the outcome is proven rather than
+    claimed. Classification and routing problems are often the quiet winners; on my resume is an AI ticket
+    classifier that achieved a 300x reduction in ticket resolution time, and an operational number of that
+    kind convinces a CFO faster than any demo. At Tech Mahindra I applied the same discipline to GenAI and
+    agentic AI work with telecom and BFSI clients, in customer insights, digital reporting and automated
+    decision-making, and at Qualizeal it is how our AI Center of Excellence decides which ideas get built
+    first.
+  evidence:
+  - url: profile:career_projects/AI Ticket Classifier
+    source: resume
+    why: AI ticket classifier with a 300x reduction in ticket resolution time
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: GenAI and agentic AI for telecom and BFSI clients, driving measurable business outcomes
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Leading the AI CoE roadmap
+
+- id: iv3-build-vs-buy
+  topics: [interview, strategy]
+  questions:
+  - How do you decide whether an organization should build an AI solution internally or purchase an existing product?
+  - When should a company build an AI solution instead of buying one?
+  - How do you make build versus buy decisions for AI?
+  - Build or buy, how do you decide for an AI solution?
+  - How do you decide whether to build or buy a GenAI solution?
+  keywords:
+  - build or buy
+  - buy or build
+  - build vs buy
+  - build versus buy
+  - build internally
+  - purchase an existing product
+  - existing product
+  - instead of buying
+  - off the shelf
+  answer: >-
+    I decide on five questions, and I record the answer as an architecture decision record so the reasoning
+    outlives the meeting. First, is the capability a differentiator? If it is the company's edge, its
+    proprietary data, process or customer experience, we build or at least own the core. If it is a
+    commodity, such as meeting transcription, a coding assistant or a generic HR chatbot, we buy. Second,
+    fit: does the product work with our data, our identity and permission model, our residency and
+    compliance needs, and can we get our data back out? Third, total cost of ownership over three years, not
+    the licence price: integration, run cost per transaction, the people needed to operate and evaluate it,
+    and the cost of switching later. Fourth, time to value against risk: a mature product can be live in
+    weeks while a build carries delivery risk, but a product carries vendor risk, roadmap dependency and
+    lock-in. Fifth, control: can we evaluate it on our own golden set, see its traces, set guardrails and
+    audit it? If a vendor cannot show me how its system behaves on our questions, it does not pass. In
+    practice the answer for GenAI is usually a blend: buy the platform pieces, LLMs through an API, a vector
+    store, an observability tool, and build the thin layer that encodes our knowledge, workflows and
+    guardrails, all behind our own AI gateway so any piece can be swapped. I run the same short proof for
+    both options, on real data and scored against agreed criteria, so the decision is evidence against
+    evidence, not a demo against a slide. It is the same logic behind our internal platforms at Qualizeal:
+    we build ValidAIte and QMentisAI ourselves because testing and validating AI is our own expertise, a
+    differentiator worth owning.
+  evidence:
+  - url: profile:services/AI Consulting & Strategy
+    source: website
+    why: Architecture reviews and AI strategy for organisations adopting AI
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: ValidAIte, built in-house at the Qualizeal AI CoE
+  - url: profile:engagements/QMentisAI
+    source: resume
+    why: QMentisAI, built in-house for AI testing and quality engineering
+
+- id: iv3-conflicting-opinions
+  topics: [interview, leadership]
+  questions:
+  - How do you handle conflicting architectural opinions between engineering teams?
+  - What do you do when two engineering teams disagree on the architecture?
+  - How do you resolve architecture disagreements between teams?
+  - How do you settle technical disagreements between teams?
+  keywords:
+  - conflicting architectural opinions
+  - conflicting opinions
+  - architectural opinions
+  - teams disagree
+  - disagree on the architecture
+  - architecture disagreements
+  - technical disagreements
+  - disagreements between teams
+  answer: >-
+    First I make sure the teams are arguing about the same problem. Most architectural disagreements are
+    really disagreements about unstated requirements, so I ask both teams to write down the decision
+    drivers: latency, cost, scale, security, time to market and what the team can operate. Very often one
+    team is optimising for speed and the other for long-term maintainability, and both are right for
+    different drivers. Then each side puts its option into a short architecture decision record: the
+    context, the option, the trade-offs, and what evidence would prove it wrong. Where the facts are
+    uncertain, I prefer a time-boxed spike to another meeting: a few days on each option, measured on the
+    same golden set and the same load. Evidence settles what opinions cannot, and it lets people change
+    their minds without losing face. If it is still split after that, I make the call, because owning
+    technical direction is the architect's job, and I explain the reasoning in writing, including what we
+    gave up. The decision goes to the architecture review board so it becomes a standard rather than a
+    one-off, with a note of what would make us revisit it. Two rules I hold to: seniority and the loudest
+    voice never decide, and the team whose option lost is never punished; their concerns usually become the
+    risks we monitor. I apply the same discipline to my own preferences: when I choose between LangGraph,
+    CrewAI, AutoGen or a plain orchestrator, the problem and its constraints decide, and the choice is
+    written down so a team can challenge it.
+  evidence:
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Owns AI architecture strategy and the practices teams follow
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: Framework choice depends on the client's need and the situation
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Mentored AI teams across three geographies
+
+- id: iv3-accelerators
+  topics: [interview, leadership]
+  questions:
+  - How do you establish reusable AI frameworks and accelerators?
+  - How do you build reusable AI accelerators?
+  - How do you create reusable components for AI projects?
+  - What reusable assets would you build for an AI practice?
+  keywords:
+  - accelerators
+  - reusable
+  - reusable ai frameworks
+  - reusable components
+  - reusable assets
+  - ai accelerators
+  - inner source
+  answer: >-
+    I do not start by designing a framework; I harvest one. The first two or three GenAI projects are built
+    well, with clean boundaries, and then I look at what they repeated: document ingestion and chunking,
+    permission-aware retrieval, LLM calls through a gateway, prompt templates, guardrails, the evaluation
+    harness, tracing and cost tracking, and tool wrappers for agents. Those repeated parts become the
+    accelerators, each with an owner, a version, documentation and a reference implementation a new team can
+    run on day one. I package them at three levels: a reference architecture that says how the pieces fit;
+    reusable components and templates, such as a RAG starter or an agent skeleton with human approval built
+    in; and shared platform services, such as the AI gateway, the model and prompt registry and the
+    evaluation service, which teams call rather than copy. Adoption matters more than elegance, so the
+    accelerator has to be the easiest path: one template that sets up the repository, the CI pipeline, the
+    evaluation gate and the dashboards in minutes. I run accelerators as products, measured by how many
+    projects use them, the time they save and the defects they prevent, and I retire the ones nobody uses.
+    Improvements flow back through an inner-source model, so a project that improves a component improves it
+    for everyone. I learned the value of this early: at TCS I built an intelligent date tagger that was
+    reused across many TCS projects, because it solved one common problem well. Today at the Qualizeal AI
+    Center of Excellence, ValidAIte and QMentisAI play that role for AI testing, and what we learn
+    validating AI there goes into the guardrails and evaluation of the agents we ship for clients.
+  evidence:
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: The intelligent date tagger reused across many TCS projects
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: ValidAIte, the AI-testing platform at the Qualizeal AI CoE
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Defining best practices for GenAI integration, prompt engineering and RAG
+
+- id: iv3-consistency
+  topics: [interview, leadership]
+  questions:
+  - How do you ensure architectural consistency across multiple AI projects?
+  - How do you keep the architecture consistent across many AI projects?
+  - How do you make sure different AI teams follow the same architecture standards?
+  - How do you enforce architecture standards across AI programmes?
+  keywords:
+  - architectural consistency
+  - consistency across
+  - consistent across
+  - architecture standards
+  - same architecture
+  - multiple ai projects
+  - across ai projects
+  - enforce standards
+  answer: >-
+    Consistency comes from three things: a few mandatory standards, a paved road that makes the standard the
+    easiest choice, and reviews that check outcomes rather than paperwork. The standards are deliberately
+    short. Every LLM call goes through the central AI gateway. Every application uses the enterprise
+    identity and permission model, including inside retrieval. Prompts, models and datasets are versioned in
+    a registry. Every release passes a golden-set evaluation gate. And every application emits the same
+    traces and metrics for latency, cost and quality. Beyond those, teams are free in how they build. The
+    paved road is the reference architecture plus templates and shared services, so following the standard
+    is faster than ignoring it. Then the review: an architecture review board on a fixed cadence for new use
+    cases and significant changes, with decisions recorded as architecture decision records that other teams
+    can read and reuse. I keep it light for low-risk work and stricter where data is sensitive or an agent
+    takes actions. I also make consistency visible: a portfolio view of every AI application with its owner,
+    models, risk tier, evaluation scores and cost, so drift shows up as data rather than as a surprise in an
+    audit. Fitness functions in CI catch the rest automatically, for example checks that every call goes
+    through the gateway and that no secret or personal data reaches a prompt. Finally, people: architects
+    working inside the teams, a community of practice and regular design reviews. At Qualizeal I define
+    these practices for GenAI integration, prompt engineering and RAG across our programmes, and the test of
+    success is simple: two teams solving similar problems end up with recognisably the same architecture.
+  evidence:
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Defining best practices for GenAI integration, prompt engineering and RAG pipelines
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: Solution architecture, AI governance, MLOps, microservices
+
+- id: iv3-innovation-governance
+  topics: [interview, leadership]
+  questions:
+  - How do you balance innovation with enterprise governance?
+  - How do you balance speed of innovation with governance and compliance?
+  - How do you let teams experiment with AI without losing control?
+  - How do you keep governance from slowing down AI innovation?
+  keywords:
+  - innovation with enterprise governance
+  - innovation with governance
+  - balance innovation
+  - innovation and governance
+  - governance and innovation
+  - experiment with ai
+  - slowing down ai innovation
+  - slow down innovation
+  - shadow ai
+  answer: >-
+    I do not treat them as opposites. I tier the governance by risk, so GenAI experiments are cheap and
+    production is safe, and I run three lanes. The sandbox lane is for exploration: approved LLMs through
+    the gateway, synthetic or non-sensitive data, a cost cap, no customer exposure and very little
+    paperwork, so a team can try an idea in days. The pilot lane is a real use case with real users: it
+    needs a business owner, agreed success criteria, a data and privacy review, a golden-set evaluation and
+    human review of outputs. The production lane carries the full controls: architecture review, security
+    and red-team testing, monitoring for quality, cost and drift, an incident process and a rollback plan.
+    Moving between lanes is a gate with published criteria, so teams know exactly what it takes to graduate,
+    and governance becomes a checklist they can plan for instead of a committee that surprises them. The
+    other half is to build governance into the platform so it costs teams nothing: the AI gateway handles
+    logging, redaction, rate limits and the approved-model list; the evaluation service runs the gates; the
+    registry gives lineage for free. When guardrails are automatic, people stop seeing them as friction. I
+    also keep a fast track for new models and tools, a small evaluation against our golden sets within days,
+    because blocking innovation only pushes it into shadow AI, which is the worst governance outcome of all.
+    AI governance matters a lot to me because AI adoption is now in everything, and in my experience teams
+    move faster, not slower, when the rules are clear and automated.
+  evidence:
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: What AI governance means to him
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Governance frameworks and scalable GenAI adoption across enterprise programmes
+
+# ----------------------------------------------------------------------------- B. Project and delivery
+- id: iv3-six-weeks
+  topics: [interview, delivery]
+  questions:
+  - You have an AI project with a six-week deadline and unclear requirements. How would you proceed?
+  - How would you deliver an AI project in six weeks when the requirements are unclear?
+  - What do you do when an AI project has a tight deadline and vague requirements?
+  - How do you handle unclear requirements on an AI project?
+  keywords:
+  - six week deadline
+  - six weeks
+  - 6 weeks
+  - 6 week deadline
+  - unclear requirements
+  - vague requirements
+  - requirements are unclear
+  - tight deadline
+  answer: >-
+    I would fix the deadline and the quality bar, and let the scope flex. Week one is discovery, and I do
+    not skip it: with the business owner and real users I turn the unclear requirement into a problem
+    statement, three to five measurable success criteria, the data we can actually access, the security and
+    privacy constraints, and an explicit list of what is out of scope. In the same week I collect fifty to a
+    hundred real examples with expected outcomes, because when requirements are vague, that golden set
+    becomes the definition of done. Weeks two and three build a thin vertical slice: one user journey, end
+    to end, on real data, with the simplest architecture that could work, often retrieval and a
+    well-structured LLM prompt, or a deterministic workflow with a model only at the decision points. I demo
+    it every week, because seeing a working system clarifies requirements faster than any workshop. Weeks
+    four and five harden it: evaluation against the golden set, guardrails, access control, logging, cost
+    and latency checks, and the edge cases the demos surfaced. Week six is a controlled release to a pilot
+    group, with monitoring, a feedback loop and a written plan for what comes next. Throughout, I keep a
+    risk register and a decision log, and I make trade-offs visible early: if the data is not there, I say
+    so in week one, not week five. What I will not do is build a full platform on assumptions or promise
+    every feature. On a six-week clock, a narrow GenAI system that demonstrably works beats a broad one that
+    might.
+  evidence:
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Hands-on across architecture, development and implementation
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Led GenAI implementations and managed production deployments
+
+- id: iv3-estimation
+  topics: [interview, delivery]
+  questions:
+  - How do you estimate the effort and cost of an AI implementation?
+  - How do you estimate the cost of an AI project?
+  - How would you estimate effort for an AI solution?
+  - How do you size and budget an AI programme?
+  - How do you estimate the cost of a GenAI solution?
+  keywords:
+  - estimate the effort
+  - estimate the cost
+  - estimate effort
+  - estimate cost
+  - effort and cost
+  - effort estimation
+  - cost estimation
+  - size and budget
+  answer: >-
+    I estimate two things separately, the cost to build and the cost to run, and I give ranges with stated
+    assumptions, never a single number. For the build, I split the work into what is predictable and what is
+    not. Integration, ingestion pipelines, APIs, the user interface, security, deployment and observability
+    estimate as ordinary software does, so I size them from the reference architecture and past delivery.
+    The uncertain part is reaching the quality bar: how much retrieval, prompt and data work it takes to hit
+    the agreed evaluation targets. I handle that with a short, time-boxed discovery or proof on real data
+    first, then estimate the rest with much tighter ranges. I budget explicitly for building the golden set,
+    evaluation, red-teaming and user acceptance, which teams usually forget. For the run cost I model
+    bottom-up: requests per day, input and output tokens per request, the LLM mix after routing, the cache
+    hit rate, retrieval and vector storage, hosting or GPUs if we self-host, monitoring, and the people to
+    operate it. I show the cost per transaction next to the value per transaction, so the business case is
+    visible, and I add sensitivity: what happens if usage triples, or if a cheaper model turns out to be
+    good enough. Then the people side: change management, training, the subject-matter experts' time for
+    labelling and review, and support after go-live. Each estimate comes with its risks and the decisions
+    that would change it, and I re-estimate at every phase gate, because the first number on an AI project
+    is a hypothesis, not a promise.
+  evidence:
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Led GenAI implementations and managed production deployments
+  - url: profile:services/AI Consulting & Strategy
+    source: website
+    why: Architecture reviews and GenAI strategy
+
+- id: iv3-accuracy-expectations
+  topics: [interview, delivery]
+  questions:
+  - How do you handle a client who expects 100% accuracy from an LLM?
+  - What do you tell a client who wants an LLM that is never wrong?
+  - How do you manage expectations of 100 percent accuracy from AI?
+  - A client wants 100 percent accurate answers from GenAI. What do you say?
+  keywords:
+  - 100 accuracy
+  - 100 percent accuracy
+  - 100 percent accurate
+  - expects 100
+  - never wrong
+  - perfect accuracy
+  - accuracy expectations
+  - manage expectations
+  answer: >-
+    I take the expectation seriously, because behind it is a real worry: they cannot afford a wrong answer
+    in front of a customer or a regulator. So I move the conversation from the accuracy of the model to the
+    reliability of the system. I explain plainly that an LLM is probabilistic: no model gives 100 percent,
+    and neither do the people doing the job today, so the first step is to measure that human baseline. Then
+    we define what correct means for their use case, build a golden set of real cases with expected
+    outcomes, and agree thresholds per type of error, because a wrong refund amount and a clumsy sentence
+    are not the same risk. Then I design the system so that errors are caught before they matter: answers
+    grounded in their own documents with citations, validation and rule checks on anything structured,
+    confidence thresholds below which the system says it does not know or hands over to a human, human
+    approval on high-impact actions, and plain deterministic code for whatever must be exact, such as
+    calculations and policy rules. Monitoring and user feedback keep it honest after go-live. The commitment
+    I can make is not 100 percent; it is measured accuracy on their cases, known failure modes, and no
+    silent errors on the things that matter. I practise this myself: my Knowledge Fabric would rather say
+    nothing is on record than guess, and every build runs its gold question sets and fails the deploy when
+    answers regress. Clients usually relax once they see the evaluation report and the escalation path,
+    because what they wanted was control, not a magic number.
+  evidence:
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Cited answers, confidence and lineage instead of generated guesses
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Testing and validating AI and GenAI systems
+
+- id: iv3-team-wrong-architecture
+  topics: [interview, delivery]
+  questions:
+  - What would you do if your team proposed an architecture that you believe is technically incorrect?
+  - What if your team proposes an architecture you think is wrong?
+  - How do you handle a design from your team that you disagree with?
+  - How do you push back on a flawed architecture from your own team?
+  keywords:
+  - technically incorrect
+  - architecture you think is wrong
+  - architecture is wrong
+  - wrong architecture
+  - flawed architecture
+  - push back
+  - team proposed
+  - team proposes
+  - that you disagree with
+  answer: >-
+    First I check my own belief, because sometimes the team knows something I do not. I ask them to walk me
+    through the drivers and trade-offs they optimised for, and I ask questions rather than issue a verdict:
+    how does this behave at ten times the load, what happens when the LLM provider is down, what happens
+    when a user loses access to a document, how will we evaluate it, what does each request cost. Often the
+    questions are enough and the team finds the gap itself, which teaches far more than being told. If I
+    still believe it is wrong, I say so clearly and specifically, in terms of the requirement it fails
+    rather than my preference: this breaks the permission model, this will miss the latency target, this
+    cost grows linearly with users. Where it is genuinely debatable, I propose a time-boxed spike on both
+    options against the same tests and load, and let the numbers decide. If it is a one-way door, a security
+    flaw, a compliance breach or something expensive to reverse, I make the call and stop it, explain why in
+    an architecture decision record, and own the consequences. If it is a two-way door with a small
+    downside, I sometimes let the team go ahead with agreed checkpoints, because owning a decision builds
+    better engineers than being overruled. Either way I keep the disagreement private and respectful, never
+    in front of stakeholders, and I make sure the team's good ideas survive into the final design. I mentor
+    the interns and freshers in the Qualizeal AI Center of Excellence the same way: questions first,
+    ownership early, and a firm line only where the risk is real.
+  evidence:
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Mentors the interns and freshers who join the AI Center of Excellence
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Owns AI architecture strategy
+
+- id: iv3-tech-debt
+  topics: [interview, delivery]
+  questions:
+  - How do you manage technical debt in AI projects?
+  - How do you handle tech debt in GenAI projects?
+  - What kind of technical debt do AI systems accumulate?
+  - How do you keep AI prototypes from becoming unmaintainable?
+  keywords:
+  - technical debt
+  - tech debt
+  - debt
+  - unmaintainable
+  - debt register
+  answer: >-
+    AI projects carry ordinary code debt plus a kind that is easy to miss: prompts nobody owns, evaluation
+    sets that no longer reflect real usage, pipelines that silently depend on one LLM version, retrieval
+    code copied into every team, undocumented data dependencies, and pinned models the provider will retire.
+    I manage it in four ways. I make it visible: a debt register next to the risk register, each item with
+    an owner and its impact on cost, quality, security or delivery speed. I prevent the worst of it by
+    design: model calls behind a gateway so a provider or version change is configuration, prompts and
+    datasets versioned as code, evaluation in CI so a regression shows up on the pull request, and shared
+    accelerators instead of every team rolling its own RAG. I pay it down continuously: a fixed share of
+    every sprint, often fifteen to twenty percent, plus a clean-up gate before a pilot becomes production,
+    because a proof of concept's shortcuts are acceptable only until real users depend on them. And I treat
+    model and data changes as first-class events: when a provider deprecates a model or the data shifts, we
+    rerun the golden set, compare, and decide deliberately. The trap I watch for is the demo that quietly
+    went live, with deadline shortcuts nobody revisited; I would rather negotiate a smaller scope than ship
+    a pilot that cannot be maintained. My own Knowledge Fabric has evaluation gates for exactly this reason:
+    every change runs the gold question sets, so drift and regressions are caught as debt before they become
+    incidents.
+  evidence:
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Gold question sets gate every deploy
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: MLOps, microservices, solution architecture
+
+- id: iv3-success-metrics
+  topics: [interview, delivery]
+  questions:
+  - How do you measure the success of an AI implementation beyond model accuracy?
+  - How do you measure whether an AI project is successful?
+  - What KPIs do you use for an AI solution beyond accuracy?
+  - How do you prove the ROI of an AI project?
+  keywords:
+  - measure the success
+  - measure success
+  - beyond model accuracy
+  - beyond accuracy
+  - success metrics
+  - kpis
+  - prove the roi
+  - roi of an ai
+  - project is successful
+  answer: >-
+    Model accuracy is a means; success is a business outcome that holds up in production. I measure four
+    layers, agree them with the business owner before we build, and capture a baseline for each. Business
+    outcomes come first: the metric the project was funded to move, such as handling time, cost per case,
+    resolution time, conversion, revenue at risk or compliance findings. Adoption and experience second:
+    active users, how often people accept, edit or override the AI's output, escalation rates, task
+    completion and satisfaction, because an accurate system that nobody trusts is worth nothing. Operational
+    health third: latency at the 95th percentile, availability, cost per transaction and per user, LLM token
+    consumption and incidents. Fourth, trust and risk, which matter most for GenAI: groundedness and
+    citation accuracy, hallucination and refusal rates on the golden set, safety and policy violations,
+    fairness checks where people are affected, and audit completeness. For agents I add task success rate,
+    steps per task, tool errors and how often a human had to step in. All of it sits on one dashboard that I
+    review with the business owner on a fixed cadence, compared against the baseline and, where possible, a
+    control group, so the improvement can be attributed to the AI and not to something else. A project
+    succeeds when the business metric moved, people keep using it, it runs within its cost and reliability
+    budget, and nothing unsafe reached a customer. The number I watch most closely is the override and edit
+    rate, because it shows exactly where the system and its users disagree, and that is where the next
+    improvement is.
+  evidence:
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Implementations driving measurable business outcomes
+  - url: profile:engagements/QMentisAI
+    source: resume
+    why: AI testing and quality engineering
+
+# ----------------------------------------------------------------------------- C. Team leadership
+- id: iv3-build-team
+  topics: [interview, team-leadership]
+  questions:
+  - How would you build an AI team from scratch?
+  - How do you set up a new AI team?
+  - If you had to start an AI team, who would you hire first?
+  - How would you structure a new AI team?
+  keywords:
+  - ai team from scratch
+  - team from scratch
+  - build an ai team
+  - set up a new ai team
+  - start an ai team
+  - new ai team
+  - hire first
+  answer: >-
+    I would start from the roadmap, not an org chart: the first use cases decide the first hires. The core
+    is a small team that can take one GenAI or ML use case to production end to end: an AI architect or lead
+    who owns technical direction, two or three strong AI engineers who can build retrieval, agents and
+    evaluation and also write solid backend code, a data engineer, and a platform or MLOps engineer who owns
+    deployment, the gateway, observability and cost. Next to them I need a product owner from the business
+    who owns the outcome, and time from subject-matter experts for golden sets and reviews; without those,
+    the team builds clever things nobody uses. As the portfolio grows I add specialists: an evaluation and
+    quality engineer, security and responsible-AI expertise, a data scientist for classical ML where it
+    beats an LLM, and UX for AI-specific interaction design. I hire for fundamentals and judgement over
+    framework names: people who understand how models fail, can design an experiment, write production code
+    and explain a trade-off to a business stakeholder. In interviews I give a real, messy problem and listen
+    to the questions they ask before they design. Then I make the team self-sustaining with shared standards
+    and accelerators, pairing, design reviews, a clear path from junior to senior to architect, and a mix of
+    experienced engineers and fresh graduates who learn fast. That mix is what I work with at the Qualizeal
+    AI Center of Excellence, where I mentor the interns and freshers who join, and at Tech Mahindra I
+    mentored AI teams across three geographies. The aim is a team that ships its second and third use case
+    faster than the first, without me in every decision.
+  evidence:
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Mentored global AI teams across three geographies
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Mentors the interns and freshers in the Qualizeal AI CoE
+
+- id: iv3-genai-roles
+  topics: [interview, team-leadership]
+  questions:
+  - What roles would you hire for an enterprise GenAI implementation?
+  - Which roles does an enterprise GenAI team need?
+  - What skills and roles do you need for a GenAI programme?
+  - Who do you need on a GenAI delivery team?
+  keywords:
+  - roles would you hire
+  - which roles
+  - what roles
+  - roles do you need
+  - genai team
+  - genai delivery team
+  - genai programme
+  - genai program
+  - team composition
+  answer: >-
+    I hire against the layers of the system and the life cycle of the use case. On the technical side: an AI
+    or solution architect who owns the end-to-end design, the model strategy and the trade-offs; AI or LLM
+    engineers who build retrieval, prompts, agents and tool integrations and treat them as production code;
+    data engineers for ingestion, parsing, chunking, metadata and the pipelines that keep the index fresh
+    and permission-aware; a platform or MLOps engineer for deployment, the AI gateway, model and prompt
+    versioning, observability, cost controls and GPU serving if we self-host; and backend and frontend
+    engineers for the application and its integrations. On quality and risk: an AI evaluation and quality
+    engineer who builds golden sets, automated evaluation and red-team tests, because testing
+    non-deterministic systems is a discipline of its own; a security architect; and a responsible-AI or
+    governance lead for privacy, access control, prompt injection, compliance and audit. On the business
+    side: a product owner who owns the outcome and the backlog, subject-matter experts who define what
+    correct means and review outputs, a change and adoption lead for training and communication, and a
+    delivery lead to run the programme. Not every role is full-time on day one; early on, one strong
+    engineer covers several, and specialists come as the portfolio grows. The two roles teams skip most
+    often are the evaluation engineer and the business product owner, and those are exactly the gaps that
+    turn a good demo into a failed rollout. Evaluation is close to my heart: at Qualizeal we build ValidAIte
+    and QMentisAI, our platforms for testing and validating AI and GenAI systems, precisely because quality
+    engineering for AI is a role in its own right.
+  evidence:
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Testing and validating AI and GenAI systems
+  - url: profile:engagements/QMentisAI
+    source: resume
+    why: AI testing and quality engineering
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: MLOps, Kubernetes, AI governance
+
+- id: iv3-mentor-juniors
+  topics: [interview, team-leadership]
+  questions:
+  - How do you mentor junior AI engineers?
+  - How do you coach junior engineers?
+  - How do you grow freshers into strong AI engineers?
+  - What is your approach to mentoring junior engineers?
+  keywords:
+  - junior ai engineers
+  - junior engineers
+  - juniors
+  - mentor junior
+  - mentoring junior
+  - coach junior
+  - grow freshers
+  - mentoring style
+  answer: >-
+    I mentor the way I was mentored: real problems and real ownership, early. At Qualizeal I mentor the
+    young engineering graduates who join the AI Center of Excellence as interns and freshers, and I learned
+    how from people such as Manoj Madhavan at TCS, who took me into the AI Labs after sixteen interviews and
+    made me strong in Python, and Roshy sir and Rajaram sir, who gave me a chance before I had fully proved
+    myself. In practice it has four parts. First, fundamentals before frameworks: how a transformer works,
+    why retrieval fails, what makes an evaluation trustworthy, because GenAI frameworks change every few
+    months and fundamentals do not. Second, a real piece of a real system, small enough to finish, with a
+    definition of done that includes tests and an evaluation, so they learn that a demo is not a
+    deliverable. Third, review as teaching: I review their designs and code with questions rather than
+    corrections, what happens when the model is wrong, how would you know, what does it cost, until they
+    start asking those questions themselves. Fourth, exposure: they present their own work to stakeholders,
+    write a short design note and sit in on architecture discussions, because communication is half the job.
+    I also teach them to measure before they argue, and to look across fields for ideas; my own best result,
+    taking an object detection model at Brane from 76 to 89.5 percent accuracy, came from bringing an NLP
+    idea to a vision problem. And I try to pass on what TCS taught me: relentless effort beats a perfect
+    resume. I know it is working when they ask the hard questions before I do.
+  evidence:
+  - url: doc:Prashobh_In_His_Own_Words
+    source: resume
+    why: Mentors, the sixteen interviews, and mentoring interns and freshers at Qualizeal
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Object detection from 76 to 89.5 percent with an NLP-inspired hybrid approach
+
+- id: iv3-architect-readiness
+  topics: [interview, team-leadership]
+  questions:
+  - How do you assess whether an engineer is ready to become an AI architect?
+  - How do you know an engineer is ready to be an architect?
+  - What does a senior engineer need to become an AI architect?
+  - How do you groom engineers into architects?
+  keywords:
+  - ready to become an ai architect
+  - ready to become
+  - ready to be an architect
+  - become an ai architect
+  - become an architect
+  - into architects
+  - engineer is ready
+  answer: >-
+    I look for a shift from how to build it to whether and why to build it. A strong senior engineer
+    optimises a component; an architect owns the outcome of the whole system and its trade-offs. So I assess
+    five things, mostly by watching how someone handles real decisions. One, problem framing: before
+    designing, do they ask about the business objective, the users, the data, the constraints, SLAs,
+    security and budget? Two, breadth with depth: can they reason across retrieval, LLMs, agents, data,
+    infrastructure, security and cost, and still go deep where it matters, such as evaluation or
+    permission-aware retrieval? Three, trade-off judgement: can they lay out two or three options with
+    honest pros and cons, choose one, record it as a decision, and say what would change their mind? Can
+    they say no to a technically attractive design that is wrong for the business? Four, production
+    thinking: do they design for failure, observability, rollback, cost and evaluation from the start rather
+    than after go-live? Five, communication and influence: can they explain the same design to a CFO, a
+    security team and junior engineers, and bring a disagreeing team along without pulling rank? I test
+    readiness with stretch assignments rather than interviews: they lead the design of a real use case,
+    present it at the architecture review, defend it and own it through delivery, with me as the safety net.
+    If they come back having changed the design because of what they heard, that is a good sign. It is the
+    growth path I try to build for the engineers in our AI Center of Excellence at Qualizeal. Many brilliant
+    engineers are not ready yet because they still fall in love with the solution; an architect falls in
+    love with the problem.
+  evidence:
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: AI Architect leading the AI CoE roadmap
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Mentors the interns and freshers in the AI CoE
+
+- id: iv3-communication-gap
+  topics: [interview, team-leadership]
+  questions:
+  - How do you handle a technically strong engineer who cannot communicate effectively with business stakeholders?
+  - How do you help an engineer who struggles to communicate with business stakeholders?
+  - What do you do with a brilliant engineer who is poor at communication?
+  - How do you improve an engineer's communication with stakeholders?
+  keywords:
+  - communicate effectively
+  - cannot communicate
+  - struggles to communicate
+  - business stakeholders
+  - poor at communication
+  - communication with stakeholders
+  - stakeholder communication
+  - communication skills
+  answer: >-
+    I treat it as a skill gap, not a personality flaw, because communication can be learned. First I give
+    specific feedback, privately and with examples: in that meeting you explained the retrieval pipeline,
+    but the stakeholder had asked whether it would reduce handling time. Usually the engineer is answering
+    the question they find interesting, not the one being asked. Then I give them a simple structure to
+    practise: lead with the business outcome and the answer, then the trade-off or risk in plain words, then
+    the decision or help you need, and keep the architecture for the appendix. Next comes safe practice:
+    they rehearse with me before a stakeholder meeting, then co-present with me, taking the part they know
+    best while I handle the framing, and gradually they lead and I only support. I help them build a
+    translation habit: latency in milliseconds becomes how long a customer waits, and a hallucination rate
+    becomes how many answers a reviewer would have to correct. Writing helps too, so I ask for a one-page
+    decision note in business language before each review. Meanwhile I protect their strength. Not every
+    brilliant engineer needs to become client-facing; if they prefer to stay deep, I pair them with someone
+    who bridges, and I make sure their work gets the credit. What I avoid is shielding them from
+    stakeholders forever, because exposure with support is the only way it improves. I see this often with
+    the interns and freshers I mentor at Qualizeal, and I teach the same idea in the workshops I run, where
+    I tailor the level to the room: leaders need outcomes, engineers need patterns.
+  evidence:
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Mentors the interns and freshers in the AI CoE
+  - url: profile:services/Corporate Training & Workshops
+    source: website
+    why: Talks and workshops tailored from leaders to engineers
+
+# ----------------------------------------------------------------------------- D. Scenarios
+- id: iv3-agents-everywhere
+  topics: [interview, scenario]
+  questions:
+  - The client wants to convert all existing workflows into autonomous AI agents. Would you agree? How do you decide which workflows need agents?
+  - A client wants to turn every workflow into an autonomous AI agent. Would you agree?
+  - How do you decide which workflows need AI agents?
+  - Should every business workflow become an autonomous agent?
+  keywords:
+  - autonomous ai agents
+  - autonomous ai agent
+  - autonomous agent
+  - existing workflows
+  - every workflow
+  - all workflows
+  - which workflows
+  - workflows need agents
+  - workflows need ai agents
+  - agents everywhere
+  - stay as automation
+  - should stay as automation
+  - remain automation
+  answer: >-
+    No, not all of them, and I would tell the client so directly, with a method rather than an opinion.
+    Agents are the right tool where a task needs judgement over unstructured information, has many possible
+    paths, and has to choose its tools at run time. They are the wrong tool where the process is already
+    well defined, because an agent adds cost, latency, non-determinism and a larger attack surface to
+    something a workflow does reliably today. So I would assess their workflows as a portfolio and score
+    each on five criteria. Determinism: are the steps and rules known in advance? If yes, keep it as
+    workflow automation, perhaps with an LLM at a single step. Variability: how much do the inputs and paths
+    vary, free text, exceptions, documents in many formats? High variability favours an agent. Risk: what
+    does an error cost, financially, legally or with a customer? Reversibility: can a wrong action be
+    undone? Irreversible, high-risk actions need a human approval step whatever we build. And ROI: volume
+    times value per case, against the cost to build, run and evaluate. That gives a spectrum rather than a
+    yes or no: deterministic automation for the stable core, a GenAI step where the work is reading,
+    extracting or classifying, an assistant that drafts while a human decides, and a bounded agent for
+    exceptions and investigations, with limited tools, a step and cost budget, and full traces. Then we
+    prove it: pick two or three high-scoring workflows, run the agent against the current process on a
+    golden set of real cases, compare quality, cost per case and cycle time, and widen autonomy only when
+    the evaluations show it holds. The deterministic backbone stays as automation, and agents work at the
+    edges where judgement is needed. That is how I build agentic AI for the software life cycle today: for a
+    major US airline, the agents built with Kiro work from an agreed specification, with requirements,
+    design and tasks written down and reviewed, not one big autonomous generation, and on the testing life
+    cycle for a global professional-services firm, agents help at defined steps, from analysing requirements
+    to designing and automating tests. My own agent projects follow the same rule: a plain orchestrator that
+    calls a model only at the decision points, and a rule-based fallback that keeps working when the model
+    does not. What the client really wants is speed and lower cost; agents everywhere is one way to ask for
+    it, and rarely the cheapest.
+  evidence:
+  - url: profile:engagements/Agentic AI for the SDLC
+    source: resume
+    why: Agentic AI for the SDLC with Kiro, for a major US airline
+  - url: profile:engagements/Agentic AI for the STLC
+    source: resume
+    why: Agentic AI for the STLC with the Microsoft Agent Framework and .NET
+  - url: doc:Smaller_Projects_and_Research
+    source: resume
+    why: Experiments with Kiro for agentic SDLC automation
+
+- id: iv3-self-hosted
+  topics: [interview, scenario]
+  questions:
+  - Leadership wants to drop OpenAI, Anthropic and Google for an entirely self-hosted AI ecosystem. Approach, hidden costs and risks?
+  - Leadership wants to replace OpenAI, Anthropic and Google with a fully self-hosted AI ecosystem. What would be your approach, and what are the hidden costs and risks?
+  - What are the hidden costs of self-hosting LLMs?
+  - How would you approach moving a company to self-hosted AI models?
+  keywords:
+  - self hosted
+  - self hosting
+  - self-hosted
+  - self-hosting
+  - hidden costs
+  - host our own models
+  - host its own models
+  - self hosted ai ecosystem
+  - drop openai
+  - on premise llm
+  answer: >-
+    I would treat it as a business decision with a total cost of ownership, not an ideology, and I would
+    start by asking why. The usual drivers are data sovereignty, regulation, vendor lock-in, unpredictable
+    API bills or latency, and each has a cheaper answer than going fully self-hosted overnight. Having
+    managed production deployments of LLM-based systems at Tech Mahindra, I know serving a model is the easy
+    part; operating it is where the cost is. So I put the hidden costs on the table. GPUs: buying or
+    reserving capacity for peak load that sits idle off-peak, plus redundancy across zones. People: MLOps
+    and inference engineers who can run serving stacks such as vLLM on Kubernetes, quantise models, tune
+    batching and throughput, and be on call. Evaluation parity: open-weight models are good and improving
+    fast, but we must prove on our own golden sets that each one matches the model it replaces for each use
+    case, and prove it again with every upgrade. Security patching: we now own the model supply chain,
+    container and driver vulnerabilities, access control and abuse monitoring that the providers handled for
+    us. Capacity: traffic spikes, long contexts and every new use case become our planning problem. And the
+    frontier: proprietary models still lead on some reasoning and multimodal tasks. The risks are lower
+    quality on hard tasks, outages we absorb ourselves, slower innovation, and a large fixed cost if
+    adoption grows slower than planned. My recommendation would almost always be a hybrid, phased path
+    behind a model gateway. Every GenAI application calls one AI gateway with a standard interface, so the
+    model becomes a routing decision, not an application rewrite. I classify use cases by data sensitivity
+    and difficulty: sensitive data and high-volume, simpler tasks such as classification, extraction and
+    embeddings move first to open models we host, where the privacy and economics case is strongest,
+    possibly through managed hosting in our own cloud account as a middle step. Complex reasoning stays on
+    the providers' APIs, under enterprise terms with no data retention and regional hosting, until an open
+    model passes the evaluation. Each move is gated by evaluation parity and a measured cost per
+    transaction. Leadership gets sovereignty where it matters, a cost curve it can see, and no single
+    switch-off day that could break production.
+  evidence:
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Led LLM-based conversational systems and managed production deployments
+  - url: profile:skills/Architecture & Cloud
+    source: resume
+    why: AWS SageMaker, GCP Vertex AI, Kubernetes, MLOps
+  - url: profile:skills/LLM Platforms
+    source: resume
+    why: OpenAI, Claude, Gemini
+
+- id: iv3-governance-25-apps
+  topics: [interview, scenario]
+  questions:
+  - 25 AI applications built independently, no central governance, monitoring or model registry. Establish enterprise AI governance.
+  - An organization has 25 AI applications built independently with no central governance, monitoring or model registry. How would you establish enterprise AI governance?
+  - How would you establish enterprise AI governance across many AI applications?
+  - How would you set up an AI governance framework for an enterprise?
+  keywords:
+  - 25 ai applications
+  - 25 ai apps
+  - model registry
+  - central governance
+  - no central governance
+  - enterprise ai governance
+  - ai governance framework
+  - governance framework
+  - built independently
+  - establish governance
+  answer: >-
+    I would not start by stopping the 25 teams; I would start by seeing them. Phase one, the first month, is
+    inventory and triage: every AI and GenAI application, its owner, the models and providers it calls, the
+    data it touches, its users, its cost, and whether it takes actions or only advises. I classify each into
+    a risk tier by data sensitivity, customer exposure, autonomy and regulatory impact, and I close the
+    critical gaps immediately: secrets in code, personal data reaching external APIs without agreements,
+    agents with unrestricted tool access. Phase two puts in the shared control plane that every application
+    must use. A central AI gateway for all LLM calls gives us authentication, logging, redaction of
+    sensitive data, rate limits, cost attribution per application and an approved-model list in one place. A
+    model and prompt registry tells us which model version and prompt each application runs, with lineage
+    and rollback. An evaluation service holds golden sets per application and gates in CI, so no change
+    reaches production without passing them. And common observability puts traces, latency, cost, quality
+    and drift for all 25 on one portfolio dashboard. Phase three is the operating model: an AI governance
+    council with the business, security, legal and architecture; an architecture review board for new use
+    cases and major changes; risk-tiered policies, so low-risk tools move fast while high-risk ones get
+    human approval and red-team testing; and a reference architecture with accelerators, so new applications
+    start compliant. Then I migrate the 25 onto the gateway and registry in waves, highest risk first, with
+    the platform team doing much of the work, and I consolidate duplicates where several teams built the
+    same RAG. I measure progress by coverage, how many applications are behind the gateway, registered and
+    evaluated, and by fewer incidents and lower cost. Governance that teams experience as a free platform
+    gets adopted; governance experienced as a committee gets bypassed. This is the kind of AI architecture
+    strategy and governance framework I drive at Qualizeal, and it draws on what we learn validating AI
+    systems on ValidAIte and QMentisAI.
+  diagram: assets/diagrams/iv3-governance.svg
+  evidence:
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Driving AI architecture strategy and governance frameworks
+  - url: profile:engagements/ValidAIte
+    source: resume
+    why: Validating AI and GenAI systems
+  - url: profile:services/AI Consulting & Strategy
+    source: website
+    why: AI governance for organisations adopting AI
+
+- id: iv3-30-day-ask
+  topics: [interview, scenario]
+  questions:
+  - The business wants an AI solution in 30 days; data quality and security architecture are insufficient. How do you handle it?
+  - The business wants an AI solution in 30 days, but the data quality and security architecture are not ready. How would you handle it?
+  - What do you do when leadership pushes for a 30-day AI launch with poor data quality?
+  - How do you respond when the business wants AI delivered before the data and security are ready?
+  keywords:
+  - in 30 days
+  - within 30 days
+  - 30 day ai
+  - 30 day launch
+  - 30 day deadline
+  - data quality and security
+  - security architecture are insufficient
+  - poor data quality
+  - security are not ready
+  - security are ready
+  answer: >-
+    I would not say no, and I would not silently say yes. I make the trade-off explicit and give the
+    business a version of yes that does not create a breach: in effect, I negotiate scope, not security. In
+    the first few days I find out what the 30 days is really for, a board demo, a customer commitment, a
+    regulatory date or a competitor, and I assess the gaps concretely: which data is poor and in what way,
+    which security controls are missing, and what could go wrong if we ignored them. Then I put options on
+    the table. Option one is a guarded MVP on safe data: a narrow scope on data we trust and are allowed to
+    use, such as public, synthetic or a cleaned and curated subset; internal users only; read-only, with no
+    actions on customer systems; every call through a controlled gateway with logging and access control;
+    and a human reviewing outputs. That can be live in 30 days and prove the value. Option two is the full
+    solution on a realistic timeline, with the data remediation and the security work planned in phases.
+    What I will not do is put sensitive data into a GenAI system without the controls it needs, because a
+    30-day win that becomes a data incident costs the business far more than a month. If leadership still
+    wants to accept a risk, that is their call, but it has to be explicit: written into the risk register
+    with its impact, a named business owner signing the risk acceptance, the CISO informed, compensating
+    controls in place, and a date by which the gap is closed. In parallel I start the real fixes: data
+    quality rules and lineage for the sources we will need, and the security architecture, meaning identity,
+    permission-aware retrieval, encryption and redaction before any external LLM call, so the MVP grows into
+    production instead of being thrown away. It is the same principle I build into my own Knowledge Factory,
+    which masks confidential client names in every source before anything is indexed. I report weekly on
+    both tracks. Once the options are clear, most business leaders choose the guarded MVP, because what they
+    need in 30 days is visible progress, not every feature.
+  evidence:
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: The Knowledge Factory and Fabric, built privacy-first
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: AI architecture strategy and governance
+  - url: profile:services/AI Consulting & Strategy
+    source: website
+    why: AI governance and architecture reviews
+
+- id: iv3-first-90-days
+  topics: [interview, scenario]
+  questions:
+  - Your first 30, 60 and 90 days as an AI Enterprise Architect in our organization.
+  - What would you do in your first 30, 60 and 90 days as an AI Enterprise Architect in our organization?
+  - What would your first 90 days look like as our AI architect?
+  - What is your 30-60-90 day plan?
+  keywords:
+  - first 90 days
+  - first 30 days
+  - 90 days
+  - 30 60 90
+  - 30 60 and 90
+  - first 30 60
+  - 90 day plan
+  - first three months
+  answer: >-
+    My first 90 days would follow a simple rhythm, listen, decide, deliver, and I would publish the plan in
+    the first week so nobody has to guess. Days 1 to 30 are for listening and mapping. I meet the business
+    leaders, the CIO and CISO teams, data owners, legal and risk, and the teams already building AI, and I
+    ask what the company is trying to achieve and where AI has helped or hurt so far. I build an inventory
+    of every AI and GenAI application, model, LLM provider, data source and vendor, with owners, costs and
+    risks, and I review the existing architecture, security and data platforms. I close urgent risks as I
+    find them, such as sensitive data reaching external APIs or applications nobody monitors. By day 30 I
+    share a current-state assessment, the top risks and a draft list of use cases scored on value and
+    feasibility. Days 31 to 60 are for deciding and designing. With the architecture and security leads I
+    agree the AI architecture principles and a target reference architecture: a central AI gateway, a model
+    and prompt registry, shared retrieval and knowledge services, an evaluation service with golden-set
+    gates, and common observability. I set up governance: risk tiers, an architecture review board and the
+    practice of architecture decision records. With the business I pick two or three lighthouse use cases
+    with clear owners and baselines, and I start the first with a small team, staying hands-on in the design
+    and the code. Days 61 to 90 are for delivering and scaling. The first lighthouse goes to a pilot with
+    results measured against its baseline. The gateway and evaluation pipeline go live and the first
+    existing applications move onto them. I publish the first accelerators and standards, start a community
+    of practice, and present a 12-month roadmap with costs, the operating model, hiring needs and the
+    metrics we will report. By day 90 the organisation should see three things: a strategy it helped shape,
+    a governed platform starting to carry real applications, and one use case already showing value. It is
+    the same rhythm I bring to the AI Center of Excellence roadmap I lead at Qualizeal, and to how I advised
+    C-level stakeholders at Tech Mahindra: listen first, choose the few things that matter, and prove them.
+  diagram: assets/diagrams/iv3-90days.svg
+  evidence:
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Leading the AI CoE roadmap; AI architecture strategy and governance
+  - url: profile:roles/Tech Mahindra
+    source: resume
+    why: Advised C-level stakeholders on AI strategy and roadmap
+
+# ----------------------------------------------------------------------------- Never skip #2, and the architect's distinction
+- id: iv3-rejected-attractive
+  topics: [interview, architecture]
+  questions:
+  - An example where you rejected a technically attractive solution because it was not right for the business.
+  - Give an example where you rejected a technically attractive solution because it was not right for the business.
+  - Tell me about a time you rejected a technically attractive solution.
+  - Have you ever said no to an impressive technical design because it was wrong for the business?
+  keywords:
+  - technically attractive
+  - attractive solution
+  - rejected a technically
+  - not right for the business
+  - wrong for the business
+  - impressive technical design
+  - said no to an impressive
+  answer: >-
+    My clearest example is the system answering you now. When I built Knowledge Fabric to replace the
+    earlier chatbot on my digital card, the technically attractive design was the GenAI one everyone builds:
+    an LLM chatbot over a vector database, generating fluent answers from my documents. I chose not to build
+    that, because it was wrong for what this product must do. Its business is trust: recruiters, clients and
+    colleagues ask it about my career, and a twin that invents one fact, a client name, a number, a skill I
+    do not have, costs me more than a hundred good answers earn. It also had to be private and cheap to run
+    for years. So the Knowledge Fabric is a fully static site with no backend, no vector database and no API
+    keys. Nothing is generated: curated answers in my own words sit on top, retrieval with BM25, LSA and
+    MiniLM embeddings sits underneath, every sentence is traced to its source, and when nothing on record
+    answers a question, it says so instead of guessing. Every build runs gold question sets and fails the
+    deploy when answers regress. The trade-off is real: it cannot improvise beyond what I have covered, and
+    keeping the curated layer current is work. I accept that, because predictability, privacy and low
+    running cost were the requirement. I made the same call in CogniFlow: the obvious design sends every
+    diagram request to an LLM, but its default is a rule-based, deterministic compiler that works instantly,
+    with an open-weight model in the browser only as an option. At work I follow the same instinct: on the
+    SDLC work for a major US airline I prefer Kiro's spec-driven flow, with requirements, design and tasks
+    reviewed before code is generated, over one big autonomous generation. The most impressive architecture
+    is not the goal; the one the business can trust, afford and operate is.
+  evidence:
+  - url: doc:Knowledge_Fabric
+    source: resume
+    why: Fully static, no backend, no vector database and no API keys
+  - url: doc:CogniFlow
+    source: resume
+    why: CogniFlow, the architecture-diagram tool built to make design work easier
+  - url: profile:engagements/Agentic AI for the SDLC
+    source: resume
+    why: Agentic SDLC with Kiro for a major US airline
+
+- id: iv3-architect-vs-developer
+  topics: [interview, architecture]
+  questions:
+  - What makes an AI architect different from a senior AI developer?
+  - What is the difference between an AI architect and a senior AI developer?
+  - How is an AI architect different from a senior developer?
+  - What does an AI architect do beyond what a senior developer does?
+  keywords:
+  - senior ai developer
+  - senior developer
+  - architect and a senior
+  - architect different from
+  - architect from a senior
+  - architect vs senior
+  - architect versus senior
+  - an ai architect do
+  answer: >-
+    A senior AI developer builds the solution right; an AI architect makes sure we build the right solution,
+    and owns its technical direction from the business case to production. On a GenAI programme the
+    difference shows in the decisions. The architect starts from business objectives, users, data,
+    constraints, SLAs, security and budget before drawing a single component. The architect defines the
+    right solution, which is sometimes not AI at all, and decides where agents are justified and where a
+    deterministic workflow is better. The architect evaluates and selects LLMs and other models on evidence,
+    quality, latency, cost, privacy and licensing, rather than defaulting to the newest. The architect
+    designs the retrieval strategy, chunking, hybrid search, reranking and permission-aware filtering, as
+    part of the whole system rather than as a library choice. The architect designs the infrastructure and
+    the security architecture: identity, data protection, tenant isolation, prompt-injection defences and
+    audit. The architect optimises the total solution economics, cost per transaction, build versus buy,
+    self-hosting versus APIs, not only the model bill. And the architect establishes the standards,
+    reference architectures and accelerators that let many teams deliver consistently, and translates
+    business strategy into a roadmap leadership can fund. A senior developer may do several of these
+    brilliantly inside one component; the architect is accountable for all of them across the system, and
+    for the trade-offs between them. What the two should share, and what I insist on, is staying hands-on,
+    because an architect who cannot build loses touch with what is feasible. That is how I work at
+    Qualizeal: I drive the AI architecture strategy, governance and the AI Center of Excellence roadmap, and
+    I still write a good part of the implementation myself, because a design is only as good as the system
+    that ships.
+  evidence:
+  - url: profile:roles/Qualizeal
+    source: resume
+    why: Architecture strategy and governance, and hands-on across development and implementation
+  - url: doc:Career_In_Depth
+    source: resume
+    why: Leads the AI CoE roadmap and stays hands-on

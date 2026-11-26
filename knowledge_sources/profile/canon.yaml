@@ -129,6 +129,7 @@ canon:
   - What are you building at Qualizeal?
   - What platforms has Prashobh built at Qualizeal?
   - Tell me about ValidAIte and QMentisAI.
+  - Have you built any AI agents?
   answer: 'At Qualizeal I work on two internal platforms and on client solutions. ValidAIte is our platform
     for testing and validating AI and GenAI systems, and QMentisAI is our AI testing and quality-engineering
     platform. Both exist because an LLM or an agent cannot be tested like ordinary software: the same
@@ -408,6 +409,10 @@ canon:
   - What are Prashobh's core skills?
   - What is your tech stack?
   - Which agent frameworks do you use?
+  - Which LLMs have you used?
+  - Have you worked with LLMs?
+  - What tools do you use?
+  - Do you have experience with RAG?
   answer: 'My core is agentic and generative AI: LangGraph, CrewAI and AutoGen for multi-agent systems,
     the Microsoft Agent Framework and Kiro in my current client work, RAG and LangChain, prompt engineering,
     fine-tuning, and the major LLM platforms, OpenAI, Claude and Gemini. Underneath that is a decade of
@@ -468,6 +473,9 @@ canon:
   - with llms
   - which llms
   - llms have you used
+  - llms do you use
+  - worked with llms
+  - experience with llms
 - id: projects
   topics:
   - projects
@@ -691,6 +699,7 @@ canon:
   - Does Prashobh work on AI-driven SDLC?
   - What is your work on AIDLC?
   - Tell me about Kiro automation.
+  - Do you do testing?
   answer: 'Yes. Agentic AI across the software life cycle is my core work at Qualizeal. I build agentic
     AI for the software development life cycle with Kiro for a major US airline, and agentic AI for the
     software testing life cycle with the Microsoft Agent Framework and .NET for a global professional-services
@@ -835,6 +844,10 @@ canon:
   - keynote
   - speaker
   - teach on
+  - interview preparation
+  - interview prep
+  - interview coaching
+  - mock interviews
 - id: contact
   topics:
   - contact
@@ -1360,6 +1373,7 @@ canon:
   - What achievement are you proudest of?
   - What is your biggest accomplishment?
   - What is your best work?
+  - What is your approach to work?
   answer: 'Having evolved with AI itself, from basic NLP to transformers, LSTMs, LLMs and SLMs, and now
     agents. From a solutioning point of view I am prouder of my approach than of awards: at Brane, object
     detection accuracy had dropped from 86 to 76 percent when the classes went from 80 to 120, YOLO was
@@ -1477,6 +1491,7 @@ canon:
   - How do you choose between LangGraph, CrewAI and AutoGen?
   - What does AI governance mean to you?
   - How do you evaluate AI systems?
+  - What is your design approach?
   answer: 'I do not marry a framework: between LangGraph, CrewAI, AutoGen or custom orchestration, the
     choice depends on the client''s need and the situation. I start from the problem and its constraints,
     scale, latency, cost, compliance and the stack the client already runs, then pick the model for the

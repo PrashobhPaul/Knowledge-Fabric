@@ -357,11 +357,22 @@ def build(source_dir: Path, ks_dir: Path, out_path: Path, semantic_path: Path) -
     print(f"      {len(chunks)} chunks  ({packed} packed from documents/pages, {len(chunks)-packed} structured)")
 
     print("\n[4/7] Lexical index (BM25)")
-    bm25 = build_bm25_index(chunks)
+    # Interview answers are curated answers only: they stay out of the search indexes,
+    # so their long technical prose never crowds out website, GitHub or video evidence.
+    import copy as _copy
+    def _interview(i):
+        return str((aligned[i].metadata or {}).get("canon_set", "")).startswith("canon_interview")
+    search_chunks = []
+    for i, c in enumerate(chunks):
+        if _interview(i):
+            c = _copy.copy(c)
+            c.text = ""
+        search_chunks.append(c)
+    bm25 = build_bm25_index(search_chunks)
     print(f"      vocab={len(bm25['vocab'])}  avgdl={bm25['avgdl']:.1f}")
 
     print("\n[5/7] Semantic index (LSA)")
-    semantic = build_semantic_index([c.text for c in chunks])
+    semantic = build_semantic_index([c.text for c in search_chunks])
     if semantic.get("enabled"):
         print(f"      dims={semantic['dims']}  vocab={semantic['stats']['vocabulary']}  "
               f"variance={semantic['explained_variance']:.1%}")
