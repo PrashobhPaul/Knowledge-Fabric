@@ -1,0 +1,330 @@
+# =============================================================================
+# Canon, research: my PhD at Anurag University and its question, which knowledge
+# sources an AI system can trust, answered the way Prashobh answers them.
+# =============================================================================
+#
+# Same schema and rules as canon.yaml: first person, no claim without evidence,
+# the first question is the canonical one. Every answer is proved by the note
+# docs_source/notes/PhD_Anurag_University.md (resolved at build; an unresolved
+# link is reported). About the supervisor, only what Prashobh stated is on record:
+# her name, Anurag University and her research interest. The research is a
+# direction, not results. Keywords are precise cues, so these answers never take
+# a question that belongs to an existing entry ("Do you have a PhD?" stays with
+# the education answer, which now mentions the PhD).
+
+as_of: "2026-11-26"
+
+canon:
+- id: research-phd
+  topics:
+  - education
+  - research
+  questions:
+  - Are you doing a PhD?
+  - Are you pursuing a PhD?
+  - Have you started a PhD?
+  - Are you a PhD scholar?
+  answer: Yes. I have joined the PhD programme at Anurag University in Hyderabad, under my supervisor
+    Dr. Amarajothi. Her research on identifying users whose ratings cannot be fully trusted made me ask
+    the same question of AI systems, which knowledge sources can an AI system trust, and that is my
+    research direction. I use this very system, Eidolon, built on my Knowledge Fabric, as the worked
+    example. Every record it holds already carries its provenance and its date, my curated answers must
+    prove themselves when the index is built, and the twin says something is not on record instead of
+    guessing. My PhD is about turning those hand-written rules into trust that is measured, source by
+    source. It has just begun, so I describe it as a direction, not as results.
+  evidence:
+  - url: doc:PhD_Anurag_University
+    source: notes
+    why: Joined the PhD programme at Anurag University, under Dr. Amarajothi
+  keywords:
+  - doing a phd
+  - pursuing a phd
+  - pursuing a doctorate
+  - doctorate
+  - doctoral
+  - phd programme
+  - phd program
+  - phd scholar
+  - phd student
+  - research scholar
+  - enrolled
+  - joined a phd
+  - joined the phd
+- id: research-where
+  topics:
+  - education
+  - research
+  questions:
+  - Where are you doing your PhD?
+  - Which university are you doing your PhD at?
+  - Where are you pursuing your PhD?
+  answer: At Anurag University in Hyderabad, the city I am based in. I have joined its PhD programme,
+    and my supervisor there is Dr. Amarajothi. It continues a thread that began with my M.Tech in Knowledge
+    Engineering at SRM University in Chennai, which was about how knowledge is represented; my PhD asks
+    how far that knowledge can be trusted, and specifically which knowledge sources an AI system can trust.
+    The worked example is Eidolon, the twin you are talking to, built on my Knowledge Fabric.
+  evidence:
+  - url: doc:PhD_Anurag_University
+    source: notes
+    why: PhD programme at Anurag University, Hyderabad
+  keywords:
+  - anurag
+  - anurag university
+  - where are you doing
+  - where do you do your phd
+  - which university are you
+  - what university are you
+  - at which university
+  - which institute
+  - phd university
+  - university for your phd
+  - which university is your
+  - your phd
+  - your doctorate
+  - doing your phd
+  - pursuing your phd
+  - pursuing your doctorate
+- id: research-supervisor
+  topics:
+  - research
+  - mentors
+  questions:
+  - Who is your PhD guide?
+  - Who is your PhD supervisor?
+  - Who is guiding your PhD?
+  - Who is Dr. Amarajothi?
+  answer: My PhD guide is Dr. Amarajothi, at Anurag University in Hyderabad. Her research is about trust
+    in rating and recommender systems, identifying users whose ratings cannot be fully trusted, and it is
+    that idea which started my own research question. If some users' ratings cannot be taken at face value,
+    some knowledge sources cannot be either, and an AI system that answers from many sources needs a way
+    to tell how far to trust each one. Her line of research also gives me the base papers I am building on.
+  evidence:
+  - url: doc:PhD_Anurag_University
+    source: notes
+    why: About my supervisor, Dr. Amarajothi
+  keywords:
+  - phd guide
+  - phd supervisor
+  - supervisor
+  - supervises
+  - supervising
+  - guiding your
+  - guiding you
+  - research guide
+  - doctoral advisor
+  - phd advisor
+  - your phd
+  - your doctorate
+  - amarajothi
+- id: research-topic
+  topics:
+  - research
+  questions:
+  - What is your PhD research about?
+  - What is your PhD topic?
+  - What are you researching?
+  - What is your research area?
+  answer: 'My PhD research asks a question that came straight out of building this system: which knowledge
+    sources can an AI system trust, and how should that trust shape what it retrieves, what it says and when
+    it declines? It started from my supervisor Dr. Amarajothi''s work on rating systems, where some users''
+    ratings cannot be fully trusted, for instance when a star rating disagrees with the emotion in the user''s
+    own review. AI has the same problem with a stale page, a source that contradicts the others or a claim
+    with no provenance. My direction is to measure trust for every source from signals the system can compute
+    itself: agreement with independent sources, consistency over time and with its own earlier versions,
+    recency with honest date provenance, authority and ownership, and the flags raised against answers that
+    cite it. Then that trust score would weight retrieval and decide when to answer, when to ask for
+    corroboration and when to say it is not on record. Eidolon, built on my Knowledge Fabric, is my worked
+    example and test bed, and its golden question sets are the benchmark. This is the direction I am starting
+    from, not finished results.'
+  evidence:
+  - url: doc:PhD_Anurag_University
+    source: notes
+    why: My research question and the signals I want to measure
+  keywords:
+  - phd research
+  - phd topic
+  - phd about
+  - topic of your phd
+  - research about
+  - research topic
+  - research area
+  - research question
+  - researching
+  - thesis
+  - dissertation
+  - doctoral research
+  - your phd
+  - your doctorate
+  - doctorate
+  - doctoral
+- id: research-trust-sources
+  topics:
+  - research
+  - knowledge-engineering
+  questions:
+  - Which knowledge sources can an AI system trust?
+  - What makes a knowledge source trustworthy?
+  - How can an AI system know which sources to trust?
+  answer: 'Trust has to be earned per source and per claim, not granted by default: an AI system should
+    not believe everything it reads. I look for five things. Provenance: every record carries where a person
+    can verify it and when it was dated, and how that date was found; a claim nobody can trace should not
+    be stated as fact. Corroboration: a fact that independent sources agree on, say my website, my resume
+    and my GitHub, is stronger than one any single source asserts. Consistency: a source that contradicts
+    itself or the others, or silently changes its story between versions, earns less weight, the way a rating
+    that disagrees with the reviewer''s own words does in my supervisor''s research. Recency: a newer record
+    outranks an older one only when its date is known; an unknown date is unknown, not old. Authority: the
+    owner or the system of record outranks a copy. And when no source is good enough, the system should say
+    it is not on record instead of guessing. In Eidolon these are rules today: evidence links resolved at
+    build, the resume over the website, client names masked, every answer citing its proof. My PhD is about
+    turning them into a measured trust score per source that weights retrieval.'
+  evidence:
+  - url: doc:PhD_Anurag_University
+    source: notes
+    why: Which knowledge sources an AI system can trust
+  keywords:
+  - trust
+  - trustworthy
+  - trusted sources
+  - knowledge sources
+  - knowledge source
+  - which sources
+  - reliable sources
+  - unreliable sources
+  - source reliability
+  - can an ai system trust
+  - ai trust
+- id: research-eidolon-trust
+  topics:
+  - research
+  - knowledge-engineering
+  project: Knowledge Fabric
+  questions:
+  - How does this system decide which sources to trust?
+  - How does Eidolon decide which sources to trust?
+  answer: Today it decides by rules I can show you, not by a learned score. Every record from my website,
+    resume, GitHub, YouTube, LinkedIn and notes carries its provenance URL and a date with the method that
+    found it, the source's own timestamp counting most, then a revision stamp, the PDF metadata, a date in
+    the text and the crawl date, and an unknown date stays unknown. My curated answers must prove themselves,
+    because the build resolves every evidence link to the records behind it and reports any link that proves
+    nothing. Entity resolution joins the same project or employer across the website, GitHub, YouTube, the
+    resume and LinkedIn, so a fact is seen from several sources at once. Where sources disagree, the resume
+    wins over the website, and an older resume is kept but marked as not current. Client names are masked
+    in every source before indexing. When nothing answers a question, it says so instead of guessing. Visitors
+    can flag an answer, and the curator re-checks every flag against the current index, closes the ones the
+    sources now cover and proposes stubs for me to fill, never facts of its own. And every pull request runs
+    the proof, every question set plus determinism, paraphrase and grounding checks, so a change that lowers
+    accuracy fails. Turning these rules into a trust score per source is my PhD direction.
+  evidence:
+  - url: doc:PhD_Anurag_University
+    source: notes
+    why: How Eidolon handles trust today
+  - url: doc:Knowledge_Fabric
+    source: notes
+    why: How the Knowledge Fabric works
+  keywords:
+  - this system
+  - eidolon
+  - decide which sources
+  - sources to trust
+  - sources to believe
+  - conflicting sources
+  - sources disagree
+  - which source wins
+- id: research-papers
+  topics:
+  - research
+  questions:
+  - Which papers is your PhD research based on?
+  - What are your base papers?
+  - What has your supervisor published that you build on?
+  answer: Three base papers, from my supervisor Dr. Amarajothi's line of research on rating and recommender
+    systems. The first is Refining User Ratings Using User Emotions for Recommender Systems, at iiWAS 2021,
+    published by ACM, which detects the emotion in a user's review text and uses it to refine that user's
+    rating before collaborative filtering predicts ratings. The second is enemos-p, an enhanced emotion
+    specific prediction for recommender systems, in Expert Systems with Applications, 2023, which addresses
+    the inconsistency between what users rate and what they write in three stages, extracting emotional
+    features from reviews, computing refined ratings and generating recommendations, evaluated on eight
+    Amazon and Yelp datasets. The third is Emotions in recommender systems for discrepant-users, in Knowledge
+    and Information Systems, 2025. What I take from them is refining a signal you cannot fully trust with a
+    second signal from the same source, and I am carrying that from ratings to knowledge sources, a claim
+    checked against its provenance and against corroborating sources, the way a rating is checked against
+    the review.
+  evidence:
+  - url: doc:PhD_Anurag_University
+    source: notes
+    why: The papers I am building on
+  links:
+  - label: iiWAS 2021 paper (ACM)
+    url: https://doi.org/10.1145/3487664.3487666
+  - label: enemos-p (Expert Systems with Applications, 2023)
+    url: https://doi.org/10.1016/j.eswa.2023.120190
+  - label: Discrepant-users (Knowledge and Information Systems, 2025)
+    url: https://doi.org/10.1007/s10115-024-02307-z
+  keywords:
+  - base papers
+  - base paper
+  - papers
+  - publications
+  - your supervisor published
+  - enemos
+  - enemos-p
+  - iiwas
+  - build on
+  - building on
+  - research papers
+  - your phd
+  - your doctorate
+- id: research-discrepant-user
+  topics:
+  - research
+  questions:
+  - What is a discrepant user?
+  - Who are discrepant users?
+  answer: As I understand the term from this line of research, it means a user whose rating and review do
+    not express the same intent. A user counts as discrepant when, say, five stars come with a disappointed
+    review, so the rating alone would mislead a recommender system. The papers I build on read the emotion
+    in the review and use it to refine the rating, rather than trusting the rating blindly or throwing the
+    user out, and the 2025 paper in
+    Knowledge and Information Systems is about discrepant users by name. In my PhD the parallel is a
+    discrepant source, one whose claim disagrees with corroborating sources or with its own earlier
+    versions, and its weight should be refined in the same spirit.
+  evidence:
+  - url: doc:PhD_Anurag_University
+    source: notes
+    why: The analogy between discrepant users and discrepant sources
+  keywords:
+  - discrepant
+  - discrepant user
+  - discrepant users
+  - discrepancy
+- id: research-dates
+  topics:
+  - research
+  questions:
+  - When will you finish your PhD?
+  - When did you start your PhD?
+  - How long will your PhD take?
+  answer: Those dates are not on record yet. What I have put on record, as of November 2026, is that I have
+    joined the PhD programme at Anurag University in Hyderabad, under Dr. Amarajothi. When I started and when
+    I expect to finish are not written down anywhere this twin can cite, so I will not guess them. The research
+    direction is on record, which knowledge sources an AI system can trust, and I will add the dates here when
+    I can show where they come from.
+  evidence:
+  - url: doc:PhD_Anurag_University
+    source: notes
+    why: Joined the PhD programme; no dates stated
+  keywords:
+  - finish your phd
+  - finishing your phd
+  - complete your phd
+  - completing your phd
+  - start your phd
+  - started your phd
+  - join anurag
+  - joined anurag
+  - your phd take
+  - phd start
+  - phd finish
+  - phd completion
+  - when will you finish
+  - when will you complete

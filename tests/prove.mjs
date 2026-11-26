@@ -281,7 +281,11 @@ console.log(`6 performance     p50 ${perf.p50_ms}ms · p95 ${perf.p95_ms}ms · m
 // =============================================================================
 const allOk = accOk && briefOk && detOk && ctxOk && paraOk && groundOk && perfOk;
 let commit = '';
-try { commit = spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).stdout.trim(); } catch { /* not a checkout */ }
+try {
+  commit = spawnSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: ROOT, encoding: 'utf8' }).stdout.trim();
+  const dirty = spawnSync('git', ['status', '--porcelain', '--', '.', ':!tests/reports'], { cwd: ROOT, encoding: 'utf8' }).stdout.trim();
+  if (commit && dirty) commit += ' + uncommitted changes';
+} catch { /* not a checkout */ }
 const report = {
   generated_at: new Date().toISOString(), commit, node: process.version, passed: allOk,
   summary: {

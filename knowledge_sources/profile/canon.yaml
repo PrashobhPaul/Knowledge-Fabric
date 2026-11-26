@@ -368,7 +368,8 @@ canon:
   - What is your educational background?
   answer: I did my M.Tech in Knowledge Engineering with an AI specialisation at SRM University in Chennai,
     from 2012 to 2014, and before that a B.Tech in Computer Science and Engineering under JNTU Hyderabad
-    at Christu Jyothi Institute of Technology and Science, from 2008 to 2012.
+    at Christu Jyothi Institute of Technology and Science, from 2008 to 2012. And I am now pursuing a PhD
+    at Anurag University in Hyderabad, on which knowledge sources an AI system can trust.
   evidence:
   - url: profile:education/SRM University
     source: resume
@@ -376,6 +377,9 @@ canon:
   - url: profile:education/JNTU Hyderabad
     source: resume
     why: B.Tech CSE, 2008 to 2012
+  - url: doc:PhD_Anurag_University
+    source: notes
+    why: PhD at Anurag University, ongoing
   keywords:
   - study
   - studied
@@ -536,6 +540,7 @@ canon:
   - What is the Knowledge Fabric project?
   - Tell me about the Knowledge Fabric project and its code.
   - What is a knowledge fabric?
+  - What is Eidolon?
   answer: 'Knowledge Fabric is my demonstration of explainable, citation-grounded AI, and the project
     I am most attached to right now. A Knowledge Factory syncs everything public about me, my website,
     resume, GitHub, YouTube and LinkedIn, and the Fabric links it into one typed knowledge graph and answers
@@ -547,7 +552,7 @@ canon:
     runs gold question sets and fails the deploy when answers regress, and the feedback loop turns flagged
     answers into curator work. It is the pattern I want for the AI-driven development life cycle at my
     company: a knowledge layer that agents and people can trust because every answer shows where it came
-    from. The code is public on GitHub.'
+    from. The code is public on GitHub, and the site it powers is Eidolon, the twin you are talking to.'
   evidence:
   - url: doc:Knowledge_Fabric
     source: resume

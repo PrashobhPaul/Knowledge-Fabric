@@ -6,6 +6,8 @@ Written by Prashobh Paul for the Knowledge Fabric, November 2026.
 My demonstration of explainable, citation-grounded AI, and the project I am most attached
 to right now. It is not just agentic AI but a knowledge layer: the same pattern I want for
 the AI-driven development life cycle at my company.
+The site it powers is Eidolon (Greek: the living image of a person), the twin that answers
+questions about me in my own voice.
 
 ## How it works
 The Knowledge Factory syncs everything public about me: my website, resume, GitHub,

@@ -259,7 +259,7 @@ export function answerQuestion(asked, ctx) {
   if (question !== focused) {
     const opts = { timeline: index.timeline };
     const asAsked = matchCanon(canonQuestion(focused), index.canon, opts);
-    if (asAsked && asAsked.score >= 0.9) {
+    if (asAsked && asAsked.score >= 0.75) {
       const asResolved = matchCanon(canonQuestion(question), index.canon, opts);
       if (!asResolved || asResolved.score < 0.6) question = focused;
     }

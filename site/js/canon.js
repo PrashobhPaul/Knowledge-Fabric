@@ -492,7 +492,8 @@ const EXPLETIVE_IT_ASKED = new RegExp(`^it\\s+(?:be\\s+)?(?:\\w+\\s+){0,2}?${EXP
 const AUX_BEFORE = /\b(is|was|would|will)\s+$/i;
 const EXISTENTIAL = /^there\s+(is|are|was|were|'s|will be|would be|must be|should be|might be|has been|have been)\b/i;
 const EXISTENTIAL_ASKED = /\b(is|are|was|were|will|would|could|can|has|have|should|might)\s+$/i;   // "is there", "are there"
-const LEAD_CLAUSE = /^(if|when|whenever|suppose|supposing|say|imagine|given|once|assuming|after|before|while|since|because|as soon as)\b[^,]{8,},/i;
+const OWN_ANTECEDENT = /\b(?:a|an)\s+[A-Za-z][\w-]*|\s[A-Z][\w.-]*/;   // "an AI", "a model", a name mid-question
+const LEAD_CLAUSE =/^(if|when|whenever|suppose|supposing|say|imagine|given|once|assuming|after|before|while|since|because|as soon as)\b[^,]{8,},/i;
 /** Index of the first pronoun that refers to an earlier question, or -1. */
 export function pointingBack(question) {
   const q = String(question);
@@ -510,7 +511,11 @@ export function pointingBack(question) {
 }
 /** A pronoun with nothing to point at ("Who built it?" as a first question). */
 export function danglingPronoun(question, canon) {
-  if (!PRONOUN.test(question) || ABOUT_HIM.test(question) || !Array.isArray(canon) || !canon.length || pointingBack(question) < 0) return false;
+  if (!PRONOUN.test(question) || ABOUT_HIM.test(question) || !Array.isArray(canon) || !canon.length) return false;
+  const at = pointingBack(question);
+  // "How should an AI decide which of its sources…", "Can AI trust every source it reads?":
+  // the question names what its pronoun means before using it.
+  if (at < 0 || OWN_ANTECEDENT.test(question.slice(0, at))) return false;
   const m = model(canon);
   return !entitiesOf(question, m).length && !namedEntries(question, m).length && /\b(it|its|they|them)\b/i.test(question);
 }

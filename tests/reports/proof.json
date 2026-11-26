@@ -1,12 +1,12 @@
 {
- "generated_at": "2026-11-26T08:45:59.793Z",
- "commit": "32e294c",
+ "generated_at": "2026-11-26T09:14:22.336Z",
+ "commit": "b4b02ae + uncommitted changes",
  "node": "v22.23.5",
  "passed": true,
  "summary": {
   "accuracy": {
-   "passed": 1720,
-   "questions": 1720,
+   "passed": 1756,
+   "questions": 1756,
    "ok": true
   },
   "brief": {
@@ -33,9 +33,9 @@
    "ok": true
   },
   "paraphrase": {
-   "answers": 154,
-   "passed": 154,
-   "phrasings": 1308,
+   "answers": 163,
+   "passed": 163,
+   "phrasings": 1338,
    "ok": true
   },
   "grounding": {
@@ -43,9 +43,9 @@
    "issues": 0
   },
   "performance": {
-   "p50_ms": 18.26,
-   "p95_ms": 37.74,
-   "max_ms": 145.45,
+   "p50_ms": 19.25,
+   "p95_ms": 41.3,
+   "max_ms": 149.45,
    "ok": true
   }
  },
@@ -263,6 +263,37 @@
    "no_answer": [
     2,
     2
+   ],
+   "failures": [],
+   "ok": true
+  },
+  {
+   "set": "qa_research.json",
+   "questions": 36,
+   "passed": 36,
+   "id": [
+    32,
+    32
+   ],
+   "must": [
+    0,
+    0
+   ],
+   "must_all": [
+    32,
+    32
+   ],
+   "rubric_points": [
+    134,
+    134
+   ],
+   "cite": [
+    0,
+    0
+   ],
+   "no_answer": [
+    4,
+    4
    ],
    "failures": [],
    "ok": true
@@ -486,31 +517,31 @@
   }
  ],
  "accuracy_total": {
-  "questions": 1720,
-  "passed": 1720,
+  "questions": 1756,
+  "passed": 1756,
   "id": [
-   1570,
-   1570
+   1602,
+   1602
   ],
   "must": [
    270,
    270
   ],
   "must_all": [
-   249,
-   249
+   281,
+   281
   ],
   "rubric_points": [
-   1127,
-   1127
+   1261,
+   1261
   ],
   "cite": [
    81,
    81
   ],
   "no_answer": [
-   69,
-   69
+   73,
+   73
   ]
  },
  "brief": [
@@ -1119,7 +1150,7 @@
   {
    "id": "education",
    "phrasings": 28,
-   "sets": 7,
+   "sets": 8,
    "landed": 28,
    "misses": [],
    "ok": true
@@ -1357,6 +1388,14 @@
    "ok": true
   },
   {
+   "id": "knowledge-fabric",
+   "phrasings": 15,
+   "sets": 4,
+   "landed": 15,
+   "misses": [],
+   "ok": true
+  },
+  {
    "id": "rvonwheelz",
    "phrasings": 15,
    "sets": 3,
@@ -1390,14 +1429,6 @@
   },
   {
    "id": "iplbuzz",
-   "phrasings": 14,
-   "sets": 3,
-   "landed": 14,
-   "misses": [],
-   "ok": true
-  },
-  {
-   "id": "knowledge-fabric",
    "phrasings": 14,
    "sets": 3,
    "landed": 14,
@@ -1616,6 +1647,14 @@
    "id": "iv3-agents-everywhere",
    "phrasings": 5,
    "sets": 2,
+   "landed": 5,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "research-papers",
+   "phrasings": 5,
+   "sets": 1,
    "landed": 5,
    "misses": [],
    "ok": true
@@ -2077,6 +2116,70 @@
    "ok": true
   },
   {
+   "id": "research-dates",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "research-discrepant-user",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "research-eidolon-trust",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "research-phd",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "research-supervisor",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "research-topic",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "research-trust-sources",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "research-where",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
    "id": "iv1-agent-vs-assistant",
    "phrasings": 2,
    "sets": 1,
@@ -2326,37 +2429,37 @@
   }
  ],
  "grounding": {
-  "canon_entries": 154,
-  "entries_with_resolved_evidence": 154,
+  "canon_entries": 163,
+  "entries_with_resolved_evidence": 163,
   "unresolved_links": 0,
-  "curated_responses": 1542,
-  "curated_ids_served": 154,
-  "curated_cited": 1542,
-  "curated_cited_by_own_evidence": 1542,
-  "answered_responses": 1646,
-  "answered_cited": 1646,
-  "responses_scanned_for_client_names": 1720,
+  "curated_responses": 1574,
+  "curated_ids_served": 163,
+  "curated_cited": 1574,
+  "curated_cited_by_own_evidence": 1574,
+  "answered_responses": 1678,
+  "answered_cited": 1678,
+  "responses_scanned_for_client_names": 1756,
   "client_name_leaks": 0,
   "issues": []
  },
  "performance": {
-  "questions": 1720,
-  "p50_ms": 18.26,
-  "p95_ms": 37.74,
-  "max_ms": 145.45,
-  "mean_ms": 19.96,
-  "first_call_ms": 120.42,
+  "questions": 1756,
+  "p50_ms": 19.25,
+  "p95_ms": 41.3,
+  "max_ms": 149.45,
+  "mean_ms": 21.2,
+  "first_call_ms": 138.78,
   "p95_limit_ms": 250,
   "index": {
-   "chunks": 786,
-   "canon_entries": 154,
-   "documents": 351,
-   "vocab": 8755,
-   "index_json_bytes": 3692260,
-   "semantic_json_bytes": 1374255
+   "chunks": 811,
+   "canon_entries": 163,
+   "documents": 361,
+   "vocab": 8837,
+   "index_json_bytes": 3783948,
+   "semantic_json_bytes": 1425540
   },
   "build": {
-   "seconds": 5.43,
+   "seconds": 5.1,
    "command": "python -m pipeline.build_index",
    "unresolved_reported": 0
   }
@@ -2490,21 +2593,21 @@
    "robotics#dbe78fd63b39",
    "robotics#dbe78fd63b39",
    "robotics#dbe78fd63b39",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
    "skills#4434ff4bcc4d",
    "skills#4434ff4bcc4d",
    "skills#4434ff4bcc4d",
@@ -2535,18 +2638,18 @@
    "projects#92ab1f331b8f",
    "projects#92ab1f331b8f",
    "projects#92ab1f331b8f",
-   "knowledge-fabric#34b0f3c1f4ed",
-   "knowledge-fabric#34b0f3c1f4ed",
-   "knowledge-fabric#34b0f3c1f4ed",
-   "knowledge-fabric#34b0f3c1f4ed",
-   "knowledge-fabric#7776f1d524c4",
-   "knowledge-fabric#7776f1d524c4",
-   "knowledge-fabric#7776f1d524c4",
-   "knowledge-fabric#7776f1d524c4",
-   "knowledge-fabric#34b0f3c1f4ed",
-   "knowledge-fabric#34b0f3c1f4ed",
-   "knowledge-fabric#34b0f3c1f4ed",
-   "knowledge-fabric#34b0f3c1f4ed",
+   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#e5d5bb6173aa",
+   "knowledge-fabric#e5d5bb6173aa",
+   "knowledge-fabric#e5d5bb6173aa",
+   "knowledge-fabric#e5d5bb6173aa",
+   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#ce097fb9462e",
    "invest-iq#619574f1dcdc",
    "invest-iq#619574f1dcdc",
    "invest-iq#619574f1dcdc",
@@ -3270,11 +3373,11 @@
    "robotics#dbe78fd63b39",
    "robotics#dbe78fd63b39",
    "robotics#dbe78fd63b39",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
-   "education#721d4c70b39c",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
    "origins#7faa593f74ce",
    "origins#7faa593f74ce",
    "origins#7faa593f74ce",
@@ -3289,10 +3392,10 @@
    "projects#92ab1f331b8f",
    "projects#92ab1f331b8f",
    "projects#92ab1f331b8f",
-   "knowledge-fabric#34b0f3c1f4ed",
-   "knowledge-fabric#34b0f3c1f4ed",
-   "knowledge-fabric#34b0f3c1f4ed",
-   "knowledge-fabric#34b0f3c1f4ed",
+   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#ce097fb9462e",
    "invest-iq#619574f1dcdc",
    "invest-iq#619574f1dcdc",
    "invest-iq#619574f1dcdc",
@@ -3735,7 +3838,7 @@
    "family#25028086d0d9",
    "location#a8fb4daeb5c2",
    "origins#29eea6d68f95",
-   "education#ca782e97bf65",
+   "education#c5f6bfc294df",
    "projects#7238d9424b54",
    "koode#e90770a94709",
    "pachaka-lokam#6ad5e4279100",
@@ -3748,7 +3851,7 @@
    "family#50c23f0d9a8a",
    "location#60f090f5eafe",
    "origins#78d037ac8f74",
-   "education#a2da7c08c43c",
+   "education#de18bfc6c62c",
    "projects#cc88059f5dcc",
    "koode#af7e0aa071b1",
    "pachaka-lokam#ddffc56c4738",
@@ -3761,7 +3864,7 @@
    "family#1533afd1e00a",
    "location#12ba37443843",
    "origins#5f8c8ee39a4b",
-   "education#2f857db62d0a",
+   "education#87798852262e",
    "projects#9b520d457200",
    "koode#a562ffd7411f",
    "pachaka-lokam#3c9761f82d87",
@@ -3774,7 +3877,7 @@
    "family#6dcfb43764db",
    "location#b6a312526c2d",
    "origins#1b41c48f4d8d",
-   "education#7bc60f697f06",
+   "education#61ac7e9b8e57",
    "projects#37e07b0f9c7c",
    "koode#07405831e658",
    "pachaka-lokam#cada81f9a0fd",
@@ -3784,6 +3887,44 @@
    "NO-ANSWER#ea8c8389319a",
    "NO-ANSWER#ea8c8389319a"
   ],
+  "qa_research.json": [
+   "research-phd#476308991580",
+   "research-phd#476308991580",
+   "research-phd#476308991580",
+   "research-where#da38cde554cb",
+   "research-where#da38cde554cb",
+   "research-where#da38cde554cb",
+   "research-supervisor#c8cb931aed7d",
+   "research-supervisor#c8cb931aed7d",
+   "research-supervisor#c8cb931aed7d",
+   "research-topic#11d468b64ff7",
+   "research-topic#11d468b64ff7",
+   "research-topic#11d468b64ff7",
+   "research-trust-sources#8508cf2cbf0c",
+   "research-trust-sources#8508cf2cbf0c",
+   "research-trust-sources#8508cf2cbf0c",
+   "research-eidolon-trust#270fe6f6fccb",
+   "research-eidolon-trust#270fe6f6fccb",
+   "research-eidolon-trust#270fe6f6fccb",
+   "research-papers#e53dd3ce0ce8",
+   "research-papers#e53dd3ce0ce8",
+   "research-papers#e53dd3ce0ce8",
+   "research-papers#e53dd3ce0ce8",
+   "research-papers#e53dd3ce0ce8",
+   "research-discrepant-user#42aca745c24e",
+   "research-discrepant-user#42aca745c24e",
+   "research-discrepant-user#42aca745c24e",
+   "research-dates#c478ae83bd99",
+   "research-dates#c478ae83bd99",
+   "research-dates#c478ae83bd99",
+   "education#56cb3302e3a4",
+   "education#56cb3302e3a4",
+   "knowledge-fabric#ce097fb9462e",
+   "NO-ANSWER#2c36d1d14f0c",
+   "NO-ANSWER#e472665897b7",
+   "NO-ANSWER#9be6409bed46",
+   "NO-ANSWER#e74f0cc596f4"
+  ],
   "qa_round2.json": [
    "family+location#64d33c24c37b",
    "family#eff42aa8916a",
@@ -3791,7 +3932,7 @@
    "family#eff42aa8916a",
    "current-role#2b5d8ddf2af5",
    "healthcare#652981775f46",
-   "education#721d4c70b39c",
+   "education#56cb3302e3a4",
    "origins#7faa593f74ce",
    "skills#4434ff4bcc4d",
    "skills#4434ff4bcc4d",
@@ -3812,7 +3953,7 @@
    "proudest#041011a53b1f",
    "healthcare#652981775f46",
    "hardest-problem#6ffec6e8554b",
-   "education#721d4c70b39c",
+   "education#56cb3302e3a4",
    "training#f3e582c9f0a4",
    "training#f3e582c9f0a4",
    "contact#652df4f5e12d",
@@ -3853,13 +3994,13 @@
    "family#eff42aa8916a",
    "origins#7faa593f74ce",
    "birthday#acf72dd8a4f7",
-   "education#721d4c70b39c",
+   "education#56cb3302e3a4",
    "tech-mahindra#99ab7eead26d",
    "koode+rvonwheelz#6c5a03b8304f",
    "project-stacks#54d9aee1974e",
    "youtube#14b8c4984137",
    "youtube#14b8c4984137",
-   "education#721d4c70b39c",
+   "education#56cb3302e3a4",
    "family#eff42aa8916a",
    "family#eff42aa8916a",
    "family#eff42aa8916a",
@@ -3877,14 +4018,14 @@
    "training#f3e582c9f0a4",
    "services#ad8d85b16591",
    "current-role#2b5d8ddf2af5",
-   "RETRIEVAL#dfc96c701580",
+   "RETRIEVAL#7a822bc4f37a",
    "catalogue#5455bc5e55fc",
    "framework-choice#824548fa532e",
    "koode#4db14a0c07da",
    "current-role#3404ffdf883a",
    "current-role#bbf7c324fd61",
    "family#25028086d0d9",
-   "education#721d4c70b39c",
+   "education#56cb3302e3a4",
    "tcs-story#93d65c9e8a5c",
    "healthcare#652981775f46",
    "soccer-ai#0ea178df1973",
@@ -3934,7 +4075,7 @@
    "career-history#72184ac61c61",
    "bfsi#5a0636a07574",
    "voice-uav#5295886df575",
-   "education#721d4c70b39c",
+   "education#56cb3302e3a4",
    "family#eff42aa8916a",
    "family#eff42aa8916a",
    "family#25028086d0d9",
@@ -4063,7 +4204,7 @@
    "robotics#dbe78fd63b39",
    "proudest#041011a53b1f",
    "hardest-problem#6ffec6e8554b",
-   "education#721d4c70b39c",
+   "education#56cb3302e3a4",
    "origins#7faa593f74ce",
    "birthday#acf72dd8a4f7",
    "family#eff42aa8916a",
@@ -4078,7 +4219,7 @@
    "iplbuzz#bd6565cfb7ee",
    "dhinasuthra#d002c82625e5",
    "cogniflow#2dad1c5eed53",
-   "knowledge-fabric#34b0f3c1f4ed",
+   "knowledge-fabric#ce097fb9462e",
    "timeline#ae30af1cfbfe",
    "timeline#7c1099244485",
    "koode+rvonwheelz#6c5a03b8304f",
