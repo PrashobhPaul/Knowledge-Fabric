@@ -1,6 +1,6 @@
 # Eidolon — proof of accuracy and consistency
 
-Generated 2026-11-26 at commit `b4b02ae + uncommitted changes` by `node tests/prove.mjs` (Node v22.23.5). **Overall: PASS.**
+Generated 2026-11-26 at commit `2a36a5f + uncommitted changes` by `node tests/prove.mjs` (Node v22.23.5). **Overall: PASS.**
 
 ## How to read this
 
@@ -13,13 +13,13 @@ Generated 2026-11-26 at commit `b4b02ae + uncommitted changes` by `node tests/pr
 
 | # | Claim | Result | Evidence |
 |---|---|---|---|
-| 1 | Accuracy: every question in every `tests/qa_*.json` set | PASS | 1,756/1,756 questions across 15 sets |
+| 1 | Accuracy: every question in every `tests/qa_*.json` set | PASS | 2,015/2,015 questions across 16 sets |
 | 1a | The interview brief (`tests/interview_brief.md`) is asked in full | PASS | 82/82 brief questions asked verbatim and passed |
-| 2 | Determinism: same question, same answer | PASS | 264/264 interview questions identical over 3 runs (id and text hash) |
-| 3 | Context independence: a previous question does not change the answer | PASS | 792/792 follow-up positions land on the cold answer |
-| 4 | Paraphrase consistency: every phrasing lands on its answer | PASS | 163/163 curated answers, 1,338 distinct phrasings |
-| 5 | Grounding: cited, proven, confidential | PASS | 1,574/1,574 curated answers served are cited by their own evidence · 0 unresolved links · 0 client-name leaks |
-| 6 | Performance: p95 ≤ 250 ms | PASS | p50 19.25 ms · p95 41.3 ms · max 149.45 ms over 1,756 questions |
+| 2 | Determinism: same question, same answer | PASS | 523/523 interview questions identical over 3 runs (id and text hash) |
+| 3 | Context independence: a previous question does not change the answer | PASS | 1,569/1,569 follow-up positions land on the cold answer |
+| 4 | Paraphrase consistency: every phrasing lands on its answer | PASS | 289/289 curated answers, 1,597 distinct phrasings |
+| 5 | Grounding: cited, proven, confidential | PASS | 1,833/1,833 curated answers served are cited by their own evidence · 0 unresolved links · 0 client-name leaks |
+| 6 | Performance: p95 ≤ 250 ms | PASS | p50 22.39 ms · p95 45.47 ms · max 287.17 ms over 2,015 questions |
 
 ## 1. Accuracy
 
@@ -30,6 +30,7 @@ Same rules as `node tests/qa_eval.mjs <set>`: the expected answer (a wording var
 | `qa_coverage.json` | 860 | 779/779 | — | — | 81/81 | — | 100.0% | PASS |
 | `qa_gold.json` | 230 | 221/221 | 17/17 | — | — | 9/9 | 100.0% | PASS |
 | `qa_interview_heldout.json` | 15 | 15/15 | — | — | — | — | 100.0% | PASS |
+| `qa_interview_l2.json` | 259 | 259/259 | — | 259/259 (1,307/1,307) | — | — | 100.0% | PASS |
 | `qa_interview_s1.json` | 77 | 77/77 | — | 77/77 (344/344) | — | — | 100.0% | PASS |
 | `qa_interview_s2.json` | 96 | 96/96 | — | 96/96 (387/387) | — | — | 100.0% | PASS |
 | `qa_interview_s3.json` | 76 | 76/76 | — | 76/76 (396/396) | — | — | 100.0% | PASS |
@@ -42,17 +43,18 @@ Same rules as `node tests/qa_eval.mjs <set>`: the expected answer (a wording var
 | `qa_round6.json` | 43 | 33/33 | 22/22 | — | — | 10/10 | 100.0% | PASS |
 | `qa_round7.json` | 40 | 31/31 | 19/19 | — | — | 9/9 | 100.0% | PASS |
 | `qa_round8.json` | 10 | 9/9 | 9/9 | — | — | 1/1 | 100.0% | PASS |
-| **Total** | **1,756** | **1,602/1,602** | **270/270** | **281/281 (1,261/1,261)** | **81/81** | **73/73** | **100.0%** | **PASS** |
+| **Total** | **2,015** | **1,861/1,861** | **270/270** | **540/540 (2,568/2,568)** | **81/81** | **73/73** | **100.0%** | **PASS** |
 
 **Interview brief.** 82 questions, scenarios and "never skip" items are read from `tests/interview_brief.md`; 82 are asked verbatim in `qa_interview_s1/s2/s3.json` and 82 pass every rubric point. The interview sets add paraphrases, and `qa_interview_heldout.json` holds questions written after the answers, as a check against tuning to the wording.
 
 ## 2. Determinism
 
-Every interview question (264) answered three times in one process: run 1 in file order, run 2 in reverse order, run 3 in a fixed shuffled order, so an answer cannot depend on what was asked before it or on warm caches. The answer id and the SHA-256 of the full answer HTML must be identical across the runs.
+Every interview question (523) answered three times in one process: run 1 in file order, run 2 in reverse order, run 3 in a fixed shuffled order, so an answer cannot depend on what was asked before it or on warm caches. The answer id and the SHA-256 of the full answer HTML must be identical across the runs.
 
 | Set | Questions | Same id ×3 | Same text hash ×3 | Result |
 |---|---:|---:|---:|---|
 | `qa_interview_heldout.json` | 15 | 15/15 | 15/15 | PASS |
+| `qa_interview_l2.json` | 259 | 259/259 | 259/259 | PASS |
 | `qa_interview_s1.json` | 77 | 77/77 | 77/77 | PASS |
 | `qa_interview_s2.json` | 96 | 96/96 | 96/96 | PASS |
 | `qa_interview_s3.json` | 76 | 76/76 | 76/76 | PASS |
@@ -63,10 +65,10 @@ Every interview question asked again as a follow-up (`ctx.prev`) after each of t
 
 | Previous question | Same answer as cold | Same text as cold |
 |---|---:|---:|
-| "What is Koode?" | 264/264 | 264/264 |
-| "Which videos have you made about Spiti?" | 264/264 | 264/264 |
-| "What did you do at TCS?" | 264/264 | 264/264 |
-| **All** | **792/792** | **792/792** |
+| "What is Koode?" | 523/523 | 523/523 |
+| "Which videos have you made about Spiti?" | 523/523 | 523/523 |
+| "What did you do at TCS?" | 523/523 | 523/523 |
+| **All** | **1,569/1,569** | **1,569/1,569** |
 
 ## 4. Paraphrase consistency
 
@@ -74,11 +76,11 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 
 | Phrasings per answer | Answers | Phrasings | All landed |
 |---|---:|---:|---:|
-| 2–3 | 88 | 233 | 88/88 |
-| 4–6 | 13 | 58 | 13/13 |
+| 2–3 | 213 | 488 | 213/213 |
+| 4–6 | 14 | 62 | 14/14 |
 | 7–10 | 8 | 78 | 8/8 |
 | 11+ | 54 | 969 | 54/54 |
-| **All** | **163** | **1,338** | **163/163** |
+| **All** | **289** | **1,597** | **289/289** |
 
 <details><summary>Every answer and its phrasings</summary>
 
@@ -159,6 +161,7 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `iv3-accuracy-expectations` | 4 | 2 | 4/4 | PASS |
 | `iv3-first-90-days` | 4 | 2 | 4/4 | PASS |
 | `iv3-self-hosted` | 4 | 2 | 4/4 | PASS |
+| `iv4-genai-platform` | 4 | 1 | 4/4 | PASS |
 | `iv1-agent-loops` | 3 | 2 | 3/3 | PASS |
 | `iv1-cost-cut` | 3 | 2 | 3/3 | PASS |
 | `iv1-draw-complex` | 3 | 1 | 3/3 | PASS |
@@ -208,6 +211,11 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `iv3-team-wrong-architecture` | 3 | 1 | 3/3 | PASS |
 | `iv3-tech-debt` | 3 | 1 | 3/3 | PASS |
 | `iv3-value-opportunities` | 3 | 1 | 3/3 | PASS |
+| `iv4-scenario-90-day-mandate` | 3 | 1 | 3/3 | PASS |
+| `iv4-scenario-accuracy-promise` | 3 | 1 | 3/3 | PASS |
+| `iv4-scenario-agent-incident` | 3 | 1 | 3/3 | PASS |
+| `iv4-scenario-build-vs-buy` | 3 | 1 | 3/3 | PASS |
+| `iv4-scenario-research-breakthrough` | 3 | 1 | 3/3 | PASS |
 | `research-dates` | 3 | 1 | 3/3 | PASS |
 | `research-discrepant-user` | 3 | 1 | 3/3 | PASS |
 | `research-eidolon-trust` | 3 | 1 | 3/3 | PASS |
@@ -247,6 +255,126 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `iv1-sampling` | 2 | 1 | 2/2 | PASS |
 | `iv1-secure-rag` | 2 | 1 | 2/2 | PASS |
 | `iv1-training-vs-rag` | 2 | 1 | 2/2 | PASS |
+| `iv4-ablation` | 2 | 1 | 2/2 | PASS |
+| `iv4-accountability-unauthorized` | 2 | 1 | 2/2 | PASS |
+| `iv4-adaptation-methods` | 2 | 1 | 2/2 | PASS |
+| `iv4-agent-boundary` | 2 | 1 | 2/2 | PASS |
+| `iv4-agent-justification` | 2 | 1 | 2/2 | PASS |
+| `iv4-agent-state-termination` | 2 | 1 | 2/2 | PASS |
+| `iv4-agent-testing-paths` | 2 | 1 | 2/2 | PASS |
+| `iv4-ai-act-nist-iso` | 2 | 1 | 2/2 | PASS |
+| `iv4-approval-reversibility` | 2 | 1 | 2/2 | PASS |
+| `iv4-architecture-function` | 2 | 1 | 2/2 | PASS |
+| `iv4-attention-kv-cache` | 2 | 1 | 2/2 | PASS |
+| `iv4-autonomy-criteria` | 2 | 1 | 2/2 | PASS |
+| `iv4-availability-vs-usefulness` | 2 | 1 | 2/2 | PASS |
+| `iv4-baselines` | 2 | 1 | 2/2 | PASS |
+| `iv4-beyond-rag` | 2 | 1 | 2/2 | PASS |
+| `iv4-centralize-vs-domain` | 2 | 1 | 2/2 | PASS |
+| `iv4-changed-decision` | 2 | 1 | 2/2 | PASS |
+| `iv4-cio-strategy` | 2 | 1 | 2/2 | PASS |
+| `iv4-close` | 2 | 1 | 2/2 | PASS |
+| `iv4-coach-seniors` | 2 | 1 | 2/2 | PASS |
+| `iv4-commitment` | 2 | 1 | 2/2 | PASS |
+| `iv4-communicate-uncertainty` | 2 | 1 | 2/2 | PASS |
+| `iv4-consequential-actions` | 2 | 1 | 2/2 | PASS |
+| `iv4-contradictory-sources` | 2 | 1 | 2/2 | PASS |
+| `iv4-cost-per-task` | 2 | 1 | 2/2 | PASS |
+| `iv4-decision-evidence` | 2 | 1 | 2/2 | PASS |
+| `iv4-defining-question` | 2 | 1 | 2/2 | PASS |
+| `iv4-demo-not-production` | 2 | 1 | 2/2 | PASS |
+| `iv4-deprecation` | 2 | 1 | 2/2 | PASS |
+| `iv4-dr-testing` | 2 | 1 | 2/2 | PASS |
+| `iv4-experimental-design` | 2 | 1 | 2/2 | PASS |
+| `iv4-failure-strategy` | 2 | 1 | 2/2 | PASS |
+| `iv4-fair-benchmarking` | 2 | 1 | 2/2 | PASS |
+| `iv4-finops` | 2 | 1 | 2/2 | PASS |
+| `iv4-generalization` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-90-day-slice` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-agent-execution` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-build-buy` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-capacity-dr-cost` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-discovery` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-identity-residency` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-knowledge` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-model-access` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-observability` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-operating-model` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-runtime-isolation` | 2 | 1 | 2/2 | PASS |
+| `iv4-gp-trust-boundaries` | 2 | 1 | 2/2 | PASS |
+| `iv4-gpu-isolation` | 2 | 1 | 2/2 | PASS |
+| `iv4-human-oversight` | 2 | 1 | 2/2 | PASS |
+| `iv4-inject-cost-shock` | 2 | 1 | 2/2 | PASS |
+| `iv4-inject-permission-revocation` | 2 | 1 | 2/2 | PASS |
+| `iv4-inject-prompt-injection` | 2 | 1 | 2/2 | PASS |
+| `iv4-inject-provider-outage` | 2 | 1 | 2/2 | PASS |
+| `iv4-inject-quality-regression` | 2 | 1 | 2/2 | PASS |
+| `iv4-inject-regional-restriction` | 2 | 1 | 2/2 | PASS |
+| `iv4-injection-containment` | 2 | 1 | 2/2 | PASS |
+| `iv4-kg-vs-vector` | 2 | 1 | 2/2 | PASS |
+| `iv4-llm-slos` | 2 | 1 | 2/2 | PASS |
+| `iv4-long-context` | 2 | 1 | 2/2 | PASS |
+| `iv4-major-disagreement` | 2 | 1 | 2/2 | PASS |
+| `iv4-mandate-recommend` | 2 | 1 | 2/2 | PASS |
+| `iv4-method-assumptions` | 2 | 1 | 2/2 | PASS |
+| `iv4-metrics-levels` | 2 | 1 | 2/2 | PASS |
+| `iv4-mixed-content-retrieval` | 2 | 1 | 2/2 | PASS |
+| `iv4-model-families` | 2 | 1 | 2/2 | PASS |
+| `iv4-model-routing` | 2 | 1 | 2/2 | PASS |
+| `iv4-multi-agent-failures` | 2 | 1 | 2/2 | PASS |
+| `iv4-multi-hop` | 2 | 1 | 2/2 | PASS |
+| `iv4-no-gatekeeping` | 2 | 1 | 2/2 | PASS |
+| `iv4-not-productionized` | 2 | 1 | 2/2 | PASS |
+| `iv4-novelty` | 2 | 1 | 2/2 | PASS |
+| `iv4-operationalize-rai` | 2 | 1 | 2/2 | PASS |
+| `iv4-ownership` | 2 | 1 | 2/2 | PASS |
+| `iv4-paper-to-production` | 2 | 1 | 2/2 | PASS |
+| `iv4-paved-road` | 2 | 1 | 2/2 | PASS |
+| `iv4-permission-leakage` | 2 | 1 | 2/2 | PASS |
+| `iv4-phd-hypothesis` | 2 | 1 | 2/2 | PASS |
+| `iv4-platform-adoption` | 2 | 1 | 2/2 | PASS |
+| `iv4-platform-bottleneck` | 2 | 1 | 2/2 | PASS |
+| `iv4-platform-roles` | 2 | 1 | 2/2 | PASS |
+| `iv4-platform-slos` | 2 | 1 | 2/2 | PASS |
+| `iv4-policy-runtime-test` | 2 | 1 | 2/2 | PASS |
+| `iv4-portfolio-quality` | 2 | 1 | 2/2 | PASS |
+| `iv4-prior-work` | 2 | 1 | 2/2 | PASS |
+| `iv4-prioritize-100` | 2 | 1 | 2/2 | PASS |
+| `iv4-privacy-controls` | 2 | 1 | 2/2 | PASS |
+| `iv4-project-deep-dive` | 2 | 1 | 2/2 | PASS |
+| `iv4-prove-multi-agent` | 2 | 1 | 2/2 | PASS |
+| `iv4-provenance-permissions` | 2 | 1 | 2/2 | PASS |
+| `iv4-publish-patent` | 2 | 1 | 2/2 | PASS |
+| `iv4-quality-root-cause` | 2 | 1 | 2/2 | PASS |
+| `iv4-quantization` | 2 | 1 | 2/2 | PASS |
+| `iv4-questions-for-panel` | 2 | 1 | 2/2 | PASS |
+| `iv4-red-teaming-incidents` | 2 | 1 | 2/2 | PASS |
+| `iv4-reference-boundaries` | 2 | 1 | 2/2 | PASS |
+| `iv4-regulatory-mapping` | 2 | 1 | 2/2 | PASS |
+| `iv4-reject-use-cases` | 2 | 1 | 2/2 | PASS |
+| `iv4-reproduce-failure` | 2 | 1 | 2/2 | PASS |
+| `iv4-research-changed-opinion` | 2 | 1 | 2/2 | PASS |
+| `iv4-research-status` | 2 | 1 | 2/2 | PASS |
+| `iv4-research-transferable` | 2 | 1 | 2/2 | PASS |
+| `iv4-retrieval-choice` | 2 | 1 | 2/2 | PASS |
+| `iv4-retrieval-eval-independent` | 2 | 1 | 2/2 | PASS |
+| `iv4-retrieval-eval-protocol` | 2 | 1 | 2/2 | PASS |
+| `iv4-retrieval-failure-modes` | 2 | 1 | 2/2 | PASS |
+| `iv4-risk-tiering` | 2 | 1 | 2/2 | PASS |
+| `iv4-roadmap-2-3-year` | 2 | 1 | 2/2 | PASS |
+| `iv4-sandboxing` | 2 | 1 | 2/2 | PASS |
+| `iv4-secrets-egress` | 2 | 1 | 2/2 | PASS |
+| `iv4-serving-capacity` | 2 | 1 | 2/2 | PASS |
+| `iv4-serving-optimizations` | 2 | 1 | 2/2 | PASS |
+| `iv4-sponsor-committed` | 2 | 1 | 2/2 | PASS |
+| `iv4-strategy-to-outcomes` | 2 | 1 | 2/2 | PASS |
+| `iv4-synthetic-generated-content` | 2 | 1 | 2/2 | PASS |
+| `iv4-tco-api-vs-self-host` | 2 | 1 | 2/2 | PASS |
+| `iv4-technique-maturity` | 2 | 1 | 2/2 | PASS |
+| `iv4-telemetry-leakage` | 2 | 1 | 2/2 | PASS |
+| `iv4-uncertainty-reporting` | 2 | 1 | 2/2 | PASS |
+| `iv4-vendor-assessment` | 2 | 1 | 2/2 | PASS |
+| `iv4-version-governance` | 2 | 1 | 2/2 | PASS |
 
 </details>
 
@@ -254,22 +382,22 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 
 | Check | Result |
 |---|---|
-| Curated answers in the index whose evidence resolved to at least one record | 163/163 |
+| Curated answers in the index whose evidence resolved to at least one record | 289/289 |
 | Evidence links the build could not resolve | 0 |
-| Curated answers served in this run (163 distinct) with at least one citation | 1,574/1,574 |
-| ...cited by a record from their own evidence list | 1,574/1,574 |
-| All answers served (curated, video, repository, retrieval; small talk and declines excluded) with a citation | 1,678/1,678 |
-| Served answers containing a client name (Southwest, PwC, American Express, Amex) | 0 of 1,756 |
-| Curated answers in the index (and their translations) containing a client name | 0 of 163 |
+| Curated answers served in this run (289 distinct) with at least one citation | 1,833/1,833 |
+| ...cited by a record from their own evidence list | 1,833/1,833 |
+| All answers served (curated, video, repository, retrieval; small talk and declines excluded) with a citation | 1,937/1,937 |
+| Served answers containing a client name (Southwest, PwC, American Express, Amex) | 0 of 2,015 |
+| Curated answers in the index (and their translations) containing a client name | 0 of 289 |
 
 ## 6. Performance
 
 | Measure | Value |
 |---|---|
-| Questions timed (one `answerQuestion` call each) | 1,756 |
-| p50 / p95 / max latency | 19.25 ms / 41.3 ms / 149.45 ms |
-| Mean latency · first (cold) call | 21.2 ms · 138.78 ms |
+| Questions timed (one `answerQuestion` call each) | 2,015 |
+| p50 / p95 / max latency | 22.39 ms / 45.47 ms / 287.17 ms |
+| Mean latency · first (cold) call | 24.22 ms · 287.17 ms |
 | p95 limit | 250 ms (PASS) |
-| Index: chunks · curated answers · documents · vocabulary | 811 · 163 · 361 · 8,837 |
-| `site/data/index.json` · `semantic.json` | 3,783,948 bytes (3.61 MB) · 1,425,540 bytes (1.36 MB) |
-| Build time | 5.1 s (`--build`) |
+| Index: chunks · curated answers · documents · vocabulary | 937 · 289 · 487 · 9,782 |
+| `site/data/index.json` · `semantic.json` | 5,221,563 bytes (4.98 MB) · 1,450,117 bytes (1.38 MB) |
+| Build time | not measured (run with `--build`) |

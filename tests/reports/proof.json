@@ -1,12 +1,12 @@
 {
- "generated_at": "2026-11-26T09:14:22.336Z",
- "commit": "b4b02ae + uncommitted changes",
+ "generated_at": "2026-11-26T11:27:53.014Z",
+ "commit": "2a36a5f + uncommitted changes",
  "node": "v22.23.5",
  "passed": true,
  "summary": {
   "accuracy": {
-   "passed": 1756,
-   "questions": 1756,
+   "passed": 2015,
+   "questions": 2015,
    "ok": true
   },
   "brief": {
@@ -16,15 +16,15 @@
    "ok": true
   },
   "determinism": {
-   "passed": 264,
-   "questions": 264,
+   "passed": 523,
+   "questions": 523,
    "runs": 3,
    "ok": true
   },
   "context": {
-   "passed": 792,
-   "pairs": 792,
-   "same_text": 792,
+   "passed": 1569,
+   "pairs": 1569,
+   "same_text": 1569,
    "previous": [
     "What is Koode?",
     "Which videos have you made about Spiti?",
@@ -33,9 +33,9 @@
    "ok": true
   },
   "paraphrase": {
-   "answers": 163,
-   "passed": 163,
-   "phrasings": 1338,
+   "answers": 289,
+   "passed": 289,
+   "phrasings": 1597,
    "ok": true
   },
   "grounding": {
@@ -43,9 +43,9 @@
    "issues": 0
   },
   "performance": {
-   "p50_ms": 19.25,
-   "p95_ms": 41.3,
-   "max_ms": 149.45,
+   "p50_ms": 22.39,
+   "p95_ms": 45.47,
+   "max_ms": 287.17,
    "ok": true
   }
  },
@@ -131,6 +131,37 @@
    "rubric_points": [
     0,
     0
+   ],
+   "cite": [
+    0,
+    0
+   ],
+   "no_answer": [
+    0,
+    0
+   ],
+   "failures": [],
+   "ok": true
+  },
+  {
+   "set": "qa_interview_l2.json",
+   "questions": 259,
+   "passed": 259,
+   "id": [
+    259,
+    259
+   ],
+   "must": [
+    0,
+    0
+   ],
+   "must_all": [
+    259,
+    259
+   ],
+   "rubric_points": [
+    1307,
+    1307
    ],
    "cite": [
     0,
@@ -517,23 +548,23 @@
   }
  ],
  "accuracy_total": {
-  "questions": 1756,
-  "passed": 1756,
+  "questions": 2015,
+  "passed": 2015,
   "id": [
-   1602,
-   1602
+   1861,
+   1861
   ],
   "must": [
    270,
    270
   ],
   "must_all": [
-   281,
-   281
+   540,
+   540
   ],
   "rubric_points": [
-   1261,
-   1261
+   2568,
+   2568
   ],
   "cite": [
    81,
@@ -1724,6 +1755,14 @@
    "ok": true
   },
   {
+   "id": "iv4-genai-platform",
+   "phrasings": 4,
+   "sets": 1,
+   "landed": 4,
+   "misses": [],
+   "ok": true
+  },
+  {
    "id": "iv1-agent-loops",
    "phrasings": 3,
    "sets": 2,
@@ -2116,6 +2155,46 @@
    "ok": true
   },
   {
+   "id": "iv4-scenario-90-day-mandate",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-scenario-accuracy-promise",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-scenario-agent-incident",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-scenario-build-vs-buy",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-scenario-research-breakthrough",
+   "phrasings": 3,
+   "sets": 1,
+   "landed": 3,
+   "misses": [],
+   "ok": true
+  },
+  {
    "id": "research-dates",
    "phrasings": 3,
    "sets": 1,
@@ -2426,43 +2505,999 @@
    "landed": 2,
    "misses": [],
    "ok": true
+  },
+  {
+   "id": "iv4-ablation",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-accountability-unauthorized",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-adaptation-methods",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-agent-boundary",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-agent-justification",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-agent-state-termination",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-agent-testing-paths",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-ai-act-nist-iso",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-approval-reversibility",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-architecture-function",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-attention-kv-cache",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-autonomy-criteria",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-availability-vs-usefulness",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-baselines",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-beyond-rag",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-centralize-vs-domain",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-changed-decision",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-cio-strategy",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-close",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-coach-seniors",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-commitment",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-communicate-uncertainty",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-consequential-actions",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-contradictory-sources",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-cost-per-task",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-decision-evidence",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-defining-question",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-demo-not-production",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-deprecation",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-dr-testing",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-experimental-design",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-failure-strategy",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-fair-benchmarking",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-finops",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-generalization",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-90-day-slice",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-agent-execution",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-build-buy",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-capacity-dr-cost",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-discovery",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-identity-residency",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-knowledge",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-model-access",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-observability",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-operating-model",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-runtime-isolation",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gp-trust-boundaries",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-gpu-isolation",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-human-oversight",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-inject-cost-shock",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-inject-permission-revocation",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-inject-prompt-injection",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-inject-provider-outage",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-inject-quality-regression",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-inject-regional-restriction",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-injection-containment",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-kg-vs-vector",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-llm-slos",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-long-context",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-major-disagreement",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-mandate-recommend",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-method-assumptions",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-metrics-levels",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-mixed-content-retrieval",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-model-families",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-model-routing",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-multi-agent-failures",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-multi-hop",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-no-gatekeeping",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-not-productionized",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-novelty",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-operationalize-rai",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-ownership",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-paper-to-production",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-paved-road",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-permission-leakage",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-phd-hypothesis",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-platform-adoption",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-platform-bottleneck",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-platform-roles",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-platform-slos",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-policy-runtime-test",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-portfolio-quality",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-prior-work",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-prioritize-100",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-privacy-controls",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-project-deep-dive",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-prove-multi-agent",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-provenance-permissions",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-publish-patent",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-quality-root-cause",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-quantization",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-questions-for-panel",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-red-teaming-incidents",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-reference-boundaries",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-regulatory-mapping",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-reject-use-cases",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-reproduce-failure",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-research-changed-opinion",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-research-status",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-research-transferable",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-retrieval-choice",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-retrieval-eval-independent",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-retrieval-eval-protocol",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-retrieval-failure-modes",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-risk-tiering",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-roadmap-2-3-year",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-sandboxing",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-secrets-egress",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-serving-capacity",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-serving-optimizations",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-sponsor-committed",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-strategy-to-outcomes",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-synthetic-generated-content",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-tco-api-vs-self-host",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-technique-maturity",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-telemetry-leakage",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-uncertainty-reporting",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-vendor-assessment",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "iv4-version-governance",
+   "phrasings": 2,
+   "sets": 1,
+   "landed": 2,
+   "misses": [],
+   "ok": true
   }
  ],
  "grounding": {
-  "canon_entries": 163,
-  "entries_with_resolved_evidence": 163,
+  "canon_entries": 289,
+  "entries_with_resolved_evidence": 289,
   "unresolved_links": 0,
-  "curated_responses": 1574,
-  "curated_ids_served": 163,
-  "curated_cited": 1574,
-  "curated_cited_by_own_evidence": 1574,
-  "answered_responses": 1678,
-  "answered_cited": 1678,
-  "responses_scanned_for_client_names": 1756,
+  "curated_responses": 1833,
+  "curated_ids_served": 289,
+  "curated_cited": 1833,
+  "curated_cited_by_own_evidence": 1833,
+  "answered_responses": 1937,
+  "answered_cited": 1937,
+  "responses_scanned_for_client_names": 2015,
   "client_name_leaks": 0,
   "issues": []
  },
  "performance": {
-  "questions": 1756,
-  "p50_ms": 19.25,
-  "p95_ms": 41.3,
-  "max_ms": 149.45,
-  "mean_ms": 21.2,
-  "first_call_ms": 138.78,
+  "questions": 2015,
+  "p50_ms": 22.39,
+  "p95_ms": 45.47,
+  "max_ms": 287.17,
+  "mean_ms": 24.22,
+  "first_call_ms": 287.17,
   "p95_limit_ms": 250,
   "index": {
-   "chunks": 811,
-   "canon_entries": 163,
-   "documents": 361,
-   "vocab": 8837,
-   "index_json_bytes": 3783948,
-   "semantic_json_bytes": 1425540
+   "chunks": 937,
+   "canon_entries": 289,
+   "documents": 487,
+   "vocab": 9782,
+   "index_json_bytes": 5221563,
+   "semantic_json_bytes": 1450117
   },
-  "build": {
-   "seconds": 5.1,
-   "command": "python -m pipeline.build_index",
-   "unresolved_reported": 0
-  }
+  "build": null
  },
  "fingerprints": {
   "qa_coverage.json": [
@@ -3550,14 +4585,14 @@
    "children-message#9b702b83a749",
    "contact#652df4f5e12d",
    "NO-ANSWER#d840d7cd9892",
-   "NO-ANSWER#ab1649e34c49",
+   "NO-ANSWER#b448d7d965b0",
    "NO-ANSWER#ea8c8389319a",
    "NO-ANSWER#d840d7cd9892",
    "NO-ANSWER#d635cda8e797",
    "NO-ANSWER#d34d525c4d66",
    "NO-ANSWER#ea8c8389319a",
    "NO-ANSWER#ea8c8389319a",
-   "NO-ANSWER#ea8c8389319a"
+   "NO-ANSWER#92165c48717f"
   ],
   "qa_interview_heldout.json": [
    "iv1-ml-vs-llm#15d27c3a7bfc",
@@ -3575,6 +4610,267 @@
    "iv3-first-90-days#1f01d84d88a9",
    "iv3-accuracy-expectations#187ac7f8f8a3",
    "iv1-prompt-injection#4ccbeb5c612b"
+  ],
+  "qa_interview_l2.json": [
+   "iv4-phd-hypothesis#e6bafc8252cf",
+   "iv4-phd-hypothesis#e6bafc8252cf",
+   "iv4-prior-work#74c39e7577c7",
+   "iv4-prior-work#74c39e7577c7",
+   "iv4-novelty#748b6ddf1a13",
+   "iv4-novelty#748b6ddf1a13",
+   "iv4-baselines#554505eb916c",
+   "iv4-baselines#554505eb916c",
+   "iv4-experimental-design#3dd165f01533",
+   "iv4-experimental-design#3dd165f01533",
+   "iv4-generalization#712b3eecd52c",
+   "iv4-generalization#712b3eecd52c",
+   "iv4-research-changed-opinion#fc19d73a5fb7",
+   "iv4-research-changed-opinion#fc19d73a5fb7",
+   "iv4-research-transferable#776943380ee7",
+   "iv4-research-transferable#776943380ee7",
+   "iv4-method-assumptions#fb37380ec16b",
+   "iv4-method-assumptions#fb37380ec16b",
+   "iv4-ablation#d5347c7d31e3",
+   "iv4-ablation#d5347c7d31e3",
+   "iv4-uncertainty-reporting#443d23b39075",
+   "iv4-uncertainty-reporting#443d23b39075",
+   "iv4-reproduce-failure#73cebbec87d2",
+   "iv4-reproduce-failure#73cebbec87d2",
+   "iv4-research-status#ba1ca24241cf",
+   "iv4-research-status#ba1ca24241cf",
+   "iv4-attention-kv-cache#ede44bbf11a6",
+   "iv4-attention-kv-cache#ede44bbf11a6",
+   "iv4-model-families#c8d62e44c32a",
+   "iv4-model-families#c8d62e44c32a",
+   "iv4-adaptation-methods#06b81d0b4983",
+   "iv4-adaptation-methods#06b81d0b4983",
+   "iv4-quantization#62b729a1cb1b",
+   "iv4-quantization#62b729a1cb1b",
+   "iv4-model-routing#3fb294417415",
+   "iv4-model-routing#3fb294417415",
+   "iv4-serving-optimizations#8b1d618f3331",
+   "iv4-serving-optimizations#8b1d618f3331",
+   "iv4-quality-root-cause#a30b18a65ae1",
+   "iv4-quality-root-cause#a30b18a65ae1",
+   "iv4-serving-capacity#222ddf5e3112",
+   "iv4-serving-capacity#222ddf5e3112",
+   "iv4-long-context#623e53043bd4",
+   "iv4-long-context#623e53043bd4",
+   "iv4-fair-benchmarking#1712dbbe7b98",
+   "iv4-fair-benchmarking#1712dbbe7b98",
+   "iv4-beyond-rag#1dad777e602f",
+   "iv4-beyond-rag#1dad777e602f",
+   "iv4-mixed-content-retrieval#f4026657d831",
+   "iv4-mixed-content-retrieval#e85d987d7bc1",
+   "iv4-retrieval-eval-independent#0f8fb585a21f",
+   "iv4-retrieval-eval-independent#0f8fb585a21f",
+   "iv4-retrieval-choice#7ad733ee8f83",
+   "iv4-retrieval-choice#7ad733ee8f83",
+   "iv4-retrieval-failure-modes#aa9b4a0ebe25",
+   "iv4-retrieval-failure-modes#aa9b4a0ebe25",
+   "iv4-provenance-permissions#f4bcbe35f198",
+   "iv4-provenance-permissions#f4bcbe35f198",
+   "iv4-contradictory-sources#6159bc66ca74",
+   "iv4-contradictory-sources#6159bc66ca74",
+   "iv4-multi-hop#a04c4aaa87c6",
+   "iv4-multi-hop#a04c4aaa87c6",
+   "iv4-retrieval-eval-protocol#9d4ee9b7c514",
+   "iv4-retrieval-eval-protocol#9d4ee9b7c514",
+   "iv4-permission-leakage#536a7a0aae98",
+   "iv4-permission-leakage#536a7a0aae98",
+   "iv4-kg-vs-vector#de00a713d7be",
+   "iv4-kg-vs-vector#de00a713d7be",
+   "iv4-agent-boundary#3996eeb348b0",
+   "iv4-agent-boundary#3996eeb348b0",
+   "iv4-agent-justification#15a5b6523d1a",
+   "iv4-agent-justification#f502756b200e",
+   "iv4-agent-state-termination#e9130ead5d80",
+   "iv4-agent-state-termination#e9130ead5d80",
+   "iv4-consequential-actions#2312e05716bb",
+   "iv4-consequential-actions#2312e05716bb",
+   "iv4-injection-containment#dcb2a0ccd97d",
+   "iv4-injection-containment#dcb2a0ccd97d",
+   "iv4-multi-agent-failures#c4265bbfc3f6",
+   "iv4-multi-agent-failures#c4265bbfc3f6",
+   "iv4-agent-testing-paths#4f2386a44502",
+   "iv4-agent-testing-paths#4f2386a44502",
+   "iv4-approval-reversibility#eebf166f8651",
+   "iv4-approval-reversibility#eebf166f8651",
+   "iv4-autonomy-criteria#bd5db28b36f4",
+   "iv4-autonomy-criteria#bd5db28b36f4",
+   "iv4-prove-multi-agent#50f04974741f",
+   "iv4-prove-multi-agent#50f04974741f",
+   "iv4-sandboxing#1800f1276fd4",
+   "iv4-sandboxing#1800f1276fd4",
+   "iv4-not-productionized#5de3b1e2cc8b",
+   "iv4-not-productionized#5de3b1e2cc8b",
+   "iv4-paper-to-production#c7614a0c11d6",
+   "iv4-paper-to-production#c7614a0c11d6",
+   "iv4-technique-maturity#29a97b462af7",
+   "iv4-technique-maturity#29a97b462af7",
+   "iv4-publish-patent#7117df3f59c1",
+   "iv4-publish-patent#7117df3f59c1",
+   "iv4-roadmap-2-3-year#465a618628b7",
+   "iv4-roadmap-2-3-year#465a618628b7",
+   "iv4-centralize-vs-domain#b1508f1e386b",
+   "iv4-centralize-vs-domain#b1508f1e386b",
+   "iv4-paved-road#c6d1f909c771",
+   "iv4-paved-road#c6d1f909c771",
+   "iv4-reference-boundaries#4ef0af1e3f4d",
+   "iv4-reference-boundaries#4ef0af1e3f4d",
+   "iv4-version-governance#1485ad07453c",
+   "iv4-version-governance#1485ad07453c",
+   "iv4-mandate-recommend#e84d50306215",
+   "iv4-mandate-recommend#e84d50306215",
+   "iv4-platform-bottleneck#7b973bf5a3fe",
+   "iv4-platform-bottleneck#7b973bf5a3fe",
+   "iv4-platform-slos#1140c248e9c7",
+   "iv4-platform-slos#1140c248e9c7",
+   "iv4-platform-adoption#8cab2888a94d",
+   "iv4-platform-adoption#8cab2888a94d",
+   "iv4-deprecation#82f2122f3e8b",
+   "iv4-deprecation#82f2122f3e8b",
+   "iv4-genai-platform#eca7a341e9b6",
+   "iv4-genai-platform#eca7a341e9b6",
+   "iv4-genai-platform#eca7a341e9b6",
+   "iv4-genai-platform#eca7a341e9b6",
+   "iv4-gp-discovery#56ee15c96909",
+   "iv4-gp-discovery#56ee15c96909",
+   "iv4-gp-90-day-slice#23eda5aa0b92",
+   "iv4-gp-90-day-slice#23eda5aa0b92",
+   "iv4-gp-trust-boundaries#277e11148714",
+   "iv4-gp-trust-boundaries#277e11148714",
+   "iv4-gp-identity-residency#138290a672e9",
+   "iv4-gp-identity-residency#138290a672e9",
+   "iv4-gp-model-access#e000f39c6669",
+   "iv4-gp-model-access#e000f39c6669",
+   "iv4-gp-knowledge#f9168eb5de57",
+   "iv4-gp-knowledge#f9168eb5de57",
+   "iv4-gp-agent-execution#e920e8ec5ce3",
+   "iv4-gp-agent-execution#e920e8ec5ce3",
+   "iv4-gp-runtime-isolation#060826e555b8",
+   "iv4-gp-runtime-isolation#060826e555b8",
+   "iv4-gp-observability#c311fff019de",
+   "iv4-gp-observability#c311fff019de",
+   "iv4-gp-capacity-dr-cost#ff75825b9eac",
+   "iv4-gp-capacity-dr-cost#ff75825b9eac",
+   "iv4-gp-build-buy#38f773328718",
+   "iv4-gp-build-buy#38f773328718",
+   "iv4-gp-operating-model#2d3ca3331014",
+   "iv4-gp-operating-model#2d3ca3331014",
+   "iv4-inject-provider-outage#4aac5ac0f1ca",
+   "iv4-inject-provider-outage#4aac5ac0f1ca",
+   "iv4-inject-regional-restriction#fba6a74bbbbe",
+   "iv4-inject-regional-restriction#fba6a74bbbbe",
+   "iv4-inject-permission-revocation#a65b4605bd8f",
+   "iv4-inject-permission-revocation#a65b4605bd8f",
+   "iv4-inject-prompt-injection#d190e7291152",
+   "iv4-inject-prompt-injection#d190e7291152",
+   "iv4-inject-cost-shock#e1f6445f188f",
+   "iv4-inject-cost-shock#e1f6445f188f",
+   "iv4-inject-quality-regression#8e31cdfc2efa",
+   "iv4-inject-quality-regression#8e31cdfc2efa",
+   "iv4-llm-slos#5bcb62aa95e2",
+   "iv4-llm-slos#5bcb62aa95e2",
+   "iv4-metrics-levels#67670edbb89b",
+   "iv4-metrics-levels#67670edbb89b",
+   "iv4-availability-vs-usefulness#a9ea8d752fd2",
+   "iv4-availability-vs-usefulness#a9ea8d752fd2",
+   "iv4-failure-strategy#e6c4c9c018f2",
+   "iv4-failure-strategy#e6c4c9c018f2",
+   "iv4-dr-testing#6dee6037f3f9",
+   "iv4-dr-testing#6dee6037f3f9",
+   "iv4-gpu-isolation#b03f847376c4",
+   "iv4-gpu-isolation#b03f847376c4",
+   "iv4-secrets-egress#5d5f544c66e4",
+   "iv4-secrets-egress#5d5f544c66e4",
+   "iv4-telemetry-leakage#0968b4b5b601",
+   "iv4-telemetry-leakage#0968b4b5b601",
+   "iv4-cost-per-task#933e36bc80c7",
+   "iv4-cost-per-task#933e36bc80c7",
+   "iv4-finops#463c99750abd",
+   "iv4-finops#463c99750abd",
+   "iv4-reject-use-cases#3da0e07e664b",
+   "iv4-reject-use-cases#3da0e07e664b",
+   "iv4-tco-api-vs-self-host#f21cda8b0a82",
+   "iv4-tco-api-vs-self-host#f21cda8b0a82",
+   "iv4-prioritize-100#d168dfa048bc",
+   "iv4-prioritize-100#d168dfa048bc",
+   "iv4-cio-strategy#c3acb20e8cf8",
+   "iv4-cio-strategy#c3acb20e8cf8",
+   "iv4-strategy-to-outcomes#33a287c2ccb2",
+   "iv4-strategy-to-outcomes#33a287c2ccb2",
+   "iv4-demo-not-production#9af017128cd0",
+   "iv4-demo-not-production#9af017128cd0",
+   "iv4-sponsor-committed#74d2c1e7ecfa",
+   "iv4-sponsor-committed#74d2c1e7ecfa",
+   "iv4-communicate-uncertainty#63caf27786c0",
+   "iv4-communicate-uncertainty#63caf27786c0",
+   "iv4-changed-decision#a33bba7c7253",
+   "iv4-changed-decision#a33bba7c7253",
+   "iv4-risk-tiering#29e758b9f148",
+   "iv4-risk-tiering#29e758b9f148",
+   "iv4-operationalize-rai#7bc8e00969ba",
+   "iv4-operationalize-rai#7bc8e00969ba",
+   "iv4-regulatory-mapping#522d305e1dd0",
+   "iv4-regulatory-mapping#522d305e1dd0",
+   "iv4-ai-act-nist-iso#9cf7da9875e4",
+   "iv4-ai-act-nist-iso#9cf7da9875e4",
+   "iv4-privacy-controls#3e9b0792314b",
+   "iv4-privacy-controls#3e9b0792314b",
+   "iv4-vendor-assessment#68f06b4b6265",
+   "iv4-vendor-assessment#68f06b4b6265",
+   "iv4-synthetic-generated-content#6b2201d84e73",
+   "iv4-synthetic-generated-content#6b2201d84e73",
+   "iv4-red-teaming-incidents#7fb113eaedce",
+   "iv4-red-teaming-incidents#7fb113eaedce",
+   "iv4-human-oversight#f241b1982d90",
+   "iv4-human-oversight#f241b1982d90",
+   "iv4-accountability-unauthorized#bd774fecc31c",
+   "iv4-accountability-unauthorized#bd774fecc31c",
+   "iv4-decision-evidence#a7e626d55b19",
+   "iv4-decision-evidence#a7e626d55b19",
+   "iv4-policy-runtime-test#174669fb6db5",
+   "iv4-policy-runtime-test#174669fb6db5",
+   "iv4-architecture-function#0cf12e268b2c",
+   "iv4-architecture-function#ac79aecbae1a",
+   "iv4-platform-roles#950526a37ba0",
+   "iv4-platform-roles#950526a37ba0",
+   "iv4-no-gatekeeping#0d048892a362",
+   "iv4-no-gatekeeping#d27b37c8fa31",
+   "iv4-major-disagreement#a3906261a930",
+   "iv4-major-disagreement#a3906261a930",
+   "iv4-coach-seniors#4d73f1f7bb47",
+   "iv4-coach-seniors#4d73f1f7bb47",
+   "iv4-portfolio-quality#e7383564c10e",
+   "iv4-portfolio-quality#e7383564c10e",
+   "iv4-scenario-accuracy-promise#bc8a30b48825",
+   "iv4-scenario-accuracy-promise#bc8a30b48825",
+   "iv4-scenario-accuracy-promise#bc8a30b48825",
+   "iv4-scenario-agent-incident#82f8acc63e42",
+   "iv4-scenario-agent-incident#82f8acc63e42",
+   "iv4-scenario-agent-incident#82f8acc63e42",
+   "iv4-scenario-research-breakthrough#ac60dbca24a1",
+   "iv4-scenario-research-breakthrough#ac60dbca24a1",
+   "iv4-scenario-research-breakthrough#ac60dbca24a1",
+   "iv4-scenario-build-vs-buy#2566404c6d01",
+   "iv4-scenario-build-vs-buy#2566404c6d01",
+   "iv4-scenario-build-vs-buy#2566404c6d01",
+   "iv4-scenario-90-day-mandate#9cd03b102689",
+   "iv4-scenario-90-day-mandate#9cd03b102689",
+   "iv4-scenario-90-day-mandate#9cd03b102689",
+   "iv4-questions-for-panel#679de8b3b258",
+   "iv4-questions-for-panel#679de8b3b258",
+   "iv4-close#dac693d4b413",
+   "iv4-close#dac693d4b413",
+   "iv4-commitment#5f61b4cb828d",
+   "iv4-commitment#5f61b4cb828d",
+   "iv4-defining-question#cfbeac444b35",
+   "iv4-defining-question#cfbeac444b35",
+   "iv4-ownership#b470c69b558c",
+   "iv4-ownership#b470c69b558c",
+   "iv4-project-deep-dive#04384bc3871d",
+   "iv4-project-deep-dive#04384bc3871d"
   ],
   "qa_interview_s1.json": [
    "iv1-complex-solution#9b436e7ffc96",
@@ -3922,7 +5218,7 @@
    "knowledge-fabric#ce097fb9462e",
    "NO-ANSWER#2c36d1d14f0c",
    "NO-ANSWER#e472665897b7",
-   "NO-ANSWER#9be6409bed46",
+   "NO-ANSWER#86b7ed00129f",
    "NO-ANSWER#e74f0cc596f4"
   ],
   "qa_round2.json": [
@@ -3979,12 +5275,12 @@
    "family#25028086d0d9",
    "family#6dcfb43764db",
    "family#50c23f0d9a8a",
-   "NO-ANSWER#e52abd1f3c78",
-   "NO-ANSWER#ea8c8389319a",
+   "NO-ANSWER#fa6dee5e0dd5",
+   "NO-ANSWER#cb66de4e781d",
    "NO-ANSWER#d840d7cd9892",
    "NO-ANSWER#ea8c8389319a",
-   "NO-ANSWER#6eafbe0c1b89",
-   "NO-ANSWER#005a451a0e3d",
+   "NO-ANSWER#9ee5d8820f88",
+   "NO-ANSWER#bf3a2c2d04d4",
    "NO-ANSWER#ea8c8389319a"
   ],
   "qa_round3.json": [
@@ -4032,7 +5328,7 @@
    "NO-ANSWER#ac9f19968f7c",
    "NO-ANSWER#ea8c8389319a",
    "NO-ANSWER#460c19232cab",
-   "NO-ANSWER#ea8c8389319a",
+   "NO-ANSWER#7de951ee3729",
    "NO-ANSWER#ea8c8389319a",
    "NO-ANSWER#c24ef1536a19",
    "NO-ANSWER#2c18537cb388"
@@ -4090,11 +5386,11 @@
    "NO-ANSWER#ea8c8389319a",
    "NO-ANSWER#d840d7cd9892",
    "NO-ANSWER#d840d7cd9892",
-   "NO-ANSWER#0812196dafeb",
+   "NO-ANSWER#49a098c764b0",
    "NO-ANSWER#8426e5a07fb4",
-   "NO-ANSWER#ea8c8389319a",
-   "NO-ANSWER#2de92fc95c6a",
-   "NO-ANSWER#cb72e93772e1",
+   "NO-ANSWER#483a07cf67a7",
+   "NO-ANSWER#a2e672bd2bb0",
+   "NO-ANSWER#b4958a4b554d",
    "NO-ANSWER#ea8c8389319a",
    "NO-ANSWER#d840d7cd9892",
    "NO-ANSWER#ea8c8389319a"
@@ -4139,8 +5435,8 @@
    "youtube#14b8c4984137",
    "youtube#14b8c4984137",
    "youtube-why#475cc878c08a",
-   "NO-ANSWER#ea8c8389319a",
-   "NO-ANSWER#ea8c8389319a",
+   "NO-ANSWER#cb66de4e781d",
+   "NO-ANSWER#6d87fd31d9cc",
    "NO-ANSWER#d840d7cd9892",
    "NO-ANSWER#d840d7cd9892",
    "NO-ANSWER#ea8c8389319a",
@@ -4148,7 +5444,7 @@
    "NO-ANSWER#a062794e4e79",
    "NO-ANSWER#45adc7266871",
    "NO-ANSWER#ea8c8389319a",
-   "NO-ANSWER#ea8c8389319a",
+   "NO-ANSWER#afde60011371",
    "NO-ANSWER#718e232ebf41",
    "NO-ANSWER#ea8c8389319a"
   ],
@@ -4236,7 +5532,7 @@
    "NO-ANSWER#ea8c8389319a",
    "NO-ANSWER#3d16035cda07",
    "NO-ANSWER#ae9d2bca9729",
-   "NO-ANSWER#2de92fc95c6a",
+   "NO-ANSWER#a2e672bd2bb0",
    "NO-ANSWER#ea8c8389319a"
   ],
   "qa_round8.json": [

@@ -1199,6 +1199,8 @@ canon:
   - multimodal rag
   - pdfs with tables
   - charts and diagrams
+  - pdfs full of tables
+  - scanned pages
   answer: 'I treat a document as a set of typed elements, not a stream of text, and give each type its
     own path into the index. First, layout-aware parsing: a parser that understands PDF and Office layout,
     reading order, headings, tables and figures, with OCR for scanned pages. Each element gets a type
