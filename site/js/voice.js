@@ -43,16 +43,75 @@ export function listen(lang) {
   });
 }
 
-/** Best available voice for a language: exact code, same language, else English. */
-export function pickVoice(lang) {
-  if (!synthesisSupported()) return null;
-  const voices = speechSynthesis.getVoices() || [];
+// ---------------------------------------------------------------------------
+// Voice choice: the twin is a man, so a male voice is preferred in every
+// language — but language comes first. A voice that cannot read the script is
+// useless, so a female voice in the right language beats a male voice in the
+// wrong one; a female voice is only ever the graceful fallback, never forced.
+// Gender is read from well-known voice names (Microsoft, Apple, Google,
+// Android) and any "male"/"female" hint in the name or voiceURI.
+// ---------------------------------------------------------------------------
+const MALE_HINT = /\b(male|man|guy|ravi|rishi|hemant|prabhat|madhur|midhun|mohan|valluvar|kumar|arjun|aarav|prakash|daniel|david|mark|george|james|richard|thomas|oliver|arthur|aaron|alex|fred|gordon|ralph|lee|tom|eddy|reed|rocko|ryan|christopher|eric|roger|brian|andrew|william|liam|connor|mitchell|guy|steffan|davis|tony|jason|matthew|joey|justin|kevin|russell|raj|neel)\b/i;
+const FEMALE_HINT = /\b(female|woman|zira|susan|samantha|victoria|karen|moira|tessa|fiona|veena|lekha|heera|kalpana|swara|neerja|sobhana|shruti|pallavi|aria|jenny|sonia|libby|hazel|catherine|allison|ava|kate|serena|nicky|joanna|salli|kimberly|ivy|emma|amy|olivia|natasha|clara|sara|grandma|shelley|sandy|flo|martha|ananya|aditi|raveena|kajal|isha|kiara|vani|gauri|michelle|elizabeth|nancy|jane|michelle|ana|emily|linda)\b/i;
+const GOOGLE_FEMALE = /^google (us english|हिन्दी|bahasa|español|français|deutsch|italiano|日本語|한국의|nederlands|polski|português|русский|普通话|粤語|國語)/i;
+
+/** 'male' | 'female' | null, from a SpeechSynthesisVoice's name and URI. */
+export function voiceGender(v) {
+  if (!v) return null;
+  const text = `${v.name || ''} ${v.voiceURI || ''}`;
+  if (/\bfemale\b/i.test(text)) return 'female';
+  if (/\bmale\b/i.test(text)) return 'male';
+  if (GOOGLE_FEMALE.test(v.name || '')) return 'female';
+  if (FEMALE_HINT.test(text)) return 'female';
+  if (MALE_HINT.test(text)) return 'male';
+  return null;
+}
+
+/** Score every installed voice for `lang`; highest wins. Exported for tests. */
+export function rankVoices(voices, lang) {
   const code = (LANGS[lang] || LANGS[DEFAULT_LANG]).code.toLowerCase();
-  return voices.find(v => v.lang.toLowerCase() === code)
-      || voices.find(v => v.lang.toLowerCase().startsWith(lang))
-      || voices.find(v => v.lang.toLowerCase() === 'en-in')
-      || voices.find(v => v.lang.toLowerCase().startsWith('en'))
-      || null;
+  const base = code.split('-')[0];
+  return (voices || []).map((v) => {
+    const vl = String(v.lang || '').toLowerCase().replace('_', '-');
+    let score = 0;
+    if (vl === code) score += 200;
+    else if (vl.split('-')[0] === base) score += 150;
+    else if (vl.startsWith('en')) score += 20;          // last resort: read it in English
+    else score -= 500;
+    if (base === 'en' && vl === 'en-in') score += 12;    // his own accent first
+    if (base === 'en' && vl === 'en-gb') score += 6;
+    const g = voiceGender(v);
+    if (g === 'male') score += 40;
+    if (g === 'female') score -= 40;
+    if (/natural|neural|online|premium|enhanced/i.test(v.name || '')) score += 15;
+    if (v.localService) score += 3;
+    return { v, score, gender: g };
+  }).sort((a, b) => b.score - a.score);
+}
+
+let voiceCache = null;
+function installedVoices() {
+  if (!synthesisSupported()) return [];
+  const list = speechSynthesis.getVoices() || [];
+  if (list.length) voiceCache = list;
+  return voiceCache || list;
+}
+if (typeof window !== 'undefined' && synthesisSupported()) {
+  // Chrome fills the voice list asynchronously; warm it so the first answer
+  // is not spoken by whatever default the browser happens to pick.
+  try { installedVoices(); speechSynthesis.addEventListener('voiceschanged', installedVoices); } catch { /* old Safari */ }
+}
+
+/** Best available voice for a language: right language first, then male, then quality. */
+export function pickVoice(lang) {
+  const ranked = rankVoices(installedVoices(), lang);
+  return ranked.length && ranked[0].score > -100 ? ranked[0].v : null;
+}
+
+/** Utterance settings for the chosen voice: a touch lower when gender is unknown. */
+export function voiceTuning(v) {
+  const g = voiceGender(v);
+  return { rate: 0.98, pitch: g === 'female' ? 1 : g === 'male' ? 0.98 : 0.92 };
 }
 
 /** Speak `text`; returns what voice was used and whether it fell back to English. */
@@ -63,7 +122,8 @@ export function speak(text, lang) {
   const v = pickVoice(lang);
   if (v) u.voice = v;
   u.lang = v ? v.lang : (LANGS[lang] || LANGS[DEFAULT_LANG]).code;
-  u.rate = 0.98;
+  const tune = voiceTuning(v);
+  u.rate = tune.rate; u.pitch = tune.pitch;
   speechSynthesis.speak(u);
   const fallback = lang !== 'en' && !(v && v.lang.toLowerCase().startsWith(lang));
   return { ok: true, voice: v ? v.name : null, fallback };
