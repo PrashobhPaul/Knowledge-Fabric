@@ -492,7 +492,7 @@ const EXPLETIVE_IT_ASKED = new RegExp(`^it\\s+(?:be\\s+)?(?:\\w+\\s+){0,2}?${EXP
 const AUX_BEFORE = /\b(is|was|would|will)\s+$/i;
 const EXISTENTIAL = /^there\s+(is|are|was|were|'s|will be|would be|must be|should be|might be|has been|have been)\b/i;
 const EXISTENTIAL_ASKED = /\b(is|are|was|were|will|would|could|can|has|have|should|might)\s+$/i;   // "is there", "are there"
-const OWN_ANTECEDENT = /\b(?:a|an)\s+[A-Za-z][\w-]*|\s[A-Z][\w.-]*/;   // "an AI", "a model", a name mid-question
+const OWN_ANTECEDENT = /\b(?:a|an|the)\s+[A-Za-z][\w-]*|\s[A-Z][\w.-]*/;   // "an AI", "the ai platform", a name mid-question
 const LEAD_CLAUSE =/^(if|when|whenever|suppose|supposing|say|imagine|given|once|assuming|after|before|while|since|because|as soon as)\b[^,]{8,},/i;
 /** Index of the first pronoun that refers to an earlier question, or -1. */
 export function pointingBack(question) {
