@@ -179,7 +179,7 @@ def build_canon(chunks: list[dict]) -> tuple[list[dict], list[str]]:
         out.append({"id": m.get("canon_id"), "chunk_idx": i, "questions": m.get("questions") or [], "answer": m.get("answer") or c.get("text", ""),
                     "keywords": m.get("keywords") or [],
                     "topics": m.get("topics") or [], "evidence": evidence,
-                    "project": m.get("showcase") or "", "links": m.get("links") or []})
+                    "project": m.get("showcase") or "", "links": m.get("links") or [], "diagram": m.get("diagram") or ""})
     return out, unresolved
 
 

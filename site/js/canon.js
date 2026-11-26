@@ -368,6 +368,8 @@ export function matchCanon(question, canon, { threshold = 0.3, timeline = null }
     const him = ABOUT_HIM.test(question);
     const frags = question.replace(/[?!.]+\s*$/, '').split(/\s*,\s*(?:and\s+)?|\s+and\s+/i).map(s => s.trim()).filter(Boolean);
     if (frags.length >= 2 && frags.length <= 4 && frags.every(f => contentWords(f).length)) {
+      const whole = matchOne(question, canon, threshold);
+      if (whole && whole.score >= 0.9) return whole;    // "difference between pre-training, fine-tuning and RAG" is one question
       const got = frags.map(f => matchOne((him && !ABOUT_HIM.test(f) ? 'your ' : '') + f, canon, 0.4));
       if (got.every(Boolean) && new Set(got.map(r => r.entry.id)).size >= 2) {
         // "your favourite poet and artist": one answer whose topic covers every piece says it in one.
@@ -538,7 +540,7 @@ export function showcaseHtml(entries, showcase = {}) {
   const blocks = [];
   for (const e of entries) {
     const sc = e.project ? showcase[e.project] : null;
-    const btns = [];
+    const btns = [], html_pre = [];
     if (sc) {
       for (const l of sc.links || []) {
         if (l.kind === 'download') btns.push(`<a class="sc-btn sc-primary" href="${esc(l.url)}" target="_blank" rel="noopener">⬇ Download ${esc(e.project)} for Android</a>`);
@@ -546,8 +548,10 @@ export function showcaseHtml(entries, showcase = {}) {
       }
       if (sc.source) btns.push(`<a class="sc-btn" href="${esc(sc.source)}" target="_blank" rel="noopener">View the source on GitHub</a>`);
     }
+    // an architecture drawn for this answer (the whiteboard questions)
+    if (e.diagram && !(sc && sc.diagram)) html_pre.push(`<figure class="sc-figure"><img src="${esc(e.diagram)}" loading="lazy" alt="Architecture: ${esc((e.questions || [''])[0])}"><figcaption>The architecture, as I would draw it</figcaption></figure>`);
     for (const l of e.links || []) btns.push(`<a class="sc-btn" href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)} ↗</a>`);
-    let html = btns.length ? `<div class="sc-cta">${btns.join('')}</div>` : '';
+    let html = (btns.length ? `<div class="sc-cta">${btns.join('')}</div>` : '') + html_pre.join('');
     if (sc && sc.diagram) html += `<figure class="sc-figure"><img src="${esc(sc.diagram)}" loading="lazy" alt="How ${esc(e.project)} works"><figcaption>How ${esc(e.project)} works</figcaption></figure>`;
     if (sc && (sc.images || []).length) html += `<div class="sc-shots">${sc.images.map(i => `<a href="${esc(i.url)}" target="_blank" rel="noopener"><img src="${esc(i.url)}" loading="lazy" alt="${esc(e.project)}: ${esc(i.path.split('/').pop())}"></a>`).join('')}</div>`;
     if (sc && (sc.code || []).length) html += codeCardHtml(sc.code[0]);
