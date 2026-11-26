@@ -180,8 +180,10 @@ input, select, textarea { font-family: inherit; }
 :where(a, button, input, select, summary, [tabindex]):focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--obsidian), 0 0 0 3.5px var(--champagne), 0 0 22px -2px var(--gold-glow);
-  border-radius: var(--r-xs);
 }
+/* Text links have no shape of their own; give the ring one. Everything else
+   keeps its own radius, so a pill stays a pill when focused. */
+:where(a:not([class]), .nav-scroll, .footer-links a, .lineage-link, .trace-q):focus-visible { border-radius: var(--r-xs); }
 
 .sr-only, .legacy-hidden {
   position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
@@ -1597,12 +1599,13 @@ sup.cite-ref, .cite-ref {
 
 .mr-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; pointer-events: none; }
 .mr-score {
-  font-family: var(--font-display); font-size: clamp(3.2rem, 2.4rem + 2.6vw, 4.4rem); font-weight: 500; line-height: 0.9;
+  font-family: var(--font-display); font-size: clamp(2.7rem, 2.2rem + 1.4vw, 3.4rem); font-weight: 500; line-height: 0.9;
   font-variant-numeric: tabular-nums lining-nums;
   background: linear-gradient(180deg, #FFFFFF 10%, var(--platinum) 45%, var(--champagne) 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
-.mr-suffix { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--platinum-3); }
+.mr-suffix { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--platinum-3); }
+.mr-center .mr-band { margin-top: 6px; }
 .mr-band { margin-top: 8px; padding: 3px 10px; border-radius: var(--r-pill); font-size: 0.58rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; white-space: nowrap; }
 .mr-band-strong   { color: var(--jade); background: rgba(140, 203, 174, 0.14); box-shadow: inset 0 0 0 1px rgba(140, 203, 174, 0.28); }
 .mr-band-adequate { color: var(--glacier); background: var(--glacier-soft); box-shadow: inset 0 0 0 1px rgba(147, 214, 234, 0.28); }
@@ -1683,7 +1686,9 @@ sup.cite-ref, .cite-ref {
 }
 .risk-card-label { font-size: 0.98rem; font-weight: 600; color: var(--platinum); line-height: 1.35; }
 .risk-card-sub { font-size: 0.8rem; color: var(--platinum-3); line-height: 1.55; }
-.risk-meter { display: block; position: relative; margin-top: 12px; height: 4px; border-radius: 4px; background: var(--fill-2); overflow: hidden; }
+.risk-meter { display: block; position: relative; margin-top: auto; height: 4px; border-radius: 4px; background: var(--fill-2); overflow: hidden; }
+.risk-card .flip-front .risk-card-sub { margin-bottom: 16px; }
+.risk-meter-k { margin-top: 6px; }
 .risk-meter > span {
   position: absolute; inset: 0; border-radius: inherit;
   background: linear-gradient(90deg, color-mix(in srgb, var(--risk-tone) 45%, transparent), var(--risk-tone));
@@ -1731,7 +1736,10 @@ sup.cite-ref, .cite-ref {
   background: linear-gradient(180deg, #fff, var(--platinum-2)); -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .tile-delta { font-size: 0.76rem; color: var(--platinum-3); }
-.tile-mix { display: block; margin-top: 14px; height: 4px; border-radius: 4px; background: var(--fill-1); overflow: hidden; }
+.tile-mix { display: block; margin-top: auto; height: 4px; border-radius: 4px; background: var(--fill-1); overflow: hidden; }
+.tile .flip-front .tile-delta { margin-bottom: 14px; }
+.tile .flip-front .flip-hint, .risk-card .flip-front .flip-hint { margin-top: 0; padding-top: 14px; }
+.tile .flip-row { grid-template-columns: minmax(0, 1fr) 26% 40px; gap: 8px; }
 .tile-mix-bar { display: flex; gap: 2px; height: 100%; }
 .mix-seg { min-width: 2px; height: 100%; background: color-mix(in srgb, var(--champagne) calc(100% - var(--k) * 22%), var(--platinum-4)); }
 .mix-seg:first-child { border-radius: 4px 0 0 4px; background: linear-gradient(90deg, var(--champagne-lo), var(--champagne-hi)); }
@@ -2290,6 +2298,17 @@ button[data-tip], a[data-tip], .flip-card[data-tip] { cursor: pointer; }
   .qz-divider, .qz-context { display: none; }
 }
 @media (max-width: 560px) {
+  /* Seven source systems as a compact list rather than four rows of tall cards */
+  .source-strip { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .src-card {
+    display: grid; grid-template-columns: 34px minmax(0, 1fr) auto; grid-template-rows: auto auto;
+    column-gap: 12px; row-gap: 1px; align-items: center; padding: 12px 14px;
+  }
+  .src-icon { grid-row: 1 / span 2; margin: 0; }
+  .src-label { font-size: 1.1rem; }
+  .src-system { grid-column: 2; grid-row: 2; }
+  .src-count { grid-column: 3; grid-row: 1; margin: 0; flex-direction: row; gap: 8px; font-size: 0.7rem; justify-self: end; }
+  .src-sync { grid-column: 3; grid-row: 2; padding: 0; margin: 0; justify-self: end; font-size: 0.64rem; }
   .qz-product { font-size: 1.1rem; letter-spacing: 0.24em; }
   .plaque-name { font-size: 1.45rem; letter-spacing: 0.38em; margin-right: -0.38em; }
   .plaque-tagline { font-size: 0.95rem; }

@@ -67,7 +67,7 @@ export function renderMaturityRings(health) {
 
   const SIZE = 260;
   const cx = SIZE / 2, cy = SIZE / 2;
-  const OUTER = 116, STEP = 18, WIDTH = 12;
+  const OUTER = 118, STEP = 17, WIDTH = 11;
 
   const metrics = health.metrics;
   const rings = metrics.map((m, i) => {

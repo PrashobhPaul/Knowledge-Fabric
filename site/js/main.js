@@ -257,22 +257,23 @@ function renderCommandTiles() {
   const KIND_WORD = { ABOUT: 'About', FILMED_AT: 'Filmed at', DOCUMENTED_IN: 'Documented in', USES: 'Uses', SKILLED_IN: 'Skilled in' };
 
   const tiles = [
-    { key: 'documents', label: 'Records', value: s.document_count, delta: `from ${sources.length} source systems`,
-      method: 'One record per item a source produced: a resume section, a video, a repository file, an answer in his own words.',
-      rows: top(docsByType, 4, t => SOURCE_LABEL[t] || t) },
+    { key: 'documents', label: 'Records', value: s.document_count, delta: 'resume sections, videos, repositories…',
+      method: 'One per item a source produced: a resume section, a video, a repository file.',
+      rows: top(docsByType, 3, t => SOURCE_LABEL[t] || t) },
     { key: 'entities', label: 'Concepts', value: s.entity_count, delta: 'people, projects, skills, places',
-      method: 'Named concepts found in the passages at build time and typed by the ontology. Each is one node in the graph.',
-      rows: top(entsByKind, 4) },
+      method: 'Named in the passages and typed at build time. Each one is a node in the graph.',
+      rows: top(entsByKind, 3) },
     { key: 'relationships', label: 'Links', value: s.relationship_count, delta: 'between concepts',
-      method: `${(s.relationship_count - cooc).toLocaleString()} typed links (uses, built, filmed at…) plus ${cooc.toLocaleString()} pairs seen together in at least two passages.`,
-      rows: [...typed.slice(0, 3).map(([k, v]) => ({ label: KIND_WORD[k] || k.toLowerCase().replace(/_/g, ' '), value: v })),
-             { label: 'Seen together', value: cooc }] },
+      method: `${(s.relationship_count - cooc).toLocaleString()} typed links, plus ${cooc.toLocaleString()} pairs seen together in two or more passages.`,
+      rows: [...typed.slice(0, 2).map(([k, v]) => ({ label: KIND_WORD[k] || k.toLowerCase().replace(/_/g, ' '), value: v })),
+             { label: 'Other typed', value: typed.slice(2).reduce((a, [, v]) => a + v, 0) },
+             { label: 'Co-occur', value: cooc }] },
     { key: 'chunks', label: 'Passages', value: s.chunk_count, delta: 'each one citable',
-      method: 'Records split into passages small enough to quote. Retrieval ranks these; every citation points at one.',
-      rows: top(chunksByType, 4, t => SOURCE_LABEL[t] || t) },
-    { key: 'domains', label: 'Sources', value: sources.length, delta: 'systems in the index',
-      method: 'Distinct source systems feeding the index. The Knowledge Factory syncs the live ones; the rest are kept in the repository.',
-      rows: sources.map(x => ({ label: SOURCE_LABEL[x.source_type] || x.source_type, value: x.records })), unit: 'records' },
+      method: 'Records split small enough to quote. Every citation points at one.',
+      rows: top(chunksByType, 3, t => SOURCE_LABEL[t] || t) },
+    { key: 'domains', label: 'Sources', value: sources.length, delta: 'systems feeding the index',
+      method: 'Synced by the Knowledge Factory or kept in the repository. Records per source:',
+      rows: top(sources.map(x => [SOURCE_LABEL[x.source_type] || x.source_type, x.records]).sort((a, b) => b[1] - a[1]), 3) },
   ];
 
   host.innerHTML = tiles.map(t => flipCard({
@@ -514,7 +515,7 @@ function renderKnowledgeRisk() {
     if (rest) rows.push({ label: 'Other', value: rest });
     return rows;
   };
-  const TONE_WORD = { low: 'Healthy', medium: 'Watch', high: 'Act on' };
+  const TONE_WORD = { low: 'Healthy', medium: 'Watch', high: 'Priority' };
 
   const card = ({ key, value, suffix = '', label, sub, tone, method, rows, rule, part, whole, of }) => flipCard({
     cls: 'risk-card',
@@ -872,6 +873,8 @@ async function ask(question, opts = {}) {
                        confidence: result.confidence, analysis: result.analysis,
                        summary: result.summary };
 
+  // The page opens on a sample answer; it is labelled as one until the visitor asks.
+  state.seeded = silent;
   populateAnswerStage(question, answerHtml, citations, ranked, trace, cohesion);
   const rel = document.getElementById('answer-related');
   if (rel) {
@@ -912,6 +915,7 @@ async function ask(question, opts = {}) {
     if (fb) { fb.innerHTML = renderFlagBox(t); fb.hidden = false; }
   }
   if (!silent) appendAssistantMessage(question, answerHtml, citations, ranked, trace);
+  wireExplainButton(question, answerHtml, citations, ranked, trace);
   renderLineage(question, answerHtml, citations);
   updateCopilotMetrics(citations, trace, ranked, cohesion);
   updateGalaxyStatus(trace);
@@ -959,6 +963,8 @@ function populateAnswerStage(question, answerHtml, citations, ranked, trace, coh
   liveEl.classList.add('is-refreshing');
   setTimeout(() => liveEl.classList.remove('is-refreshing'), 600);
 
+  const qEyebrow = document.querySelector('.answer-q-eyebrow');
+  if (qEyebrow) qEyebrow.textContent = state.seeded ? 'A question to start with' : 'Your question';
   const qEl = document.getElementById('answer-stage-question');
   const aEl = document.getElementById('answer-stage-text');
   if (qEl) qEl.textContent = question;
@@ -1059,7 +1065,7 @@ function updateGalaxyStatus(trace) {
     return;
   }
   el.innerHTML =
-    `<span class="gs-tag gs-tag-live">This answer</span>` +
+    `<span class="gs-tag gs-tag-live">${state.seeded ? 'Sample answer' : 'This answer'}</span>` +
     `<span class="gs-pair" data-tip="Concepts named in the cited passages, lit gold in the graph."><b data-count="${trace.activeEntities.length}">${trace.activeEntities.length}</b> concepts lit</span>` +
     `<span class="gs-pair" data-tip="Concepts one link away from those, shown in platinum."><b data-count="${trace.neighborCount}">${trace.neighborCount}</b> neighbours</span>` +
     `<span class="gs-pair" data-tip="Links the graph walked to connect them."><b data-count="${trace.edgeCount}">${trace.edgeCount}</b> links</span>`;
@@ -1116,8 +1122,13 @@ function appendAssistantMessage(question, answerHtml, citations, ranked, trace) 
   document.getElementById('messages').appendChild(tpl);
   scrollMessages();
 
-  // Also expose the global "Explain Answer" button in the lineage pane header
+}
+
+// The lineage pane's "Step through it" opens the reasoning trace for whatever
+// answer is on screen, the seeded first answer included.
+function wireExplainButton(question, answerHtml, citations, ranked, trace) {
   const explainBtn = document.getElementById('explain-btn');
+  if (!explainBtn) return;
   explainBtn.hidden = false;
   explainBtn.onclick = () => openExplain({
     question, ranked, citations,

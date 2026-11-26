@@ -101,7 +101,7 @@ export function renderTraces(list, { onAsk } = {}) {
     <div class="trace-row" data-band="${escapeHtml(t.band)}">
       <div class="trace-head">
         <button class="trace-q" data-q="${escapeHtml(t.q)}" data-tip="Ask again">${escapeHtml(t.q)}</button>
-        <span class="trace-conf">${t.confidence.toFixed ? t.confidence.toFixed(1) : t.confidence}%</span>
+        <span class="trace-conf" data-count="${Number(t.confidence).toFixed(1)}" data-decimals="1" data-suffix="%">${t.confidence.toFixed ? t.confidence.toFixed(1) : t.confidence}%</span>
       </div>
       <div class="trace-meta">
         <span class="trace-tag">${escapeHtml(sentenceCase(t.intent.toLowerCase().replace(/_/g, ' ')))}</span>
