@@ -22,7 +22,11 @@ const esc = (t) => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt
 export function retrieve(q, ctx) {
   const { bm25, semantic, chunks, filters = {}, qvec = null, vectors = null } = ctx;
   const h = hybridSearch(q, { bm25, semantic, chunks, filters, topK: 20, extraRun: qvec ? chunkRun(qvec, vectors || undefined) : null });
-  const ranked = h.results.length ? h.results.map(r => ({ chunkIdx: r.chunkIdx, score: r.score, _fusion: r })) : bm25.search(q, 20);
+  // Interview answers are matched as curated answers only; as search records they
+  // would crowd out the website, GitHub and video evidence retrieval is for.
+  const keep = (i) => !/^canon_interview/.test(((chunks[i] || {}).meta || {}).canon_set || '');
+  let ranked = (h.results.length ? h.results.map(r => ({ chunkIdx: r.chunkIdx, score: r.score, _fusion: r })) : bm25.search(q, 20)).filter(r => keep(r.chunkIdx));
+
   const cohesion = cohereByDocument(ranked, chunks, { queryTerms: tokenize(q), bm25Index: bm25 });
   return { ranked, cohesion, retrieval: { mode: h.mode, ...h.diagnostics },
            ...buildAnswer(q, ranked, chunks, cohesion, { semantic, bm25: ctx.bm25Payload || null, diagnostics: h.diagnostics }) };

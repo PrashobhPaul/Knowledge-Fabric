@@ -54,7 +54,7 @@ Object.assign(SYNONYMS, { masters: 'education', master: 'education', mtech: 'edu
   meals: 'meal', recipes: 'meal', recipe: 'meal', cooking: 'meal', cook: 'meal', kitchen: 'meal',
   diagrams: 'diagram', architectures: 'architecture', poet: 'poems', poetry: 'poems', poems: 'poems',
   role: 'role', models: 'model', freelancing: 'freelance', freelancer: 'freelance', hire: 'hire', hiring: 'hire',
-  salary: 'salary' });
+  salary: 'salary', crash: 'down', crashes: 'down', crashed: 'down', outage: 'down', outages: 'down' });
 // "B.Tech" and "M.Tech" would tokenise to a bare "tech" (and match Tech Mahindra).
 const pre = (q) => String(q).replace(/\b([bm])\.\s?tech\b/gi, '$1tech');
 // Texting shorthand → words ("wher do u work" → "where do you work").

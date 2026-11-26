@@ -100,6 +100,7 @@ export function applyFacets(results, chunks, filters) {
 export function hybridSearch(query, { bm25, semantic, chunks, filters, topK = 20, extraRun = null } = {}) {
   // Indic-script questions are searched as written plus the English forms of
   // the names and question words they contain (see multilingual.js).
+  const qlang = expandQuery(query).lang;
   query = expandQuery(query).query;
   const t0 = (typeof performance !== 'undefined' ? performance.now() : Date.now());
 
@@ -139,6 +140,11 @@ export function hybridSearch(query, { bm25, semantic, chunks, filters, topK = 20
   // methods surface independently is far more likely to be on-target.
   const agreed = fused.filter(r => r.retrievers.length > 1).length;
 
+  // A Malayalam, Telugu, Tamil or Hindi question prefers evidence in its own language.
+  if (qlang !== 'en') {
+    for (const r of fused) if (((chunks[r.chunkIdx] || {}).meta || {}).lang === qlang) r.score *= 1.25;
+    fused.sort((a, b) => b.score - a.score);
+  }
   return {
     results: fused,
     mode,
