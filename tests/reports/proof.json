@@ -1,12 +1,12 @@
 {
- "generated_at": "2026-11-26T12:52:43.646Z",
- "commit": "ed608df + uncommitted changes",
+ "generated_at": "2026-11-26T13:14:54.187Z",
+ "commit": "c0da2ee",
  "node": "v22.23.5",
  "passed": true,
  "summary": {
   "accuracy": {
-   "passed": 6676,
-   "questions": 6676,
+   "passed": 6686,
+   "questions": 6686,
    "ok": true
   },
   "brief": {
@@ -35,7 +35,7 @@
   "paraphrase": {
    "answers": 299,
    "passed": 299,
-   "phrasings": 5847,
+   "phrasings": 5852,
    "ok": true
   },
   "grounding": {
@@ -43,20 +43,20 @@
    "issues": 0
   },
   "performance": {
-   "p50_ms": 27.19,
-   "p95_ms": 50.43,
-   "max_ms": 268.49,
+   "p50_ms": 26.04,
+   "p95_ms": 48.39,
+   "max_ms": 236.08,
    "ok": true
   }
  },
  "accuracy": [
   {
    "set": "qa_coverage.json",
-   "questions": 5477,
-   "passed": 5477,
+   "questions": 5481,
+   "passed": 5481,
    "id": [
-    5395,
-    5395
+    5399,
+    5399
    ],
    "must": [
     0,
@@ -548,15 +548,15 @@
   },
   {
    "set": "qa_smartplane.json",
-   "questions": 44,
-   "passed": 44,
+   "questions": 50,
+   "passed": 50,
    "id": [
-    41,
-    41
+    43,
+    43
    ],
    "must": [
-    0,
-    0
+    2,
+    2
    ],
    "must_all": [
     41,
@@ -571,23 +571,23 @@
     0
    ],
    "no_answer": [
-    3,
-    3
+    7,
+    7
    ],
    "failures": [],
    "ok": true
   }
  ],
  "accuracy_total": {
-  "questions": 6676,
-  "passed": 6676,
+  "questions": 6686,
+  "passed": 6686,
   "id": [
-   6518,
-   6518
+   6524,
+   6524
   ],
   "must": [
-   270,
-   270
+   272,
+   272
   ],
   "must_all": [
    581,
@@ -602,8 +602,8 @@
    82
   ],
   "no_answer": [
-   76,
-   76
+   80,
+   80
   ]
  },
  "brief": [
@@ -1405,6 +1405,14 @@
    "id": "iv2-ka-vector-db-down",
    "phrasings": 23,
    "sets": 3,
+   "landed": 23,
+   "misses": [],
+   "ok": true
+  },
+  {
+   "id": "knowledge-fabric",
+   "phrasings": 23,
+   "sets": 5,
    "landed": 23,
    "misses": [],
    "ok": true
@@ -2994,14 +3002,6 @@
    "ok": true
   },
   {
-   "id": "knowledge-fabric",
-   "phrasings": 18,
-   "sets": 4,
-   "landed": 18,
-   "misses": [],
-   "ok": true
-  },
-  {
    "id": "robotics",
    "phrasings": 18,
    "sets": 6,
@@ -3582,31 +3582,31 @@
   "canon_entries": 299,
   "entries_with_resolved_evidence": 299,
   "unresolved_links": 0,
-  "curated_responses": 6489,
+  "curated_responses": 6495,
   "curated_ids_served": 299,
-  "curated_cited": 6489,
-  "curated_cited_by_own_evidence": 6489,
-  "answered_responses": 6595,
-  "answered_cited": 6595,
-  "responses_scanned_for_client_names": 6676,
+  "curated_cited": 6495,
+  "curated_cited_by_own_evidence": 6495,
+  "answered_responses": 6601,
+  "answered_cited": 6601,
+  "responses_scanned_for_client_names": 6686,
   "client_name_leaks": 0,
   "issues": []
  },
  "performance": {
-  "questions": 6676,
-  "p50_ms": 27.19,
-  "p95_ms": 50.43,
-  "max_ms": 268.49,
-  "mean_ms": 29.39,
-  "first_call_ms": 263.11,
+  "questions": 6686,
+  "p50_ms": 26.04,
+  "p95_ms": 48.39,
+  "max_ms": 236.08,
+  "mean_ms": 28.09,
+  "first_call_ms": 236.08,
   "p95_limit_ms": 250,
   "index": {
    "chunks": 962,
    "canon_entries": 299,
    "documents": 501,
    "vocab": 9856,
-   "index_json_bytes": 5270676,
-   "semantic_json_bytes": 1478604
+   "index_json_bytes": 5271241,
+   "semantic_json_bytes": 1479169
   },
   "build": null
  },
@@ -3809,22 +3809,26 @@
    "projects#92ab1f331b8f",
    "projects#92ab1f331b8f",
    "projects#92ab1f331b8f",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#e5d5bb6173aa",
-   "knowledge-fabric#e5d5bb6173aa",
-   "knowledge-fabric#e5d5bb6173aa",
-   "knowledge-fabric#e5d5bb6173aa",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#e8ecb7b55031",
+   "knowledge-fabric#e8ecb7b55031",
+   "knowledge-fabric#e8ecb7b55031",
+   "knowledge-fabric#e8ecb7b55031",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
    "invest-iq#619574f1dcdc",
    "invest-iq#619574f1dcdc",
    "invest-iq#619574f1dcdc",
@@ -9155,10 +9159,10 @@
    "projects#92ab1f331b8f",
    "projects#92ab1f331b8f",
    "projects#92ab1f331b8f",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
-   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
    "invest-iq#619574f1dcdc",
    "invest-iq#619574f1dcdc",
    "invest-iq#619574f1dcdc",
@@ -9943,7 +9947,7 @@
    "research-dates#c478ae83bd99",
    "education#56cb3302e3a4",
    "education#56cb3302e3a4",
-   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#d1d922a1e021",
    "NO-ANSWER#2c36d1d14f0c",
    "NO-ANSWER#e78970a09825",
    "NO-ANSWER#86b7ed00129f",
@@ -10042,7 +10046,7 @@
    "training#f3e582c9f0a4",
    "services#ad8d85b16591",
    "current-role#2b5d8ddf2af5",
-   "RETRIEVAL#f77d749cb710",
+   "RETRIEVAL#7a822bc4f37a",
    "catalogue#5455bc5e55fc",
    "framework-choice#824548fa532e",
    "koode#4db14a0c07da",
@@ -10243,7 +10247,7 @@
    "iplbuzz#bd6565cfb7ee",
    "dhinasuthra#d002c82625e5",
    "cogniflow#2dad1c5eed53",
-   "knowledge-fabric#ce097fb9462e",
+   "knowledge-fabric#d1d922a1e021",
    "timeline#ae30af1cfbfe",
    "timeline#7c1099244485",
    "koode+rvonwheelz#6c5a03b8304f",
@@ -10317,9 +10321,15 @@
    "voice-uav#77d233f8195f",
    "voice-uav#77d233f8195f",
    "catalogue#19b4e006cc13",
+   "knowledge-fabric#d1d922a1e021",
+   "knowledge-fabric#d1d922a1e021",
    "NO-ANSWER#478c9c26a028",
    "NO-ANSWER#81eaab9b590e",
-   "NO-ANSWER#478c9c26a028"
+   "NO-ANSWER#478c9c26a028",
+   "NO-ANSWER#478c9c26a028",
+   "NO-ANSWER#478c9c26a028",
+   "NO-ANSWER#d97b31ce1cca",
+   "NO-ANSWER#d97b31ce1cca"
   ]
  }
 }
