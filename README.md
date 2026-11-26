@@ -190,6 +190,7 @@ held-out checks (81% and 78%), and fixed from there; every round passes in full 
 [`tests/reports/PROOF.md`](tests/reports/PROOF.md): accuracy on every `tests/qa_*.json` set, the interview
 brief asked in full, determinism (three runs), context independence, paraphrase consistency, grounding and
 latency. Any failure fails the check; `--build` also rebuilds and times the index.
+The full testing record (what was proven, defects found and fixed, what to prove next) is in [`docs/testing/`](docs/testing/README.md).
 
 ---
 
