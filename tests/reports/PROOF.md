@@ -1,6 +1,6 @@
 # Eidolon — proof of accuracy and consistency
 
-Generated 2026-11-26 at commit `e2a25d8` by `node tests/prove.mjs` (Node v22.23.5). **Overall: PASS.**
+Generated 2026-11-26 at commit `ed608df + uncommitted changes` by `node tests/prove.mjs` (Node v22.23.5). **Overall: PASS.**
 
 ## How to read this
 
@@ -13,13 +13,13 @@ Generated 2026-11-26 at commit `e2a25d8` by `node tests/prove.mjs` (Node v22.23.
 
 | # | Claim | Result | Evidence |
 |---|---|---|---|
-| 1 | Accuracy: every question in every `tests/qa_*.json` set | PASS | 6,441/6,441 questions across 16 sets |
+| 1 | Accuracy: every question in every `tests/qa_*.json` set | PASS | 6,676/6,676 questions across 17 sets |
 | 1a | The interview brief (`tests/interview_brief.md`) is asked in full | PASS | 82/82 brief questions asked verbatim and passed |
 | 2 | Determinism: same question, same answer | PASS | 523/523 interview questions identical over 3 runs (id and text hash) |
 | 3 | Context independence: a previous question does not change the answer | PASS | 1,569/1,569 follow-up positions land on the cold answer |
-| 4 | Paraphrase consistency: every phrasing lands on its answer | PASS | 289/289 curated answers, 5,633 distinct phrasings |
-| 5 | Grounding: cited, proven, confidential | PASS | 6,259/6,259 curated answers served are cited by their own evidence · 0 unresolved links · 0 client-name leaks |
-| 6 | Performance: p95 ≤ 250 ms | PASS | p50 25.42 ms · p95 47.15 ms · max 346.69 ms over 6,441 questions |
+| 4 | Paraphrase consistency: every phrasing lands on its answer | PASS | 299/299 curated answers, 5,847 distinct phrasings |
+| 5 | Grounding: cited, proven, confidential | PASS | 6,489/6,489 curated answers served are cited by their own evidence · 0 unresolved links · 0 client-name leaks |
+| 6 | Performance: p95 ≤ 250 ms | PASS | p50 27.19 ms · p95 50.43 ms · max 268.49 ms over 6,676 questions |
 
 ## 1. Accuracy
 
@@ -27,7 +27,7 @@ Same rules as `node tests/qa_eval.mjs <set>`: the expected answer (a wording var
 
 | Set | Questions | Expected answer | `must` fact | `must_all` rubric (points) | `cite` | Honest no-answer | Passed | Result |
 |---|---:|---:|---:|---:|---:|---:|---:|---|
-| `qa_coverage.json` | 5,286 | 5,205/5,205 | — | — | 81/81 | — | 100.0% | PASS |
+| `qa_coverage.json` | 5,477 | 5,395/5,395 | — | — | 82/82 | — | 100.0% | PASS |
 | `qa_gold.json` | 230 | 221/221 | 17/17 | — | — | 9/9 | 100.0% | PASS |
 | `qa_interview_heldout.json` | 15 | 15/15 | — | — | — | — | 100.0% | PASS |
 | `qa_interview_l2.json` | 259 | 259/259 | — | 259/259 (1,307/1,307) | — | — | 100.0% | PASS |
@@ -43,7 +43,8 @@ Same rules as `node tests/qa_eval.mjs <set>`: the expected answer (a wording var
 | `qa_round6.json` | 43 | 33/33 | 22/22 | — | — | 10/10 | 100.0% | PASS |
 | `qa_round7.json` | 40 | 31/31 | 19/19 | — | — | 9/9 | 100.0% | PASS |
 | `qa_round8.json` | 10 | 9/9 | 9/9 | — | — | 1/1 | 100.0% | PASS |
-| **Total** | **6,441** | **6,287/6,287** | **270/270** | **540/540 (2,568/2,568)** | **81/81** | **73/73** | **100.0%** | **PASS** |
+| `qa_smartplane.json` | 44 | 41/41 | — | 41/41 (146/146) | — | 3/3 | 100.0% | PASS |
+| **Total** | **6,676** | **6,518/6,518** | **270/270** | **581/581 (2,714/2,714)** | **82/82** | **76/76** | **100.0%** | **PASS** |
 
 **Interview brief.** 82 questions, scenarios and "never skip" items are read from `tests/interview_brief.md`; 82 are asked verbatim in `qa_interview_s1/s2/s3.json` and 82 pass every rubric point. The interview sets add paraphrases, and `qa_interview_heldout.json` holds questions written after the answers, as a check against tuning to the wording.
 
@@ -77,8 +78,8 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | Phrasings per answer | Answers | Phrasings | All landed |
 |---|---:|---:|---:|
 | 7–10 | 10 | 98 | 10/10 |
-| 11+ | 279 | 5,535 | 279/279 |
-| **All** | **289** | **5,633** | **289/289** |
+| 11+ | 289 | 5,749 | 289/289 |
+| **All** | **299** | **5,847** | **299/299** |
 
 <details><summary>Every answer and its phrasings</summary>
 
@@ -88,6 +89,7 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `skills` | 43 | 6 | 43/43 | PASS |
 | `current-role` | 40 | 8 | 40/40 | PASS |
 | `who` | 37 | 4 | 37/37 | PASS |
+| `smartplane-press` | 33 | 2 | 33/33 | PASS |
 | `education` | 28 | 8 | 28/28 | PASS |
 | `iv2-performance-turnaround` | 28 | 3 | 28/28 | PASS |
 | `iv3-estimation` | 26 | 2 | 26/26 | PASS |
@@ -100,6 +102,7 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `iv3-build-vs-buy` | 25 | 2 | 25/25 | PASS |
 | `iv3-value-opportunities` | 25 | 2 | 25/25 | PASS |
 | `iv4-defining-question` | 25 | 2 | 25/25 | PASS |
+| `smartplane-specs` | 25 | 2 | 25/25 | PASS |
 | `teams` | 25 | 7 | 25/25 | PASS |
 | `youtube` | 25 | 7 | 25/25 | PASS |
 | `iv2-ka-1000-concurrent` | 24 | 2 | 24/24 | PASS |
@@ -110,6 +113,7 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `iv2-ka-access-revoked` | 23 | 2 | 23/23 | PASS |
 | `iv2-ka-deleted-documents` | 23 | 2 | 23/23 | PASS |
 | `iv2-ka-vector-db-down` | 23 | 3 | 23/23 | PASS |
+| `smartplane-channel` | 23 | 2 | 23/23 | PASS |
 | `iv1-prompt-injection` | 22 | 3 | 22/22 | PASS |
 | `iv2-rollback` | 22 | 3 | 22/22 | PASS |
 | `iv3-accuracy-expectations` | 22 | 3 | 22/22 | PASS |
@@ -210,6 +214,7 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `koode` | 21 | 8 | 21/21 | PASS |
 | `mentors` | 21 | 7 | 21/21 | PASS |
 | `research-supervisor` | 21 | 2 | 21/21 | PASS |
+| `smartplane-video` | 21 | 2 | 21/21 | PASS |
 | `aidlc` | 20 | 2 | 20/20 | PASS |
 | `framework-choice` | 20 | 2 | 20/20 | PASS |
 | `iv1-architecture-decision` | 20 | 2 | 20/20 | PASS |
@@ -253,6 +258,9 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `iv4-retrieval-choice` | 20 | 2 | 20/20 | PASS |
 | `iv4-synthetic-generated-content` | 20 | 2 | 20/20 | PASS |
 | `iv4-tco-api-vs-self-host` | 20 | 2 | 20/20 | PASS |
+| `smartplane-engine` | 20 | 2 | 20/20 | PASS |
+| `smartplane-unveiled-by` | 20 | 2 | 20/20 | PASS |
+| `smartplane-when` | 20 | 2 | 20/20 | PASS |
 | `tcs-story` | 20 | 5 | 20/20 | PASS |
 | `iv1-complex-solution` | 19 | 2 | 19/19 | PASS |
 | `iv1-eval-dataset` | 19 | 2 | 19/19 | PASS |
@@ -330,6 +338,7 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `research-dates` | 17 | 2 | 17/17 | PASS |
 | `research-papers` | 17 | 2 | 17/17 | PASS |
 | `research-where` | 17 | 2 | 17/17 | PASS |
+| `smartplane-minister` | 17 | 2 | 17/17 | PASS |
 | `ai-tour` | 16 | 3 | 16/16 | PASS |
 | `android-apps` | 16 | 3 | 16/16 | PASS |
 | `birthday` | 16 | 4 | 16/16 | PASS |
@@ -340,8 +349,11 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `iv4-long-context` | 16 | 2 | 16/16 | PASS |
 | `open-source` | 16 | 3 | 16/16 | PASS |
 | `pachaka-lokam` | 16 | 6 | 16/16 | PASS |
+| `voice-uav` | 16 | 5 | 16/16 | PASS |
 | `iv1-ml-task-types` | 15 | 2 | 15/15 | PASS |
 | `rvonwheelz` | 15 | 3 | 15/15 | PASS |
+| `smartplane-weight` | 15 | 2 | 15/15 | PASS |
+| `smartplane-where` | 15 | 2 | 15/15 | PASS |
 | `bfsi` | 14 | 4 | 14/14 | PASS |
 | `inspiration` | 14 | 5 | 14/14 | PASS |
 | `interests` | 14 | 5 | 14/14 | PASS |
@@ -362,7 +374,6 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | `linkedin-knowledge` | 11 | 2 | 11/11 | PASS |
 | `project-stacks` | 11 | 2 | 11/11 | PASS |
 | `spiti` | 11 | 2 | 11/11 | PASS |
-| `voice-uav` | 11 | 4 | 11/11 | PASS |
 | `key-monastery` | 10 | 3 | 10/10 | PASS |
 | `research-discrepant-user` | 10 | 2 | 10/10 | PASS |
 | `research-eidolon-trust` | 10 | 2 | 10/10 | PASS |
@@ -380,22 +391,22 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 
 | Check | Result |
 |---|---|
-| Curated answers in the index whose evidence resolved to at least one record | 289/289 |
+| Curated answers in the index whose evidence resolved to at least one record | 299/299 |
 | Evidence links the build could not resolve | 0 |
-| Curated answers served in this run (289 distinct) with at least one citation | 6,259/6,259 |
-| ...cited by a record from their own evidence list | 6,259/6,259 |
-| All answers served (curated, video, repository, retrieval; small talk and declines excluded) with a citation | 6,363/6,363 |
-| Served answers containing a client name (Southwest, PwC, American Express, Amex) | 0 of 6,441 |
-| Curated answers in the index (and their translations) containing a client name | 0 of 289 |
+| Curated answers served in this run (299 distinct) with at least one citation | 6,489/6,489 |
+| ...cited by a record from their own evidence list | 6,489/6,489 |
+| All answers served (curated, video, repository, retrieval; small talk and declines excluded) with a citation | 6,595/6,595 |
+| Served answers containing a client name (Southwest, PwC, American Express, Amex) | 0 of 6,676 |
+| Curated answers in the index (and their translations) containing a client name | 0 of 299 |
 
 ## 6. Performance
 
 | Measure | Value |
 |---|---|
-| Questions timed (one `answerQuestion` call each) | 6,441 |
-| p50 / p95 / max latency | 25.42 ms / 47.15 ms / 346.69 ms |
-| Mean latency · first (cold) call | 27.39 ms · 261.25 ms |
+| Questions timed (one `answerQuestion` call each) | 6,676 |
+| p50 / p95 / max latency | 27.19 ms / 50.43 ms / 268.49 ms |
+| Mean latency · first (cold) call | 29.39 ms · 263.11 ms |
 | p95 limit | 250 ms (PASS) |
-| Index: chunks · curated answers · documents · vocabulary | 937 · 289 · 487 · 9,785 |
-| `site/data/index.json` · `semantic.json` | 5,190,955 bytes (4.95 MB) · 1,450,117 bytes (1.38 MB) |
+| Index: chunks · curated answers · documents · vocabulary | 962 · 299 · 501 · 9,856 |
+| `site/data/index.json` · `semantic.json` | 5,270,676 bytes (5.03 MB) · 1,478,604 bytes (1.41 MB) |
 | Build time | not measured (run with `--build`) |

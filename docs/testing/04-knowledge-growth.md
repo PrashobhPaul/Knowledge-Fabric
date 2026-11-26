@@ -61,3 +61,76 @@ chips match the before run. Details: `GROWTH.md`.
 
 Left for the owner: supervisor profile details and a summary of the 2025 *Knowledge and Information
 Systems* paper (see [06](06-open-items-next.md)).
+
+## Second growth: the smart plane press and videos (`6f46a39`, `3c29809`, `ed608df`, 2026-11-26)
+
+The owner's new facts: two Telugu newspaper clippings about his 2012 B.Tech project, the smart plane
+(Eenadu, Jangaon edition, "The little plane flew"; Namasthe Telangana, Monday 24 September 2012, page 8,
+"With the sky as the limit"), his old YouTube channel @Phoenix007Super, made for the smart plane robot
+work, and a demonstration video (`VomUVZ0IKeM`) uploaded by someone at the college. YouTube cannot be
+reached from where this was written, so the Factory was taught to fetch the videos itself.
+
+| Added | Where |
+|---|---|
+| Both clippings transcribed: paper, date, page, Telugu headline with translation, every fact marked "as reported", the uncertain ones listed, and his own account (voice control with HMM speech recognition) kept apart | `docs_source/notes/press/Smart_Plane_Press_2012.md` |
+| The two links, what they are in his words, what the sync still has to fill | `docs_source/notes/press/Smart_Plane_Videos.md` |
+| Factory: `extra_channels` (handle → channel id from the channel page → RSS) and `extra_videos` (oEmbed for title and uploader, watch page for the date) into `youtube/extra_videos.json`. Tried before the main feed; a refusal is a note, never a failed sync | `knowledge_factory/config.yaml`, `knowledge_factory/sources/youtube.py` |
+| Seed records for both links, placeholder titles, `pending_sync: true` | `knowledge_sources/youtube/extra_videos.json` |
+| Connector: a channel record and video records with their real channel and a "smart plane" topic; the catalogue answer says where an older upload really is | `pipeline/connectors/youtube.py`, `site/js/pipeline.js` |
+| 10 curated answers (`smartplane-*`: press, specs, weight, engine, unveiled-by, minister, when, video, channel, where) | `canon_smartplane.yaml` |
+| `voice-uav` names Eenadu, Namasthe Telangana and the video, takes "Tell me about your smart plane", and gives up its "newspaper" cue | `canon.yaml` |
+| 41 questions with their facts plus 3 details the clippings do not give (speed, cost, range) that must be declined; added to the integration rounds | `tests/qa_smartplane.json` |
+| 5 offline tests: handle and date parsing, a full fake sync, a refused sync, the connector records | `tests/test_youtube_extras.py` |
+
+Not added: the sensor list and which dimension is the length or the wingspan (not transcribed), which
+Namasthe Telangana profiles name him (not legible), the Eenadu issue date (not in the transcription; the
+unveiling date 15 September 2012 is inferred from "Saturday, Engineers' Day" and marked so), and the
+spelling of the director and principal (transliterated, marked uncertain).
+
+### Before and after (same machine, `node tests/prove.mjs` on a fresh build)
+
+| Measure | Before (`28456e7`) | After (`ed608df`) | Change |
+|---|---:|---:|---|
+| Earlier sets (16) | 6,441/6,441 | 6,632/6,632 | the 6,441 still pass; coverage regenerated, +191 wordings |
+| New `qa_smartplane.json` | — | 44/44 (146/146 rubric points, 3/3 declines) | +44 |
+| All sets | 6,441/6,441 | 6,676/6,676 | 17 sets |
+| Brief · determinism · context | 82/82 · 523/523 · 1,569/1,569 | 82/82 · 523/523 · 1,569/1,569 | none |
+| Paraphrase consistency | 289 answers, 5,633 phrasings | 299 answers, 5,847 phrasings | all land |
+| Grounding: resolved · unresolved · leaks | 289/289 · 0 · 0 | 299/299 · 0 · 0 | none |
+| Latency p50 / p95 / max | 25.42 / 47.15 / 346.69 ms | 27.19 / 50.43 / 268.49 ms | +1.8 ms p50, +3.3 ms p95; limit 250 ms |
+| Index: chunks · answers · documents · vocab | 937 · 289 · 487 · 9,785 | 962 · 299 · 501 · 9,856 | +25 · +10 · +14 · +71 |
+| `index.json` · `semantic.json` | 5,190,955 · 1,450,117 bytes | 5,270,676 · 1,478,604 bytes | +1.5% · +2.0% |
+| Retrieval hybrid: recall@10 · MRR · nDCG@10 | 1.000 · 0.963 · 0.945 | 1.000 · 0.963 · 0.948 | gate passes |
+
+Of the 6,441 earlier answers, **0** changed which answer they land on. **16** changed text on purpose
+(`voice-uav` gained the press and video sentence), **4** declines offer a smart plane question among their
+"closest things I can answer" chips (for example "Who is the prime minister of India?" now suggests "Did a
+minister appreciate your project?"), **1** retrieval answer cites a different chapter of the same Manali
+video, and **6,420** are byte-identical. The after report says "ed608df + uncommitted changes": the only
+uncommitted change during that run was the one-line link in `docs/testing/README.md`.
+
+### What the proof caught on the way (each fixed at its cause; no earlier test edited)
+
+- Cue words that reached too far: "analyser robot" pulled "Have you built robots?" onto `voice-uav`, and
+  "weather analyser" pulled "What is the weather today?" there too (gold and round 5). Both cues were
+  removed. Generic cue phrases ("where did", "how big", "write about", "technical details", "youtube
+  video", "built", "government") were dropped before the first run for the same reason.
+- "Which other YouTube channel did you run for the smart plane?" moved to the video answer once "robot
+  work" was taken out of the channel answer; the cue "other youtube channel" brought it back.
+- Two question variants were too thin to separate answers ("What was the smart plane made of?" keeps only
+  "smart plane" once stop words go), so they were made specific.
+- Facts with an apostrophe or ampersand cannot be checked, because answers are HTML-escaped: the rubric
+  checks "Engineers" and "department" instead of "Engineers' Day" and "R&D".
+- `cite` checks run only in the coverage set, so the catalogue question about the demonstration video is
+  checked by its id (`catalogue`) and wording in `qa_smartplane.json`; coverage checks the citation.
+- `tests/gen_coverage.py` builds variants from a Python set, so its order changes from run to run with the
+  same content; a regenerated file whose questions are unchanged is not committed.
+
+Open items: "Who was the pilot?" is answered, before and after this change, by the interview answer
+`iv1-poc-to-production` ("pilot" as in a pilot project), so it is not a decline case; his own account says
+he flew the plane by voice. Impersonal questions about details not on record ("What was the top speed of
+the smart plane?") are declined, but the same question with "your" ("How much did your smart plane cost?")
+is answered with the specifications. Left for the owner: upload the scans to `docs_source/press/`, run the
+Factory once (Actions → Knowledge Factory → Run workflow, `youtube`) to replace the placeholder titles, and
+confirm the sensors, the dimension labels, the two spellings and "0.6 cc", kept as printed (model engines
+are often sized in cubic inches, and a ".60" engine is about 10 cc).
