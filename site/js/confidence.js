@@ -227,30 +227,31 @@ export function computeConfidence({ analysis, ranked, sentences, diagnostics, id
 function plainVerdict(conf) {
   const strong = Object.values(conf.signals).filter(s => s.value >= 0.6).length;
   if (conf.percent >= 70) {
-    return 'Strong answer. The evidence was clear, consistent, and covered what you asked.';
+    return 'A strong answer. The evidence was clear, consistent and covered what you asked.';
   }
   if (conf.percent >= 45) {
-    return `Reasonable answer, with caveats. ${strong} of 5 quality checks came back strong — ` +
-           `the notes below say which ones did not.`;
+    return `A reasonable answer, with caveats. ${strong} of 5 checks came back strong; ` +
+           `the notes below say which did not.`;
   }
   if (conf.percent >= 25) {
-    return 'Weak answer. Read the supporting passages before relying on this.';
+    return 'A weak answer. Read the supporting passages before relying on it.';
   }
-  return 'The documentation does not appear to answer this. Treat what is shown as related context only.';
+  return 'The sources don’t appear to answer this. Treat what is shown as related context only.';
 }
 
 export function renderConfidenceBreakdown(conf) {
   if (!conf || !conf.signals) return '';
-  const rows = Object.entries(conf.signals).map(([key, s]) => `
+  const rows = Object.entries(conf.signals).map(([key, s], i) => `
     <div class="conf-row">
       <div class="conf-row-head">
         <span class="conf-row-label">${s.plainLabel || s.label}</span>
-        <span class="conf-row-val">${s.percent}%</span>
+        <span class="conf-row-weight">weight ${s.contribution}</span>
+        <span class="conf-row-val" data-count="${s.percent}" data-decimals="1" data-suffix="%">${s.percent}%</span>
       </div>
-      <div class="conf-row-bar"><span style="width:${s.percent}%"></span></div>
+      <div class="conf-row-bar"><span class="js-grow" style="--v:${Math.max(0, Math.min(1, s.percent / 100)).toFixed(3)};--d:${i * 70}ms"></span></div>
       <div class="conf-row-why">${s.plainWhy || s.why}</div>
       <details class="tech-detail">
-        <summary>How this is calculated</summary>
+        <summary>How it’s calculated</summary>
         <div class="tech-detail-body">
           <div class="conf-row-how"><code>${s.how}</code></div>
           <p class="conf-row-tech">${s.why}</p>
@@ -267,12 +268,12 @@ export function renderConfidenceBreakdown(conf) {
   return `
     <div class="conf-breakdown">
       <div class="conf-headline">
-        <span class="conf-headline-num">${conf.percent.toFixed(2)}%</span>
+        <span class="conf-headline-num" data-count="${conf.percent.toFixed(2)}" data-decimals="2" data-suffix="%">${conf.percent.toFixed(2)}%</span>
         <span class="conf-headline-band conf-band-${conf.band.replace(' ', '-')}">${conf.band} confidence</span>
       </div>
       <p class="conf-verdict">${plainVerdict(conf)}</p>
-      <p class="conf-method">This score is measured from the evidence found — five
-      independent checks, every time. It is not a fixed number.</p>
+      <p class="conf-method">Measured from the evidence behind this answer: five independent
+      checks, recalculated for every question.</p>
       ${rows}
       ${caveats}
       <details class="tech-detail tech-detail-wide">

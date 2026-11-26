@@ -47,7 +47,7 @@ function coverage(index) {
   const TARGET = 8;
   const value = pct(perDoc / TARGET);
   return {
-    key: 'coverage', plainLabel: 'Depth', plainWhat: 'How much usable material each document contributes.', plainRisk: 'Thin documents give the system only one place to look, so answers get shallower.', label: 'Coverage', value, band: band(value),
+    key: 'coverage', plainLabel: 'Depth', plainWhat: 'How much usable material each maintained document contributes.', plainRisk: 'Thin documents give Eidolon one place to look, so answers get shallower.', label: 'Coverage', value, band: band(value),
     formula: 'min(1, meanPassagesPerDocument / 8) × 100',
     inputs: { maintainedDocuments: docs, passages: chunks,
               meanPassagesPerDocument: +perDoc.toFixed(2), target: TARGET,
@@ -64,7 +64,7 @@ function connectivity(index) {
   const ratio = linked / Math.max(entities.length, 1);
   const value = pct(ratio / 0.35);      // 35% cross-document linkage = healthy fabric
   return {
-    key: 'connectivity', plainLabel: 'Connectedness', plainWhat: 'How often the same topic appears across different documents.', plainRisk: 'Disconnected documents mean questions spanning two of them cannot be answered at all.', label: 'Connectivity', value, band: band(value),
+    key: 'connectivity', plainLabel: 'Connections', plainWhat: 'How often the same topic appears in more than one record.', plainRisk: 'Records that share no topic cannot be combined into one answer.', label: 'Connectivity', value, band: band(value),
     formula: '(entities appearing in ≥2 documents / all entities) / 0.35 × 100',
     inputs: { entities: entities.length, crossDocumentEntities: linked,
               rawRatio: +(ratio * 100).toFixed(1) + '%', healthyThreshold: '35%' },
@@ -87,7 +87,7 @@ function provenance(index) {
   const byMethod = {};
   for (const d of docs) byMethod[d.date_method || 'unknown'] = (byMethod[d.date_method || 'unknown'] || 0) + 1;
   return {
-    key: 'provenance', plainLabel: 'Traceability', plainWhat: 'Whether we can tell when each document is from, and how we know.', plainRisk: 'Without dates you cannot tell the current resume from an old revision.', label: 'Provenance', value, band: band(value),
+    key: 'provenance', plainLabel: 'Traceability', plainWhat: 'Whether each record can be dated, and how reliably.', plainRisk: 'Without dates there is no telling the current resume from an old revision.', label: 'Provenance', value, band: band(value),
     formula: '(documentsWithAnyDate + documentsWithAuthoritativeDate) / (2 × documents) × 100',
     inputs: { documents: docs.length, withDate: dated.length, authoritative, byMethod },
     meaning: 'Can we say when each record is from, and how do we know? Counts ' +
@@ -103,7 +103,7 @@ function extractionQuality(index) {
   const chunks = index.chunks || [];
   const withQ = chunks.filter(c => typeof c.quality === 'number');
   if (!withQ.length) {
-    return { key: 'extraction', plainLabel: 'Readability', plainWhat: 'How much of the text is clean prose rather than table debris.', plainRisk: 'Debris produces answers that look confident and read as nonsense.', label: 'Extraction quality', value: 0, band: 'critical',
+    return { key: 'extraction', plainLabel: 'Readability', plainWhat: 'How much of the text is clean prose rather than fragments, code or tables.', plainRisk: 'Debris produces answers that sound confident and read as nonsense.', label: 'Extraction quality', value: 0, band: 'critical',
              formula: 'mean(chunk.quality)', inputs: { measured: 0 },
              meaning: 'Share of indexed text that is clean prose.',
              lowMeans: 'Not measured — rebuild the index to populate sentence quality.' };
@@ -114,8 +114,8 @@ function extractionQuality(index) {
   for (const c of chunks) for (const s of (c.sents || [])) { sents++; if (s.k === 'prose') prose++; }
   return {
     key: 'extraction', plainLabel: 'Readability',
-    plainWhat: 'How much of the text is clean prose rather than table debris.',
-    plainRisk: 'Debris produces answers that look confident and read as nonsense.',
+    plainWhat: 'How much of the text is clean prose rather than fragments, code or tables.',
+    plainRisk: 'Debris produces answers that sound confident and read as nonsense.',
     label: 'Extraction quality', value, band: band(value),
     formula: 'mean(perPassageProseQuality) × 100, from build-time sentence classification',
     inputs: { passagesMeasured: withQ.length, sentences: sents, proseSentences: prose,
@@ -131,7 +131,7 @@ function freshness(index) {
   const maintained = (index.documents || []).filter(isMaintainedDocument);
   const docs = maintained.filter(d => d.date_date);
   if (!docs.length) {
-    return { key: 'freshness', plainLabel: 'Currency', plainWhat: 'How recent the maintained documents are.', plainRisk: 'An out-of-date resume or site answers with yesterday\'s role.', label: 'Freshness', value: 0, band: 'critical',
+    return { key: 'freshness', plainLabel: 'Recency', plainWhat: 'How recently the resume, website and profile were updated.', plainRisk: 'An out-of-date resume or site answers with yesterday\'s role.', label: 'Freshness', value: 0, band: 'critical',
              formula: 'median document age', inputs: { dated: 0 },
              meaning: 'How current the corpus is.',
              lowMeans: 'No dates resolved, so age is unknown — not the same as old.' };
@@ -144,9 +144,9 @@ function freshness(index) {
   const FRESH_DAYS = 365, STALE_DAYS = 1460;
   const value = pct(1 - (median - FRESH_DAYS) / (STALE_DAYS - FRESH_DAYS));
   return {
-    key: 'freshness', plainLabel: 'Currency',
-    plainWhat: 'How recent the maintained documents are.',
-    plainRisk: 'Out-of-date documentation is a compliance exposure, not just a quality one.',
+    key: 'freshness', plainLabel: 'Recency',
+    plainWhat: 'How recently the resume, website and profile were updated.',
+    plainRisk: 'An out-of-date resume or site answers with yesterday\'s role.',
     label: 'Freshness', value, band: band(value),
     formula: '1 − (medianAgeDays − 365) / (1460 − 365), clamped to [0,1]',
     inputs: { maintainedDocuments: maintained.length, datedDocuments: docs.length,
@@ -240,10 +240,18 @@ export function healthNarrative(health) {
     : 'fragile in ways that will affect answers';
   return {
     verdict,
-    headline: `This knowledge set is ${verdict}.`,
-    strongest: `Strongest: ${strongest.plainLabel.toLowerCase()} — ${strongest.plainWhat.toLowerCase()}`,
-    weakest: `Needs attention: ${weakest.plainLabel.toLowerCase()}. ${weakest.plainRisk}`,
+    headline: `Overall, this knowledge base is ${verdict}.`,
+    strongest: `Strongest: ${strongest.plainLabel.toLowerCase()}. ${strongest.plainWhat}`,
+    weakest: `Close first: ${weakest.plainLabel.toLowerCase()}. ${weakest.plainRisk}`,
+    weakestKey: weakest.key,
   };
+}
+
+// A value such as 13% or 175 rolls up when it comes into view; anything else
+// (e.g. "2 (+1 regressed)") is shown as written.
+function countAttrs(v) {
+  const m = /^(\d+(?:\.\d+)?)(%?)$/.exec(String(v));
+  return m ? ` data-count="${m[1]}"${m[2] ? ' data-suffix="%"' : ''}` : '';
 }
 
 export function renderHealthDerivation(health) {
@@ -251,12 +259,12 @@ export function renderHealthDerivation(health) {
     <div class="health-derive-row">
       <div class="health-derive-head">
         <span class="health-derive-label">${m.plainLabel || m.label}</span>
-        <span class="health-derive-value health-band-${m.band}">${m.value}</span>
+        <span class="health-derive-value health-band-${m.band}" data-count="${m.value}">${m.value}</span>
       </div>
       <div class="health-derive-meaning">${m.plainWhat || m.meaning}</div>
       <div class="health-derive-low"><b>Why it matters:</b> ${m.plainRisk || m.lowMeans}</div>
       <details class="tech-detail">
-        <summary>How this is calculated</summary>
+        <summary>How it’s calculated</summary>
         <div class="tech-detail-body">
           <div class="health-derive-formula"><code>${m.formula}</code></div>
           <div class="health-derive-inputs">${
@@ -272,11 +280,11 @@ export function renderHealthDerivation(health) {
     <div class="health-derive-row health-derive-risk">
       <div class="health-derive-head">
         <span class="health-derive-label">${r.label}</span>
-        <span class="health-derive-value">${r.value}</span>
+        <span class="health-derive-value"${countAttrs(r.value)}>${r.value}</span>
       </div>
       <div class="health-derive-low">${r.why}</div>
       <details class="tech-detail">
-        <summary>How this is counted</summary>
+        <summary>How it’s counted</summary>
         <div class="tech-detail-body">
           <div class="health-derive-inputs"><span class="hd-kv">${r.detail}</span></div>
           <div class="health-derive-formula"><code>${r.how}</code></div>
@@ -288,10 +296,9 @@ export function renderHealthDerivation(health) {
   return `
     <div class="health-derivation">
       <p class="health-derive-intro">
-        <strong>${n.headline}</strong> Each measure below is calculated from the
-        documents themselves every time this page loads — nothing is configured or
-        typed in. Open <em>How this is calculated</em> on any row to see the exact
-        working.
+        <strong>${n.headline}</strong> Every measure below is recalculated from the
+        sources each time the page loads; nothing is typed in by hand. Open
+        <em>How it’s calculated</em> on any row for the exact working.
       </p>
       <h4>What we measured</h4>${rows}
       <h4>Where the risk sits</h4>${riskRows}

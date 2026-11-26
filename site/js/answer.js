@@ -24,7 +24,7 @@ import { analyseQuestion, rerankByIntent, anchorRecordTypes, termSatisfied } fro
 import { relatedItems } from './related.js?v=1';
 import { expandQuery } from './multilingual.js?v=1';
 import { summarise } from './summarize.js?v=7';
-import { computeConfidence } from './confidence.js?v=7';
+import { computeConfidence } from './confidence.js?v=8';
 import { composeResponse, composeNoAnswer } from './compose.js?v=8';
 
 /**
