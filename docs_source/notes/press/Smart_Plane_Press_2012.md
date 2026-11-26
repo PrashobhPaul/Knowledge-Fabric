@@ -15,7 +15,7 @@ account; his own account, in his words, is in the last section.
 ## Eenadu, Jangaon edition: "The little plane flew"
 
 - Newspaper: Eenadu, Jangaon edition, filed by its "News Today" desk.
-- Date and page of the issue: not shown on the clipping.
+- Date and page of the issue: not in the transcription.
 - Headline: ఎగిరిన బుల్లి విమానం ("The little plane flew").
 - Photo caption: కళాశాల పరిసరాల్లో ఎగురుతున్న వాతావరణ విశ్లేషక.. రోబో విమానం ("The weather-analyser robot plane flying over the college premises").
 
@@ -66,10 +66,10 @@ Paul, so this note does not say.
 
 ## What is certain and what is not
 
-- Eenadu prints no date in the clipping, only that the plane was unveiled on "Saturday,
-  Engineers' Day". Engineers' Day in India is 15 September, and 15 September 2012 was a
-  Saturday, so the unveiling was most likely on 15 September 2012. That date is inferred, not
-  printed.
+- The Eenadu transcription carries no issue date, and the report says only that the plane was
+  unveiled on "Saturday, Engineers' Day". Engineers' Day in India is 15 September, and
+  15 September 2012 was a Saturday, so the unveiling was most likely on 15 September 2012. That
+  date is inferred, not printed.
 - The names are transliterated from the Telugu. The spelling of the director (Papireddy) and
   the principal (Sunil Pratap Reddy) is uncertain.
 - The sensor list, and which of the two dimensions is the length and which the wingspan, are not
