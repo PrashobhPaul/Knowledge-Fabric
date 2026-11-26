@@ -790,6 +790,8 @@ check('every harder round (multi-part, comparisons, follow-ups, Indic, typos) an
     const want = Array.isArray(c.id) ? c.id : [c.id];
     if (!want.includes(got)) misses.push(`${f}: "${c.q}" → ${got} (want ${want.join('|')})`);
     else if (c.must && !plain(r).includes(c.must)) misses.push(`${f}: "${c.q}" lacks "${c.must}"`);
+    else if ((c.must_all || []).some(t => !plain(r).toLowerCase().includes(String(t).toLowerCase())))
+      misses.push(`${f}: "${c.q}" misses rubric points ${(c.must_all || []).filter(t => !plain(r).toLowerCase().includes(String(t).toLowerCase())).join(', ')}`);
   }
   assert(n >= 240, `the harder rounds shrank to ${n} questions`);
   assert(misses.length === 0, `${misses.length}/${n} off target:\n          ` + misses.join('\n          '));
