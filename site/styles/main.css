@@ -2298,6 +2298,11 @@ button[data-tip], a[data-tip], .flip-card[data-tip] { cursor: pointer; }
   .qz-divider, .qz-context { display: none; }
 }
 @media (max-width: 560px) {
+  /* Half-width tiles: the counts carry the working, the micro-bars would only truncate the labels */
+  .tile .flip-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .tile .flip-row-bar { display: none; }
+  .tile .flip-back-head { letter-spacing: 0.14em; }
+  .tile .flip-method { font-size: 0.74rem; }
   /* Seven source systems as a compact list rather than four rows of tall cards */
   .source-strip { grid-template-columns: minmax(0, 1fr); gap: 8px; }
   .src-card {
