@@ -1,0 +1,344 @@
+# =============================================================================
+# Canon, the smart plane: my 2012 B.Tech project in the Telugu press and on YouTube,
+# answered the way Prashobh answers it.
+# =============================================================================
+#
+# Same schema and rules as canon.yaml: first person, no claim without evidence,
+# the first question is the canonical one. The press facts come only from the two
+# clippings transcribed in docs_source/notes/press/Smart_Plane_Press_2012.md and are
+# said as the papers reported them; the videos come from
+# docs_source/notes/press/Smart_Plane_Videos.md and the records in
+# knowledge_sources/youtube/extra_videos.json (resolved at build; an unresolved link
+# is reported). Flying the plane by voice, with speech recognition on Hidden Markov
+# Models, is his own account; the papers describe the climate-analyser robot plane.
+# Not on record, and so not answered: the sensor list, which dimension is which, the
+# speed, range, flight time and cost, and which newspaper profiles name him.
+# Keywords are precise cues: "What was your college project?" and "What happened on
+# Engineer's Day 2012?" stay with voice-uav, which now points to these answers.
+
+as_of: "2026-11-26"
+
+canon:
+- id: smartplane-press
+  topics:
+  - education
+  - personal
+  questions:
+  - Was your smart plane in the newspapers?
+  - What did the newspapers say about your college project?
+  - Did the newspapers write about your smart plane?
+  - Which newspapers covered your smart plane?
+  - Was your smart plane covered in the press?
+  - What did the papers write about the smart plane?
+  answer: Two Telugu newspapers wrote about it after Engineers' Day 2012. Eenadu, in its Jangaon
+    edition, ran it as "The little plane flew", with a photo of the plane flying over our college, and
+    reported that the students of Christu Jyothi Institute of Technology and Science had built the Smart
+    Plane Climate Analyser Robot under the college's R&D department. Namasthe Telangana followed on Monday,
+    24 September 2012, on page 8, with "With the sky as the limit", a feature on our students' innovations
+    with photos of the smart plane. The papers describe the climate-analyser robot plane; flying it by voice,
+    with speech recognition on Hidden Markov Models, is my own account of it. Those paper cuttings are worth
+    more to me than any other record, because they were my launchpad.
+  evidence:
+  - url: doc:Smart_Plane_Press_2012
+    source: notes
+    why: The Eenadu and Namasthe Telangana clippings, transcribed from the Telugu
+  - url: doc:Prashobh_In_His_Own_Words
+    source: notes
+    why: Covered in the regional Telugu papers, my launchpad
+  keywords:
+  - newspapers
+  - newspaper
+  - papers
+  - press
+  - press coverage
+  - in the news
+  - news
+  - media
+  - coverage
+  - covered
+  - eenadu
+  - namasthe
+  - namasthe telangana
+  - telugu papers
+  - telugu newspapers
+  - paper cuttings
+  - cuttings
+  - clippings
+  - clipping
+  - headline
+  - article
+  - reported
+- id: smartplane-specs
+  topics:
+  - education
+  questions:
+  - What were the specifications of your smart plane?
+  - What were the specs of the smart plane?
+  - How big was your smart plane?
+  - What material was the smart plane made of?
+  - What are the technical details of your smart plane?
+  answer: 'Eenadu printed them in a box on the smart plane''s special features: a 4-stroke engine
+    of 0.6 cc capacity, running on fuel with 20 percent nitro; the sensors it carried, which the box lists;
+    dimensions of 6.2 ft and 6.5 ft; a weight of 8 kg; and a body of balsa and plywood. That is the Smart
+    Plane Climate Analyser Robot as the paper described it. What the box does not show is the voice control,
+    flying it with speech recognition on Hidden Markov Models, which is my own account of the project.'
+  evidence:
+  - url: doc:Smart_Plane_Press_2012
+    source: notes
+    why: The specification box in the Eenadu clipping
+  keywords:
+  - specifications
+  - specification
+  - specs
+  - spec
+  - dimensions
+  - dimension
+  - size
+  - wingspan
+  - length
+  - made of
+  - body
+  - material
+  - materials
+  - balsa
+  - plywood
+  - sensors
+  - sensor
+  - features
+- id: smartplane-weight
+  topics:
+  - education
+  questions:
+  - How much did the smart plane weigh?
+  - What was the weight of your smart plane?
+  - How heavy was the smart plane?
+  answer: 8 kg, as Eenadu printed it in its box on the smart plane's special features. The same box
+    gives a body of balsa and plywood, a 4-stroke engine of 0.6 cc capacity on fuel with 20 percent nitro,
+    and dimensions of 6.2 ft and 6.5 ft.
+  evidence:
+  - url: doc:Smart_Plane_Press_2012
+    source: notes
+    why: 'Weight: 8 kg, in the Eenadu specification box'
+  keywords:
+  - weigh
+  - weighed
+  - weight
+  - heavy
+  - how heavy
+  - kg
+  - kilograms
+  - kilos
+- id: smartplane-engine
+  topics:
+  - education
+  questions:
+  - What engine did the plane use?
+  - What engine did your smart plane have?
+  - What fuel did the smart plane run on?
+  - What fuel did your smart plane use?
+  answer: A 4-stroke engine of 0.6 cc capacity, running on fuel with 20 percent nitro, as Eenadu printed
+    it in its box on the smart plane's special features. The same box gives the plane a weight of 8 kg and
+    a body of balsa and plywood.
+  evidence:
+  - url: doc:Smart_Plane_Press_2012
+    source: notes
+    why: 'Engine: 4-stroke, 0.6 cc; fuel: 20 percent nitro'
+  keywords:
+  - engine
+  - engines
+  - motor
+  - fuel
+  - nitro
+  - stroke
+  - 4 stroke
+  - four stroke
+  - cc
+  - petrol
+- id: smartplane-unveiled-by
+  topics:
+  - education
+  questions:
+  - Who unveiled your smart plane?
+  - Who launched the smart plane?
+  - Who was the chief guest when the smart plane was unveiled?
+  - Who inaugurated your smart plane?
+  answer: As Eenadu reported, it was unveiled by Professor Mallareddy of Kakatiya University, Acharya
+    Mallareddy in the Telugu, with Dr. Narayana Reddy, the founder of the St. Peter's institutions, and Raja,
+    the deputy manager of the Warangal Diocese. That was on Engineers' Day at Christu Jyothi Institute of
+    Technology and Science, and the plane flew over the college premises.
+  evidence:
+  - url: doc:Smart_Plane_Press_2012
+    source: notes
+    why: Unveiled by Prof. Mallareddy of Kakatiya University, as Eenadu reported
+  keywords:
+  - unveiled by
+  - who unveiled
+  - who launched
+  - launched by
+  - chief guest
+  - guests
+  - guest
+  - inaugurated
+  - inaugurate
+  - mallareddy
+  - kakatiya
+  - kakatiya university
+  - narayana reddy
+  - st peters
+  - warangal
+  - diocese
+- id: smartplane-minister
+  topics:
+  - education
+  - personal
+  questions:
+  - Did a minister appreciate your project?
+  - Did a minister praise your smart plane?
+  - Which minister congratulated you?
+  answer: Yes. Under the heading "Minister Ponnala's praise", Eenadu reported that Minister Ponnala praised
+    the students who built the smart plane and congratulated them by phone. Recognition like that, in the
+    regional Telugu papers, is why I call those paper cuttings my launchpad into AI.
+  evidence:
+  - url: doc:Smart_Plane_Press_2012
+    source: notes
+    why: Minister Ponnala's praise, as Eenadu reported
+  keywords:
+  - minister
+  - ministers
+  - ponnala
+  - praised
+  - praise
+  - appreciated
+  - appreciate
+  - appreciation
+  - congratulated
+  - congratulate
+  - congratulations
+  - by phone
+- id: smartplane-when
+  topics:
+  - education
+  questions:
+  - When was the smart plane unveiled?
+  - When did your smart plane fly?
+  - On what date was your smart plane unveiled?
+  - Which day was the smart plane launched?
+  answer: On Engineers' Day in 2012, the day I flew it. Eenadu reported that the Smart Plane Climate Analyser
+    Robot was unveiled on a Saturday, Engineers' Day, at Christu Jyothi Institute of Technology and Science.
+    Engineers' Day falls on 15 September, which in 2012 was a Saturday, though the clipping itself prints
+    only "Saturday, Engineers' Day". Namasthe Telangana's feature followed on Monday, 24 September 2012.
+  evidence:
+  - url: doc:Smart_Plane_Press_2012
+    source: notes
+    why: Unveiled on Saturday, Engineers' Day; Namasthe Telangana, 24 September 2012
+  - url: doc:Prashobh_In_His_Own_Words
+    source: notes
+    why: Flown on Engineer's Day in 2012
+  keywords:
+  - when was
+  - when did
+  - what date
+  - which date
+  - on what date
+  - which day
+  - what day
+  - date
+  - unveil
+  - unveiled
+  - unveiling
+  - launched
+  - september
+- id: smartplane-video
+  topics:
+  - education
+  - youtube
+  questions:
+  - Is there a video of your smart plane?
+  - Do you have a video of the smart plane?
+  - Can I watch your smart plane fly?
+  - Where can I see the smart plane demonstration?
+  answer: Yes. My demonstration of the smart plane is on YouTube, at youtube.com/watch?v=VomUVZ0IKeM.
+    Someone at the college uploaded it at the time, so it is not on a channel of mine. Back then I also made
+    a channel for the smart plane robot work, Phoenix007Super, at youtube.com/@Phoenix007Super.
+  evidence:
+  - url: https://www.youtube.com/watch?v=VomUVZ0IKeM
+    source: youtube
+    why: The smart plane demonstration, uploaded by someone at the college
+  - url: doc:Smart_Plane_Videos
+    source: notes
+    why: What the two links are, in my words
+  links:
+  - label: Watch the smart plane demonstration
+    url: https://www.youtube.com/watch?v=VomUVZ0IKeM
+  keywords:
+  - video
+  - videos
+  - watch
+  - demonstration
+  - demo
+  - footage
+  - clip
+  - recording
+  - see it fly
+- id: smartplane-channel
+  topics:
+  - youtube
+  - personal
+  questions:
+  - What was your old YouTube channel?
+  - What is Phoenix007Super?
+  - Did you have another YouTube channel?
+  - Did you have a YouTube channel in college?
+  answer: Phoenix007Super, at youtube.com/@Phoenix007Super. It is my old YouTube channel, which I made
+    for the smart plane robot work in college, my 2012 B.Tech project. The smart plane demonstration itself
+    was uploaded by someone at the college, at youtube.com/watch?v=VomUVZ0IKeM. Today my channel is The
+    Canvas of Earth, for travel.
+  evidence:
+  - url: https://www.youtube.com/@Phoenix007Super
+    source: youtube
+    why: The old channel, made for the smart plane robot work
+  - url: doc:Smart_Plane_Videos
+    source: notes
+    why: What the two links are, in my words
+  links:
+  - label: Phoenix007Super on YouTube
+    url: https://www.youtube.com/@Phoenix007Super
+  keywords:
+  - old channel
+  - old youtube channel
+  - older channel
+  - previous channel
+  - earlier channel
+  - another channel
+  - another youtube channel
+  - other channel
+  - other youtube channel
+  - second channel
+  - phoenix007super
+  - phoenix007
+- id: smartplane-where
+  topics:
+  - education
+  questions:
+  - Where was the smart plane built?
+  - Where did you build your smart plane?
+  - Which college built the smart plane?
+  answer: At my college, Christu Jyothi Institute of Technology and Science in Yeshwanthapur, Jangaon
+    mandal, where I did my B.Tech in Computer Science and Engineering under JNTU Hyderabad from 2008 to 2012.
+    Eenadu reported that the students built it under the college's R&D department, and its photo shows the
+    plane flying over the college premises.
+  evidence:
+  - url: doc:Smart_Plane_Press_2012
+    source: notes
+    why: Developed under the college R&D department, Yeshwanthapur, Jangaon mandal
+  - url: profile:education/JNTU Hyderabad
+    source: resume
+    why: B.Tech CSE at Christu Jyothi, 2008 to 2012
+  keywords:
+  - developed
+  - institute
+  - r d department
+  - research and development
+  - premises
+  - campus
+  - yeshwanthapur

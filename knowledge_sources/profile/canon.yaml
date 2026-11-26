@@ -2165,16 +2165,18 @@ canon:
   - engineering project
   - btech project
   - hmm
-  - newspaper
   - flying
   - build a drone
   - built a drone
   - engineer
   - engineers day
   - '2012'
+  - climate analyser
+  - climate analyzer
   questions:
   - Tell me about your voice-controlled UAV.
   - What was your college project?
+  - Tell me about your smart plane.
   answer: 'In 2012, on Engineer''s Day, I flew a voice-controlled UAV, a climate-analyser smart plane,
     using speech recognition I built on Hidden Markov Models. It started because I wanted machines to
     read my textbooks aloud, since reading bored me and there were no audiobooks for everything then,
@@ -2182,7 +2184,9 @@ canon:
     as a sequence of hidden states, which works well for recognising a small set of spoken commands, exactly
     what flying a plane by voice needs. Dr. Uma N. Dulhera backed it, it made the regional Telugu newspapers,
     it carried me into my M.Tech in Knowledge Engineering, and my job offer came partly because of it.
-    Those paper cuttings are worth more to me than any other record: they were my launchpad into AI.'
+    Those paper cuttings are worth more to me than any other record: they were my launchpad into AI.
+    Eenadu and Namasthe Telangana wrote about it in 2012, and my demonstration of the smart plane is on
+    YouTube.'
   evidence:
   - url: doc:Prashobh_In_His_Own_Words
     source: resume
@@ -2190,6 +2194,12 @@ canon:
   - url: doc:Smaller_Projects
     source: resume
     why: Where it all started
+  - url: doc:Smart_Plane_Press_2012
+    source: notes
+    why: The Eenadu and Namasthe Telangana clippings
+  - url: https://www.youtube.com/watch?v=VomUVZ0IKeM
+    source: youtube
+    why: The smart plane demonstration video
 - id: project-stacks
   topics:
   - projects

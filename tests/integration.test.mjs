@@ -778,7 +778,7 @@ check('questions with no answer on record say so instead of showing a collage', 
 // Rounds 2–7: unseen, harder questions written after the golden set — paraphrases,
 // typos and shorthand, Indic scripts, several questions in one, comparisons,
 // career before/after, follow-ups that say "it", small talk, privacy and errands.
-const ROUNDS = ['qa_round2.json', 'qa_round3.json', 'qa_round4.json', 'qa_round5.json', 'qa_round6.json', 'qa_round7.json', 'qa_round8.json', 'qa_interview_s1.json', 'qa_interview_s2.json', 'qa_interview_s3.json', 'qa_interview_l2.json', 'qa_interview_heldout.json', 'qa_lang.json']
+const ROUNDS = ['qa_round2.json', 'qa_round3.json', 'qa_round4.json', 'qa_round5.json', 'qa_round6.json', 'qa_round7.json', 'qa_round8.json', 'qa_interview_s1.json', 'qa_interview_s2.json', 'qa_interview_s3.json', 'qa_interview_l2.json', 'qa_interview_heldout.json', 'qa_lang.json', 'qa_smartplane.json']
   .map(f => [f, JSON.parse(fs.readFileSync(path.join(ROOT, 'tests', f), 'utf8'))]);
 check('every harder round (multi-part, comparisons, follow-ups, Indic, typos) answers as the owner would', () => {
   const misses = [];
