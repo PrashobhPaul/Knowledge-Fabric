@@ -1,6 +1,6 @@
 # Eidolon — proof of accuracy and consistency
 
-Generated 2026-11-26 at commit `dfaa6b6 + uncommitted changes` by `node tests/prove.mjs` (Node v22.23.5). **Overall: PASS.**
+Generated 2026-11-26 at commit `7af218a + uncommitted changes` by `node tests/prove.mjs` (Node v22.23.5). **Overall: PASS.**
 
 ## How to read this
 
@@ -19,7 +19,7 @@ Generated 2026-11-26 at commit `dfaa6b6 + uncommitted changes` by `node tests/pr
 | 3 | Context independence: a previous question does not change the answer | PASS | 792/792 follow-up positions land on the cold answer |
 | 4 | Paraphrase consistency: every phrasing lands on its answer | PASS | 163/163 curated answers, 1,338 distinct phrasings |
 | 5 | Grounding: cited, proven, confidential | PASS | 1,574/1,574 curated answers served are cited by their own evidence · 0 unresolved links · 0 client-name leaks |
-| 6 | Performance: p95 ≤ 250 ms | PASS | p50 18.22 ms · p95 35.54 ms · max 164.61 ms over 1,756 questions |
+| 6 | Performance: p95 ≤ 250 ms | PASS | p50 17.7 ms · p95 35.37 ms · max 180.06 ms over 1,756 questions |
 
 ## 1. Accuracy
 
@@ -267,9 +267,9 @@ Test phrasings from all sets grouped by the one curated answer they expect (ques
 | Measure | Value |
 |---|---|
 | Questions timed (one `answerQuestion` call each) | 1,756 |
-| p50 / p95 / max latency | 18.22 ms / 35.54 ms / 164.61 ms |
-| Mean latency · first (cold) call | 19.68 ms · 164.61 ms |
+| p50 / p95 / max latency | 17.7 ms / 35.37 ms / 180.06 ms |
+| Mean latency · first (cold) call | 19.24 ms · 180.06 ms |
 | p95 limit | 250 ms (PASS) |
-| Index: chunks · curated answers · documents · vocabulary | 811 · 163 · 361 · 8,840 |
-| `site/data/index.json` · `semantic.json` | 3,787,293 bytes (3.61 MB) · 1,425,540 bytes (1.36 MB) |
-| Build time | 5.62 s (`--build`) |
+| Index: chunks · curated answers · documents · vocabulary | 811 · 163 · 361 · 8,843 |
+| `site/data/index.json` · `semantic.json` | 3,753,487 bytes (3.58 MB) · 1,425,540 bytes (1.36 MB) |
+| Build time | 4.88 s (`--build`) |

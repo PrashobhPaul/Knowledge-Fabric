@@ -52,9 +52,9 @@ canon:
     decision records. I prove the riskiest assumption first with a thin end-to-end slice on real data
     and a small golden evaluation set, and only then scale out.
 
-    That is how I worked at Tech Mahindra, turning GenAI demos for telecom and BFSI clients into production
-    systems, and how I run engagements at the Qualizeal AI Center of Excellence: requirement, metric,
-    layers, decision record, evaluation gate.'
+    I worked this way at Tech Mahindra, turning GenAI demos for telecom and BFSI clients into production
+    systems, and I run engagements in the Qualizeal AI Center of Excellence the same way. The sequence
+    does not change with the project: requirement, metric, layers, decision record, evaluation gate.'
   evidence:
   - url: profile:roles/Tech Mahindra
     source: resume
@@ -105,9 +105,8 @@ canon:
     go-live; and observability on p50 and p95 latency, tokens, cache hit rate and cost per request per
     tenant.
 
-    I keep the cheapest path the default. My own Knowledge Fabric is a fully static site with no backend,
-    so more readers add no server load and no cost; in an enterprise system the same instinct means precomputing
-    and caching whatever does not need a live model call.'
+    I keep the cheapest path the default: precompute and cache whatever does not need a live model call,
+    because at peak the cheapest request is the one that never reaches the model.'
   evidence:
   - url: doc:Knowledge_Fabric
     source: resume
@@ -150,16 +149,12 @@ canon:
     grounding. Services are stateless and spread across zones on Kubernetes, with readiness and liveness
     probes, pod disruption budgets and autoscaling; state lives in managed databases with backups and
     point-in-time recovery. Ingestion is idempotent and queue-based with dead-letter queues, so a failed
-    document is retried, not lost, and a bad batch never replaces a good index.
+    document is retried, not lost, and a bad batch never replaces a good index; my own Knowledge Factory
+    works that way, keeping the last good data when a source fails and recording the failure.
 
     I test the failure modes on purpose: kill a provider, slow the vector store, expire a token, and check
     that the SLOs and the user experience hold. Health checks cover quality as well as uptime, because
-    a model that answers fast and wrong is an outage too.
-
-    This is a pattern I build into my own code. In AgentBasedSystem the LLM intent classifier falls back
-    to the rule-based classifier on any error, low confidence or invalid output, so the system never hard-fails
-    because of the model. In my Knowledge Factory a failed source leaves the last good data in place and
-    records the failure, instead of shipping a half-empty index.'
+    a model that answers fast and wrong is an outage too.'
   evidence:
   - url: https://github.com/PrashobhPaul/AgentBasedSystem
     source: github
@@ -210,9 +205,7 @@ canon:
     real with LLM quotas, so I reserve capacity for critical tenants and queue the rest.
 
     Finally I test tenant isolation like any security control: automated cross-tenant tests in CI try
-    to retrieve another tenant''s documents and must always come back empty. It is the same discipline
-    I apply to confidentiality in my own Knowledge Fabric, where confidential names are masked before
-    anything is indexed.'
+    to retrieve another tenant''s documents and must always come back empty.'
   evidence:
   - url: profile:skills/Architecture & Cloud
     source: resume
@@ -259,18 +252,17 @@ canon:
     human approval.
 
     Data security: encryption in transit with TLS and at rest with KMS-managed keys, private networking
-    to model endpoints, tenant isolation, and data classification at ingestion. A PII redaction gateway
-    masks personal and confidential data before any prompt leaves for an external LLM API, under enterprise
-    terms of no retention and no training on our data, and the most sensitive classes are routed to a
-    self-hosted model. Outputs are filtered too, for leakage and for prompt-injection payloads hidden
-    in documents.
+    to model endpoints, tenant isolation, and data classification at ingestion, a discipline I first learned
+    on regulated patient data in clinical NLP for US hospitals. A PII redaction gateway masks personal
+    and confidential data before any prompt leaves for an external LLM API, under enterprise terms of
+    no retention and no training on our data, and the most sensitive classes are routed to a self-hosted
+    model. Outputs are filtered too, for leakage and for prompt-injection payloads hidden in documents.
 
     Everything is audited: who asked what, which documents were retrieved, which model answered and what
     it returned, kept immutable for compliance.
 
-    Healthcare taught me this discipline: in clinical NLP for US hospitals, privacy was non-negotiable.
-    And I apply it in my own work: in my Knowledge Fabric, confidential company names are masked in every
-    source at build time, before indexing, so the system can never quote one.'
+    However the rest is built, the model is never the security boundary; identity, the retrieval filter
+    and the gateway are.'
   evidence:
   - url: profile:roles/Primera
     source: resume
@@ -319,11 +311,10 @@ canon:
     and evaluation sets are cloud-neutral assets in Git, so a model swap in any cloud is tested against
     the same golden set before it ships.
 
-    I accept a managed service where it clearly wins, such as a provider''s model catalogue, but only
-    behind an adapter, so every lock-in is a conscious, documented decision. My own experience spans AWS
-    SageMaker and GCP Vertex AI, and Microsoft estates where I build agents with the Microsoft Agent Framework
-    and .NET. The same principle is in my AgentBasedSystem, where one LLM layer targets OpenAI, Azure
-    OpenAI or Anthropic through configuration alone.'
+    My own experience spans AWS SageMaker and GCP Vertex AI, and Microsoft estates where I build agents
+    with the Microsoft Agent Framework and .NET. In all three I accept a managed service where it clearly
+    wins, such as a provider''s model catalogue, but only behind an adapter, so every lock-in is a conscious,
+    documented decision.'
   evidence:
   - url: profile:skills/Architecture & Cloud
     source: resume
@@ -366,19 +357,17 @@ canon:
     search and reranking service, and incremental indexing that handles deletions. Fourth, guardrails:
     input and output filters, prompt-injection defences and grounding checks as policy, not code each
     team copies. Fifth, evaluation: golden-set tooling, LLM judges calibrated against humans, regression
-    gates in CI and online feedback capture; it is the component teams skip most and regret most. Sixth,
-    observability: OpenTelemetry tracing of every prompt, retrieval and tool call, with dashboards for
-    latency, quality, tokens and cost. Seventh, a registry of models, prompts, datasets and agents with
-    owners, evaluation results and approval status, which is the backbone of governance and audit. Eighth,
-    the delivery path: templates, CI/CD, infrastructure-as-code and deployment patterns on Kubernetes.
+    gates in CI and online feedback capture; it is the component teams skip most and regret most. In the
+    Qualizeal AI Center of Excellence, our ValidAIte and QMentisAI platforms make AI testing and evaluation
+    exactly this kind of shared capability instead of a per-project afterthought. Sixth, observability:
+    OpenTelemetry tracing of every prompt, retrieval and tool call, with dashboards for latency, quality,
+    tokens and cost. Seventh, a registry of models, prompts, datasets and agents, with owners, evaluation
+    results and approval status, which is the backbone of governance and audit. Eighth, the delivery path:
+    templates, CI/CD, infrastructure-as-code and deployment patterns on Kubernetes.
 
     Standards also cover contracts: an agent interface, and MCP for exposing tools, so agents built by
-    different teams use the same tools safely. I already work this way: CogniFlow and CodeFabric both
-    expose their capabilities to any agent through an MCP server.
-
-    At the Qualizeal AI Center of Excellence I lead the roadmap and set the best practices for GenAI integration,
-    prompt engineering and RAG pipelines across programmes, and our ValidAIte and QMentisAI platforms
-    make AI testing and evaluation a shared capability instead of a per-project afterthought.'
+    different teams use the same tools safely. The test of a platform is adoption: if a team ships faster
+    on the paved road than off it, the standards enforce themselves.'
   evidence:
   - url: profile:roles/Qualizeal
     source: resume
@@ -429,9 +418,7 @@ canon:
     responses, GPU inference, or steady high load, where cold starts and per-invocation cost hurt.
 
     So the usual answer is a hybrid: a modular monolith or a few services for the core, serverless functions
-    for event handling, and dedicated inference services for models. My AgentBasedSystem shows the modular
-    style in small: orchestration, intent, agents, repository, models and configuration as separate, testable
-    layers in one deployable, with a Streamlit UI and a CLI on the same core.'
+    for event handling, and dedicated inference services for models.'
   evidence:
   - url: https://github.com/PrashobhPaul/AgentBasedSystem
     source: github
@@ -493,7 +480,8 @@ canon:
 
     Retrieval: hybrid BM25 and dense search fused with reciprocal rank fusion, permission filtering inside
     the query before ranking, cross-encoder reranking of the top 50, and a no-answer path when evidence
-    is weak.
+    is weak. It is the retrieval pattern I run in my own Knowledge Fabric, scaled up here with enterprise
+    identity and permissions.
 
     Intelligence: an LLM gateway abstracts the providers, routes simple questions to a small model and
     hard ones to a frontier model, caches, and redacts PII before any external call. Orchestration runs
@@ -518,11 +506,7 @@ canon:
     answer to chunk to source version; model versioning, with prompt and index versions and one-step rollback.
 
     Failure modes are designed in: a vector outage falls back to keyword search, a provider outage fails
-    over, an identity outage fails closed. Cost is mostly tokens, so routing and caching come first.
-
-    It is the pattern I proved in my Knowledge Fabric: hybrid BM25, LSA and MiniLM retrieval fused with
-    RRF, curated answers with resolved evidence, confidential names masked before indexing, and more than
-    1,400 regression questions gating every deploy.'
+    over, an identity outage fails closed. Cost is mostly tokens, so routing and caching come first.'
   evidence:
   - url: doc:Knowledge_Fabric
     source: resume
@@ -579,12 +563,8 @@ canon:
 
     Operationally, the outage raises alerts on error rate and latency, the runbook covers failover and
     reindexing, and I rehearse this path in chaos drills rather than meeting it for the first time in
-    production.
-
-    The principle comes from my own retrieval work. In Knowledge Fabric and CodeFabric, keyword and semantic
-    retrieval are independent rankers fused with reciprocal rank fusion, so either one alone still returns
-    evidence, and every Knowledge Fabric build measures the lexical, semantic and hybrid modes separately,
-    so I know exactly what quality the fallback mode gives.'
+    production. And I measure the keyword-only mode on the golden set before I ever need it, so the quality
+    of the fallback is a known number, not a hope.'
   evidence:
   - url: https://github.com/PrashobhPaul/Knowledge-Fabric
     source: github
@@ -685,11 +665,8 @@ canon:
     Because events get missed, I never rely on events alone. A nightly reconciliation compares the source
     inventory with the catalogue and repairs the difference, and a metric tracks orphaned chunks, which
     must be zero. For legal holds and the right to erasure, the catalogue keeps an auditable record of
-    when each document and its chunks, embeddings and cached answers were removed.
-
-    My own indexes are built on the same idea. CodeFabric builds and incrementally updates its index,
-    with tests on the incremental path, and in Knowledge Fabric the build is deterministic, the same sources
-    in give the same index out, so a record removed at the source cannot survive into the next index.'
+    when each document and its chunks, embeddings and cached answers were removed, because a deletion
+    you cannot prove is, for an auditor, a deletion that did not happen.'
   evidence:
   - url: https://github.com/PrashobhPaul/CodeFabric
     source: github
@@ -736,10 +713,8 @@ canon:
     Around it: backpressure with a queue and an honest wait message instead of timeouts, admission control
     per department if quota runs short, and load tests that replay the real question mix at 1.5 to 2 times
     peak before launch. In production I watch p95 latency, time to first token, tokens per second, cache
-    hit rate and error rate, with autoscaling and alerts tied to them.
-
-    It is the same discipline I learned taking LLM-based conversational systems into production at Tech
-    Mahindra: keep latency and token cost predictable before adding users.'
+    hit rate and error rate, with autoscaling and alerts tied to them. Make latency and token cost predictable
+    first, then add users, never the other way round.'
   evidence:
   - url: profile:roles/Tech Mahindra
     source: resume
@@ -776,7 +751,10 @@ canon:
     embeddings and tool calls. Behind it, adapters per provider absorb the differences in message formats,
     tool-calling schemas, streaming and error codes. The application asks for a capability, such as a
     grounded answer or a cheap classification, and a routing table maps capabilities to concrete models,
-    so a switch is a configuration change with a rollout, not a code change.
+    so a switch is a configuration change with a rollout, not a code change. I build my own code this
+    way: in AgentBasedSystem the LLM layer uses LangChain''s init_chat_model, so the same code targets
+    OpenAI, Azure OpenAI or Anthropic from configuration alone and falls back to rules on any error, and
+    CodeFabric picks its provider with one flag, none, Anthropic, OpenAI or Ollama.
 
     What actually breaks in a switch is behaviour, not the API, so three more things. Prompts are versioned
     per model family, because the best prompt for one model is rarely the best for another. Outputs are
@@ -786,12 +764,7 @@ canon:
     warm for instant rollback.
 
     Embeddings are the exception: a new embedding model means a re-index, so each index is versioned with
-    its embedding model, and the new one is built beside the old before the cut-over.
-
-    I build this way in my own code. In AgentBasedSystem the LLM layer uses LangChain''s init_chat_model,
-    so the same code targets OpenAI, Azure OpenAI or Anthropic from configuration alone, and falls back
-    to rules on any error. CodeFabric picks its provider with one flag, none, Anthropic, OpenAI or Ollama,
-    and CogniFlow talks to any OpenAI-compatible endpoint.'
+    its embedding model, and the new one is built beside the old before the cut-over.'
   evidence:
   - url: https://github.com/PrashobhPaul/AgentBasedSystem
     source: github
@@ -841,14 +814,12 @@ canon:
     data, private endpoints in our region, encryption in transit, and no raw-prompt logging at the provider.
     Retrieval sends only the few chunks needed, never whole documents.
 
+    I apply the same rule in my own work: in my Knowledge Fabric, confidential client names are masked
+    in every source at build time, before indexing, so the system can never quote them.
+
     Then verification: the gateway logs what was redacted and where each request was routed, red-team
     tests try to push sensitive data through, and an output filter checks that responses do not leak it
-    back.
-
-    I apply the same rule in my own work. In my Knowledge Fabric, confidential client names are masked
-    in every source, the website, resumes, GitHub, YouTube and my notes, at build time before indexing,
-    so the system can never quote them; and in client work, client names stay confidential. Healthcare
-    NLP taught me early that privacy is non-negotiable.'
+    back. A policy nobody tests is a guideline in a wiki again.'
   evidence:
   - url: https://github.com/PrashobhPaul/Knowledge-Fabric
     source: github
@@ -896,12 +867,7 @@ canon:
 
     Every request is traced with its query, filters, retrieved chunk IDs and scores, reranked order and
     cited chunks, so any bad answer can be replayed. Failures found in production are labelled and added
-    to the golden set, so the regression suite grows from real misses.
-
-    That loop is how my Knowledge Fabric works: every build runs a retrieval gold set and reports recall,
-    MRR and nDCG for the lexical, semantic and hybrid modes, CI fails on regression, every answer leaves
-    a trace with its confidence and sources, and flagged answers become curator work and then permanent
-    regression tests.'
+    to the golden set, so the regression suite grows from real misses.'
   evidence:
   - url: https://github.com/PrashobhPaul/Knowledge-Fabric
     source: github
@@ -949,8 +915,9 @@ canon:
     My AgentBasedSystem rewrite is this in miniature: LangGraph orchestration, an intent agent, the individual
     agents, a repository layer for data, typed User and Session models instead of raw tuples, environment-driven
     configuration for the database and the LLM provider, and a Streamlit UI and CLI on top, with 27 tests
-    running on an isolated, per-test seeded database. The original prototype did not run; clear layers
-    are what made it testable and fixable.'
+    running on an isolated, per-test seeded database; the original prototype did not run, and clear layers
+    are what made it testable and fixable. If swapping the model provider or the vector store touches
+    more than one adapter, the layering has failed.'
   evidence:
   - url: https://github.com/PrashobhPaul/AgentBasedSystem
     source: github
@@ -996,8 +963,7 @@ canon:
     state.
 
     Tests use FastAPI''s TestClient with the LLM dependency overridden by a deterministic fake, so the
-    API suite is fast and stable, and model quality is evaluated separately. It is the same separation
-    I used in AgentBasedSystem, where a Streamlit UI and a CLI sit on one tested service core.'
+    API suite is fast and stable, and model quality is evaluated separately.'
   evidence:
   - url: profile:skills/Programming & Frameworks
     source: resume
@@ -1048,8 +1014,7 @@ canon:
     and the run resumes where it stopped.
 
     I batch where it pays: batch embedding and batch LLM APIs for offline work cost far less than real-time
-    calls. In my own Knowledge Factory, acquisition runs as scheduled GitHub Actions jobs kept separate
-    from the build, so a failed source never blocks or corrupts the index.'
+    calls.'
   evidence:
   - url: https://github.com/PrashobhPaul/Knowledge-Fabric
     source: github
@@ -1145,15 +1110,12 @@ canon:
     or object-store snapshots, with data cards for source, consent, PII handling and labelling. Evaluation
     sets grow from production failures, and each addition is versioned so scores stay comparable across
     releases. The index is versioned too, with the embedding model, chunking parameters and source snapshot
-    it was built from.
+    it was built from. In my own Knowledge Fabric the Factory commits every synced source to Git and the
+    build is deterministic, so the same files in always give the same index out.
 
     A release manifest ties it together: application commit, model versions, prompt versions, index version
     and evaluation results, approved and stored. Every request logs the manifest ID in its trace, which
-    gives lineage for audits and makes any bad answer reproducible.
-
-    My Knowledge Fabric follows the same principle: the Factory commits every synced source to Git, the
-    build is deterministic, the same files in give the same index out, and every curated answer carries
-    its evidence, so any answer traces back to its exact sources and the commit that produced them.'
+    gives lineage for audits and makes any bad answer reproducible.'
   evidence:
   - url: https://github.com/PrashobhPaul/Knowledge-Fabric
     source: github
@@ -1301,9 +1263,7 @@ canon:
 
     I always put quality on the same dashboard as cost, because cost can always be cut by giving worse
     answers. A cheaper model or a smaller context is a win only if groundedness and accuracy hold, so
-    cost changes go through the same evaluation gate as any other change. At Tech Mahindra, keeping latency
-    and token cost predictable was a large part of taking GenAI into production, and in my own Knowledge
-    Fabric every answer leaves a trace of its question, intent, confidence and sources.'
+    cost changes go through the same evaluation gate as any other change.'
   evidence:
   - url: profile:roles/Tech Mahindra
     source: resume
@@ -1354,8 +1314,7 @@ canon:
 
     Finally, every request logs the versions it used, so after a rollback I can find exactly which users
     got answers from the bad version and review them. A rollback without that trace fixes the future but
-    not the past. In my own Knowledge Fabric the gate comes before the release: a regression in the question
-    suite stops the deploy, so a bad change never reaches the site.'
+    not the past.'
   evidence:
   - url: https://github.com/PrashobhPaul/Knowledge-Fabric
     source: github
@@ -1401,12 +1360,10 @@ canon:
     The boundary is an interface: the LLM adapter is injected, so the same code path runs with a fake
     in tests and with the real model in evaluation.
 
-    This split is exactly what we build at Qualizeal. ValidAIte and QMentisAI exist because an LLM or
-    an agent cannot be tested like ordinary software: the same input can produce different outputs, so
-    we test behaviour against criteria such as groundedness, task completion, safety and consistency across
-    runs. And in my AgentBasedSystem, 27 deterministic tests cover calendar conflicts, recommendations,
-    registration guards, intent classification and full graph routing on a per-test seeded database, independent
-    of any model.'
+    This split is what our AI-testing platforms at Qualizeal, ValidAIte and QMentisAI, are built around,
+    because an LLM or an agent cannot be tested like ordinary software: the same input can produce different
+    outputs. A failing application test is a bug to fix; a falling evaluation score is a release decision,
+    and the two should never be confused.'
   evidence:
   - url: profile:engagements/ValidAIte
     source: resume
@@ -1480,19 +1437,15 @@ canon:
     a semantic cache for repeated questions; prompt caching for the fixed system prompt; and batch APIs
     for offline work, each substitution passing the evaluation set first.
 
-    Fifth, scale, 200 to 2,000 concurrent users: stateless services on Kubernetes with horizontal autoscaling
-    on in-flight requests, queueing for ingestion and long tasks, connection pooling, replicated indexes,
-    provider quota pooled through a gateway with rate limits, and a load test at 2,000 users replaying
-    real traffic.
+    Fifth, scale, 200 to 2,000 concurrent users: stateless services with horizontal autoscaling on Kubernetes,
+    driven by in-flight requests, queueing for ingestion and long tasks, connection pooling, replicated
+    indexes, provider quota pooled through a gateway with rate limits, and a load test at 2,000 users
+    replaying real traffic.
 
     My priorities: retrieval and grounding first, because they fix quality and reduce tokens; latency
     and cost next, because they mostly fall out of a smaller context, caching and routing; scale last,
     as an infrastructure exercise proven by load tests. Only if the evaluation still shows a gap do I
-    consider a different model, as a measured substitution, not a guess.
-
-    It is how I build my own systems, Knowledge Fabric with hybrid BM25, LSA and MiniLM retrieval fused
-    with RRF and a regression gate on every deploy, and at Tech Mahindra keeping latency and token cost
-    predictable was most of the work of getting GenAI into production.'
+    consider a different model, as a measured substitution, not a guess.'
   evidence:
   - url: doc:Knowledge_Fabric
     source: resume
@@ -1567,11 +1520,7 @@ canon:
     nothing; production samples are judged for faithfulness, and user feedback flows back into the set.
 
     Failure modes: a provider outage fails over, a vector store outage falls back to keyword search, and
-    an identity outage fails closed, never open.
-
-    This is the pattern I trust from my own work, Knowledge Fabric''s hybrid BM25, LSA and MiniLM retrieval
-    with RRF, curated answers with evidence resolved at build time, confidential names masked before indexing
-    and a regression gate on every deploy, scaled up with enterprise identity, gateways and audit.'
+    an identity outage fails closed, never open.'
   evidence:
   - url: doc:Knowledge_Fabric
     source: resume
@@ -1621,8 +1570,9 @@ canon:
     with connectors, parsing, chunking and metadata standards and a hybrid search and reranking service;
     guardrails and policy, including which data classes may go to which models; evaluation and observability,
     with golden-set tooling, release gates, OpenTelemetry tracing and quality and cost dashboards; a registry
-    of models, prompts, datasets and agents with owners and approval status, plus audit and lineage; and
-    the contracts and paved roads, MCP for tools, an agent interface, templates, CI/CD and infrastructure-as-code.
+    of models, prompts, datasets and agents, each with an owner and an approval status, plus audit and
+    lineage; and the contracts and paved roads, MCP for tools, an agent interface, templates, CI/CD and
+    infrastructure-as-code.
 
     I would decentralize to the domain teams: the use cases and their success metrics, prompts and orchestration
     logic, which agents to build and where autonomy is justified, their own domain evaluation sets and
@@ -1634,9 +1584,7 @@ canon:
     The centre sets guardrails and measures outcomes; the domains own the value.
 
     I would run it as a federated model: a small central platform team and architecture board, architects
-    embedded in the domains, and a heavier review only for high-risk use cases. At Qualizeal I lead the
-    AI CoE roadmap in that spirit: shared practices for GenAI integration, prompt engineering and RAG,
-    and ValidAIte and QMentisAI as the shared testing capability.'
+    embedded in the domains, and a heavier review only for high-risk use cases.'
   evidence:
   - url: profile:roles/Qualizeal
     source: resume
